@@ -13,9 +13,9 @@ Options
 
 # Диаграммы
 ## Диаграмма классов
-<a name="class">![Image alt](https://github.com/Myrs-19/recruitmentSystem/blob/main/docs/DiagramClassesBETA.png)</a>
+<a name="class">![Image alt](https://github.com/Myrs-19/recruitmentSystem/blob/main/docs/DiagramClasses.png)</a>
 
-[Uml код диаграммы](../main/docs/DiagramClassesBETA.xmi)
+[Uml код диаграммы](../main/docs/DiagramClasses.xmi)
 
 ## Диаграмма активностей
 <a name="activity">![Image alt](https://github.com/Myrs-19/recruitmentSystem/blob/main/docs/DiagramUseCases.png)</a>
