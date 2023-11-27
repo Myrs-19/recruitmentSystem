@@ -55,7 +55,7 @@ public class Main {
         
     } 
     
-    private static final Logger log = LogManager.getLogger(Main.class);
+    private static final Logger log = LogManager.getLogger(Main.class.getName());
     
     public Main(){
         
