@@ -5,23 +5,42 @@ import com.opencsv.bean.CsvBindByPosition;
 
 public class Person {
     @CsvBindByPosition(position = 0)
-    private int id;
+    private String id;
     @CsvBindByPosition(position = 1)
     private String name;
     @CsvBindByPosition(position = 2)
-    private int age;
+    private String age;
     @CsvBindByPosition(position = 3)
     private String phone;
     @CsvBindByPosition(position = 4)
     private String address;
 
-    public Person(int id, String name, int age, String phone, String address) {
+    public Person() {}
+
+    public Person(String id, String name, String age, String phone, String address) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.phone = phone;
         this.address = address;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+    
     
     public String getAddress() {
         return address;
