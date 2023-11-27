@@ -19,7 +19,7 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 
-import ru.sfedu.model.Person;
+import ru.sfedu.model.*;
 /**
  *
  * @author mike
@@ -38,12 +38,23 @@ public class DataProviderCsvTest {
      * Test of saveRecord method, of class DataProviderCsv.
      */
     @Test
-    public void testSaveRecord(){
+    public void testSaveRecordPerson(){
         DataProviderCsv<Person> dataProvider = new DataProviderCsv<Person>();
         
         System.out.println("saveRecord");
         for(int i = 0; i < 3; i++){
             Person p = new Person(""+ i, "Sasha", "20" + i, "999" + i, "zorge 28/2");
+            dataProvider.saveRecord(p);
+        }
+    }
+    
+    @Test
+    public void testSaveRecordTestBean(){
+        DataProviderCsv<TestBean> dataProvider = new DataProviderCsv<TestBean>();
+        
+        System.out.println("saveRecord");
+        for(int i = 0; i < 3; i++){
+            TestBean p = new TestBean("" + i, "Mike" + i, "sel", "Miks");
             dataProvider.saveRecord(p);
         }
     }
@@ -53,17 +64,38 @@ public class DataProviderCsvTest {
      */
     @Test
     public void testGetRecordByID() {
+        System.out.println("test GetRecordByID Person");
+        String id = "0";
+        IDataProvider<Person> dataProvider = new DataProviderCsv<Person>();
+        Person p = (Person) dataProvider.getRecordByID(id, Person.class);
+        System.out.println(p);
+        
+        System.out.println("test GetRecordByID TestBean");
+        id = "0";
+        IDataProvider<TestBean> dataProvider1 = new DataProviderCsv<TestBean>();
+        TestBean t = (TestBean) dataProvider1.getRecordByID(id, TestBean.class);
+        System.out.println(t);
     }
 
     /**
      * Test of getAllRecord method, of class DataProviderCsv.
      */
     @Test
-    public void testGetAllRecord() {
-        System.out.println("testGetAllRecord");
+    public void testGetAllRecordPerson() {
+        System.out.println("testGetAllRecordPerson");
         
         IDataProvider<Person> dataProvider = new DataProviderCsv<Person>();
         List<Person> persons = dataProvider.getAllRecord(Person.class);
+        persons.forEach(it -> System.out.println(it));
+
+    }
+    
+    @Test
+    public void testGetAllRecordTestBean() {
+        System.out.println("testGetAllRecordTestBean");
+        
+        IDataProvider<TestBean> dataProvider = new DataProviderCsv<TestBean>();
+        List<TestBean> persons = dataProvider.getAllRecord(TestBean.class);
         persons.forEach(it -> System.out.println(it));
 
     }

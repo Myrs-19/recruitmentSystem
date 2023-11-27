@@ -35,10 +35,34 @@ public class Mapper<T> {
             }
             
             return instance;
-        } catch(NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ex){
+            
+        } catch(NoSuchMethodException ex){
             log.error("getInstance [2]: error = {}", ex.getMessage());
+        } catch(IllegalAccessException ex) {
+            log.error("getInstance [3]: error = {}, невозможный вызов метода", ex.getMessage());
+        } catch(InstantiationException | InvocationTargetException ex){
+            log.error("getInstance [3]: error = {}, невозможно создать instance", ex.getMessage());
         }
         
-        return null;
+        throw new NullPointerException();
+    }
+    
+    public <T> String getIdInstance(T obj) throws NullPointerException{
+        log.debug("getIdInstance [1]: getting id instance, obj = {}", obj);
+        
+        String id = null;
+        try{
+            Method method = obj.getClass().getMethod(Constants.NAME_METHOD_GETTING_ID);
+            id = String.valueOf(method.invoke(obj));
+            
+            return id;
+            
+        } catch(NoSuchMethodException ex){
+            log.error("getIdInstance [2]: нет такого метода, error = {}", ex.getMessage());
+        } catch(IllegalAccessException | InvocationTargetException ex){
+           log.error("getIdInstance [3]: error = {}", ex.getMessage()); 
+        }
+        
+        throw new NullPointerException();
     }
 }
