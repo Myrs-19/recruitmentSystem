@@ -19,11 +19,34 @@ import ru.sfedu.model.*;
  */
 public class MapperTest {
     @Test
-    public void testGetInstance() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
-        System.out.println("test GetInstance");
+    public void testGetInstancePerson() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        System.out.println("test GetInstancePerson");
         String[] values = {"0","Sasha","20","9990","zorge 28/2"};
         Mapper<Person> mapping = new Mapper<Person>();
         System.out.println(mapping.getInstance(Person.class, values));
+    }
+    
+    @Test
+    public void testGetInstanceTestBean() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        System.out.println("test GetInstanceTestBean");
+        String[] values = {"0","Mike0","sel","Miks"};
+        Mapper<TestBean> mapping = new Mapper<TestBean>();
+        System.out.println(mapping.getInstance(TestBean.class, values));
+    }
+    
+    /**
+     *
+     * @throws NoSuchMethodException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     */
+    @Test
+    public void getIdInstanceTestBean() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        System.out.println("test getIdInstanceTestBean");
+        TestBean tb = new TestBean("0","Mike0","sel","Miks");
+        Mapper<TestBean> mapping = new Mapper<TestBean>();
+        System.out.println(mapping.getIdInstance(tb));
     }
     
 }

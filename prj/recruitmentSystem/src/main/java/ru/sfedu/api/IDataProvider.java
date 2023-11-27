@@ -1,10 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ru.sfedu.api;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -17,11 +12,11 @@ public interface IDataProvider<T> {
     
     <T> void saveRecord(Object obj);
     
-    <T> Object getRecordByID(int id, Class<T> clazz);
+    <T> Object getRecordByID(String id, Class<T> clazz);
     
     <T> List<T> getAllRecord(Class<T> clazz);
     
-    <T> void changeRecordById(int id);
+    <T> void changeRecordById(String id);
     
-    void deleteRecordById(int id);
+    void deleteRecordById(String id);
 }

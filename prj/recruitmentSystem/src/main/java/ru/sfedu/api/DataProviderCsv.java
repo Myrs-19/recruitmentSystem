@@ -52,8 +52,20 @@ public class DataProviderCsv<T> implements IDataProvider<T> {
     }
 
     @Override
-    public <T> Object getRecordByID(int id, Class<T> clazz) {
-       return null;
+    public <T> Object getRecordByID(String id, Class<T> clazz) {
+       log.debug("getRecordByID [1]: getting record by id, clazz = {}, id = {}", clazz, id);
+       T obj = null;
+       Mapper<T> mapper = new Mapper<T>();
+       try{
+            List<T> records = getAllRecord(clazz)
+               .stream()
+               .filter(it -> mapper.getIdInstance(it).equals(id))
+               .toList();
+            obj = records.get(0);
+        } catch(NullPointerException ex){
+            log.error("getRecordByID [2]: нет такого объекта, error = {}", ex.getMessage());
+        }
+        return obj;
     }
 
     @Override
@@ -74,20 +86,22 @@ public class DataProviderCsv<T> implements IDataProvider<T> {
                     .toList();
                     
         } catch(IOException | CsvException ex){
-            log.error("saveRecord [2]: error = {}",  ex.getMessage());
-        } 
+            log.error("getAllRecord [2]: error = {}",  ex.getMessage());
+        } catch(NullPointerException ex){
+            log.error("getAllRecord [3]: нет такого объекта, error = {}",  ex.getMessage());
+        }
 
         return result;
     }
     
     @Override
-    public <T> void changeRecordById(int id){
+    public <T> void changeRecordById(String id){
         //    
     }
     
     
     @Override
-    public void deleteRecordById(int id) {
+    public void deleteRecordById(String id) {
         
     }
     
