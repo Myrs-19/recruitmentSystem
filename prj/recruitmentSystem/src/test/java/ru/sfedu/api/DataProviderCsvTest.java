@@ -16,6 +16,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
@@ -26,36 +27,46 @@ import ru.sfedu.model.*;
  */
 public class DataProviderCsvTest {
     
-
-    /**
-     * Test of initDataProviter method, of class DataProviderCsv.
-     */
     @Test
-    public void testInitDataProviter(){
+    public void testDataProviderCsv(){
+        System.out.println("test DataProviderCsv");
+        try{
+            IDataProvider<Person> dataProvider = new DataProviderCsv<Person>();
+        } catch(Exception ex){
+            fail("Error creating object of DataProviderCsv class");
+        }
     }
 
     /**
      * Test of saveRecord method, of class DataProviderCsv.
      */
     @Test
-    public void testSaveRecordPerson(){
-        DataProviderCsv<Person> dataProvider = new DataProviderCsv<Person>();
-        
-        System.out.println("saveRecord");
-        for(int i = 0; i < 3; i++){
-            Person p = new Person(""+ i, "Sasha", "20" + i, "999" + i, "zorge 28/2");
-            dataProvider.saveRecord(p);
+    public void testSaveRecordsPerson(){
+        System.out.println("test SaveRecordsPerson");
+            try{
+            DataProviderCsv dataProvider = new DataProviderCsv();
+
+            for(int i = 0; i < 3; i++){
+                Person p = new Person(""+ i, "Sasha", "20" + i, "999" + i, "zorge 28/2");
+                dataProvider.saveRecord(p);
+            }
+        } catch (Exception ex){
+            fail(ex.getMessage());
         }
     }
     
     @Test
-    public void testSaveRecordTestBean(){
-        DataProviderCsv<TestBean> dataProvider = new DataProviderCsv<TestBean>();
-        
-        System.out.println("saveRecord");
-        for(int i = 0; i < 3; i++){
-            TestBean p = new TestBean("" + i, "Mike" + i, "sel", "Miks");
-            dataProvider.saveRecord(p);
+    public void testSaveRecordsTestBean(){
+        System.out.println("test SaveRecordsTestBean");
+        try{
+            DataProviderCsv dataProvider = new DataProviderCsv();
+
+            for(int i = 0; i < 3; i++){
+                TestBean p = new TestBean("" + i, "Mike" + i, "sel", "Miks");
+                dataProvider.saveRecord(p);
+            }
+        } catch (Exception ex){
+            fail(ex.getMessage());
         }
     }
 
@@ -64,17 +75,39 @@ public class DataProviderCsvTest {
      */
     @Test
     public void testGetRecordByID() {
-        System.out.println("test GetRecordByID Person");
-        String id = "0";
-        IDataProvider<Person> dataProvider = new DataProviderCsv<Person>();
-        Person p = (Person) dataProvider.getRecordByID(id, Person.class);
-        System.out.println(p);
+        try{
+            String id = "0";
+            System.out.println("test GetRecordByID Person, id = " + id);
+            
+            IDataProvider dataProvider = new DataProviderCsv();
+            Person p = (Person) dataProvider.getRecordByID(id, Person.class);
+            
+            System.out.println(p);
+        } catch (Exception ex){
+            fail("Person" + ex.getMessage());
+        }
         
-        System.out.println("test GetRecordByID TestBean");
-        id = "0";
-        IDataProvider<TestBean> dataProvider1 = new DataProviderCsv<TestBean>();
-        TestBean t = (TestBean) dataProvider1.getRecordByID(id, TestBean.class);
-        System.out.println(t);
+        try{
+            String id = "4";
+            System.out.println("test GetRecordByID Person, id = " + id);
+            
+            IDataProvider dataProvider = new DataProviderCsv();
+            Person p = (Person) dataProvider.getRecordByID(id, Person.class);
+            
+            System.out.println(p);
+        } catch (Exception ex){
+            fail("Person" + ex.getMessage());
+        }
+        
+        try{
+            System.out.println("test GetRecordByID TestBean");
+            String id = "0";
+            IDataProvider dataProvider1 = new DataProviderCsv();
+            TestBean t = (TestBean) dataProvider1.getRecordByID(id, TestBean.class);
+            System.out.println(t);
+        } catch (Exception ex){
+            fail("TestBean" + ex.getMessage());
+        }
     }
 
     /**
@@ -82,34 +115,64 @@ public class DataProviderCsvTest {
      */
     @Test
     public void testGetAllRecordPerson() {
-        System.out.println("testGetAllRecordPerson");
-        
-        IDataProvider<Person> dataProvider = new DataProviderCsv<Person>();
-        List<Person> persons = dataProvider.getAllRecord(Person.class);
-        persons.forEach(it -> System.out.println(it));
-
+        System.out.println("test GetAllRecordPerson");
+        try{
+            IDataProvider dataProvider = new DataProviderCsv();
+            List<Person> persons = dataProvider.getAllRecord(Person.class);
+            persons.forEach(it -> System.out.println(it));
+        } catch (Exception ex){
+            fail("testGetAllRecordPerson" + ex.getMessage());
+        }
     }
     
     @Test
     public void testGetAllRecordTestBean() {
-        System.out.println("testGetAllRecordTestBean");
-        
-        IDataProvider<TestBean> dataProvider = new DataProviderCsv<TestBean>();
-        List<TestBean> persons = dataProvider.getAllRecord(TestBean.class);
-        persons.forEach(it -> System.out.println(it));
-
+        System.out.println("test GetAllRecordTestBean");
+        try{
+            IDataProvider<TestBean> dataProvider = new DataProviderCsv<TestBean>();
+            List<TestBean> persons = dataProvider.getAllRecord(TestBean.class);
+            persons.forEach(it -> System.out.println(it));
+        } catch (Exception ex){
+            fail("testGetAllRecordTestBean" + ex.getMessage());
+        }
     }
     
     @Test
-    public void testPrint(){
-        
+    public void testUpdateRecordByIdPerson(){
+        System.out.println("test ChangeRecordByIdPerson");
+        try{
+            IDataProvider dataProvider = new DataProviderCsv();
+            Person p = new Person("6", "кака", "20", "9090", "Zorge");
+            dataProvider.updateRecordById(p.getId(), p);
+            
+        } catch(Exception ex){
+            fail("test ChangeRecordByIdPerson" + ex.getMessage());
+        }
     }
-        
-    /**
-     * Test of deleteRecord method, of class DataProviderCsv.
-     */
+    
     @Test
-    public void testDeleteRecord() {
-        
+    public void testSaveRecordPersonForUpdating(){
+        try{
+            System.out.println("test SaveRecordPersonForChanging");
+            DataProviderCsv dataProvider = new DataProviderCsv();
+
+            Person p = new Person("5", "Mike", "25", "969696", "zorge 68");
+            dataProvider.saveRecord(p);
+            
+        } catch (Exception ex){
+            fail(ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testDeleteRecordPerson() {
+        try{
+            System.out.println("test DeleteRecordPerson");
+            DataProviderCsv dataProvider = new DataProviderCsv();
+            dataProvider.deleteRecordById("5", Person.class);
+            
+        } catch (Exception ex){
+            fail(ex.getMessage());
+        }
     }
 }

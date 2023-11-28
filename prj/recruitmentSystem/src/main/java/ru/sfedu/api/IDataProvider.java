@@ -8,15 +8,13 @@ import java.util.List;
  */
 public interface IDataProvider<T> {
     
-    void initDataProviter();
-    
     <T> void saveRecord(Object obj);
     
     <T> Object getRecordByID(String id, Class<T> clazz);
     
     <T> List<T> getAllRecord(Class<T> clazz);
     
-    <T> void changeRecordById(String id);
+    <T> void updateRecordById(String id, Object obj);
     
-    void deleteRecordById(String id);
+    void deleteRecordById(String id, Class<T> clazz);
 }
