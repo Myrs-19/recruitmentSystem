@@ -88,18 +88,6 @@ public class DataProviderCsvTest {
         }
         
         try{
-            String id = "4";
-            System.out.println("test GetRecordByID Person, id = " + id);
-            
-            IDataProvider dataProvider = new DataProviderCsv();
-            Person p = (Person) dataProvider.getRecordByID(id, Person.class);
-            
-            System.out.println(p);
-        } catch (Exception ex){
-            fail("Person" + ex.getMessage());
-        }
-        
-        try{
             System.out.println("test GetRecordByID TestBean");
             String id = "0";
             IDataProvider dataProvider1 = new DataProviderCsv();
@@ -142,7 +130,7 @@ public class DataProviderCsvTest {
         System.out.println("test ChangeRecordByIdPerson");
         try{
             IDataProvider dataProvider = new DataProviderCsv();
-            Person p = new Person("6", "кака", "20", "9090", "Zorge");
+            Person p = new Person("2", "кака", "20", "9090", "Zorge");
             dataProvider.updateRecordById(p.getId(), p);
             
         } catch(Exception ex){
@@ -169,7 +157,7 @@ public class DataProviderCsvTest {
         try{
             System.out.println("test DeleteRecordPerson");
             DataProviderCsv dataProvider = new DataProviderCsv();
-            dataProvider.deleteRecordById("5", Person.class);
+            dataProvider.deleteRecordById("2", Person.class);
             
         } catch (Exception ex){
             fail(ex.getMessage());

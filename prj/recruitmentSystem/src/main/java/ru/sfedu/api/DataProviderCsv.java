@@ -45,8 +45,8 @@ public class DataProviderCsv<T> implements IDataProvider<T> {
     @Override
     public <T> void saveRecord(Object obj) {
         log.debug("saveRecord [1]: obj = {}",  (obj));
-        String pathToCsv = Constants.CSV_PATH_FOLDER + (obj).getClass().getName() + Constants.CSV_FILE_TYPE;
-        try (FileWriter writer  = new FileWriter(pathToCsv, true)){
+        
+        try (FileWriter writer  = new FileWriter(getPath(obj.getClass()), true)){
             StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer)
                 .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
                 .build();
@@ -85,12 +85,10 @@ public class DataProviderCsv<T> implements IDataProvider<T> {
 
     @Override
     public <T> List<T> getAllRecord(Class<T> clazz) {
-        String pathToCsv = Constants.CSV_PATH_FOLDER + clazz.getName() + Constants.CSV_FILE_TYPE;
-        
-        log.debug("getAllRecord [1]: getting all record from = {}", pathToCsv);
+        log.debug("getAllRecord [1]: getting all record from = {}", getPath(clazz));
         
         List<T> result = new ArrayList();
-        try(FileReader fileReader = new FileReader(pathToCsv)){
+        try(FileReader fileReader = new FileReader(getPath(clazz))){
             CSVReader csvReader = new CSVReader(fileReader);
             
             Mapper<T> mapper = new Mapper<T>();
@@ -113,11 +111,10 @@ public class DataProviderCsv<T> implements IDataProvider<T> {
     public <T> void updateRecordById(String id, Object obj){
         log.debug("updateRecordById [1]:  изменение записи, id = {}", id);
          
-        String pathToCsv = Constants.CSV_PATH_FOLDER + (obj).getClass().getName() + Constants.CSV_FILE_TYPE;
         boolean isExist = false;
         List<? extends Object> objectsT = getAllRecord(obj.getClass());
          
-        try(FileWriter writer = new FileWriter(pathToCsv, false);){   
+        try(FileWriter writer = new FileWriter(getPath(obj.getClass()), false);){   
             Mapper<T> mapper = new Mapper();
             
             StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer)
@@ -154,11 +151,10 @@ public class DataProviderCsv<T> implements IDataProvider<T> {
     @Override
     public void deleteRecordById(String id, Class<T> clazz) {
         log.debug("deleteRecordById [1]:  удаление записи, id = {}, clazz = {}", id, clazz);
-         
-        String pathToCsv = Constants.CSV_PATH_FOLDER + clazz.getName() + Constants.CSV_FILE_TYPE;
+        
         List<? extends Object> objectsT = getAllRecord(clazz);
          
-        try(FileWriter writer = new FileWriter(pathToCsv, false);){   
+        try(FileWriter writer = new FileWriter(getPath(clazz), false);){   
             Mapper<T> mapper = new Mapper();
             
             StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer)
@@ -185,5 +181,9 @@ public class DataProviderCsv<T> implements IDataProvider<T> {
         int id;
         //code
         return 0;
+    }
+    
+    private String getPath(Class clazz){
+        return Constants.CSV_PATH_FOLDER + clazz.getName() + Constants.CSV_FILE_TYPE;
     }
 }
