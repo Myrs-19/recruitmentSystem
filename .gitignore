@@ -1,5 +1,6 @@
 /prj/recruitmentSystem/target/
 /prj/recruitmentSystem/nbproject/
 /prj/recruitmentSystem/logs/
+/prj/recruitmentSystem/csv/
 docsPush.sh
 prjPush.sh
