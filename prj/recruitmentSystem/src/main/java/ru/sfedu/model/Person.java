@@ -1,6 +1,5 @@
 package ru.sfedu.model;
 
-import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
 
 public class Person {

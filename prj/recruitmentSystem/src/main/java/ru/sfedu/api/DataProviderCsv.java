@@ -24,31 +24,42 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.logging.Level;
 
-import ru.sfedu.model.*;
 import ru.sfedu.Constants;
+import ru.sfedu.exception.NotFoundObjectException;
+import ru.sfedu.model.*;
+import ru.sfedu.util.FileUtil;
 import ru.sfedu.util.Mapper;
 
 public class DataProviderCsv<T> implements IDataProvider<T> {
     private static final Logger log = LogManager.getLogger(DataProviderCsv.class.getName());
     
-    @Override
-    public void initDataProviter(){
+    public DataProviderCsv(){
         
+        try{
+            FileUtil.createFolderIfNotExists(Constants.CSV_PATH_FOLDER);
+        } catch(IOException ex){
+            log.error("DataProviderCsv [1]: error = {} (Ошибка создании директории)", ex.getMessage());
+        }
     }
     
     @Override
     public <T> void saveRecord(Object obj) {
-        log.debug("saveRecord [1]: obj = {}",  ((T) obj));
-        try (FileWriter writer  = new FileWriter(((T) obj).getClass().getName() + Constants.CSV_FILE_TYPE, true)){
-            StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
+        log.debug("saveRecord [1]: obj = {}",  (obj));
+        String pathToCsv = Constants.CSV_PATH_FOLDER + (obj).getClass().getName() + Constants.CSV_FILE_TYPE;
+        try (FileWriter writer  = new FileWriter(pathToCsv, true)){
+            StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer)
                 .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
                 .build();
-            beanToCsv.write((T) obj);
-        } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
-            log.error("saveRecord [2]: error = {}",  ex.getMessage());
-        } 
+            beanToCsv.write(obj);
+            
+            log.debug("saveRecord [2]: object saved succesfully");
+        } catch (IOException ex) {
+            log.error("saveRecord [3]: error = {}",  ex.getMessage());
+        } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
+            log.error("saveRecord [4]: error = {}",  ex.getMessage());
+        }
         
-        log.debug("saveRecord [3]: object saved succesfully");
+        
     }
 
     @Override
@@ -65,12 +76,16 @@ public class DataProviderCsv<T> implements IDataProvider<T> {
         } catch(NullPointerException ex){
             log.error("getRecordByID [2]: нет такого объекта, error = {}", ex.getMessage());
         }
+       
+       if(obj == null){
+           throw new NullPointerException();
+       }
         return obj;
     }
 
     @Override
     public <T> List<T> getAllRecord(Class<T> clazz) {
-        String pathToCsv = clazz.getName() + Constants.CSV_FILE_TYPE;
+        String pathToCsv = Constants.CSV_PATH_FOLDER + clazz.getName() + Constants.CSV_FILE_TYPE;
         
         log.debug("getAllRecord [1]: getting all record from = {}", pathToCsv);
         
@@ -95,14 +110,75 @@ public class DataProviderCsv<T> implements IDataProvider<T> {
     }
     
     @Override
-    public <T> void changeRecordById(String id){
-        //    
+    public <T> void updateRecordById(String id, Object obj){
+        log.debug("updateRecordById [1]:  изменение записи, id = {}", id);
+         
+        String pathToCsv = Constants.CSV_PATH_FOLDER + (obj).getClass().getName() + Constants.CSV_FILE_TYPE;
+        boolean isExist = false;
+        List<? extends Object> objectsT = getAllRecord(obj.getClass());
+         
+        try(FileWriter writer = new FileWriter(pathToCsv, false);){   
+            Mapper<T> mapper = new Mapper();
+            
+            StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer)
+                .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
+                .build();
+            
+            for(Object objectT : objectsT){
+                if(id.equals(mapper.getIdInstance(objectT))){
+                    beanToCsv.write(obj);
+                    isExist = true;
+                } else{
+                    beanToCsv.write(objectT);
+                }
+            }
+            
+            if(!isExist){
+                throw new NotFoundObjectException("Невозможно изменить несуществующую запись");
+            }
+            
+            log.debug("updateRecordById [2]: object updated succesfully");
+        } catch (NullPointerException ex) {
+            log.error("updateRecordById [3]: error = {}",  ex.getMessage());
+        } catch(NotFoundObjectException ex){
+            log.error("updateRecordById [4]: error = {}",  "Невозможно изменить несуществующую запись");
+        } catch(IOException ex){
+            log.error("updateRecordById [5]: error = {}",  "Ошибка чтения");
+        } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
+            log.error("updateRecordById [6]: error = {}",  "Ошибка записи");
+        }
+       
     }
     
     
     @Override
-    public void deleteRecordById(String id) {
-        
+    public void deleteRecordById(String id, Class<T> clazz) {
+        log.debug("deleteRecordById [1]:  удаление записи, id = {}, clazz = {}", id, clazz);
+         
+        String pathToCsv = Constants.CSV_PATH_FOLDER + clazz.getName() + Constants.CSV_FILE_TYPE;
+        List<? extends Object> objectsT = getAllRecord(clazz);
+         
+        try(FileWriter writer = new FileWriter(pathToCsv, false);){   
+            Mapper<T> mapper = new Mapper();
+            
+            StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer)
+                .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
+                .build();
+            
+            for(Object objectT : objectsT){
+                if(!id.equals(mapper.getIdInstance(objectT))){
+                    beanToCsv.write(objectT);
+                }
+            }
+            
+            log.debug("updateRecordById [2]: object deleted succesfully");
+        } catch (NullPointerException ex) {
+            log.error("updateRecordById [3]: error = {}",  ex.getMessage());
+        } catch(IOException ex){
+            log.error("updateRecordById [5]: error = {}",  "Ошибка чтения");
+        } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
+            log.error("updateRecordById [6]: error = {}",  "Ошибка записи");
+        }
     }
     
     private <T> int getId(Object obj){
