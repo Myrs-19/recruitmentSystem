@@ -177,10 +177,22 @@ public class DataProviderCsv implements IDataProvider{
         }
     }
     
-    private int getId(Object obj){
-        int id;
-        //code
-        return 0;
+    public <T> String getId(Class<T> clazz){
+        String id;
+        List<? extends Object> objects = getAllRecord(clazz);
+        Mapper<T> mapper = new Mapper<T>();
+        
+        id = mapper.getIdInstance(objects.get(0));
+        String idObj;
+        for(Object object : objects){
+            idObj = mapper.getIdInstance(object);
+            if(Integer.parseInt(id) <= Integer.parseInt(idObj)){
+                id = idObj;
+            }
+        }
+        id =Integer.parseInt(id) + 1 + "";
+        
+        return id;
     }
     
     private String getPath(Class clazz){
