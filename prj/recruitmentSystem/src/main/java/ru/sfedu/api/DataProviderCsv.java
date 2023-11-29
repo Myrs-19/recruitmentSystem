@@ -169,6 +169,7 @@ public class DataProviderCsv implements IDataProvider{
                     T obj;
                     obj = (T) objectT;
                     MongoProvider.save(CommandType.DELETED, RepositoryType.CSV, obj);
+                
                 }
             }
             
