@@ -134,6 +134,7 @@ public class DataProviderCsv implements IDataProvider{
                 throw new NotFoundObjectException("Невозможно изменить несуществующую запись");
             }
             
+            MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, obj);
             log.debug("updateRecordById [2]: object updated succesfully");
         } catch (NullPointerException ex) {
             log.error("updateRecordById [3]: error = {}",  ex.getMessage());
@@ -160,10 +161,14 @@ public class DataProviderCsv implements IDataProvider{
             StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
                 .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
                 .build();
-            
             for(Object objectT : objectsT){
                 if(!id.equals(mapper.getIdInstance(objectT))){
                     beanToCsv.write((T) objectT);
+                }
+                else{
+                    T obj;
+                    obj = (T) objectT;
+                    MongoProvider.save(CommandType.DELETED, RepositoryType.CSV, obj);
                 }
             }
             
