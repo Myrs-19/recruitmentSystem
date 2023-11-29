@@ -28,6 +28,10 @@ public class Constants {
     public static final String MONGO_PORT = "ru.sfedu.mongo.port";
     public static final String MONGO_URI = "mongodb://" + getConfigurationEntry(MONGO_HOST) + ":" + getConfigurationEntry(MONGO_PORT); 
     
+    public static final String MONGO_FIELD_TIME = "time";
+    public static final String MONGO_FIELD_COMMAND = "command";
+    public static final String MONGO_FIELD_REPOSITORY = "repository";
+    public static final String MONGO_FIELD_OBJECT = "obj";
 }
 
 

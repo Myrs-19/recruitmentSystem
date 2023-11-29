@@ -1,33 +1,28 @@
 package ru.sfedu.api;
 
-import com.opencsv.CSVWriter;
 import com.opencsv.CSVReader;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
-import java.io.File;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
-import java.util.logging.Level;
 
 import ru.sfedu.Constants;
 import ru.sfedu.exception.NotFoundObjectException;
-import ru.sfedu.model.*;
+
+import ru.sfedu.model.CommandType;
+import ru.sfedu.model.RepositoryType;
+
 import ru.sfedu.util.FileUtil;
 import ru.sfedu.util.Mapper;
 
