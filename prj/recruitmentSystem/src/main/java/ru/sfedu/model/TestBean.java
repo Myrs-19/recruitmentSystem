@@ -22,8 +22,7 @@ public class TestBean {
 
     public TestBean(){}
     
-    public TestBean(String id, String name, String surname, String middleName) {
-        this.id = id;
+    public TestBean(String name, String surname, String middleName) {
         this.name = name;
         this.surname = surname;
         this.middleName = middleName;

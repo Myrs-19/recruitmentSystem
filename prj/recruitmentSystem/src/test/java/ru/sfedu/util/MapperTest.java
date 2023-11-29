@@ -44,9 +44,21 @@ public class MapperTest {
     @Test
     public void getIdInstanceTestBean() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         System.out.println("test getIdInstanceTestBean");
-        TestBean tb = new TestBean("0","Mike0","sel","Miks");
+        TestBean tb = new TestBean("Mike0","sel","Miks");
         Mapper<TestBean> mapping = new Mapper<TestBean>();
         System.out.println(mapping.getIdInstance(tb));
     }
     
+    @Test
+    public void testSetIdInstanceTestBean(){
+        System.out.println("test SetIdInstanceTestBean");
+        
+        Mapper<TestBean> mapping = new Mapper<TestBean>();
+        TestBean tb = new TestBean("Mike0","sel","Miks");
+        String id = "5";
+        
+        mapping.setIdInstance(tb, id);
+    
+        System.out.println("id = " + tb.getId());
+    }
 }

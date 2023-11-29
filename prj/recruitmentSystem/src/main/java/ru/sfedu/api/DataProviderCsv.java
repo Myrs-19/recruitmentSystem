@@ -9,6 +9,7 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import java.io.File;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,6 +48,10 @@ public class DataProviderCsv implements IDataProvider{
         log.debug("saveRecord [1]: obj = {}",  ((T) obj));
         
         try (FileWriter writer  = new FileWriter(getPath(obj.getClass()), true)){
+            
+            Mapper<T> mapper = new Mapper<T>();
+            mapper.setIdInstance(obj, getId(obj.getClass()));
+            
             StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
                 .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
                 .build();
@@ -177,22 +182,33 @@ public class DataProviderCsv implements IDataProvider{
         }
     }
     
-    public <T> String getId(Class<T> clazz){
-        String id;
+    private <T> String getId(Class<T> clazz){
+        log.debug("getId [1]: gettind id, clazz = {}", clazz);
+        
         List<? extends Object> objects = getAllRecord(clazz);
-        Mapper<T> mapper = new Mapper<T>();
-        
-        id = mapper.getIdInstance(objects.get(0));
-        String idObj;
-        for(Object object : objects){
-            idObj = mapper.getIdInstance(object);
-            if(Integer.parseInt(id) <= Integer.parseInt(idObj)){
-                id = idObj;
+        try{
+            if(objects.isEmpty()){
+                return Constants.CSV_FIRST_ID;
+            } 
+            else{
+                Mapper<T> mapper = new Mapper<T>();
+
+                String result = mapper.getIdInstance(objects.get(0));
+                String idObj;
+                for(Object object : objects){
+                    idObj = mapper.getIdInstance(object);
+                    if(Integer.parseInt(result) <= Integer.parseInt(idObj)){
+                        result = idObj;
+                    }
+                }
+
+                return Integer.parseInt(result) + 1 + "";
             }
+        } catch(Exception ex){
+            log.error("getId [2]: error = {}", ex.getMessage());
         }
-        id =Integer.parseInt(id) + 1 + "";
         
-        return id;
+        throw new NullPointerException();
     }
     
     private String getPath(Class clazz){

@@ -65,4 +65,20 @@ public class Mapper<T> {
         
         throw new NullPointerException();
     }
+    
+    public <T> void setIdInstance(T obj, String id){
+        log.debug("setIdInstance [1]: setting id instance, obj = {}, id = {}", obj, id);
+        
+        try{
+            Method method = obj.getClass().getMethod(Constants.NAME_METHOD_SETTING_ID, String.class);
+            method.invoke(obj, id);
+            
+        } catch(NoSuchMethodException ex){
+            log.error("setIdInstance [2]: нет такого метода, error = {}", ex.getMessage());
+        } catch(IllegalAccessException | InvocationTargetException ex){
+            log.error("setIdInstance [3]: error = {}", ex.getMessage()); 
+        } catch(IllegalArgumentException ex) {
+            log.error("setIdInstance [4]: error = {}", ex.getMessage());
+        }
+    }
 }

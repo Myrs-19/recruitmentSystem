@@ -12,7 +12,9 @@ import static ru.sfedu.util.ConfigurationUtilProperties.getConfigurationEntry;
 public class Constants {
     public static final String PREFIX_SETTER_METHOD = "set";
     public static final String NAME_METHOD_GETTING_ID = "getId";
+    public static final String NAME_METHOD_SETTING_ID = "setId";
     
+    public static final String CSV_FIRST_ID = "0";
     public static final String CSV_PATH_FOLDER = "csv/";
     public static final String CSV_FILE_TYPE = ".csv";
     public static final char CSV_DEFAULT_SEPARATOR = ',';
