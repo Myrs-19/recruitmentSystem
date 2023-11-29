@@ -140,13 +140,11 @@ public class DataProviderCsvTest {
     }
     
     @Test
-    public void testSaveRecordPersonForUpdating(){
+    public void testDeleteRecordPerson() {
         try{
-            System.out.println("test SaveRecordPersonForChanging");
+            System.out.println("test DeleteRecordPerson");
             DataProviderCsv dataProvider = new DataProviderCsv();
-
-            Person p = new Person("Mike", "25", "969696", "zorge 68");
-            dataProvider.saveRecord(p);
+            dataProvider.deleteRecordById("3", Person.class);
             
         } catch (Exception ex){
             fail(ex.getMessage());
@@ -154,11 +152,25 @@ public class DataProviderCsvTest {
     }
     
     @Test
-    public void testDeleteRecordPerson() {
+    public void testUpdateRecordByIdTestBean(){
+        System.out.println("test UpdateRecordByIdTestBean");
         try{
-            System.out.println("test DeleteRecordPerson");
+            IDataProvider dataProvider = new DataProviderCsv();
+            TestBean p = new TestBean("MIMI", "IMIM", "HHHOOH");
+            p.setId("2");
+            dataProvider.updateRecordById(p.getId(), p);
+            
+        } catch(Exception ex){
+            fail("test ChangeRecordByIdPerson" + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testDeleteRecordTestBean() {
+        try{
+            System.out.println("test DeleteRecordTestBean");
             DataProviderCsv dataProvider = new DataProviderCsv();
-            dataProvider.deleteRecordById("2", Person.class);
+            dataProvider.deleteRecordById("1", TestBean.class);
             
         } catch (Exception ex){
             fail(ex.getMessage());
