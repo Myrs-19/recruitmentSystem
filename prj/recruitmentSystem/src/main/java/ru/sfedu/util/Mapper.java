@@ -50,8 +50,8 @@ public class Mapper<T> {
     public <T> String getIdInstance(T obj) throws NullPointerException{
         log.debug("getIdInstance [1]: getting id instance, obj = {}", obj);
         
-        String id = null;
         try{
+            String id;
             Method method = obj.getClass().getMethod(Constants.NAME_METHOD_GETTING_ID);
             id = String.valueOf(method.invoke(obj));
             

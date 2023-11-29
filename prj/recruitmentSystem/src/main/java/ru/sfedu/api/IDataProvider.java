@@ -6,9 +6,7 @@ import java.util.List;
  *
  * @author mike
  */
-public interface IDataProvider<T> {
-    
-    void initDataProviter();
+public interface IDataProvider {
     
     <T> void saveRecord(Object obj);
     
@@ -16,7 +14,7 @@ public interface IDataProvider<T> {
     
     <T> List<T> getAllRecord(Class<T> clazz);
     
-    <T> void changeRecordById(String id);
+    <T> void updateRecordById(String id, Object obj);
     
-    void deleteRecordById(String id);
+    <T> void deleteRecordById(String id, Class<T> clazz);
 }
