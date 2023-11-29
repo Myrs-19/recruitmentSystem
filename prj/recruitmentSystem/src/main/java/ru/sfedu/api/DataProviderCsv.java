@@ -30,7 +30,7 @@ import ru.sfedu.model.*;
 import ru.sfedu.util.FileUtil;
 import ru.sfedu.util.Mapper;
 
-public class DataProviderCsv<T> implements IDataProvider<T> {
+public class DataProviderCsv implements IDataProvider{
     private static final Logger log = LogManager.getLogger(DataProviderCsv.class.getName());
     
     public DataProviderCsv(){
@@ -115,7 +115,7 @@ public class DataProviderCsv<T> implements IDataProvider<T> {
         List<? extends Object> objectsT = getAllRecord(obj.getClass());
          
         try(FileWriter writer = new FileWriter(getPath(obj.getClass()), false);){   
-            Mapper<T> mapper = new Mapper();
+            Mapper<T> mapper = new Mapper<T>();
             
             StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer)
                 .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
@@ -149,13 +149,13 @@ public class DataProviderCsv<T> implements IDataProvider<T> {
     
     
     @Override
-    public void deleteRecordById(String id, Class<T> clazz) {
+    public <T> void deleteRecordById(String id, Class<T> clazz) {
         log.debug("deleteRecordById [1]:  удаление записи, id = {}, clazz = {}", id, clazz);
         
         List<? extends Object> objectsT = getAllRecord(clazz);
          
         try(FileWriter writer = new FileWriter(getPath(clazz), false);){   
-            Mapper<T> mapper = new Mapper();
+            Mapper<T> mapper = new Mapper<T>();
             
             StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer)
                 .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
@@ -177,7 +177,7 @@ public class DataProviderCsv<T> implements IDataProvider<T> {
         }
     }
     
-    private <T> int getId(Object obj){
+    private int getId(Object obj){
         int id;
         //code
         return 0;

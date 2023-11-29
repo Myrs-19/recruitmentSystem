@@ -31,7 +31,7 @@ public class DataProviderCsvTest {
     public void testDataProviderCsv(){
         System.out.println("test DataProviderCsv");
         try{
-            IDataProvider<Person> dataProvider = new DataProviderCsv<Person>();
+            IDataProvider dataProvider = new DataProviderCsv();
         } catch(Exception ex){
             fail("Error creating object of DataProviderCsv class");
         }
@@ -88,8 +88,8 @@ public class DataProviderCsvTest {
         }
         
         try{
-            System.out.println("test GetRecordByID TestBean");
             String id = "0";
+            System.out.println("test GetRecordByID TestBean, id = " + id);
             IDataProvider dataProvider1 = new DataProviderCsv();
             TestBean t = (TestBean) dataProvider1.getRecordByID(id, TestBean.class);
             System.out.println(t);
@@ -117,7 +117,7 @@ public class DataProviderCsvTest {
     public void testGetAllRecordTestBean() {
         System.out.println("test GetAllRecordTestBean");
         try{
-            IDataProvider<TestBean> dataProvider = new DataProviderCsv<TestBean>();
+            IDataProvider dataProvider = new DataProviderCsv();
             List<TestBean> persons = dataProvider.getAllRecord(TestBean.class);
             persons.forEach(it -> System.out.println(it));
         } catch (Exception ex){
