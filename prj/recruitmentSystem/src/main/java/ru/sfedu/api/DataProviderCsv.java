@@ -43,11 +43,11 @@ public class DataProviderCsv implements IDataProvider{
     }
     
     @Override
-    public <T> void saveRecord(Object obj) {
-        log.debug("saveRecord [1]: obj = {}",  (obj));
+    public <T> void saveRecord(T obj) {
+        log.debug("saveRecord [1]: obj = {}",  ((T) obj));
         
         try (FileWriter writer  = new FileWriter(getPath(obj.getClass()), true)){
-            StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer)
+            StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
                 .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
                 .build();
             beanToCsv.write(obj);
@@ -108,7 +108,7 @@ public class DataProviderCsv implements IDataProvider{
     }
     
     @Override
-    public <T> void updateRecordById(String id, Object obj){
+    public <T> void updateRecordById(String id, T obj){
         log.debug("updateRecordById [1]:  изменение записи, id = {}", id);
          
         boolean isExist = false;
@@ -117,16 +117,16 @@ public class DataProviderCsv implements IDataProvider{
         try(FileWriter writer = new FileWriter(getPath(obj.getClass()), false);){   
             Mapper<T> mapper = new Mapper<T>();
             
-            StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer)
+            StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
                 .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
                 .build();
             
             for(Object objectT : objectsT){
                 if(id.equals(mapper.getIdInstance(objectT))){
-                    beanToCsv.write(obj);
+                    beanToCsv.write((T)obj);
                     isExist = true;
                 } else{
-                    beanToCsv.write(objectT);
+                    beanToCsv.write((T)objectT);
                 }
             }
             
@@ -157,13 +157,13 @@ public class DataProviderCsv implements IDataProvider{
         try(FileWriter writer = new FileWriter(getPath(clazz), false);){   
             Mapper<T> mapper = new Mapper<T>();
             
-            StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer)
+            StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
                 .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
                 .build();
             
             for(Object objectT : objectsT){
                 if(!id.equals(mapper.getIdInstance(objectT))){
-                    beanToCsv.write(objectT);
+                    beanToCsv.write((T) objectT);
                 }
             }
             
