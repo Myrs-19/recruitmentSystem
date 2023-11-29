@@ -9,6 +9,7 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import java.io.File;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,7 +31,7 @@ import ru.sfedu.model.*;
 import ru.sfedu.util.FileUtil;
 import ru.sfedu.util.Mapper;
 
-public class DataProviderCsv<T> implements IDataProvider<T> {
+public class DataProviderCsv implements IDataProvider{
     private static final Logger log = LogManager.getLogger(DataProviderCsv.class.getName());
     
     public DataProviderCsv(){
@@ -43,11 +44,15 @@ public class DataProviderCsv<T> implements IDataProvider<T> {
     }
     
     @Override
-    public <T> void saveRecord(Object obj) {
-        log.debug("saveRecord [1]: obj = {}",  (obj));
+    public <T> void saveRecord(T obj) {
+        log.debug("saveRecord [1]: obj = {}",  ((T) obj));
         
         try (FileWriter writer  = new FileWriter(getPath(obj.getClass()), true)){
-            StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer)
+            
+            Mapper<T> mapper = new Mapper<T>();
+            mapper.setIdInstance(obj, getId(obj.getClass()));
+            
+            StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
                 .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
                 .build();
             beanToCsv.write(obj);
@@ -108,25 +113,25 @@ public class DataProviderCsv<T> implements IDataProvider<T> {
     }
     
     @Override
-    public <T> void updateRecordById(String id, Object obj){
+    public <T> void updateRecordById(String id, T obj){
         log.debug("updateRecordById [1]:  изменение записи, id = {}", id);
          
         boolean isExist = false;
         List<? extends Object> objectsT = getAllRecord(obj.getClass());
          
         try(FileWriter writer = new FileWriter(getPath(obj.getClass()), false);){   
-            Mapper<T> mapper = new Mapper();
+            Mapper<T> mapper = new Mapper<T>();
             
-            StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer)
+            StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
                 .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
                 .build();
             
             for(Object objectT : objectsT){
                 if(id.equals(mapper.getIdInstance(objectT))){
-                    beanToCsv.write(obj);
+                    beanToCsv.write((T)obj);
                     isExist = true;
                 } else{
-                    beanToCsv.write(objectT);
+                    beanToCsv.write((T)objectT);
                 }
             }
             
@@ -149,21 +154,21 @@ public class DataProviderCsv<T> implements IDataProvider<T> {
     
     
     @Override
-    public void deleteRecordById(String id, Class<T> clazz) {
+    public <T> void deleteRecordById(String id, Class<T> clazz) {
         log.debug("deleteRecordById [1]:  удаление записи, id = {}, clazz = {}", id, clazz);
         
         List<? extends Object> objectsT = getAllRecord(clazz);
          
         try(FileWriter writer = new FileWriter(getPath(clazz), false);){   
-            Mapper<T> mapper = new Mapper();
+            Mapper<T> mapper = new Mapper<T>();
             
-            StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer)
+            StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
                 .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
                 .build();
             
             for(Object objectT : objectsT){
                 if(!id.equals(mapper.getIdInstance(objectT))){
-                    beanToCsv.write(objectT);
+                    beanToCsv.write((T) objectT);
                 }
             }
             
@@ -177,10 +182,33 @@ public class DataProviderCsv<T> implements IDataProvider<T> {
         }
     }
     
-    private <T> int getId(Object obj){
-        int id;
-        //code
-        return 0;
+    private <T> String getId(Class<T> clazz){
+        log.debug("getId [1]: gettind id, clazz = {}", clazz);
+        
+        List<? extends Object> objects = getAllRecord(clazz);
+        try{
+            if(objects.isEmpty()){
+                return Constants.CSV_FIRST_ID;
+            } 
+            else{
+                Mapper<T> mapper = new Mapper<T>();
+
+                String result = mapper.getIdInstance(objects.get(0));
+                String idObj;
+                for(Object object : objects){
+                    idObj = mapper.getIdInstance(object);
+                    if(Integer.parseInt(result) <= Integer.parseInt(idObj)){
+                        result = idObj;
+                    }
+                }
+
+                return Integer.parseInt(result) + 1 + "";
+            }
+        } catch(Exception ex){
+            log.error("getId [2]: error = {}", ex.getMessage());
+        }
+        
+        throw new NullPointerException();
     }
     
     private String getPath(Class clazz){

@@ -31,7 +31,7 @@ public class DataProviderCsvTest {
     public void testDataProviderCsv(){
         System.out.println("test DataProviderCsv");
         try{
-            IDataProvider<Person> dataProvider = new DataProviderCsv<Person>();
+            IDataProvider dataProvider = new DataProviderCsv();
         } catch(Exception ex){
             fail("Error creating object of DataProviderCsv class");
         }
@@ -47,7 +47,7 @@ public class DataProviderCsvTest {
             DataProviderCsv dataProvider = new DataProviderCsv();
 
             for(int i = 0; i < 3; i++){
-                Person p = new Person(""+ i, "Sasha", "20" + i, "999" + i, "zorge 28/2");
+                Person p = new Person("Sasha", "20" + i, "999" + i, "zorge 28/2");
                 dataProvider.saveRecord(p);
             }
         } catch (Exception ex){
@@ -62,7 +62,7 @@ public class DataProviderCsvTest {
             DataProviderCsv dataProvider = new DataProviderCsv();
 
             for(int i = 0; i < 3; i++){
-                TestBean p = new TestBean("" + i, "Mike" + i, "sel", "Miks");
+                TestBean p = new TestBean("Mike" + i, "sel", "Miks");
                 dataProvider.saveRecord(p);
             }
         } catch (Exception ex){
@@ -88,8 +88,8 @@ public class DataProviderCsvTest {
         }
         
         try{
-            System.out.println("test GetRecordByID TestBean");
             String id = "0";
+            System.out.println("test GetRecordByID TestBean, id = " + id);
             IDataProvider dataProvider1 = new DataProviderCsv();
             TestBean t = (TestBean) dataProvider1.getRecordByID(id, TestBean.class);
             System.out.println(t);
@@ -117,7 +117,7 @@ public class DataProviderCsvTest {
     public void testGetAllRecordTestBean() {
         System.out.println("test GetAllRecordTestBean");
         try{
-            IDataProvider<TestBean> dataProvider = new DataProviderCsv<TestBean>();
+            IDataProvider dataProvider = new DataProviderCsv();
             List<TestBean> persons = dataProvider.getAllRecord(TestBean.class);
             persons.forEach(it -> System.out.println(it));
         } catch (Exception ex){
@@ -130,7 +130,8 @@ public class DataProviderCsvTest {
         System.out.println("test ChangeRecordByIdPerson");
         try{
             IDataProvider dataProvider = new DataProviderCsv();
-            Person p = new Person("2", "кака", "20", "9090", "Zorge");
+            Person p = new Person("кака", "20", "9090", "Zorge");
+            p.setId("2");
             dataProvider.updateRecordById(p.getId(), p);
             
         } catch(Exception ex){
@@ -144,7 +145,7 @@ public class DataProviderCsvTest {
             System.out.println("test SaveRecordPersonForChanging");
             DataProviderCsv dataProvider = new DataProviderCsv();
 
-            Person p = new Person("5", "Mike", "25", "969696", "zorge 68");
+            Person p = new Person("Mike", "25", "969696", "zorge 68");
             dataProvider.saveRecord(p);
             
         } catch (Exception ex){
@@ -163,4 +164,28 @@ public class DataProviderCsvTest {
             fail(ex.getMessage());
         }
     }
+    
+//    @Test
+//    public void testgetId() {
+//        try{
+//            System.out.println("test getId Person");
+//            DataProviderCsv dataProvider = new DataProviderCsv();
+//            String id = dataProvider.getId(Person.class);
+//            System.out.println("id = " + id);
+//        } catch (Exception ex){
+//            fail(ex.getMessage());
+//        }
+//    }
+    
+//    @Test
+//    public void testIsFileExists() {
+//        try{
+//            System.out.println("test isFileExists");
+//            DataProviderCsv dataProvider = new DataProviderCsv();
+//            boolean result = dataProvider.isFileExists(Person.class);
+//            System.out.println(result);
+//        } catch (Exception ex){
+//            fail(ex.getMessage());
+//        }
+//    }
 }

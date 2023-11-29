@@ -6,15 +6,15 @@ import java.util.List;
  *
  * @author mike
  */
-public interface IDataProvider<T> {
+public interface IDataProvider {
     
-    <T> void saveRecord(Object obj);
+    <T> void saveRecord(T obj);
     
     <T> Object getRecordByID(String id, Class<T> clazz);
     
     <T> List<T> getAllRecord(Class<T> clazz);
     
-    <T> void updateRecordById(String id, Object obj);
+    <T> void updateRecordById(String id, T obj);
     
-    void deleteRecordById(String id, Class<T> clazz);
+    <T> void deleteRecordById(String id, Class<T> clazz);
 }
