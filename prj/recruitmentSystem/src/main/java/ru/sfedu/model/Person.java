@@ -8,20 +8,13 @@ public class Person {
     @CsvBindByPosition(position = 1)
     private String name;
     @CsvBindByPosition(position = 2)
-    private String age;
+    private String surname;
     @CsvBindByPosition(position = 3)
-    private String phone;
+    private String middleName;
     @CsvBindByPosition(position = 4)
-    private String address;
-
-    public Person() {}
-
-    public Person(String name, String age, String phone, String address) {
-        this.name = name;
-        this.age = age;
-        this.phone = phone;
-        this.address = address;
-    }
+    private String age;
+    @CsvBindByPosition(position = 5)
+    private String birthday;
 
     public String getId() {
         return id;
@@ -31,6 +24,22 @@ public class Person {
         this.id = id;
     }
 
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
     public String getAge() {
         return age;
     }
@@ -38,39 +47,34 @@ public class Person {
     public void setAge(String age) {
         this.age = age;
     }
-    
-    
-    public String getAddress() {
-        return address;
+
+    public String getBirthday() {
+        return birthday;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
+
+    public Person() {}
+
+    
+    
+    @Override
+    public String toString(){
+        return "Person{" +
+                "id=" + id +
+                ", fio =" + surname + " " + name + " " + middleName +
+                ", age =" + age +
+                ", birthday =" + birthday +
+                '}';
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-    
-    @Override
-    public String toString(){
-        return "Person{" +
-                "id=" + id +
-                ", name=" + name +
-                ", age =" + age +
-                ", phone=" + phone +
-                ", address=" + address +
-                '}';
     }
 }
