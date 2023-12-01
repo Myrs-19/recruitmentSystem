@@ -14,6 +14,9 @@ public class Constants {
     public static final String NAME_METHOD_GETTING_ID = "getId";
     public static final String NAME_METHOD_SETTING_ID = "setId";
     
+    public static final String XML_PATH_FOLDER = "xml/";
+    public static final String XML_FILE_TYPE = ".xml";
+    
     public static final String CSV_FIRST_ID = "0";
     public static final String CSV_PATH_FOLDER = "csv/";
     public static final String CSV_FILE_TYPE = ".csv";

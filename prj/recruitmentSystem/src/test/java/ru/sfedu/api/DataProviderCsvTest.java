@@ -47,7 +47,7 @@ public class DataProviderCsvTest {
             DataProviderCsv dataProvider = new DataProviderCsv();
 
             for(int i = 0; i < 3; i++){
-                Person p = new Person("Sasha", "20" + i, "999" + i, "zorge 28/2");
+                Person p = new Person();
                 dataProvider.saveRecord(p);
             }
         } catch (Exception ex){
@@ -56,20 +56,25 @@ public class DataProviderCsvTest {
     }
     
     @Test
-    public void testSaveRecordsTestBean(){
-        System.out.println("test SaveRecordsTestBean");
-        try{
+    public void testSaveRecordsUser(){
+        System.out.println("test SaveRecordsUser");
+            try{
             DataProviderCsv dataProvider = new DataProviderCsv();
 
             for(int i = 0; i < 3; i++){
-                TestBean p = new TestBean("Mike" + i, "sel", "Miks");
-                dataProvider.saveRecord(p);
+                User u = new User();
+                u.setName("name");
+                u.setSurname("surname");
+                u.setEmail("email");
+                u.setPhone("phone");
+                u.setPassword("password");
+                dataProvider.saveRecord(u);
             }
         } catch (Exception ex){
             fail(ex.getMessage());
         }
     }
-
+    
     /**
      * Test of getRecordByID method, of class DataProviderCsv.
      */
@@ -85,16 +90,6 @@ public class DataProviderCsvTest {
             System.out.println(p);
         } catch (Exception ex){
             fail("Person" + ex.getMessage());
-        }
-        
-        try{
-            String id = "0";
-            System.out.println("test GetRecordByID TestBean, id = " + id);
-            IDataProvider dataProvider1 = new DataProviderCsv();
-            TestBean t = (TestBean) dataProvider1.getRecordByID(id, TestBean.class);
-            System.out.println(t);
-        } catch (Exception ex){
-            fail("TestBean" + ex.getMessage());
         }
     }
 
@@ -113,24 +108,13 @@ public class DataProviderCsvTest {
         }
     }
     
-    @Test
-    public void testGetAllRecordTestBean() {
-        System.out.println("test GetAllRecordTestBean");
-        try{
-            IDataProvider dataProvider = new DataProviderCsv();
-            List<TestBean> persons = dataProvider.getAllRecord(TestBean.class);
-            persons.forEach(it -> System.out.println(it));
-        } catch (Exception ex){
-            fail("testGetAllRecordTestBean" + ex.getMessage());
-        }
-    }
     
     @Test
     public void testUpdateRecordByIdPerson(){
         System.out.println("test ChangeRecordByIdPerson");
         try{
             IDataProvider dataProvider = new DataProviderCsv();
-            Person p = new Person("кака", "20", "9090", "Zorge");
+            Person p = new Person();
             p.setId("2");
             dataProvider.updateRecordById(p.getId(), p);
             
@@ -150,54 +134,5 @@ public class DataProviderCsvTest {
             fail(ex.getMessage());
         }
     }
-    
-    @Test
-    public void testUpdateRecordByIdTestBean(){
-        System.out.println("test UpdateRecordByIdTestBean");
-        try{
-            IDataProvider dataProvider = new DataProviderCsv();
-            TestBean p = new TestBean("MIMI", "IMIM", "HHHOOH");
-            p.setId("2");
-            dataProvider.updateRecordById(p.getId(), p);
-            
-        } catch(Exception ex){
-            fail("test ChangeRecordByIdPerson" + ex.getMessage());
-        }
-    }
-    
-    @Test
-    public void testDeleteRecordTestBean() {
-        try{
-            System.out.println("test DeleteRecordTestBean");
-            DataProviderCsv dataProvider = new DataProviderCsv();
-            dataProvider.deleteRecordById("1", TestBean.class);
-            
-        } catch (Exception ex){
-            fail(ex.getMessage());
-        }
-    }
-    
-//    @Test
-//    public void testgetId() {
-//        try{
-//            System.out.println("test getId Person");
-//            DataProviderCsv dataProvider = new DataProviderCsv();
-//            String id = dataProvider.getId(Person.class);
-//            System.out.println("id = " + id);
-//        } catch (Exception ex){
-//            fail(ex.getMessage());
-//        }
-//    }
-    
-//    @Test
-//    public void testIsFileExists() {
-//        try{
-//            System.out.println("test isFileExists");
-//            DataProviderCsv dataProvider = new DataProviderCsv();
-//            boolean result = dataProvider.isFileExists(Person.class);
-//            System.out.println(result);
-//        } catch (Exception ex){
-//            fail(ex.getMessage());
-//        }
-//    }
+
 }

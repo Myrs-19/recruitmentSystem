@@ -16,15 +16,16 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import ru.sfedu.Constants;
-import ru.sfedu.exception.NotFoundObjectException;
+import ru.sfedu.exception.NotFoundObjectInFileException;
 
 import ru.sfedu.model.CommandType;
 import ru.sfedu.model.RepositoryType;
 
 import ru.sfedu.util.FileUtil;
-import ru.sfedu.util.Mapper;
+import ru.sfedu.util.BeanUtil;
 
 public class DataProviderCsv implements IDataProvider{
     private static final Logger log = LogManager.getLogger(DataProviderCsv.class.getName());
@@ -44,7 +45,7 @@ public class DataProviderCsv implements IDataProvider{
         
         try (FileWriter writer  = new FileWriter(getPath(obj.getClass()), true)){
             
-            Mapper<T> mapper = new Mapper<T>();
+            BeanUtil<T> mapper = new BeanUtil<T>();
             mapper.setIdInstance(obj, getId(obj.getClass()));
             
             StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
@@ -66,13 +67,13 @@ public class DataProviderCsv implements IDataProvider{
     public <T> Object getRecordByID(String id, Class<T> clazz) {
        log.debug("getRecordByID [1]: getting record by id, clazz = {}, id = {}", clazz, id);
        T obj = null;
-       Mapper<T> mapper = new Mapper<T>();
+       BeanUtil<T> mapper = new BeanUtil<T>();
        try{
-            List<T> records = getAllRecord(clazz)
+            Optional<T> optionalObj = getAllRecord(clazz)
                .stream()
                .filter(it -> mapper.getIdInstance(it).equals(id))
-               .toList();
-            obj = records.get(0);
+               .findFirst();
+            obj = optionalObj.get();
         } catch(NullPointerException ex){
             log.error("getRecordByID [2]: нет такого объекта, error = {}", ex.getMessage());
         }
@@ -91,7 +92,7 @@ public class DataProviderCsv implements IDataProvider{
         try(FileReader fileReader = new FileReader(getPath(clazz))){
             CSVReader csvReader = new CSVReader(fileReader);
             
-            Mapper<T> mapper = new Mapper<T>();
+            BeanUtil<T> mapper = new BeanUtil<T>();
             
             result = csvReader.readAll()
                     .stream()
@@ -115,7 +116,7 @@ public class DataProviderCsv implements IDataProvider{
         List<? extends Object> objectsT = getAllRecord(obj.getClass());
          
         try(FileWriter writer = new FileWriter(getPath(obj.getClass()), false);){   
-            Mapper<T> mapper = new Mapper<T>();
+            BeanUtil<T> mapper = new BeanUtil<T>();
             
             StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
                 .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
@@ -131,14 +132,14 @@ public class DataProviderCsv implements IDataProvider{
             }
             
             if(!isExist){
-                throw new NotFoundObjectException("Невозможно изменить несуществующую запись");
+                throw new NotFoundObjectInFileException("Невозможно изменить несуществующую запись");
             }
             
             MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, obj);
             log.debug("updateRecordById [2]: object updated succesfully");
         } catch (NullPointerException ex) {
             log.error("updateRecordById [3]: error = {}",  ex.getMessage());
-        } catch(NotFoundObjectException ex){
+        } catch(NotFoundObjectInFileException ex){
             log.error("updateRecordById [4]: error = {}",  "Невозможно изменить несуществующую запись");
         } catch(IOException ex){
             log.error("updateRecordById [5]: error = {}",  "Ошибка чтения");
@@ -156,7 +157,7 @@ public class DataProviderCsv implements IDataProvider{
         List<? extends Object> objectsT = getAllRecord(clazz);
          
         try(FileWriter writer = new FileWriter(getPath(clazz), false);){   
-            Mapper<T> mapper = new Mapper<T>();
+            BeanUtil<T> mapper = new BeanUtil<T>();
             
             StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
                 .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
@@ -192,7 +193,7 @@ public class DataProviderCsv implements IDataProvider{
                 return Constants.CSV_FIRST_ID;
             } 
             else{
-                Mapper<T> mapper = new Mapper<T>();
+                BeanUtil<T> mapper = new BeanUtil<T>();
 
                 String result = mapper.getIdInstance(objects.get(0));
                 String idObj;
@@ -209,7 +210,7 @@ public class DataProviderCsv implements IDataProvider{
             log.error("getId [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException();
+        throw new NullPointerException("failed to create id");
     }
     
     private String getPath(Class clazz){
