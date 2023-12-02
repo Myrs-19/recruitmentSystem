@@ -13,6 +13,24 @@ import com.opencsv.bean.CsvBindByPosition;
 public class Employee extends Person {
     @CsvBindByPosition(position = 6)
     String companyId;
+    @CsvBindByPosition(position = 7)
+    String startWorkDate;
+    @CsvBindByPosition(position = 8)
+    String salary;
+    @CsvBindByPosition(position = 9)
+    String position;
+    @CsvBindByPosition(position = 10)
+    String isWorking;
+    
+    public Employee(){}
+
+    public String getIsWorking() {
+        return isWorking;
+    }
+
+    public void setIsWorking(String isWorking) {
+        this.isWorking = isWorking;
+    }
 
     public String getCompanyId() {
         return companyId;
@@ -21,15 +39,7 @@ public class Employee extends Person {
     public void setCompanyId(String companyId) {
         this.companyId = companyId;
     }
-    @CsvBindByPosition(position = 7)
-    String startWorkDate;
-    @CsvBindByPosition(position = 8)
-    String salary;
-    @CsvBindByPosition(position = 9)
-    String position;
     
-    public Employee(){}
-
     public String getStartWorkDate() {
         return startWorkDate;
     }
@@ -63,6 +73,7 @@ public class Employee extends Person {
                 ", startWorkDate = " + getStartWorkDate() +
                 ", salary = " + getSalary() +
                 ", position = " + getPosition()+
+                ", isWorking = " + getIsWorking()+
                 '}';
     }
 }
