@@ -56,25 +56,23 @@ public class Person {
         this.birthday = birthday;
     }
 
-    public Person() {}
-
-    
-    
-    @Override
-    public String toString(){
-        return "Person{" +
-                "id=" + id +
-                ", fio =" + surname + " " + name + " " + middleName +
-                ", age =" + age +
-                ", birthday =" + birthday +
-                '}';
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public Person() {}
+    
+    @Override
+    public String toString(){
+        return "Person{" +
+                "id=" + getId() +
+                ", fio =" + getSurname() + " " + getName() + " " + getMiddleName() +
+                ", age =" + getAge() +
+                ", birthday =" + getBirthday() +
+                '}';
     }
 }
