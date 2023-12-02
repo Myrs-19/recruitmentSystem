@@ -12,10 +12,20 @@ import com.opencsv.bean.CsvBindByPosition;
  */
 public class Employee extends Person {
     @CsvBindByPosition(position = 6)
-    String startWorkDate;
+    String companyId;
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
     @CsvBindByPosition(position = 7)
-    String salary;
+    String startWorkDate;
     @CsvBindByPosition(position = 8)
+    String salary;
+    @CsvBindByPosition(position = 9)
     String position;
     
     public Employee(){}
@@ -48,6 +58,7 @@ public class Employee extends Person {
     public String toString(){
         return "Resume{" +
                 "id = " + getId() +
+                ", companyId = " + getCompanyId()+
                 ", fio =" + getSurname() + " " + getName() + " " + getMiddleName() +
                 ", startWorkDate = " + getStartWorkDate() +
                 ", salary = " + getSalary() +
