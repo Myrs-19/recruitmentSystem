@@ -1,5 +1,7 @@
 package ru.sfedu.util;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.sfedu.Constants;
@@ -17,15 +19,23 @@ public class BeanUtil<T> {
         return null;
     }
     
+    //reflection
     public <T> String getIdInstance(T obj) throws NullPointerException{
         log.debug("getIdInstance [1]: getting id instance, obj = {}", obj);
         
-        //returning id of obj;
-        //code
+        try{
+            Method method = obj.getClass().getMethod(Constants.NAME_METHOD_GETTING_ID);
+            return (String) method.invoke(obj);
+        } catch (NoSuchMethodException ex){
+            log.error("getIdInstance [2]: error = {}", ex.getMessage());
+        } catch(IllegalAccessException | InvocationTargetException ex){
+            log.error("getIdInstance [2]: error = {}", ex.getMessage());
+        }
         
-        return null;
+        throw new NullPointerException("failed a way to invoke getting method");
     }
     
+    //reflection
     public <T> void setIdInstance(T obj, String id){
         log.debug("setIdInstance [1]: setting id instance, obj = {}, id = {}", obj, id);
         
