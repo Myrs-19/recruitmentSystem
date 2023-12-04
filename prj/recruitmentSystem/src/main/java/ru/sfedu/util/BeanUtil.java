@@ -12,13 +12,6 @@ import ru.sfedu.model.*;
 public class BeanUtil<T> {
     private static final Logger log = LogManager.getLogger(BeanUtil.class.getName());
     
-    
-    public <T> T getInstance(Class<T> clazz, String[] values) {
-        log.debug("getInstance [1]: getting instance, clazz = {}, values = {}", clazz, values);
-        
-        return null;
-    }
-    
     //reflection
     public <T> String getIdInstance(T obj) throws NullPointerException{
         log.debug("getIdInstance [1]: getting id instance, obj = {}", obj);
@@ -29,7 +22,7 @@ public class BeanUtil<T> {
         } catch (NoSuchMethodException ex){
             log.error("getIdInstance [2]: error = {}", ex.getMessage());
         } catch(IllegalAccessException | InvocationTargetException ex){
-            log.error("getIdInstance [2]: error = {}", ex.getMessage());
+            log.error("getIdInstance [3]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("failed a way to invoke getting method");
@@ -39,17 +32,15 @@ public class BeanUtil<T> {
     public <T> void setIdInstance(T obj, String id){
         log.debug("setIdInstance [1]: setting id instance, obj = {}, id = {}", obj, id);
         
-        //setting id of obj;
-        //code
+        try{
+            Method method = obj.getClass().getMethod(Constants.NAME_METHOD_SETTING_ID, String.class);
+            method.invoke(obj, id);
+        } catch (NoSuchMethodException ex){
+            log.error("setIdInstance [2]: error = {}", ex.getMessage());
+        } catch(IllegalAccessException | InvocationTargetException ex){
+            log.error("setIdInstance [3]: error = {}", ex.getMessage());
+        }
         
     }
-    
-    private void fillPerson(Person obj, String[] values){
-        obj.setId(values[0]);
-        obj.setName(values[1]);
-        obj.setSurname(values[2]);
-        obj.setMiddleName(values[3]);
-        obj.setAge(values[4]);
-        obj.setBirthday(values[5]);
-    }
+
 }

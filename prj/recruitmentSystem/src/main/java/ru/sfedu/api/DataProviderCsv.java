@@ -1,11 +1,14 @@
 package ru.sfedu.api;
 
 import com.opencsv.CSVReader;
+import com.opencsv.bean.ColumnPositionMappingStrategy;
+import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import java.io.FileNotFoundException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,9 +20,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
 
 import ru.sfedu.Constants;
-import ru.sfedu.exception.NotFoundObjectInFileException;
+import ru.sfedu.exception.IncorrectDataStorageException;
 
 import ru.sfedu.model.CommandType;
 import ru.sfedu.model.RepositoryType;
@@ -66,46 +70,68 @@ public class DataProviderCsv implements IDataProvider{
     @Override
     public <T> Object getRecordByID(String id, Class<T> clazz) {
        log.debug("getRecordByID [1]: getting record by id, clazz = {}, id = {}", clazz, id);
-       T obj = null;
-       BeanUtil<T> mapper = new BeanUtil<T>();
-       try{
-            Optional<T> optionalObj = getAllRecord(clazz)
-               .stream()
-               .filter(it -> mapper.getIdInstance(it).equals(id))
-               .findFirst();
-            obj = optionalObj.get();
+       
+       try(FileReader fileReader = new FileReader(getPath(clazz))){
+            CSVReader csvReader = new CSVReader(fileReader);
+           
+            ColumnPositionMappingStrategy<T> beanStrategy = new ColumnPositionMappingStrategy<T>();
+            beanStrategy.setColumnMapping(new String[] {"id","name","surname","middleName", "age", "birthday"});
+            beanStrategy.setType(clazz);
+            
+            CsvToBean<T> csvToBean = new CsvToBean<T>();
+            
+            csvToBean.setCsvReader(csvReader);
+            csvToBean.setMappingStrategy(beanStrategy);
+            csvToBean.setOrderedResults(true);
+            List<T> list = csvToBean.parse();
+            if(list.size() > 1){
+                throw new IncorrectDataStorageException("such id more 1");
+            }
+            else{
+                return list.get(0);
+            }
+            
         } catch(NullPointerException ex){
-            log.error("getRecordByID [2]: нет такого объекта, error = {}", ex.getMessage());
+            log.error("getRecordByID [2]: error = {}", ex.getMessage());
+        } catch (FileNotFoundException ex) {
+            log.error("getRecordByID [3]: error = {}", ex.getMessage());
+        } catch(IncorrectDataStorageException ex){
+            log.error("getRecordByID [4]: error = {}", ex.getMessage());
+        } catch (IOException ex) {
+            log.error("getRecordByID [5]: error = {}", ex.getMessage());
         }
        
-       if(obj == null){
-           throw new NullPointerException();
-       }
-        return obj;
+       throw new NullPointerException("error of getting record");
     }
 
     @Override
     public <T> List<T> getAllRecord(Class<T> clazz) {
         log.debug("getAllRecord [1]: getting all record from = {}", getPath(clazz));
         
-        List<T> result = new ArrayList();
         try(FileReader fileReader = new FileReader(getPath(clazz))){
             CSVReader csvReader = new CSVReader(fileReader);
+           
+            ColumnPositionMappingStrategy<T> beanStrategy = new ColumnPositionMappingStrategy<T>();
+            beanStrategy.setColumnMapping(new String[] {"id","name","surname","middleName", "age", "birthday"});
+            beanStrategy.setType(clazz);
             
-            BeanUtil<T> mapper = new BeanUtil<T>();
+            CsvToBean<T> csvToBean = new CsvToBean<T>();
             
-            result = csvReader.readAll()
-                    .stream()
-                    .map(it -> mapper.getInstance(clazz, it))
-                    .toList();
-                    
-        } catch(IOException | CsvException ex){
-            log.error("getAllRecord [2]: error = {}",  ex.getMessage());
+            csvToBean.setCsvReader(csvReader);
+            csvToBean.setMappingStrategy(beanStrategy);
+            csvToBean.setOrderedResults(true);
+            
+            return csvToBean.parse();
+            
         } catch(NullPointerException ex){
-            log.error("getAllRecord [3]: нет такого объекта, error = {}",  ex.getMessage());
+            log.error("getAllRecord [2]: error = {}", ex.getMessage());
+        } catch (FileNotFoundException ex) {
+            log.error("getAllRecord [3]: error = {}", ex.getMessage());
+        } catch (IOException ex) {
+            log.error("getAllRecord [5]: error = {}", ex.getMessage());
         }
 
-        return result;
+        throw new NullPointerException("error of getting records");
     }
     
     @Override
@@ -132,15 +158,13 @@ public class DataProviderCsv implements IDataProvider{
             }
             
             if(!isExist){
-                throw new NotFoundObjectInFileException("Невозможно изменить несуществующую запись");
+                log.debug("updateRecordById [2]: message = {}",  "Невозможно изменить несуществующую запись");
             }
             
             MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, obj);
-            log.debug("updateRecordById [2]: object updated succesfully");
+            log.debug("updateRecordById [3]: object updated succesfully");
         } catch (NullPointerException ex) {
-            log.error("updateRecordById [3]: error = {}",  ex.getMessage());
-        } catch(NotFoundObjectInFileException ex){
-            log.error("updateRecordById [4]: error = {}",  "Невозможно изменить несуществующую запись");
+            log.error("updateRecordById [4]: error = {}",  ex.getMessage());
         } catch(IOException ex){
             log.error("updateRecordById [5]: error = {}",  "Ошибка чтения");
         } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
@@ -189,7 +213,7 @@ public class DataProviderCsv implements IDataProvider{
         
         List<? extends Object> objects = getAllRecord(clazz);
         try{
-            if(objects.isEmpty()){
+            if(objects != null && objects.isEmpty()){
                 return Constants.CSV_FIRST_ID;
             } 
             else{

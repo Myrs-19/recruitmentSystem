@@ -41,13 +41,22 @@ public class DataProviderCsvTest {
      * Test of saveRecord method, of class DataProviderCsv.
      */
     @Test
-    public void testSaveRecordsPerson(){
+  public void testSaveRecordsPerson(){
         System.out.println("test SaveRecordsPerson");
             try{
             DataProviderCsv dataProvider = new DataProviderCsv();
 
             for(int i = 0; i < 3; i++){
-                Person p = new Person();
+                User p = new User();
+                p.setAge("age");
+                p.setBirthday("birthday");
+                p.setMiddleName("middile name");
+                p.setName("name");
+                p.setSurname("surname");
+                p.setPassword("pass");
+                p.setPhone("phone");
+                p.setEmail("email");
+                p.setAddress("add");
                 dataProvider.saveRecord(p);
             }
         } catch (Exception ex){
@@ -82,10 +91,10 @@ public class DataProviderCsvTest {
     public void testGetRecordByID() {
         try{
             String id = "0";
-            System.out.println("test GetRecordByID Person, id = " + id);
+            System.out.println("test GetRecordByID User, id = " + id);
             
             IDataProvider dataProvider = new DataProviderCsv();
-            Person p = (Person) dataProvider.getRecordByID(id, Person.class);
+            User p = (User) dataProvider.getRecordByID(id, User.class);
             
             System.out.println(p);
         } catch (Exception ex){
