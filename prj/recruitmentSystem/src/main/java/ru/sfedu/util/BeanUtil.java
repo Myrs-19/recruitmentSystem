@@ -1,12 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ru.sfedu.util;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.sfedu.Constants;
+
+import ru.sfedu.model.*;
+
 
 public class BeanUtil<T> {
     private static final Logger log = LogManager.getLogger(BeanUtil.class.getName());
@@ -14,9 +13,6 @@ public class BeanUtil<T> {
     
     public <T> T getInstance(Class<T> clazz, String[] values) {
         log.debug("getInstance [1]: getting instance, clazz = {}, values = {}", clazz, values);
-        
-        //returning instance of clazz
-        //code
         
         return null;
     }
@@ -36,5 +32,14 @@ public class BeanUtil<T> {
         //setting id of obj;
         //code
         
+    }
+    
+    private void fillPerson(Person obj, String[] values){
+        obj.setId(values[0]);
+        obj.setName(values[1]);
+        obj.setSurname(values[2]);
+        obj.setMiddleName(values[3]);
+        obj.setAge(values[4]);
+        obj.setBirthday(values[5]);
     }
 }
