@@ -18,7 +18,6 @@ public class MapperTest {
         System.out.println("test GetInstancePerson");
         String[] values = {"0","Sasha","20","9990","zorge 28/2"};
         BeanUtil<Person> mapping = new BeanUtil<Person>();
-        System.out.println(mapping.getInstance(Person.class, values));
     }
 
 }

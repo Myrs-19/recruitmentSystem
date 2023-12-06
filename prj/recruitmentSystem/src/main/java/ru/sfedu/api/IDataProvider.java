@@ -14,7 +14,7 @@ public interface IDataProvider {
     
     <T> List<T> getAllRecord(Class<T> clazz);
     
-    <T> void updateRecordById(String id, T obj);
+    <T> void updateRecord(T obj);
     
     <T> void deleteRecordById(String id, Class<T> clazz);
 }

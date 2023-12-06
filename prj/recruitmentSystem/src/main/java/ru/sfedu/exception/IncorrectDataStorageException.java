@@ -8,8 +8,8 @@ package ru.sfedu.exception;
  *
  * @author mike
  */
-public class NotFoundObjectInFileException extends RuntimeException{
-    public NotFoundObjectInFileException(String message){
-        super(message);
+public class IncorrectDataStorageException extends Exception{
+    public IncorrectDataStorageException(String msg){
+        super(msg);
     }
 }

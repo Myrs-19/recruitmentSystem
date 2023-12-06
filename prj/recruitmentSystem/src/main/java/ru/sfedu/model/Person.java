@@ -69,10 +69,10 @@ public class Person {
     @Override
     public String toString(){
         return "Person{" +
-                "id=" + getId() +
-                ", fio =" + getSurname() + " " + getName() + " " + getMiddleName() +
-                ", age =" + getAge() +
-                ", birthday =" + getBirthday() +
+                "id = " + getId() +
+                ", fio = " + getSurname() + " " + getName() + " " + getMiddleName() +
+                ", age = " + getAge() +
+                ", birthday = " + getBirthday() +
                 '}';
     }
 }

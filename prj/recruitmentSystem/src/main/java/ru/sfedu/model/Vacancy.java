@@ -108,7 +108,7 @@ public class Vacancy {
     
     @Override
     public String toString(){
-        return "Resume{" +
+        return "Vacancy{" +
                 "id = " + getId() +
                 ", companyId = " + getCompanyId()+
                 ", title = " + getTitle()+

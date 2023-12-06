@@ -66,7 +66,7 @@ public class Employee extends Person {
     
     @Override
     public String toString(){
-        return "Resume{" +
+        return "Employee{" +
                 "id = " + getId() +
                 ", companyId = " + getCompanyId()+
                 ", fio =" + getSurname() + " " + getName() + " " + getMiddleName() +
