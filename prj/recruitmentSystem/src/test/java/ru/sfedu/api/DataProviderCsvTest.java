@@ -186,7 +186,7 @@ public class DataProviderCsvTest {
      * Test of getRecordByID method, of class DataProviderCsv.
      */
     @Test
-    public void testGetRecordByIDPerson() {
+    public void testGetRecordPerson() {
         try{
             String id = "0";
             System.out.println("test GetRecordByID Person, id = " + id);
@@ -201,7 +201,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
-    public void testGetRecordByIDUser() {
+    public void testGetRecordUser() {
         try{
             String id = "0";
             System.out.println("test GetRecordByID User, id = " + id);
@@ -216,7 +216,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
-    public void testGetRecordByIDResume() {
+    public void testGetRecordResume() {
         try{
             String id = "0";
             System.out.println("test GetRecordByID Resume, id = " + id);
@@ -231,7 +231,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
-    public void testGetRecordByIDCompany() {
+    public void testGetRecordCompany() {
         try{
             String id = "0";
             System.out.println("test GetRecordByID Company, id = " + id);
@@ -246,7 +246,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
-    public void testGetRecordByIDVacancy() {
+    public void testGetRecordVacancy() {
         try{
             String id = "0";
             System.out.println("test GetRecordByID Vacancy, id = " + id);
@@ -261,7 +261,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
-    public void testGetRecordByIDEmployee() {
+    public void testGetRecordEmployee() {
         try{
             String id = "0";
             System.out.println("test GetRecordByID Employee, id = " + id);
@@ -276,7 +276,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
-    public void testGetRecordByIDSeparateQual() {
+    public void testGetRecordSeparateQual() {
         try{
             String id = "0";
             System.out.println("test GetRecordByID SeparateQual, id = " + id);
@@ -412,7 +412,7 @@ public class DataProviderCsvTest {
             dataProvider.updateRecord(p);
             
         } catch(Exception ex){
-            fail("testUpdateRecordPerson" + ex.getMessage());
+            fail("testUpdateRecordPerson: " + ex.getMessage());
         }
     }
     
@@ -435,19 +435,188 @@ public class DataProviderCsvTest {
             dataProvider.updateRecord(u);
             
         } catch(Exception ex){
-            fail("testUpdateRecordPerson" + ex.getMessage());
+            fail("testUpdateRecordUser: " + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testUpdateRecordResume(){
+        System.out.println("test UpdateRecord Resume");
+        try{
+            IDataProvider dataProvider = new DataProviderCsv();
+            Resume r = new Resume();
+            r.setId("0");
+            r.setUserId("0");
+            r.setProfession("prrr");
+            dataProvider.updateRecord(r);
+            
+        } catch(Exception ex){
+            fail("testUpdateRecordResume: " + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testUpdateRecordCompany(){
+        System.out.println("test UpdateRecord Company");
+        try{
+            IDataProvider dataProvider = new DataProviderCsv();
+            Company c = new Company();
+            c.setId("0");
+            c.setUserId("0");
+            c.setTitle("titleupdated");
+            c.setDescription("descriptionudated");
+            dataProvider.updateRecord(c);
+            
+        } catch(Exception ex){
+            fail("testUpdateRecordCompany: " + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testUpdateRecordVacancy(){
+        System.out.println("test UpdateRecord Vacancy");
+        try{
+            IDataProvider dataProvider = new DataProviderCsv();
+            Vacancy v = new Vacancy();
+            v.setId("0");
+            v.setCompanyId("0");
+            v.setTitle("title");
+            v.setSalary("1001 рублей");
+            dataProvider.updateRecord(v);
+            
+        } catch(Exception ex){
+            fail("testUpdateRecordVacancy: " + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testUpdateRecordEmployee(){
+        System.out.println("test UpdateRecord Employee");
+        try{
+            IDataProvider dataProvider = new DataProviderCsv();
+            Employee emp = new Employee();
+            emp.setId("0");
+            emp.setCompanyId("0");
+            emp.setSalary("1001 рублей");
+            emp.setIsWorking("0");
+            dataProvider.updateRecord(emp);
+            
+        } catch(Exception ex){
+            fail("testUpdateRecordEmployee: " + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testUpdateRecordSeparateQual(){
+        System.out.println("test UpdateRecord SeparateQual");
+        try{
+            IDataProvider dataProvider = new DataProviderCsv();
+            SeparateQual sq = new SeparateQual();
+            sq.setId("0");
+            sq.setCompanyId("0");
+            sq.setEmployeeId("0");
+            sq.setQuality("3");
+            sq.setDescription("very bad");
+            dataProvider.updateRecord(sq);
+            
+        } catch(Exception ex){
+            fail("testUpdateRecordSeparateQual: " + ex.getMessage());
         }
     }
     
     @Test
     public void testDeleteRecordPerson() {
         try{
-            System.out.println("test DeleteRecordPerson");
+            System.out.println("test DeleteRecord Person");
             DataProviderCsv dataProvider = new DataProviderCsv();
-            dataProvider.deleteRecordById("3", Person.class);
+            dataProvider.deleteRecordById("1", Person.class);
             
         } catch (Exception ex){
-            fail(ex.getMessage());
+            fail("testDeleteRecordPerson: " + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testDeleteRecordUser() {
+        try{
+            System.out.println("test DeleteRecord User");
+            DataProviderCsv dataProvider = new DataProviderCsv();
+            dataProvider.deleteRecordById("1", User.class);
+            
+        } catch (Exception ex){
+            fail("testDeleteRecordUser: " + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testDeleteRecordResume() {
+        try{
+            System.out.println("test DeleteRecord Resume");
+            DataProviderCsv dataProvider = new DataProviderCsv();
+            dataProvider.deleteRecordById("1", Resume.class);
+            
+        } catch (Exception ex){
+            fail("testDeleteRecordResume: " + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testDeleteRecordCompany() {
+        try{
+            System.out.println("test DeleteRecord Company");
+            DataProviderCsv dataProvider = new DataProviderCsv();
+            dataProvider.deleteRecordById("1", Company.class);
+            
+        } catch (Exception ex){
+            fail("testDeleteRecordCompany: " + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testDeleteRecordVacancy() {
+        try{
+            System.out.println("test DeleteRecord Vacancy");
+            DataProviderCsv dataProvider = new DataProviderCsv();
+            dataProvider.deleteRecordById("1", Vacancy.class);
+            
+        } catch (Exception ex){
+            fail("testDeleteRecordVacancy: " + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testDeleteRecordEmployee() {
+        try{
+            System.out.println("test DeleteRecord Employee");
+            DataProviderCsv dataProvider = new DataProviderCsv();
+            dataProvider.deleteRecordById("1", Employee.class);
+            
+        } catch (Exception ex){
+            fail("testDeleteRecordEmployee: " + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testDeleteRecordSeparateQual() {
+        try{
+            System.out.println("test DeleteRecord SeparateQual");
+            DataProviderCsv dataProvider = new DataProviderCsv();
+            dataProvider.deleteRecordById("1", SeparateQual.class);
+            
+        } catch (Exception ex){
+            fail("testDeleteRecordPerson: " + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void test() {
+        try{
+            System.out.println("test");
+            DataProviderCsv dataProvider = new DataProviderCsv();
+            System.out.println(dataProvider.getPath(Person.class));
+            
+        } catch (Exception ex){
+            fail("test: " + ex.getMessage());
         }
     }
 }

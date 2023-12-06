@@ -26,6 +26,7 @@ import ru.sfedu.model.RepositoryType;
 
 import ru.sfedu.util.FileUtil;
 import ru.sfedu.util.BeanUtil;
+import static ru.sfedu.util.ConfigurationUtilProperties.getConfigurationEntry;
 
 public class DataProviderCsv implements IDataProvider{
     private static final Logger log = LogManager.getLogger(DataProviderCsv.class.getName());
@@ -33,7 +34,7 @@ public class DataProviderCsv implements IDataProvider{
     public DataProviderCsv(){
         
         try{
-            FileUtil.createFolderIfNotExists(Constants.CSV_PATH_FOLDER);
+            FileUtil.createFolderIfNotExists(getConfigurationEntry(Constants.CSV_PATH_FOLDER));
         } catch(IOException ex){
             log.error("DataProviderCsv [1]: error = {}", ex.getMessage());
         }
@@ -239,8 +240,8 @@ public class DataProviderCsv implements IDataProvider{
         throw new NullPointerException("failed to create id");
     }
     
-    private String getPath(Class clazz){
-        return Constants.CSV_PATH_FOLDER + clazz.getName() + Constants.CSV_FILE_TYPE;
+    public String getPath(Class clazz){
+        return getConfigurationEntry(Constants.CSV_PATH_FOLDER) + clazz.getName() + Constants.CSV_FILE_TYPE;
     }
     
 }
