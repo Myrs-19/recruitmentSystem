@@ -8,14 +8,15 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import ru.sfedu.model.*;
-/**
- *
- * @author mike
- */
-public class DataProviderCsvTest {
+
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+public class DataProviderCsvTest { 
     
     @Test
     public void testDataProviderCsv(){
@@ -28,6 +29,7 @@ public class DataProviderCsvTest {
     }
 
     @Test
+    @Order(1)
     public void testSaveRecordsPerson(){
         System.out.println("test SaveRecordsPerson");
         try{
@@ -48,6 +50,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(2)
     public void testSaveRecordsUser(){
         System.out.println("test SaveRecordsUser");
         try{
@@ -72,6 +75,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(3)
     public void testSaveRecordsResume(){
         System.out.println("test SaveRecordsResume");
         try{
@@ -96,6 +100,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(4)
     public void testSaveRecordsCompany(){
         System.out.println("test SaveRecordsCompany");
         try{
@@ -114,6 +119,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(5)
     public void testSaveRecordsVacancy(){
         System.out.println("test SaveRecordsVacancy");
         try{
@@ -138,6 +144,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(6)
     public void testSaveRecordsEmployee(){
         System.out.println("test SaveRecordsEmployee");
         try{
@@ -164,6 +171,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(7)
     public void testSaveRecordsSeparateQual(){
         System.out.println("test SaveRecordsSeparateQual");
         try{
@@ -186,6 +194,7 @@ public class DataProviderCsvTest {
      * Test of getRecordByID method, of class DataProviderCsv.
      */
     @Test
+    @Order(8)
     public void testGetRecordPerson() {
         try{
             String id = "0";
@@ -201,6 +210,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(9)
     public void testGetRecordUser() {
         try{
             String id = "0";
@@ -216,6 +226,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(10)
     public void testGetRecordResume() {
         try{
             String id = "0";
@@ -231,6 +242,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(11)
     public void testGetRecordCompany() {
         try{
             String id = "0";
@@ -246,6 +258,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(12)
     public void testGetRecordVacancy() {
         try{
             String id = "0";
@@ -261,6 +274,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(13)
     public void testGetRecordEmployee() {
         try{
             String id = "0";
@@ -276,6 +290,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(14)
     public void testGetRecordSeparateQual() {
         try{
             String id = "0";
@@ -290,12 +305,8 @@ public class DataProviderCsvTest {
         }
     }
     
-
-
-    /**
-     * Test of getAllRecord method, of class DataProviderCsv.
-     */
     @Test
+    @Order(15)
     public void testGetAllRecordPerson() {
         System.out.println("test GetAllRecord Person");
         try{
@@ -307,10 +318,8 @@ public class DataProviderCsvTest {
         }
     }
     
-    /**
-     * Test of getAllRecord method, of class DataProviderCsv.
-     */
     @Test
+    @Order(16)
     public void testGetAllRecordUser() {
         System.out.println("test GetAllRecord User");
         try{
@@ -322,10 +331,8 @@ public class DataProviderCsvTest {
         }
     }
     
-    /**
-     * Test of getAllRecord method, of class DataProviderCsv.
-     */
     @Test
+    @Order(17)
     public void testGetAllRecordResume() {
         System.out.println("test GetAllRecord Resume");
         try{
@@ -337,10 +344,8 @@ public class DataProviderCsvTest {
         }
     }
     
-    /**
-     * Test of getAllRecord method, of class DataProviderCsv.
-     */
     @Test
+    @Order(18)
     public void testGetAllRecordCompany() {
         System.out.println("test GetAllRecordPerson");
         try{
@@ -352,10 +357,8 @@ public class DataProviderCsvTest {
         }
     }
     
-    /**
-     * Test of getAllRecord method, of class DataProviderCsv.
-     */
     @Test
+    @Order(19)
     public void testGetAllRecordVacancy() {
         System.out.println("test GetAllRecordPerson");
         try{
@@ -367,10 +370,8 @@ public class DataProviderCsvTest {
         }
     }
     
-    /**
-     * Test of getAllRecord method, of class DataProviderCsv.
-     */
     @Test
+    @Order(20)
     public void testGetAllRecordEmployee() {
         System.out.println("test GetAllRecordEmployee");
         try{
@@ -382,10 +383,8 @@ public class DataProviderCsvTest {
         }
     }
     
-    /**
-     * Test of getAllRecord method, of class DataProviderCsv.
-     */
     @Test
+    @Order(21)
     public void testGetAllRecordSeparateQual() {
         System.out.println("test GetAllRecord SeparateQual");
         try{
@@ -398,6 +397,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(22)
     public void testUpdateRecordPerson(){
         System.out.println("test UpdateRecord Person");
         try{
@@ -417,6 +417,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(23)
     public void testUpdateRecordUser(){
         System.out.println("test UpdateRecord User");
         try{
@@ -440,6 +441,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(24)
     public void testUpdateRecordResume(){
         System.out.println("test UpdateRecord Resume");
         try{
@@ -456,6 +458,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(25)
     public void testUpdateRecordCompany(){
         System.out.println("test UpdateRecord Company");
         try{
@@ -473,6 +476,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(26)
     public void testUpdateRecordVacancy(){
         System.out.println("test UpdateRecord Vacancy");
         try{
@@ -490,6 +494,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(27)
     public void testUpdateRecordEmployee(){
         System.out.println("test UpdateRecord Employee");
         try{
@@ -507,6 +512,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(28)
     public void testUpdateRecordSeparateQual(){
         System.out.println("test UpdateRecord SeparateQual");
         try{
@@ -525,6 +531,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(29)
     public void testDeleteRecordPerson() {
         try{
             System.out.println("test DeleteRecord Person");
@@ -537,6 +544,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(30)
     public void testDeleteRecordUser() {
         try{
             System.out.println("test DeleteRecord User");
@@ -549,6 +557,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(31)
     public void testDeleteRecordResume() {
         try{
             System.out.println("test DeleteRecord Resume");
@@ -561,6 +570,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(32)
     public void testDeleteRecordCompany() {
         try{
             System.out.println("test DeleteRecord Company");
@@ -573,6 +583,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(33)
     public void testDeleteRecordVacancy() {
         try{
             System.out.println("test DeleteRecord Vacancy");
@@ -585,6 +596,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(34)
     public void testDeleteRecordEmployee() {
         try{
             System.out.println("test DeleteRecord Employee");
@@ -597,6 +609,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    @Order(35)
     public void testDeleteRecordSeparateQual() {
         try{
             System.out.println("test DeleteRecord SeparateQual");
@@ -605,18 +618,6 @@ public class DataProviderCsvTest {
             
         } catch (Exception ex){
             fail("testDeleteRecordPerson: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    public void test() {
-        try{
-            System.out.println("test");
-            DataProviderCsv dataProvider = new DataProviderCsv();
-            System.out.println(dataProvider.getPath(Person.class));
-            
-        } catch (Exception ex){
-            fail("test: " + ex.getMessage());
         }
     }
 }

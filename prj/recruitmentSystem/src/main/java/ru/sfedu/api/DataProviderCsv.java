@@ -240,7 +240,7 @@ public class DataProviderCsv implements IDataProvider{
         throw new NullPointerException("failed to create id");
     }
     
-    public String getPath(Class clazz){
+    private String getPath(Class clazz){
         return getConfigurationEntry(Constants.CSV_PATH_FOLDER) + clazz.getName() + Constants.CSV_FILE_TYPE;
     }
     
