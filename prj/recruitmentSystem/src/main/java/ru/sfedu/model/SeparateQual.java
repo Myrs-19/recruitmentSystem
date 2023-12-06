@@ -66,7 +66,7 @@ public class SeparateQual {
     
     @Override
     public String toString(){
-        return "Resume{" +
+        return "SeparateQual{" +
                 "id = " + getId() +
                 ", companyId = " + getCompanyId()+
                 ", employeeId = " + getEmployeeId()+

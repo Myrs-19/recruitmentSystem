@@ -6,7 +6,6 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import java.io.FileNotFoundException;
 
@@ -17,10 +16,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.logging.Level;
 
 import ru.sfedu.Constants;
 import ru.sfedu.exception.IncorrectDataStorageException;
@@ -39,7 +35,7 @@ public class DataProviderCsv implements IDataProvider{
         try{
             FileUtil.createFolderIfNotExists(Constants.CSV_PATH_FOLDER);
         } catch(IOException ex){
-            log.error("DataProviderCsv [1]: error = {} (Ошибка создании директории)", ex.getMessage());
+            log.error("DataProviderCsv [1]: error = {}", ex.getMessage());
         }
     }
     
@@ -75,15 +71,22 @@ public class DataProviderCsv implements IDataProvider{
             CSVReader csvReader = new CSVReader(fileReader);
            
             ColumnPositionMappingStrategy<T> beanStrategy = new ColumnPositionMappingStrategy<T>();
-            beanStrategy.setColumnMapping(new String[] {"id","name","surname","middleName", "age", "birthday"});
             beanStrategy.setType(clazz);
-            
+           
             CsvToBean<T> csvToBean = new CsvToBean<T>();
             
             csvToBean.setCsvReader(csvReader);
             csvToBean.setMappingStrategy(beanStrategy);
             csvToBean.setOrderedResults(true);
-            List<T> list = csvToBean.parse();
+            
+            BeanUtil<T> beanUtil = new BeanUtil<T>();
+            List<T> list = csvToBean.parse()
+                    .stream()
+                    .filter(it -> {
+                        String idIt = beanUtil.getIdInstance(it);
+                        return idIt.equals(id);
+                    })
+                    .toList();
             if(list.size() > 1){
                 throw new IncorrectDataStorageException("such id more 1");
             }
@@ -112,7 +115,6 @@ public class DataProviderCsv implements IDataProvider{
             CSVReader csvReader = new CSVReader(fileReader);
            
             ColumnPositionMappingStrategy<T> beanStrategy = new ColumnPositionMappingStrategy<T>();
-            beanStrategy.setColumnMapping(new String[] {"id","name","surname","middleName", "age", "birthday"});
             beanStrategy.setType(clazz);
             
             CsvToBean<T> csvToBean = new CsvToBean<T>();
@@ -135,21 +137,21 @@ public class DataProviderCsv implements IDataProvider{
     }
     
     @Override
-    public <T> void updateRecordById(String id, T obj){
-        log.debug("updateRecordById [1]:  изменение записи, id = {}", id);
+    public <T> void updateRecord(T obj){
+        BeanUtil<T> beanUtil = new BeanUtil<T>();
+        String id = beanUtil.getIdInstance(obj);
+        log.debug("updateRecord [1]: obj = {}, id = {}", obj, id);
          
         boolean isExist = false;
         List<? extends Object> objectsT = getAllRecord(obj.getClass());
          
-        try(FileWriter writer = new FileWriter(getPath(obj.getClass()), false);){   
-            BeanUtil<T> mapper = new BeanUtil<T>();
-            
+        try(FileWriter writer = new FileWriter(getPath(obj.getClass()), false);){
             StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
                 .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
                 .build();
             
             for(Object objectT : objectsT){
-                if(id.equals(mapper.getIdInstance(objectT))){
+                if(id.equals(beanUtil.getIdInstance(objectT))){
                     beanToCsv.write((T)obj);
                     isExist = true;
                 } else{
@@ -202,9 +204,9 @@ public class DataProviderCsv implements IDataProvider{
         } catch (NullPointerException ex) {
             log.error("updateRecordById [3]: error = {}",  ex.getMessage());
         } catch(IOException ex){
-            log.error("updateRecordById [5]: error = {}",  "Ошибка чтения");
+            log.error("updateRecordById [5]: error = {}",  ex.getMessage());
         } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
-            log.error("updateRecordById [6]: error = {}",  "Ошибка записи");
+            log.error("updateRecordById [6]: error = {}",  ex.getMessage());
         }
     }
     
@@ -240,4 +242,5 @@ public class DataProviderCsv implements IDataProvider{
     private String getPath(Class clazz){
         return Constants.CSV_PATH_FOLDER + clazz.getName() + Constants.CSV_FILE_TYPE;
     }
+    
 }

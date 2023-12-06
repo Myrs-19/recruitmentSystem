@@ -52,7 +52,7 @@ public class Company {
     
     @Override
     public String toString(){
-        return "Resume{" +
+        return "Company{" +
                 "id = " + getId() +
                 ", userId = " + getUserId() +
                 ", title = " + getTitle()+

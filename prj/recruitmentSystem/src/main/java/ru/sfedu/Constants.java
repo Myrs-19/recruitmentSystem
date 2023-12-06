@@ -10,6 +10,9 @@ import static ru.sfedu.util.ConfigurationUtilProperties.getConfigurationEntry;
  * @author mike
  */
 public class Constants {
+    public static final String[] PERSON_FIELDS = {"id", "name", "surname", "middleName", "age", "birthday"};
+    public static final String[] USER_FIELDS = {"passwords", "prhone"};
+    
     public static final String PREFIX_SETTER_METHOD = "set";
     public static final String NAME_METHOD_GETTING_ID = "getId";
     public static final String NAME_METHOD_SETTING_ID = "setId";
