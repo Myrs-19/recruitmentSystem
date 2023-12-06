@@ -398,16 +398,44 @@ public class DataProviderCsvTest {
     }
     
     @Test
-    public void testUpdateRecordByIdPerson(){
-        System.out.println("test ChangeRecordByIdPerson");
+    public void testUpdateRecordPerson(){
+        System.out.println("test UpdateRecord Person");
         try{
             IDataProvider dataProvider = new DataProviderCsv();
             Person p = new Person();
-            p.setId("2");
-            dataProvider.updateRecordById(p.getId(), p);
+            p.setId("0");
+            p.setName("nameUpdated");
+            p.setSurname("surnameupdate");
+            p.setMiddleName("middleNameupdated");
+            p.setAge("99");
+            p.setBirthday("20-20-2020");
+            dataProvider.updateRecord(p);
             
         } catch(Exception ex){
-            fail("test ChangeRecordByIdPerson" + ex.getMessage());
+            fail("testUpdateRecordPerson" + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testUpdateRecordUser(){
+        System.out.println("test UpdateRecord User");
+        try{
+            IDataProvider dataProvider = new DataProviderCsv();
+            User u = new User();
+            u.setId("0");
+            u.setName("nameUpdated");
+            u.setSurname("surnameupdate");
+            u.setMiddleName("middleNameupdated");
+            u.setAge("99");
+            u.setBirthday("20-20-2020");
+            u.setPassword("password");
+            u.setPhone("696969");
+            u.setEmail("my.rs@mail.ru");
+            u.setAddress("addressupdate");
+            dataProvider.updateRecord(u);
+            
+        } catch(Exception ex){
+            fail("testUpdateRecordPerson" + ex.getMessage());
         }
     }
     
@@ -422,12 +450,4 @@ public class DataProviderCsvTest {
             fail(ex.getMessage());
         }
     }
-    
-    @Test
-    public void testGetColumns(){
-        DataProviderCsv dataProvider = new DataProviderCsv();
-        String[] s =  dataProvider.getColumns(Person.class);
-//        Assertions.assertEquals(); 
-    }
-
 }

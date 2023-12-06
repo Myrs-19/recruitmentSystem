@@ -160,7 +160,7 @@ public class DataProviderCsv implements IDataProvider{
             }
             
             if(!isExist){
-                log.debug("updateRecordById [2]: message = {}",  "Невозможно изменить несуществующую запись");
+                log.error("updateRecordById [2]: error = {}",  "Невозможно изменить несуществующую запись");
             }
             
             MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, obj);

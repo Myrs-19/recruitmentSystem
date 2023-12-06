@@ -23,7 +23,7 @@ import ru.sfedu.model.RepositoryType;
  * @author mike
  */
 public class MongoProvider {
-    private static final Logger log = LogManager.getLogger(MongoProvider.class);
+    private static final Logger log = LogManager.getLogger(MongoProvider.class.getName());
     
     public static<T> void save(CommandType command, RepositoryType repositoryType, T obj){
         log.debug("save [1]: command = {}, type = {}, object = {}", command, repositoryType, obj);
@@ -38,7 +38,7 @@ public class MongoProvider {
                     .append(Constants.MONGO_FIELD_OBJECT, objectMapper.writeValueAsString(obj));
 
             collection.insertOne(document);
-            log.info("save [2]: saved successfully obj = {}", obj);
+            log.debug("save [2]: saved successfully obj = {}", obj);
         } catch(JsonProcessingException ex){
             log.error("save [3]: error = {}", ex.getMessage());
         }
