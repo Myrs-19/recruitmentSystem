@@ -21,8 +21,7 @@ import java.util.List;
 import ru.sfedu.Constants;
 import ru.sfedu.exception.IncorrectDataStorageException;
 
-import ru.sfedu.model.CommandType;
-import ru.sfedu.model.RepositoryType;
+import ru.sfedu.model.*;
 
 import ru.sfedu.util.FileUtil;
 import ru.sfedu.util.BeanUtil;
@@ -32,182 +31,12 @@ public class DataProviderCsv implements IDataProvider{
     private static final Logger log = LogManager.getLogger(DataProviderCsv.class.getName());
     
     public DataProviderCsv(){
+        log.debug("DataProviderCsv [1]: initialization");
         
         try{
             FileUtil.createFolderIfNotExists(getConfigurationEntry(Constants.CSV_PATH_FOLDER));
         } catch(IOException ex){
-            log.error("DataProviderCsv [1]: error = {}", ex.getMessage());
-        }
-    }
-    
-    @Override
-    public <T> void saveRecord(T obj) {
-        log.debug("saveRecord [1]: obj = {}",  ((T) obj));
-        
-        try (FileWriter writer  = new FileWriter(getPath(obj.getClass()), true)){
-            
-            BeanUtil<T> mapper = new BeanUtil<T>();
-            mapper.setIdInstance(obj, getId(obj.getClass()));
-            
-            StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
-                .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
-                .build();
-            beanToCsv.write(obj);
-            
-            log.debug("saveRecord [2]: object saved succesfully");
-        } catch (IOException ex) {
-            log.error("saveRecord [3]: error = {}",  ex.getMessage());
-        } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
-            log.error("saveRecord [4]: error = {}",  ex.getMessage());
-        }
-        
-        
-    }
-
-    @Override
-    public <T> Object getRecordByID(String id, Class<T> clazz) {
-       log.debug("getRecordByID [1]: getting record by id, clazz = {}, id = {}", clazz, id);
-       
-       try(FileReader fileReader = new FileReader(getPath(clazz))){
-            CSVReader csvReader = new CSVReader(fileReader);
-           
-            ColumnPositionMappingStrategy<T> beanStrategy = new ColumnPositionMappingStrategy<T>();
-            beanStrategy.setType(clazz);
-           
-            CsvToBean<T> csvToBean = new CsvToBean<T>();
-            
-            csvToBean.setCsvReader(csvReader);
-            csvToBean.setMappingStrategy(beanStrategy);
-            csvToBean.setOrderedResults(true);
-            
-            BeanUtil<T> beanUtil = new BeanUtil<T>();
-            List<T> list = csvToBean.parse()
-                    .stream()
-                    .filter(it -> {
-                        String idIt = beanUtil.getIdInstance(it);
-                        return idIt.equals(id);
-                    })
-                    .toList();
-            if(list.size() > 1){
-                throw new IncorrectDataStorageException("such id more 1");
-            }
-            else{
-                return list.get(0);
-            }
-            
-        } catch(NullPointerException ex){
-            log.error("getRecordByID [2]: error = {}", ex.getMessage());
-        } catch (FileNotFoundException ex) {
-            log.error("getRecordByID [3]: error = {}", ex.getMessage());
-        } catch(IncorrectDataStorageException ex){
-            log.error("getRecordByID [4]: error = {}", ex.getMessage());
-        } catch (IOException ex) {
-            log.error("getRecordByID [5]: error = {}", ex.getMessage());
-        }
-       
-       throw new NullPointerException("error of getting record");
-    }
-
-    @Override
-    public <T> List<T> getAllRecord(Class<T> clazz) {
-        log.debug("getAllRecord [1]: getting all record from = {}", getPath(clazz));
-        
-        try(FileReader fileReader = new FileReader(getPath(clazz))){
-            CSVReader csvReader = new CSVReader(fileReader);
-           
-            ColumnPositionMappingStrategy<T> beanStrategy = new ColumnPositionMappingStrategy<T>();
-            beanStrategy.setType(clazz);
-            
-            CsvToBean<T> csvToBean = new CsvToBean<T>();
-            
-            csvToBean.setCsvReader(csvReader);
-            csvToBean.setMappingStrategy(beanStrategy);
-            csvToBean.setOrderedResults(true);
-            
-            return csvToBean.parse();
-            
-        } catch(NullPointerException ex){
-            log.error("getAllRecord [2]: error = {}", ex.getMessage());
-        } catch (FileNotFoundException ex) {
-            log.error("getAllRecord [3]: error = {}", ex.getMessage());
-        } catch (IOException ex) {
-            log.error("getAllRecord [5]: error = {}", ex.getMessage());
-        }
-
-        throw new NullPointerException("error of getting records");
-    }
-    
-    @Override
-    public <T> void updateRecord(T obj){
-        BeanUtil<T> beanUtil = new BeanUtil<T>();
-        String id = beanUtil.getIdInstance(obj);
-        log.debug("updateRecord [1]: obj = {}, id = {}", obj, id);
-         
-        boolean isExist = false;
-        List<? extends Object> objectsT = getAllRecord(obj.getClass());
-         
-        try(FileWriter writer = new FileWriter(getPath(obj.getClass()), false);){
-            StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
-                .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
-                .build();
-            
-            for(Object objectT : objectsT){
-                if(id.equals(beanUtil.getIdInstance(objectT))){
-                    beanToCsv.write((T)obj);
-                    isExist = true;
-                } else{
-                    beanToCsv.write((T)objectT);
-                }
-            }
-            
-            if(!isExist){
-                log.error("updateRecordById [2]: error = {}",  "Невозможно изменить несуществующую запись");
-            }
-            
-            MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, obj);
-            log.debug("updateRecordById [3]: object updated succesfully");
-        } catch (NullPointerException ex) {
-            log.error("updateRecordById [4]: error = {}",  ex.getMessage());
-        } catch(IOException ex){
-            log.error("updateRecordById [5]: error = {}",  "Ошибка чтения");
-        } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
-            log.error("updateRecordById [6]: error = {}",  "Ошибка записи");
-        }
-       
-    }
-    
-    
-    @Override
-    public <T> void deleteRecordById(String id, Class<T> clazz) {
-        log.debug("deleteRecordById [1]:  удаление записи, id = {}, clazz = {}", id, clazz);
-        
-        List<? extends Object> objectsT = getAllRecord(clazz);
-         
-        try(FileWriter writer = new FileWriter(getPath(clazz), false);){   
-            BeanUtil<T> mapper = new BeanUtil<T>();
-            
-            StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
-                .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
-                .build();
-            for(Object objectT : objectsT){
-                if(!id.equals(mapper.getIdInstance(objectT))){
-                    beanToCsv.write((T) objectT);
-                }
-                else{
-                    T obj;
-                    obj = (T) objectT;
-                    MongoProvider.save(CommandType.DELETED, RepositoryType.CSV, obj);
-                
-                }
-            }
-            
-            log.debug("updateRecordById [2]: object deleted succesfully");
-        } catch (NullPointerException ex) {
-            log.error("updateRecordById [3]: error = {}",  ex.getMessage());
-        } catch(IOException ex){
-            log.error("updateRecordById [5]: error = {}",  ex.getMessage());
-        } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
-            log.error("updateRecordById [6]: error = {}",  ex.getMessage());
+            log.error("DataProviderCsv [2]: error = {}", ex.getMessage());
         }
     }
     
@@ -240,8 +69,143 @@ public class DataProviderCsv implements IDataProvider{
         throw new NullPointerException("failed to create id");
     }
     
-    private String getPath(Class clazz){
-        return getConfigurationEntry(Constants.CSV_PATH_FOLDER) + clazz.getName() + Constants.CSV_FILE_TYPE;
+    private String getPath(String tableName){
+        return getConfigurationEntry(Constants.CSV_PATH_FOLDER) + tableName + Constants.CSV_FILE_TYPE;
+    }
+
+    @Override
+    public Result savePerson(Person person) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Result saveResume(Resume resume) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Result saveCompany(Company company) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Result saveVacancy(Vacancy vacancy) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Result saveSeparateQual(SeparateQual separateQual) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public User getUser(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Resume getResume(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Company getCompany(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Vacancy getVacancy(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Employee getEmployee(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public SeparateQual getSeparateQual(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Resume> getAllResumes() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Company> getAllCompanies() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Vacancy> getAllVacancies() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Employee> getAllEmployees() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<SeparateQual> getAllSeparateQuals() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Result updatePerson(Person person) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Result updateResume(Resume resume) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Result updateCompany(Company company) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Result updateVacancy(Vacancy vacancy) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Result updateSeparateQual(SeparateQual separateQual) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Result deletePerson(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Result deleteResume(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Result deleteCompany(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Result deleteVacancy(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Result deleteSeparateQual(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }
