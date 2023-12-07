@@ -218,4 +218,33 @@ public interface IDataProvider {
      **/
     Result deleteResume(String id);
     
+    /**
+     * Method for deleting a company in the system by id.
+     * If a company is valid returns a Result with a 200 code and an object which was deleted.
+     * If a company is not valid returns a Result with a 422 code and a pair that consists of an object and errors.
+     *
+     * @param id - the id of company .
+     * @return an object that contains the result of the save.
+     **/
+    Result deleteCompany(String id);
+    
+    /**
+     * Method for deleting a vacancy in the system by id.
+     * If a vacancy is valid returns a Result with a 200 code and an object which was deleted.
+     * If a vacancy is not valid returns a Result with a 422 code and a pair that consists of an object and errors.
+     *
+     * @param id - the id of vacancy .
+     * @return an object that contains the result of the save.
+     **/
+    Result deleteVacancy(String id);
+    
+    /**
+     * Method for deleting a separateQual in the system by id.
+     * If a separateQual is valid returns a Result with a 200 code and an object which was deleted.
+     * If a separateQual is not valid returns a Result with a 422 code and a pair that consists of an object and errors.
+     *
+     * @param id - the id of separateQual .
+     * @return an object that contains the result of the save.
+     **/
+    Result deleteSeparateQual(String id);
 }
