@@ -19,13 +19,51 @@ import ru.sfedu.model.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DataProviderCsvTest {
     
+//    @Test
+//    void testGetId(){
+//        System.out.println("test DataProviderCsv getId");
+//        DataProviderCsv dp = new DataProviderCsv();
+//        String path = dp.getPath(Constants.CSV_TITLE_TABLE_PERSON);
+//        String id = dp.getId(path);
+//        System.out.println("*** id = " + id);
+//    }
+    
     @Test
-    void testGetId(){
-        System.out.println("test DataProviderCsv getId");
+    void testSavePersonUser(){
+        User person = new User();
+        person.setTypePerson(TypePerson.UserType);
+        person.setName("Mike");
+        person.setEmail("m@m.ru");
+        person.setPhone("999");
+        person.setAddress("zorge");
+        
         DataProviderCsv dp = new DataProviderCsv();
-        String path = dp.getPath(Constants.CSV_TITLE_TABLE_PERSON);
-        String id = dp.getId(path);
-        System.out.println("*** id = " + id);
+        dp.savePerson(person);
+        
+    }
+    
+    @Test
+    void testSavePersonEmployee(){
+        Employee person = new Employee();
+        person.setTypePerson(TypePerson.EmployeeType);
+        person.setName("Mike");
+        person.setSalary("98988");
+        
+        DataProviderCsv dp = new DataProviderCsv();
+        dp.savePerson(person);
+        
+    }
+    
+    @Test
+    void testSaveResume(){
+        Resume resume = new Resume();
+        resume.setUserId("0");
+        resume.setCity("rostov");
+        resume.setProfession("Prod");
+        
+        DataProviderCsv dp = new DataProviderCsv();
+        dp.saveResume(resume);
+        
     }
     
 }

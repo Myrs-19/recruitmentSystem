@@ -45,7 +45,7 @@ public class DataProviderCsv implements IDataProvider{
         }
     }
     
-    public String getId(String pathToCsv){
+    private String getId(String pathToCsv){
         log.debug("getId [1]: gettind id, pathToCsv = {}", pathToCsv);
         
         final String[] idWrapper = {Constants.CSV_FIRST_ID};
@@ -62,31 +62,29 @@ public class DataProviderCsv implements IDataProvider{
                         }
                     }
                     );
-            id = idWrapper[0];
+            
+            id = String.valueOf(Integer.parseInt(idWrapper[0])+1);
             
             log.debug("getId [2]: gettind has been successful");
             return id;
         } catch(NullPointerException | IOException | CsvException ex){
-            log.error("getAllRecord [3]: error = {}", ex.getMessage());
+            log.error("getId [3]: error = {}", ex.getMessage());
         } 
         
         return id;
     }
     
-    public String getPath(String tableName){
+    private String getPath(String tableName){
         return getConfigurationEntry(Constants.CSV_PATH_FOLDER) + tableName + Constants.CSV_FILE_TYPE;
     }
 
     private String getPathPerson(TypePerson type){
         Function<TypePerson, String> func = (TypePerson t) -> {
-            switch(t){
-                case UserType:
-                    return Constants.CSV_TITLE_TABLE_USER;
-                case EmployeeType:
-                    return Constants.CSV_TITLE_TABLE_EMPLOYEE;
-                default:
-                    return null;
-            }
+            return switch (t) {
+                case UserType -> Constants.CSV_TITLE_TABLE_USER;
+                case EmployeeType -> Constants.CSV_TITLE_TABLE_EMPLOYEE;
+                default -> null;
+            };
         };
         
         String tableName = func.apply(type);
@@ -98,35 +96,62 @@ public class DataProviderCsv implements IDataProvider{
     
     @Override
     public Result savePerson(Person person) {
+        Result result = new Result();
         
         String pathToCsv = getPathPerson(person.getTypePerson());
         
-        log.debug("saveRecord [1]: obj = {}", person);
+        log.debug("savePerson [1]: obj = {}", person);
         
-        String id = null;
+        String id = getId(pathToCsv);
+        person.setId(id);
         
         try (FileWriter writer  = new FileWriter(pathToCsv, true)){
-            
-            person.setId(getId(pathToCsv));
-            
             StatefulBeanToCsv<Person> beanToCsv = new StatefulBeanToCsvBuilder<Person>(writer)
                 .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
                 .build();
             beanToCsv.write(person);
             
-            log.debug("saveRecord [2]: object saved succesfully");
-        } catch (IOException ex) {
-            log.error("saveRecord [3]: error = {}",  ex.getMessage());
-        } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
-            log.error("saveRecord [4]: error = {}",  ex.getMessage());
-        }
+            log.debug("savePerson [2]: object saved succesfully");
+            result.setCode(200);
+            result.setMessage("OK");
+            
+        } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
+            log.error("savePerson [3]: error = {}",  ex.getMessage());
+            result.setCode(422);
+            result.setMessage(ex.getMessage());
+        } 
         
-        return null;
+        return result;
     }
 
     @Override
     public Result saveResume(Resume resume) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Result result = new Result();
+        
+        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_RESUME);
+        
+        log.debug("saveResume [1]: obj = {}", resume);
+        
+        String id = getId(pathToCsv);
+        resume.setId(id);
+        
+        try (FileWriter writer  = new FileWriter(pathToCsv, true)){
+            StatefulBeanToCsv<Resume> beanToCsv = new StatefulBeanToCsvBuilder<Resume>(writer)
+                .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
+                .build();
+            beanToCsv.write(resume);
+            
+            log.debug("saveResume [2]: object saved succesfully");
+            result.setCode(200);
+            result.setMessage("OK");
+            
+        } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
+            log.error("saveResume [3]: error = {}",  ex.getMessage());
+            result.setCode(422);
+            result.setMessage(ex.getMessage());
+        } 
+        
+        return result;
     }
 
     @Override
