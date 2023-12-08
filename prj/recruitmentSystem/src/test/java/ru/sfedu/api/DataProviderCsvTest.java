@@ -12,10 +12,20 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import ru.sfedu.Constants;
 
 import ru.sfedu.model.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DataProviderCsvTest {
+    
+    @Test
+    void testGetId(){
+        System.out.println("test DataProviderCsv getId");
+        DataProviderCsv dp = new DataProviderCsv();
+        String path = dp.getPath(Constants.CSV_TITLE_TABLE_PERSON);
+        String id = dp.getId(path);
+        System.out.println("*** id = " + id);
+    }
     
 }

@@ -16,6 +16,16 @@ public class Person {
     @CsvBindByPosition(position = 5)
     private String birthday;
 
+    private TypePerson typePerson;
+
+    public TypePerson getTypePerson() {
+        return typePerson;
+    }
+
+    public void setTypePerson(TypePerson typePerson) {
+        this.typePerson = typePerson;
+    }
+        
     public String getId() {
         return id;
     }
