@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.logging.Level;
 
 import ru.sfedu.Constants;
 import ru.sfedu.exception.IncorrectDataStorageException;
@@ -596,7 +597,57 @@ public class DataProviderCsv implements IDataProvider{
 
     @Override
     public Result updatePerson(Person person) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Result result = new Result();
+        result.setCode(200);
+        result.setMessage("OK");
+        
+        String id = person.getId();
+        
+        log.debug("updatePerson [1]: obj = {}, id = {}", person, id);
+        
+        Function<TypePerson, List> getPersons = (TypePerson type) -> {
+            return switch (type){
+                case UserType -> getAllUsers();
+                case EmployeeType -> getAllEmployees();
+                default -> null;
+            };
+        };
+        
+        List<Person> persons = getPersons.apply(person.getTypePerson());
+         
+        String pathToCsv = getPathPerson(person.getTypePerson());
+        
+        try(FileWriter writer = new FileWriter(pathToCsv, false)){
+            StatefulBeanToCsv<Person> beanToCsv = new StatefulBeanToCsvBuilder<Person>(writer)
+                .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
+                .build();
+            
+            persons.stream()
+                    .forEach(
+                    (p) -> {
+                        try {
+                            if(p.getId().equals(person.getId())){
+                                    beanToCsv.write(person);
+                            }
+                            else{
+                                beanToCsv.write(p);
+                            }
+                        } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
+                                log.error("updatePerson [2]: error = ", ex.getMessage());
+                                result.setCode(422);
+                                result.setMessage(ex.getMessage());
+                            }
+                    }
+                    );
+            
+            MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, person);
+        } catch (NullPointerException | IOException ex) {
+            log.error("updatePerson [3]: error = {}",  ex.getMessage());
+            result.setCode(422);
+            result.setMessage(ex.getMessage());
+        } 
+       
+        return result;
     }
 
     @Override

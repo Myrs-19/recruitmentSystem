@@ -303,4 +303,20 @@ public class DataProviderCsvTest {
             System.out.println(ex.getMessage());
         }
     }
+    
+    @Test
+    void testUpdateUser(){
+        try{
+            User user = new User();
+            user.setTypePerson(TypePerson.UserType);
+            user.setId("0");
+            user.setName("Nikolus");
+            
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.updatePerson(user);
+            assertEquals(200, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
 }
