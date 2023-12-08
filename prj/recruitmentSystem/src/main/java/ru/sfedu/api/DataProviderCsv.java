@@ -156,17 +156,92 @@ public class DataProviderCsv implements IDataProvider{
 
     @Override
     public Result saveCompany(Company company) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Result result = new Result();
+        
+        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_COMPANY);
+        
+        log.debug("saveCompany [1]: obj = {}", company);
+        
+        String id = getId(pathToCsv);
+        company.setId(id);
+        
+        try (FileWriter writer  = new FileWriter(pathToCsv, true)){
+            StatefulBeanToCsv<Company> beanToCsv = new StatefulBeanToCsvBuilder<Company>(writer)
+                .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
+                .build();
+            beanToCsv.write(company);
+            
+            log.debug("saveCompany [2]: object saved succesfully");
+            result.setCode(200);
+            result.setMessage("OK");
+            
+        } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
+            log.error("saveCompany [3]: error = {}",  ex.getMessage());
+            result.setCode(422);
+            result.setMessage(ex.getMessage());
+        } 
+        
+        return result;
     }
 
     @Override
     public Result saveVacancy(Vacancy vacancy) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Result result = new Result();
+        
+        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_VACANCY);
+        
+        log.debug("saveVacancy [1]: obj = {}", vacancy);
+        
+        String id = getId(pathToCsv);
+        vacancy.setId(id);
+        
+        try (FileWriter writer  = new FileWriter(pathToCsv, true)){
+            StatefulBeanToCsv<Vacancy> beanToCsv = new StatefulBeanToCsvBuilder<Vacancy>(writer)
+                .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
+                .build();
+            beanToCsv.write(vacancy);
+            
+            log.debug("saveVacancy [2]: object saved succesfully");
+            result.setCode(200);
+            result.setMessage("OK");
+            
+        } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
+            log.error("saveVacancy [3]: error = {}",  ex.getMessage());
+            result.setCode(422);
+            result.setMessage(ex.getMessage());
+        } 
+        
+        return result;
     }
 
     @Override
     public Result saveSeparateQual(SeparateQual separateQual) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Result result = new Result();
+        
+        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_SEPARATE_QUAL);
+        
+        log.debug("saveSeparateQual [1]: obj = {}", separateQual);
+        
+        String id = getId(pathToCsv);
+        separateQual.setId(id);
+        
+        try (FileWriter writer  = new FileWriter(pathToCsv, true)){
+            StatefulBeanToCsv<SeparateQual> beanToCsv = new StatefulBeanToCsvBuilder<SeparateQual>(writer)
+                .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
+                .build();
+            beanToCsv.write(separateQual);
+            
+            log.debug("saveSeparateQual [2]: object saved succesfully");
+            result.setCode(200);
+            result.setMessage("OK");
+            
+        } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
+            log.error("saveSeparateQual [3]: error = {}",  ex.getMessage());
+            result.setCode(422);
+            result.setMessage(ex.getMessage());
+        } 
+        
+        return result;
     }
 
     @Override

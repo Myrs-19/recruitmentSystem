@@ -62,8 +62,38 @@ public class DataProviderCsvTest {
         resume.setProfession("Prod");
         
         DataProviderCsv dp = new DataProviderCsv();
-        dp.saveResume(resume);
-        
+        dp.saveResume(resume);   
     }
     
+    @Test
+    void testSaveCompany(){
+        Company company = new Company();
+        company.setUserId("0");
+        company.setTitle("arenadata");
+        
+        DataProviderCsv dp = new DataProviderCsv();
+        dp.saveCompany(company);
+    }
+    
+    @Test
+    void testSaveVacancy(){
+        Vacancy vacancy = new Vacancy();
+        vacancy.setCompanyId("0");
+        vacancy.setTitle("junior");
+        vacancy.setSalary("878778");
+        
+        DataProviderCsv dp = new DataProviderCsv();
+        dp.saveVacancy(vacancy);
+    }
+    
+    @Test
+    void testSaveSeparateQual(){
+        SeparateQual separateQual = new SeparateQual();
+        separateQual.setCompanyId("0");
+        separateQual.setEmployeeId("0");
+        separateQual.setQuality("120");
+        
+        DataProviderCsv dp = new DataProviderCsv();
+        dp.saveSeparateQual(separateQual);
+    }
 }

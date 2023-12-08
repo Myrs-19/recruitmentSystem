@@ -14,6 +14,7 @@ public class Constants {
     public static final String CSV_TITLE_TABLE_USER = "User";
     public static final String CSV_TITLE_TABLE_EMPLOYEE = "Employee";
     public static final String CSV_TITLE_TABLE_RESUME = "Resume";
+    public static final String CSV_TITLE_TABLE_VACANCY = "Vacancy";
     public static final String CSV_TITLE_TABLE_COMPANY = "Company";
     public static final String CSV_TITLE_TABLE_SEPARATE_QUAL = "SeparateQual";
     
