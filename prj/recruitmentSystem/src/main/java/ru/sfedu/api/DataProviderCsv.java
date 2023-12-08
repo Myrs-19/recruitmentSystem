@@ -440,32 +440,158 @@ public class DataProviderCsv implements IDataProvider{
 
     @Override
     public List<User> getAllUsers() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_USER);
+        log.debug("getAllUsers [1]: getting all record from = {}", pathToCsv);
+        
+        try(FileReader fileReader = new FileReader(pathToCsv)){
+            CSVReader csvReader = new CSVReader(fileReader);
+           
+            ColumnPositionMappingStrategy<User> beanStrategy = new ColumnPositionMappingStrategy<User>();
+            beanStrategy.setType(User.class);
+            
+            CsvToBean<User> csvToBean = new CsvToBean<User>();
+            
+            csvToBean.setCsvReader(csvReader);
+            csvToBean.setMappingStrategy(beanStrategy);
+            csvToBean.setOrderedResults(true);
+            
+            return csvToBean.parse();
+            
+        } catch(NullPointerException | IOException ex){
+            log.error("getAllUsers [2]: error = {}", ex.getMessage());
+        }
+
+        throw new NullPointerException("records such bean do not exists: bean = User");
     }
 
     @Override
     public List<Resume> getAllResumes() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_RESUME);
+        log.debug("getAllResumes [1]: getting all record from = {}", pathToCsv);
+        
+        try(FileReader fileReader = new FileReader(pathToCsv)){
+            CSVReader csvReader = new CSVReader(fileReader);
+           
+            ColumnPositionMappingStrategy<Resume> beanStrategy = new ColumnPositionMappingStrategy<Resume>();
+            beanStrategy.setType(Resume.class);
+            
+            CsvToBean<Resume> csvToBean = new CsvToBean<Resume>();
+            
+            csvToBean.setCsvReader(csvReader);
+            csvToBean.setMappingStrategy(beanStrategy);
+            csvToBean.setOrderedResults(true);
+            
+            return csvToBean.parse();
+            
+        } catch(NullPointerException | IOException ex){
+            log.error("getAllResumes [2]: error = {}", ex.getMessage());
+        }
+
+        throw new NullPointerException("records such bean do not exists: bean = Resume");
     }
 
     @Override
     public List<Company> getAllCompanies() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_COMPANY);
+        log.debug("getAllCompanies [1]: getting all record from = {}", pathToCsv);
+        
+        try(FileReader fileReader = new FileReader(pathToCsv)){
+            CSVReader csvReader = new CSVReader(fileReader);
+           
+            ColumnPositionMappingStrategy<Company> beanStrategy = new ColumnPositionMappingStrategy<Company>();
+            beanStrategy.setType(Company.class);
+            
+            CsvToBean<Company> csvToBean = new CsvToBean<Company>();
+            
+            csvToBean.setCsvReader(csvReader);
+            csvToBean.setMappingStrategy(beanStrategy);
+            csvToBean.setOrderedResults(true);
+            
+            return csvToBean.parse();
+            
+        } catch(NullPointerException | IOException ex){
+            log.error("getAllCompanies [2]: error = {}", ex.getMessage());
+        }
+
+        throw new NullPointerException("records such bean do not exists: bean = Company");
     }
 
     @Override
     public List<Vacancy> getAllVacancies() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_VACANCY);
+        log.debug("getAllVacancies [1]: getting all record from = {}", pathToCsv);
+        
+        try(FileReader fileReader = new FileReader(pathToCsv)){
+            CSVReader csvReader = new CSVReader(fileReader);
+           
+            ColumnPositionMappingStrategy<Vacancy> beanStrategy = new ColumnPositionMappingStrategy<Vacancy>();
+            beanStrategy.setType(Vacancy.class);
+            
+            CsvToBean<Vacancy> csvToBean = new CsvToBean<Vacancy>();
+            
+            csvToBean.setCsvReader(csvReader);
+            csvToBean.setMappingStrategy(beanStrategy);
+            csvToBean.setOrderedResults(true);
+            
+            return csvToBean.parse();
+            
+        } catch(NullPointerException | IOException ex){
+            log.error("getAllVacancies [2]: error = {}", ex.getMessage());
+        }
+
+        throw new NullPointerException("records such bean do not exists: bean = Vacancy");
     }
 
     @Override
     public List<Employee> getAllEmployees() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_EMPLOYEE);
+        log.debug("getAllEmployees [1]: getting all record from = {}", pathToCsv);
+        
+        try(FileReader fileReader = new FileReader(pathToCsv)){
+            CSVReader csvReader = new CSVReader(fileReader);
+           
+            ColumnPositionMappingStrategy<Employee> beanStrategy = new ColumnPositionMappingStrategy<Employee>();
+            beanStrategy.setType(Employee.class);
+            
+            CsvToBean<Employee> csvToBean = new CsvToBean<Employee>();
+            
+            csvToBean.setCsvReader(csvReader);
+            csvToBean.setMappingStrategy(beanStrategy);
+            csvToBean.setOrderedResults(true);
+            
+            return csvToBean.parse();
+            
+        } catch(NullPointerException | IOException ex){
+            log.error("getAllEmployees [2]: error = {}", ex.getMessage());
+        }
+
+        throw new NullPointerException("records such bean do not exists: bean = Employee");
     }
 
     @Override
     public List<SeparateQual> getAllSeparateQuals() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_SEPARATE_QUAL);
+        log.debug("getAllSeparateQuals [1]: getting all record from = {}", pathToCsv);
+        
+        try(FileReader fileReader = new FileReader(pathToCsv)){
+            CSVReader csvReader = new CSVReader(fileReader);
+           
+            ColumnPositionMappingStrategy<SeparateQual> beanStrategy = new ColumnPositionMappingStrategy<SeparateQual>();
+            beanStrategy.setType(SeparateQual.class);
+            
+            CsvToBean<SeparateQual> csvToBean = new CsvToBean<SeparateQual>();
+            
+            csvToBean.setCsvReader(csvReader);
+            csvToBean.setMappingStrategy(beanStrategy);
+            csvToBean.setOrderedResults(true);
+            
+            return csvToBean.parse();
+            
+        } catch(NullPointerException | IOException ex){
+            log.error("getAllSeparateQuals [2]: error = {}", ex.getMessage());
+        }
+
+        throw new NullPointerException("records such bean do not exists: bean = SeparateQual");
     }
 
     @Override

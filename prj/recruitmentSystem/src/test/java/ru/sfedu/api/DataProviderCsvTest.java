@@ -237,4 +237,70 @@ public class DataProviderCsvTest {
             System.out.println(ex.getMessage());
         }
     }
+    
+    @Test
+    void testGetAllUsers(){
+        try{
+            DataProviderCsv dp = new DataProviderCsv();
+            dp.getAllUsers().stream()
+                    .forEach(System.out::println);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testGetAllResumes(){
+        try{
+            DataProviderCsv dp = new DataProviderCsv();
+            dp.getAllResumes().stream()
+                    .forEach(System.out::println);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testgetAllCompanies(){
+        try{
+            DataProviderCsv dp = new DataProviderCsv();
+            dp.getAllCompanies().stream()
+                    .forEach(System.out::println);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testgetAllVacancies(){
+        try{
+            DataProviderCsv dp = new DataProviderCsv();
+            dp.getAllVacancies().stream()
+                    .forEach(System.out::println);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testgetAllEmployees(){
+        try{
+            DataProviderCsv dp = new DataProviderCsv();
+            dp.getAllEmployees().stream()
+                    .forEach(System.out::println);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testgetAllSeparateQuals(){
+        try{
+            DataProviderCsv dp = new DataProviderCsv();
+            dp.getAllSeparateQuals().stream()
+                    .forEach(System.out::println);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
 }
