@@ -115,12 +115,12 @@ public class DataProviderCsv implements IDataProvider{
             beanToCsv.write(person);
             
             log.debug("savePerson [2]: object saved succesfully");
-            result.setCode(200);
-            result.setMessage("OK");
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
             
         } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
             log.error("savePerson [3]: error = {}",  ex.getMessage());
-            result.setCode(422);
+            result.setCode(Constants.CODE_ERROR);
             result.setMessage(ex.getMessage());
         } 
         
@@ -145,12 +145,12 @@ public class DataProviderCsv implements IDataProvider{
             beanToCsv.write(resume);
             
             log.debug("saveResume [2]: object saved succesfully");
-            result.setCode(200);
-            result.setMessage("OK");
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
             
         } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
             log.error("saveResume [3]: error = {}",  ex.getMessage());
-            result.setCode(422);
+            result.setCode(Constants.CODE_ERROR);
             result.setMessage(ex.getMessage());
         } 
         
@@ -175,12 +175,12 @@ public class DataProviderCsv implements IDataProvider{
             beanToCsv.write(company);
             
             log.debug("saveCompany [2]: object saved succesfully");
-            result.setCode(200);
-            result.setMessage("OK");
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
             
         } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
             log.error("saveCompany [3]: error = {}",  ex.getMessage());
-            result.setCode(422);
+            result.setCode(Constants.CODE_ERROR);
             result.setMessage(ex.getMessage());
         } 
         
@@ -205,12 +205,12 @@ public class DataProviderCsv implements IDataProvider{
             beanToCsv.write(vacancy);
             
             log.debug("saveVacancy [2]: object saved succesfully");
-            result.setCode(200);
-            result.setMessage("OK");
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
             
         } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
             log.error("saveVacancy [3]: error = {}",  ex.getMessage());
-            result.setCode(422);
+            result.setCode(Constants.CODE_ERROR);
             result.setMessage(ex.getMessage());
         } 
         
@@ -235,12 +235,12 @@ public class DataProviderCsv implements IDataProvider{
             beanToCsv.write(separateQual);
             
             log.debug("saveSeparateQual [2]: object saved succesfully");
-            result.setCode(200);
-            result.setMessage("OK");
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
             
         } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
             log.error("saveSeparateQual [3]: error = {}",  ex.getMessage());
-            result.setCode(422);
+            result.setCode(Constants.CODE_ERROR);
             result.setMessage(ex.getMessage());
         } 
         
@@ -598,8 +598,8 @@ public class DataProviderCsv implements IDataProvider{
     @Override
     public Result updatePerson(Person person) {
         Result result = new Result();
-        result.setCode(200);
-        result.setMessage("OK");
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
         
         String id = person.getId();
         
@@ -623,30 +623,30 @@ public class DataProviderCsv implements IDataProvider{
                 .build();
             
             persons.stream()
-                    .forEach(
-                    (p) -> {
-                        try {
+                    .forEach((p) -> {
+                        try{
                             if(p.getId().equals(person.getId())){
                                     beanToCsv.write(person);
                             }
                             else{
                                 beanToCsv.write(p);
                             }
-                        } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
-                                log.error("updatePerson [2]: error = ", ex.getMessage());
-                                result.setCode(422);
-                                result.setMessage(ex.getMessage());
-                            }
+                        } catch(Exception ex){
+                            result.setCode(Constants.CODE_ERROR);
+                            result.setMessage(ex.getMessage());
+                        }
                     }
                     );
             
-            MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, person);
         } catch (NullPointerException | IOException ex) {
             log.error("updatePerson [3]: error = {}",  ex.getMessage());
-            result.setCode(422);
+            result.setCode(Constants.CODE_ERROR);
             result.setMessage(ex.getMessage());
         } 
        
+        if(result.getCode() == Constants.CODE_SUCCESS){
+            MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, person);
+        }
         return result;
     }
 

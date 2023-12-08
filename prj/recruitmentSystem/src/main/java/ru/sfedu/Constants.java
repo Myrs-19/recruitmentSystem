@@ -36,6 +36,10 @@ public class Constants {
     public static final String MONGO_FIELD_COMMAND = "command";
     public static final String MONGO_FIELD_REPOSITORY = "repository";
     public static final String MONGO_FIELD_OBJECT = "obj";
+    
+    public static final int CODE_SUCCESS = 200;
+    public static final String MESSAGE_CODE_SUCCESS = "OK";
+    public static final int CODE_ERROR = 422;
 }
 
 

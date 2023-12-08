@@ -305,16 +305,33 @@ public class DataProviderCsvTest {
     }
     
     @Test
-    void testUpdateUser(){
+    void testUpdateUserPositive(){
         try{
             User user = new User();
             user.setTypePerson(TypePerson.UserType);
             user.setId("0");
-            user.setName("Nikolus");
+            user.setName("MIMIMI");
             
             DataProviderCsv dp = new DataProviderCsv();
             Result res = dp.updatePerson(user);
             assertEquals(200, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    //никогда не пройдет, потому что не изменит запись, если айди такой не найдется
+    @Test
+    void testUpdateUserNegative(){
+        try{
+            User user = new User();
+            user.setTypePerson(TypePerson.UserType);
+            user.setId("-1");
+            user.setName("Nikolus");
+            
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.updatePerson(user);
+            assertEquals(Constants.CODE_ERROR, res.getCode());
         } catch(Exception ex){
             System.out.println(ex.getMessage());
         }
