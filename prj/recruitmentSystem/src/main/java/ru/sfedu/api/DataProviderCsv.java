@@ -18,6 +18,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.function.Function;
 
 import ru.sfedu.Constants;
@@ -246,32 +248,194 @@ public class DataProviderCsv implements IDataProvider{
 
     @Override
     public User getUser(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("getUser [1]: id = {}", id);
+       
+        try(FileReader fileReader = new FileReader(getPath(Constants.CSV_TITLE_TABLE_USER))){
+            CSVReader csvReader = new CSVReader(fileReader);
+           
+            ColumnPositionMappingStrategy<User> beanStrategy = new ColumnPositionMappingStrategy<User>();
+            beanStrategy.setType(User.class);
+           
+            CsvToBean<User> csvToBean = new CsvToBean<User>();
+            
+            csvToBean.setCsvReader(csvReader);
+            csvToBean.setMappingStrategy(beanStrategy);
+            csvToBean.setOrderedResults(true);
+            
+            Optional<User> userWrap = csvToBean.parse()
+                    .stream()
+                    .filter(user -> {
+                        return user.getId().equals(id);
+                    })
+                    .findFirst();
+            
+            return userWrap.get();
+                    
+        } catch(IOException | NoSuchElementException ex){
+            log.error("getUser [2]: error = {}", ex.getMessage());
+        }
+       
+       throw new NullPointerException("such record does not exist: bean = User, id = " + id);
     }
 
     @Override
     public Resume getResume(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("getResume [1]: id = {}", id);
+       
+        try(FileReader fileReader = new FileReader(getPath(Constants.CSV_TITLE_TABLE_RESUME))){
+            CSVReader csvReader = new CSVReader(fileReader);
+           
+            ColumnPositionMappingStrategy<Resume> beanStrategy = new ColumnPositionMappingStrategy<Resume>();
+            beanStrategy.setType(Resume.class);
+           
+            CsvToBean<Resume> csvToBean = new CsvToBean<Resume>();
+            
+            csvToBean.setCsvReader(csvReader);
+            csvToBean.setMappingStrategy(beanStrategy);
+            csvToBean.setOrderedResults(true);
+            
+            Optional<Resume> resumeWrap = csvToBean.parse()
+                    .stream()
+                    .filter(resume -> {
+                        return resume.getId().equals(id);
+                    })
+                    .findFirst();
+            
+            return resumeWrap.get();
+                    
+        } catch(IOException | NoSuchElementException ex){
+            log.error("getResume [2]: error = {}", ex.getMessage());
+        }
+       
+       throw new NullPointerException("such record does not exist: bean = Resume, id = " + id);
     }
 
     @Override
     public Company getCompany(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("getCompany [1]: id = {}", id);
+       
+        try(FileReader fileReader = new FileReader(getPath(Constants.CSV_TITLE_TABLE_COMPANY))){
+            CSVReader csvReader = new CSVReader(fileReader);
+           
+            ColumnPositionMappingStrategy<Company> beanStrategy = new ColumnPositionMappingStrategy<Company>();
+            beanStrategy.setType(Company.class);
+           
+            CsvToBean<Company> csvToBean = new CsvToBean<Company>();
+            
+            csvToBean.setCsvReader(csvReader);
+            csvToBean.setMappingStrategy(beanStrategy);
+            csvToBean.setOrderedResults(true);
+            
+            Optional<Company> resumeWrap = csvToBean.parse()
+                    .stream()
+                    .filter(company -> {
+                        return company.getId().equals(id);
+                    })
+                    .findFirst();
+            
+            return resumeWrap.get();
+                    
+        } catch(IOException | NoSuchElementException ex){
+            log.error("getCompany [2]: error = {}", ex.getMessage());
+        }
+       
+       throw new NullPointerException("such record does not exist: bean = Company, id = " + id);
     }
 
     @Override
     public Vacancy getVacancy(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("getVacancy [1]: id = {}", id);
+       
+        try(FileReader fileReader = new FileReader(getPath(Constants.CSV_TITLE_TABLE_VACANCY))){
+            CSVReader csvReader = new CSVReader(fileReader);
+           
+            ColumnPositionMappingStrategy<Vacancy> beanStrategy = new ColumnPositionMappingStrategy<Vacancy>();
+            beanStrategy.setType(Vacancy.class);
+           
+            CsvToBean<Vacancy> csvToBean = new CsvToBean<Vacancy>();
+            
+            csvToBean.setCsvReader(csvReader);
+            csvToBean.setMappingStrategy(beanStrategy);
+            csvToBean.setOrderedResults(true);
+            
+            Optional<Vacancy> resumeWrap = csvToBean.parse()
+                    .stream()
+                    .filter(vacancy -> {
+                        return vacancy.getId().equals(id);
+                    })
+                    .findFirst();
+            
+            return resumeWrap.get();
+                    
+        } catch(IOException | NoSuchElementException ex){
+            log.error("getVacancy [2]: error = {}", ex.getMessage());
+        }
+       
+       throw new NullPointerException("such record does not exist: bean = Vacancy, id = " + id);
     }
 
     @Override
     public Employee getEmployee(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("getEmployee [1]: id = {}", id);
+       
+        try(FileReader fileReader = new FileReader(getPath(Constants.CSV_TITLE_TABLE_EMPLOYEE))){
+            CSVReader csvReader = new CSVReader(fileReader);
+           
+            ColumnPositionMappingStrategy<Employee> beanStrategy = new ColumnPositionMappingStrategy<Employee>();
+            beanStrategy.setType(Employee.class);
+           
+            CsvToBean<Employee> csvToBean = new CsvToBean<Employee>();
+            
+            csvToBean.setCsvReader(csvReader);
+            csvToBean.setMappingStrategy(beanStrategy);
+            csvToBean.setOrderedResults(true);
+            
+            Optional<Employee> resumeWrap = csvToBean.parse()
+                    .stream()
+                    .filter(employee -> {
+                        return employee.getId().equals(id);
+                    })
+                    .findFirst();
+            
+            return resumeWrap.get();
+                    
+        } catch(IOException | NoSuchElementException ex){
+            log.error("getEmployee [2]: error = {}", ex.getMessage());
+        }
+       
+       throw new NullPointerException("such record does not exist: bean = Employee, id = " + id);
     }
 
     @Override
     public SeparateQual getSeparateQual(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("getSeparateQual [1]: id = {}", id);
+       
+        try(FileReader fileReader = new FileReader(getPath(Constants.CSV_TITLE_TABLE_SEPARATE_QUAL))){
+            CSVReader csvReader = new CSVReader(fileReader);
+           
+            ColumnPositionMappingStrategy<SeparateQual> beanStrategy = new ColumnPositionMappingStrategy<SeparateQual>();
+            beanStrategy.setType(SeparateQual.class);
+           
+            CsvToBean<SeparateQual> csvToBean = new CsvToBean<SeparateQual>();
+            
+            csvToBean.setCsvReader(csvReader);
+            csvToBean.setMappingStrategy(beanStrategy);
+            csvToBean.setOrderedResults(true);
+            
+            Optional<SeparateQual> resumeWrap = csvToBean.parse()
+                    .stream()
+                    .filter(separateQual -> {
+                        return separateQual.getId().equals(id);
+                    })
+                    .findFirst();
+            
+            return resumeWrap.get();
+                    
+        } catch(IOException | NoSuchElementException ex){
+            log.error("getSeparateQual [2]: error = {}", ex.getMessage());
+        }
+       
+       throw new NullPointerException("such record does not exist: bean = SeparateQual, id = " + id);
     }
 
     @Override
