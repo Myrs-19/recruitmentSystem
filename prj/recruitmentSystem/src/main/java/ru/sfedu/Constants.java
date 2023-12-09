@@ -1,24 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ru.sfedu;
 
 import static ru.sfedu.util.ConfigurationUtilProperties.getConfigurationEntry;
-/**
- *
- * @author mike
- */
-public class Constants {
-    public static final String[] PERSON_FIELDS = {"id", "name", "surname", "middleName", "age", "birthday"};
-    public static final String[] USER_FIELDS = {"passwords", "prhone"};
-    
-    public static final String PREFIX_SETTER_METHOD = "set";
-    public static final String NAME_METHOD_GETTING_ID = "getId";
-    public static final String NAME_METHOD_SETTING_ID = "setId";
-    
+
+public class Constants {  
     public static final String XML_PATH_FOLDER = "xml/";
     public static final String XML_FILE_TYPE = ".xml";
+    
+    public static final String CSV_TITLE_TABLE_PERSON = "Person";
+    public static final String CSV_TITLE_TABLE_USER = "User";
+    public static final String CSV_TITLE_TABLE_EMPLOYEE = "Employee";
+    public static final String CSV_TITLE_TABLE_RESUME = "Resume";
+    public static final String CSV_TITLE_TABLE_VACANCY = "Vacancy";
+    public static final String CSV_TITLE_TABLE_COMPANY = "Company";
+    public static final String CSV_TITLE_TABLE_SEPARATE_QUAL = "SeparateQual";
     
     public static final String CSV_FIRST_ID = "0";
     public static final String CSV_PATH_FOLDER = "ru.sfedu.csv.test.folder";
@@ -38,6 +32,10 @@ public class Constants {
     public static final String MONGO_FIELD_COMMAND = "command";
     public static final String MONGO_FIELD_REPOSITORY = "repository";
     public static final String MONGO_FIELD_OBJECT = "obj";
+    
+    public static final int CODE_SUCCESS = 200;
+    public static final String MESSAGE_CODE_SUCCESS = "OK";
+    public static final int CODE_ERROR = 422;
 }
 
 

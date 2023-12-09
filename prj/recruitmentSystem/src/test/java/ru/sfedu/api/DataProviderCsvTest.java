@@ -6,618 +6,462 @@ package ru.sfedu.api;
 
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import ru.sfedu.Constants;
 
 import ru.sfedu.model.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class DataProviderCsvTest { 
+public class DataProviderCsvTest {
+    
+//    @Test
+//    void testGetId(){
+//        System.out.println("test DataProviderCsv getId");
+//        DataProviderCsv dp = new DataProviderCsv();
+//        String path = dp.getPath(Constants.CSV_TITLE_TABLE_PERSON);
+//        String id = dp.getId(path);
+//        System.out.println("*** id = " + id);
+//    }
     
     @Test
-    public void testDataProviderCsv(){
-        System.out.println("test DataProviderCsv");
+    void testSavePersonUser(){
+        User person = new User();
+        person.setTypePerson(TypePerson.UserType);
+        person.setName("Mike");
+        person.setEmail("m@m.ru");
+        person.setPhone("999");
+        person.setAddress("zorge");
+        
+        DataProviderCsv dp = new DataProviderCsv();
+        dp.savePerson(person);
+        
+    }
+    
+    @Test
+    void testSavePersonEmployee(){
+        Employee person = new Employee();
+        person.setTypePerson(TypePerson.EmployeeType);
+        person.setName("Mike");
+        person.setSalary("98988");
+        
+        DataProviderCsv dp = new DataProviderCsv();
+        dp.savePerson(person);
+        
+    }
+    
+    @Test
+    void testSaveResume(){
+        Resume resume = new Resume();
+        resume.setUserId("0");
+        resume.setCity("rostov");
+        resume.setProfession("Prod");
+        
+        DataProviderCsv dp = new DataProviderCsv();
+        dp.saveResume(resume);   
+    }
+    
+    @Test
+    void testSaveCompany(){
+        Company company = new Company();
+        company.setUserId("0");
+        company.setTitle("arenadata");
+        
+        DataProviderCsv dp = new DataProviderCsv();
+        dp.saveCompany(company);
+    }
+    
+    @Test
+    void testSaveVacancy(){
+        Vacancy vacancy = new Vacancy();
+        vacancy.setCompanyId("0");
+        vacancy.setTitle("junior");
+        vacancy.setSalary("878778");
+        
+        DataProviderCsv dp = new DataProviderCsv();
+        dp.saveVacancy(vacancy);
+    }
+    
+    @Test
+    void testSaveSeparateQual(){
+        SeparateQual separateQual = new SeparateQual();
+        separateQual.setCompanyId("0");
+        separateQual.setEmployeeId("0");
+        separateQual.setQuality("120");
+        
+        DataProviderCsv dp = new DataProviderCsv();
+        dp.saveSeparateQual(separateQual);
+    }
+    
+    @Test
+    void testGetUserPositive(){
+        String id = "0";
+        
+        DataProviderCsv dp = new DataProviderCsv();
+        User user = dp.getUser(id);
+        assertEquals(user.getId(), id);
+        System.out.println(user);
+    }
+    
+    @Test
+    void testGetUserNegative(){
+        String id = "-1";
         try{
-            IDataProvider dataProvider = new DataProviderCsv();
+            DataProviderCsv dp = new DataProviderCsv();
+            User user = dp.getUser(id);
+            assertEquals(user.getId(), id);
+            System.out.println(user);   
         } catch(Exception ex){
-            fail("Error creating object of DataProviderCsv class");
+            System.out.println(ex.getMessage());
         }
     }
-
+        
     @Test
-    @Order(1)
-    public void testSaveRecordsPerson(){
-        System.out.println("test SaveRecordsPerson");
+    void testGetResumePositive(){
+        String id = "0";
+        
+        DataProviderCsv dp = new DataProviderCsv();
+        Resume resume = dp.getResume(id);
+        assertEquals(resume.getId(), id);
+        System.out.println(resume);
+    }
+    
+    @Test
+    void testGetResumeNegative(){
+        String id = "-1";
+        
         try{
-            DataProviderCsv dataProvider = new DataProviderCsv();
-
-            for(int i = 0; i < 3; i++){
-                Person p = new Person();
-                p.setName("mike" + i);
-                p.setSurname("sel" + i);
-                p.setMiddleName("mike" + i);
-                p.setAge("2" + i);
-                p.setBirthday("200" + i);
-                dataProvider.saveRecord(p);
-            }
-        } catch (Exception ex){
-            fail(ex.getMessage());
+            DataProviderCsv dp = new DataProviderCsv();
+            Resume resume = dp.getResume(id);
+            assertEquals(resume.getId(), id);
+            System.out.println(resume);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
         }
     }
     
     @Test
-    @Order(2)
-    public void testSaveRecordsUser(){
-        System.out.println("test SaveRecordsUser");
+    void testGetCompanyPositive(){
+        String id = "0";
+        
+        DataProviderCsv dp = new DataProviderCsv();
+        Company company = dp.getCompany(id);
+        assertEquals(company.getId(), id);
+        System.out.println(company);
+    }
+    
+    @Test
+    void testGetCompanyNegative(){
+        String id = "-1";
         try{
-            DataProviderCsv dataProvider = new DataProviderCsv();
-
-            for(int i = 0; i < 3; i++){
-                User u = new User();
-                u.setAge("2" + i);
-                u.setBirthday("birthday");
-                u.setMiddleName("middile name");
-                u.setName("name" + i);
-                u.setSurname("surname");
-                u.setPassword("pass");
-                u.setPhone("phone");
-                u.setEmail("email");
-                u.setAddress("add");
-                dataProvider.saveRecord(u);
-            }
-        } catch (Exception ex){
-            fail(ex.getMessage());
+        DataProviderCsv dp = new DataProviderCsv();
+        Company company = dp.getCompany(id);
+        assertEquals(company.getId(), id);
+        System.out.println(company);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
         }
     }
     
     @Test
-    @Order(3)
-    public void testSaveRecordsResume(){
-        System.out.println("test SaveRecordsResume");
+    void testGetVacancyPositive(){
+        String id = "0";
+        
+        DataProviderCsv dp = new DataProviderCsv();
+        Vacancy vacancy = dp.getVacancy(id);
+        assertEquals(vacancy.getId(), id);
+        System.out.println(vacancy);
+    }
+    
+    @Test
+    void testGetVacancyNegative(){
+        String id = "-1";
         try{
-            DataProviderCsv dataProvider = new DataProviderCsv();
-
-            for(int i = 0; i < 3; i++){
-                Resume r = new Resume();
-                r.setUserId("0");
-                r.setProfession("prof" + i);
-                r.setCity("city");
-                r.setSkills("skills");
-                r.setEducation("education" + i);
-                r.setExperience("experience");
-                r.setSex("sex");
-                r.setWorkPermit("workPermit");
-                r.setCitizenship("citizenship");
-                dataProvider.saveRecord(r);
-            }
-        } catch (Exception ex){
-            fail(ex.getMessage());
+            DataProviderCsv dp = new DataProviderCsv();
+            Vacancy vacancy = dp.getVacancy(id);
+            assertEquals(vacancy.getId(), id);
+            System.out.println(vacancy);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
         }
     }
     
     @Test
-    @Order(4)
-    public void testSaveRecordsCompany(){
-        System.out.println("test SaveRecordsCompany");
+    void testGetEmployeePositive(){
+        String id = "0";
+        
+        DataProviderCsv dp = new DataProviderCsv();
+        Employee employee = dp.getEmployee(id);
+        assertEquals(employee.getId(), id);
+        System.out.println(employee);
+    }
+    
+    @Test
+    void testGetEmployeeNegative(){
+        String id = "-1";
         try{
-            DataProviderCsv dataProvider = new DataProviderCsv();
-
-            for(int i = 0; i < 3; i++){
-                Company c = new Company();
-                c.setUserId("0");
-                c.setTitle("title");
-                c.setDescription("description");
-                dataProvider.saveRecord(c);
-            }
-        } catch (Exception ex){
-            fail(ex.getMessage());
+            DataProviderCsv dp = new DataProviderCsv();
+            Employee employee = dp.getEmployee(id);
+            assertEquals(employee.getId(), id);
+            System.out.println(employee);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
         }
     }
     
     @Test
-    @Order(5)
-    public void testSaveRecordsVacancy(){
-        System.out.println("test SaveRecordsVacancy");
+    void testGetSeparateQualPositive(){
+        String id = "0";
+        
+        DataProviderCsv dp = new DataProviderCsv();
+        SeparateQual separateQual = dp.getSeparateQual(id);
+        assertEquals(separateQual.getId(), id);
+        System.out.println(separateQual);
+    }
+    
+    @Test
+    void testGetSeparateQualNigga(){
+        String id = "-1";
+        
         try{
-            DataProviderCsv dataProvider = new DataProviderCsv();
-
-            for(int i = 0; i < 3; i++){
-                Vacancy v = new Vacancy();
-                v.setCompanyId("0");
-                v.setTitle("title");
-                v.setSpecialization("specialization");
-                v.setOnline("online");
-                v.setSkills("skills");
-                v.setSalary("salary");
-                v.setCity("city");
-                v.setAddress("address");
-                v.setExperience("experience");
-                dataProvider.saveRecord(v);
-            }
-        } catch (Exception ex){
-            fail(ex.getMessage());
+            DataProviderCsv dp = new DataProviderCsv();
+            SeparateQual separateQual = dp.getSeparateQual(id);
+            assertEquals(separateQual.getId(), id);
+            System.out.println(separateQual);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
         }
     }
     
     @Test
-    @Order(6)
-    public void testSaveRecordsEmployee(){
-        System.out.println("test SaveRecordsEmployee");
+    void testGetAllUsers(){
         try{
-            DataProviderCsv dataProvider = new DataProviderCsv();
-
-            for(int i = 0; i < 3; i++){
-                Employee e = new Employee();
-                e.setAge("3" + i);
-                e.setBirthday("birthday");
-                e.setMiddleName("middile name");
-                e.setName("name" + i);
-                e.setSurname("surname");
-                e.setCompanyId("0");
-                e.setIsWorking("1");
-                e.setPosition("position");
-                e.setSalary("1000 рублей");
-                e.setStartWorkDate("12-12-2012");
-                
-                dataProvider.saveRecord(e);
-            }
-        } catch (Exception ex){
-            fail(ex.getMessage());
+            DataProviderCsv dp = new DataProviderCsv();
+            dp.getAllUsers().stream()
+                    .forEach(System.out::println);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
         }
     }
     
     @Test
-    @Order(7)
-    public void testSaveRecordsSeparateQual(){
-        System.out.println("test SaveRecordsSeparateQual");
+    void testGetAllResumes(){
         try{
-            DataProviderCsv dataProvider = new DataProviderCsv();
-
-            for(int i = 0; i < 3; i++){
-                SeparateQual sq = new SeparateQual();
-                sq.setCompanyId("0");
-                sq.setDescription("desc");
-                sq.setEmployeeId("0");
-                sq.setQuality("10");
-                dataProvider.saveRecord(sq);
-            }
-        } catch (Exception ex){
-            fail(ex.getMessage());
+            DataProviderCsv dp = new DataProviderCsv();
+            dp.getAllResumes().stream()
+                    .forEach(System.out::println);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
         }
     }
     
-    /**
-     * Test of getRecordByID method, of class DataProviderCsv.
-     */
     @Test
-    @Order(8)
-    public void testGetRecordPerson() {
+    void testgetAllCompanies(){
+        try{
+            DataProviderCsv dp = new DataProviderCsv();
+            dp.getAllCompanies().stream()
+                    .forEach(System.out::println);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testgetAllVacancies(){
+        try{
+            DataProviderCsv dp = new DataProviderCsv();
+            dp.getAllVacancies().stream()
+                    .forEach(System.out::println);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testgetAllEmployees(){
+        try{
+            DataProviderCsv dp = new DataProviderCsv();
+            dp.getAllEmployees().stream()
+                    .forEach(System.out::println);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testgetAllSeparateQuals(){
+        try{
+            DataProviderCsv dp = new DataProviderCsv();
+            dp.getAllSeparateQuals().stream()
+                    .forEach(System.out::println);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testUpdateUser(){
+        try{
+            User user = new User();
+            user.setTypePerson(TypePerson.UserType);
+            user.setId("0");
+            user.setName("MIMIMI");
+            
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.updatePerson(user);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    @Test
+    void testUpdateResume(){
+        try{
+            Resume resume = new Resume();
+            resume.setId("0");
+            resume.setUserId("0");
+            resume.setCity("rostov");
+            resume.setProfession("Director");
+            
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.updateResume(resume);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testUpdateCompany(){
+        try{
+            Company company = new Company();
+            company.setId("0");
+            company.setUserId("0");
+            company.setTitle("IRIIRIRI");
+            
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.updateCompany(company);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testUpdateVacancy(){
+        try{
+            Vacancy vacancy = new Vacancy();
+            vacancy.setId("0");
+            vacancy.setCompanyId("0");
+            vacancy.setTitle("developer");
+            vacancy.setSalary("35000");
+                    
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.updateVacancy(vacancy);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testUpdateSeparateQual(){
+        try{
+            SeparateQual separateQual = new SeparateQual();
+            separateQual.setId("0");
+            separateQual.setCompanyId("0");
+            separateQual.setEmployeeId("0");
+            separateQual.setQuality("-10");
+                    
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.updateSeparateQual(separateQual);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testDeleteUser(){
         try{
             String id = "0";
-            System.out.println("test GetRecordByID Person, id = " + id);
-            
-            IDataProvider dataProvider = new DataProviderCsv();
-            Person p = (Person) dataProvider.getRecordByID(id, Person.class);
-            
-            Assertions.assertEquals(id, p.getId());
-        } catch (Exception ex){
-            fail("Person: " + ex.getMessage());
+                    
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.deletePerson(id, TypePerson.UserType);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
         }
     }
     
     @Test
-    @Order(9)
-    public void testGetRecordUser() {
+    void testDeleteEmployee(){
         try{
             String id = "0";
-            System.out.println("test GetRecordByID User, id = " + id);
-            
-            IDataProvider dataProvider = new DataProviderCsv();
-            User u = (User) dataProvider.getRecordByID(id, User.class);
-            
-            Assertions.assertEquals(id, u.getId());
-        } catch (Exception ex){
-            fail("User: " + ex.getMessage());
+                    
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.deletePerson(id, TypePerson.EmployeeType);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
         }
     }
     
     @Test
-    @Order(10)
-    public void testGetRecordResume() {
+    void testDeleteResume(){
         try{
             String id = "0";
-            System.out.println("test GetRecordByID Resume, id = " + id);
-            
-            IDataProvider dataProvider = new DataProviderCsv();
-            Resume r = (Resume) dataProvider.getRecordByID(id, Resume.class);
-            
-            Assertions.assertEquals(id, r.getId());
-        } catch (Exception ex){
-            fail("Resume: " + ex.getMessage());
+                    
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.deleteResume(id);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
         }
     }
     
     @Test
-    @Order(11)
-    public void testGetRecordCompany() {
+    void testDeleteCompany(){
         try{
             String id = "0";
-            System.out.println("test GetRecordByID Company, id = " + id);
-            
-            IDataProvider dataProvider = new DataProviderCsv();
-            Company c = (Company) dataProvider.getRecordByID(id, Company.class);
-            
-            Assertions.assertEquals(id, c.getId());
-        } catch (Exception ex){
-            fail("Company: " + ex.getMessage());
+                    
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.deleteCompany(id);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
         }
     }
     
     @Test
-    @Order(12)
-    public void testGetRecordVacancy() {
+    void testDeleteVacancy(){
         try{
             String id = "0";
-            System.out.println("test GetRecordByID Vacancy, id = " + id);
-            
-            IDataProvider dataProvider = new DataProviderCsv();
-            Vacancy v = (Vacancy) dataProvider.getRecordByID(id, Vacancy.class);
-            
-            Assertions.assertEquals(id, v.getId());
-        } catch (Exception ex){
-            fail("Vacancy: " + ex.getMessage());
+                    
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.deleteVacancy(id);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
         }
     }
     
     @Test
-    @Order(13)
-    public void testGetRecordEmployee() {
+    void testDeleteSeparateQual(){
         try{
             String id = "0";
-            System.out.println("test GetRecordByID Employee, id = " + id);
-            
-            IDataProvider dataProvider = new DataProviderCsv();
-            Employee emp = (Employee) dataProvider.getRecordByID(id, Employee.class);
-            
-            Assertions.assertEquals(id, emp.getId());
-        } catch (Exception ex){
-            fail("Person: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(14)
-    public void testGetRecordSeparateQual() {
-        try{
-            String id = "0";
-            System.out.println("test GetRecordByID SeparateQual, id = " + id);
-            
-            IDataProvider dataProvider = new DataProviderCsv();
-            SeparateQual sq = (SeparateQual) dataProvider.getRecordByID(id, SeparateQual.class);
-            
-            Assertions.assertEquals(id, sq.getId());
-        } catch (Exception ex){
-            fail("SeparateQual: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(15)
-    public void testGetAllRecordPerson() {
-        System.out.println("test GetAllRecord Person");
-        try{
-            IDataProvider dataProvider = new DataProviderCsv();
-            List<Person> persons = dataProvider.getAllRecord(Person.class);
-            persons.forEach(it -> System.out.println(it));
-        } catch (Exception ex){
-            fail("testGetAllRecordPerson" + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(16)
-    public void testGetAllRecordUser() {
-        System.out.println("test GetAllRecord User");
-        try{
-            IDataProvider dataProvider = new DataProviderCsv();
-            List<User> persons = dataProvider.getAllRecord(User.class);
-            persons.forEach(it -> System.out.println(it));
-        } catch (Exception ex){
-            fail("testGetAllRecordUser: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(17)
-    public void testGetAllRecordResume() {
-        System.out.println("test GetAllRecord Resume");
-        try{
-            IDataProvider dataProvider = new DataProviderCsv();
-            List<Resume> persons = dataProvider.getAllRecord(Resume.class);
-            persons.forEach(it -> System.out.println(it));
-        } catch (Exception ex){
-            fail("testGetAllRecordResume: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(18)
-    public void testGetAllRecordCompany() {
-        System.out.println("test GetAllRecordPerson");
-        try{
-            IDataProvider dataProvider = new DataProviderCsv();
-            List<Company> persons = dataProvider.getAllRecord(Company.class);
-            persons.forEach(it -> System.out.println(it));
-        } catch (Exception ex){
-            fail("testGetAllRecordCompany: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(19)
-    public void testGetAllRecordVacancy() {
-        System.out.println("test GetAllRecordPerson");
-        try{
-            IDataProvider dataProvider = new DataProviderCsv();
-            List<Vacancy> persons = dataProvider.getAllRecord(Vacancy.class);
-            persons.forEach(it -> System.out.println(it));
-        } catch (Exception ex){
-            fail("testGetAllRecordVacancy: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(20)
-    public void testGetAllRecordEmployee() {
-        System.out.println("test GetAllRecordEmployee");
-        try{
-            IDataProvider dataProvider = new DataProviderCsv();
-            List<Employee> persons = dataProvider.getAllRecord(Employee.class);
-            persons.forEach(it -> System.out.println(it));
-        } catch (Exception ex){
-            fail("testGetAllRecordEmployee: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(21)
-    public void testGetAllRecordSeparateQual() {
-        System.out.println("test GetAllRecord SeparateQual");
-        try{
-            IDataProvider dataProvider = new DataProviderCsv();
-            List<SeparateQual> persons = dataProvider.getAllRecord(SeparateQual.class);
-            persons.forEach(it -> System.out.println(it));
-        } catch (Exception ex){
-            fail("testGetAllRecordSeparateQual: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(22)
-    public void testUpdateRecordPerson(){
-        System.out.println("test UpdateRecord Person");
-        try{
-            IDataProvider dataProvider = new DataProviderCsv();
-            Person p = new Person();
-            p.setId("0");
-            p.setName("nameUpdated");
-            p.setSurname("surnameupdate");
-            p.setMiddleName("middleNameupdated");
-            p.setAge("99");
-            p.setBirthday("20-20-2020");
-            dataProvider.updateRecord(p);
-            
+                    
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.deleteSeparateQual(id);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
         } catch(Exception ex){
-            fail("testUpdateRecordPerson: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(23)
-    public void testUpdateRecordUser(){
-        System.out.println("test UpdateRecord User");
-        try{
-            IDataProvider dataProvider = new DataProviderCsv();
-            User u = new User();
-            u.setId("0");
-            u.setName("nameUpdated");
-            u.setSurname("surnameupdate");
-            u.setMiddleName("middleNameupdated");
-            u.setAge("99");
-            u.setBirthday("20-20-2020");
-            u.setPassword("password");
-            u.setPhone("696969");
-            u.setEmail("my.rs@mail.ru");
-            u.setAddress("addressupdate");
-            dataProvider.updateRecord(u);
-            
-        } catch(Exception ex){
-            fail("testUpdateRecordUser: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(24)
-    public void testUpdateRecordResume(){
-        System.out.println("test UpdateRecord Resume");
-        try{
-            IDataProvider dataProvider = new DataProviderCsv();
-            Resume r = new Resume();
-            r.setId("0");
-            r.setUserId("0");
-            r.setProfession("prrr");
-            dataProvider.updateRecord(r);
-            
-        } catch(Exception ex){
-            fail("testUpdateRecordResume: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(25)
-    public void testUpdateRecordCompany(){
-        System.out.println("test UpdateRecord Company");
-        try{
-            IDataProvider dataProvider = new DataProviderCsv();
-            Company c = new Company();
-            c.setId("0");
-            c.setUserId("0");
-            c.setTitle("titleupdated");
-            c.setDescription("descriptionudated");
-            dataProvider.updateRecord(c);
-            
-        } catch(Exception ex){
-            fail("testUpdateRecordCompany: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(26)
-    public void testUpdateRecordVacancy(){
-        System.out.println("test UpdateRecord Vacancy");
-        try{
-            IDataProvider dataProvider = new DataProviderCsv();
-            Vacancy v = new Vacancy();
-            v.setId("0");
-            v.setCompanyId("0");
-            v.setTitle("title");
-            v.setSalary("1001 рублей");
-            dataProvider.updateRecord(v);
-            
-        } catch(Exception ex){
-            fail("testUpdateRecordVacancy: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(27)
-    public void testUpdateRecordEmployee(){
-        System.out.println("test UpdateRecord Employee");
-        try{
-            IDataProvider dataProvider = new DataProviderCsv();
-            Employee emp = new Employee();
-            emp.setId("0");
-            emp.setCompanyId("0");
-            emp.setSalary("1001 рублей");
-            emp.setIsWorking("0");
-            dataProvider.updateRecord(emp);
-            
-        } catch(Exception ex){
-            fail("testUpdateRecordEmployee: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(28)
-    public void testUpdateRecordSeparateQual(){
-        System.out.println("test UpdateRecord SeparateQual");
-        try{
-            IDataProvider dataProvider = new DataProviderCsv();
-            SeparateQual sq = new SeparateQual();
-            sq.setId("0");
-            sq.setCompanyId("0");
-            sq.setEmployeeId("0");
-            sq.setQuality("3");
-            sq.setDescription("very bad");
-            dataProvider.updateRecord(sq);
-            
-        } catch(Exception ex){
-            fail("testUpdateRecordSeparateQual: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(29)
-    public void testDeleteRecordPerson() {
-        try{
-            System.out.println("test DeleteRecord Person");
-            DataProviderCsv dataProvider = new DataProviderCsv();
-            dataProvider.deleteRecordById("1", Person.class);
-            
-        } catch (Exception ex){
-            fail("testDeleteRecordPerson: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(30)
-    public void testDeleteRecordUser() {
-        try{
-            System.out.println("test DeleteRecord User");
-            DataProviderCsv dataProvider = new DataProviderCsv();
-            dataProvider.deleteRecordById("1", User.class);
-            
-        } catch (Exception ex){
-            fail("testDeleteRecordUser: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(31)
-    public void testDeleteRecordResume() {
-        try{
-            System.out.println("test DeleteRecord Resume");
-            DataProviderCsv dataProvider = new DataProviderCsv();
-            dataProvider.deleteRecordById("1", Resume.class);
-            
-        } catch (Exception ex){
-            fail("testDeleteRecordResume: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(32)
-    public void testDeleteRecordCompany() {
-        try{
-            System.out.println("test DeleteRecord Company");
-            DataProviderCsv dataProvider = new DataProviderCsv();
-            dataProvider.deleteRecordById("1", Company.class);
-            
-        } catch (Exception ex){
-            fail("testDeleteRecordCompany: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(33)
-    public void testDeleteRecordVacancy() {
-        try{
-            System.out.println("test DeleteRecord Vacancy");
-            DataProviderCsv dataProvider = new DataProviderCsv();
-            dataProvider.deleteRecordById("1", Vacancy.class);
-            
-        } catch (Exception ex){
-            fail("testDeleteRecordVacancy: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(34)
-    public void testDeleteRecordEmployee() {
-        try{
-            System.out.println("test DeleteRecord Employee");
-            DataProviderCsv dataProvider = new DataProviderCsv();
-            dataProvider.deleteRecordById("1", Employee.class);
-            
-        } catch (Exception ex){
-            fail("testDeleteRecordEmployee: " + ex.getMessage());
-        }
-    }
-    
-    @Test
-    @Order(35)
-    public void testDeleteRecordSeparateQual() {
-        try{
-            System.out.println("test DeleteRecord SeparateQual");
-            DataProviderCsv dataProvider = new DataProviderCsv();
-            dataProvider.deleteRecordById("1", SeparateQual.class);
-            
-        } catch (Exception ex){
-            fail("testDeleteRecordPerson: " + ex.getMessage());
+            System.out.println(ex.getMessage());
         }
     }
 }
