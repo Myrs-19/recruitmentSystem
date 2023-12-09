@@ -2,11 +2,7 @@ package ru.sfedu;
 
 import static ru.sfedu.util.ConfigurationUtilProperties.getConfigurationEntry;
 
-public class Constants {
-    public static final String PREFIX_SETTER_METHOD = "set";
-    public static final String NAME_METHOD_GETTING_ID = "getId";
-    public static final String NAME_METHOD_SETTING_ID = "setId";
-    
+public class Constants {  
     public static final String XML_PATH_FOLDER = "xml/";
     public static final String XML_FILE_TYPE = ".xml";
     

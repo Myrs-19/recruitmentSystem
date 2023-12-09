@@ -8,7 +8,6 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
-import java.io.FileNotFoundException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,10 +20,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.logging.Level;
 
 import ru.sfedu.Constants;
-import ru.sfedu.exception.IncorrectDataStorageException;
 
 import ru.sfedu.model.*;
 import ru.sfedu.model.TypePerson;
@@ -32,7 +29,6 @@ import static ru.sfedu.model.TypePerson.EmployeeType;
 import static ru.sfedu.model.TypePerson.UserType;
 
 import ru.sfedu.util.FileUtil;
-import ru.sfedu.util.BeanUtil;
 import static ru.sfedu.util.ConfigurationUtilProperties.getConfigurationEntry;
 
 public class DataProviderCsv implements IDataProvider{
@@ -639,7 +635,7 @@ public class DataProviderCsv implements IDataProvider{
                     );
             
         } catch (NullPointerException | IOException ex) {
-            log.error("updatePerson [3]: error = {}",  ex.getMessage());
+            log.error("updatePerson [2]: error = {}",  ex.getMessage());
             result.setCode(Constants.CODE_ERROR);
             result.setMessage(ex.getMessage());
         } 
@@ -647,27 +643,202 @@ public class DataProviderCsv implements IDataProvider{
         if(result.getCode() == Constants.CODE_SUCCESS){
             MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, person);
         }
+        else if(result.getCode() == Constants.CODE_ERROR){
+            log.error("updatePerson [3]: error = {}", result.getMessage());
+        }
         return result;
     }
 
     @Override
     public Result updateResume(Resume resume) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        log.debug("updateResume [1]: obj = {}, id = {}", resume, resume.getId());
+        
+        List<Resume> resumes = getAllResumes();
+         
+        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_RESUME);
+        
+        try(FileWriter writer = new FileWriter(pathToCsv, false)){
+            StatefulBeanToCsv<Resume> beanToCsv = new StatefulBeanToCsvBuilder<Resume>(writer)
+                .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
+                .build();
+            
+            resumes.stream()
+                    .forEach((r) -> {
+                        try{
+                            if(r.getId().equals(resume.getId())){
+                                    beanToCsv.write(resume);
+                            }
+                            else{
+                                beanToCsv.write(r);
+                            }
+                        } catch(Exception ex){
+                            result.setCode(Constants.CODE_ERROR);
+                            result.setMessage(ex.getMessage());
+                        }
+                    }
+                    );
+            
+        } catch (NullPointerException | IOException ex) {
+            log.error("updateResume [2]: error = {}",  ex.getMessage());
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        } 
+       
+        if(result.getCode() == Constants.CODE_SUCCESS){
+            MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, resume);
+        }
+        else if(result.getCode() == Constants.CODE_ERROR){
+            log.error("updateResume [3]: error = {}", result.getMessage());
+        }
+        return result;
     }
 
     @Override
     public Result updateCompany(Company company) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        log.debug("updateCompany [1]: obj = {}, id = {}", company, company.getId());
+        
+        List<Company> companies = getAllCompanies();
+         
+        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_COMPANY);
+        
+        try(FileWriter writer = new FileWriter(pathToCsv, false)){
+            StatefulBeanToCsv<Company> beanToCsv = new StatefulBeanToCsvBuilder<Company>(writer)
+                .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
+                .build();
+            
+            companies.stream()
+                    .forEach((c) -> {
+                        try{
+                            if(c.getId().equals(company.getId())){
+                                    beanToCsv.write(company);
+                            }
+                            else{
+                                beanToCsv.write(c);
+                            }
+                        } catch(Exception ex){
+                            result.setCode(Constants.CODE_ERROR);
+                            result.setMessage(ex.getMessage());
+                        }
+                    }
+                    );
+            
+        } catch (NullPointerException | IOException ex) {
+            log.error("updateCompany [2]: error = {}",  ex.getMessage());
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        } 
+       
+        if(result.getCode() == Constants.CODE_SUCCESS){
+            MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, company);
+        }
+        else if(result.getCode() == Constants.CODE_ERROR){
+            log.error("updateCompany [3]: error = {}", result.getMessage());
+        }
+        return result;
     }
 
     @Override
     public Result updateVacancy(Vacancy vacancy) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        log.debug("updateVacancy [1]: obj = {}, id = {}", vacancy, vacancy.getId());
+        
+        List<Vacancy> vacancies = getAllVacancies();
+        
+        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_VACANCY);
+        
+        try(FileWriter writer = new FileWriter(pathToCsv, false)){
+            StatefulBeanToCsv<Vacancy> beanToCsv = new StatefulBeanToCsvBuilder<Vacancy>(writer)
+                .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
+                .build();
+            
+            vacancies.stream()
+                    .forEach((v) -> {
+                        try{
+                            if(v.getId().equals(vacancy.getId())){
+                                    beanToCsv.write(vacancy);
+                            }
+                            else{
+                                beanToCsv.write(v);
+                            }
+                        } catch(Exception ex){
+                            result.setCode(Constants.CODE_ERROR);
+                            result.setMessage(ex.getMessage());
+                        }
+                    }
+                    );
+            
+        } catch (NullPointerException | IOException ex) {
+            log.error("updateVacancy [2]: error = {}",  ex.getMessage());
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        } 
+       
+        if(result.getCode() == Constants.CODE_SUCCESS){
+            MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, vacancy);
+        }
+        else if(result.getCode() == Constants.CODE_ERROR){
+            log.error("updateVacancy [3]: error = {}", result.getMessage());
+        }
+        return result;
     }
 
     @Override
     public Result updateSeparateQual(SeparateQual separateQual) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        log.debug("updateSeparateQual [1]: obj = {}, id = {}", separateQual, separateQual.getId());
+        
+        List<SeparateQual> separateQuals = getAllSeparateQuals();
+        
+        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_SEPARATE_QUAL);
+        
+        try(FileWriter writer = new FileWriter(pathToCsv, false)){
+            StatefulBeanToCsv<SeparateQual> beanToCsv = new StatefulBeanToCsvBuilder<SeparateQual>(writer)
+                .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
+                .build();
+            
+            separateQuals.stream()
+                    .forEach((sp) -> {
+                        try{
+                            if(sp.getId().equals(separateQual.getId())){
+                                    beanToCsv.write(separateQual);
+                            }
+                            else{
+                                beanToCsv.write(sp);
+                            }
+                        } catch(Exception ex){
+                            result.setCode(Constants.CODE_ERROR);
+                            result.setMessage(ex.getMessage());
+                        }
+                    }
+                    );
+            
+        } catch (NullPointerException | IOException ex) {
+            log.error("updateSeparateQual [2]: error = {}",  ex.getMessage());
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        } 
+       
+        if(result.getCode() == Constants.CODE_SUCCESS){
+            MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, separateQual);
+        }
+        else if(result.getCode() == Constants.CODE_ERROR){
+            log.error("updateSeparateQual [3]: error = {}", result.getMessage());
+        }
+        return result;
     }
 
     @Override

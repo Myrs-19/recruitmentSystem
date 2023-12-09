@@ -305,7 +305,7 @@ public class DataProviderCsvTest {
     }
     
     @Test
-    void testUpdateUserPositive(){
+    void testUpdateUser(){
         try{
             User user = new User();
             user.setTypePerson(TypePerson.UserType);
@@ -314,24 +314,74 @@ public class DataProviderCsvTest {
             
             DataProviderCsv dp = new DataProviderCsv();
             Result res = dp.updatePerson(user);
-            assertEquals(200, res.getCode());
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    @Test
+    void testUpdateResume(){
+        try{
+            Resume resume = new Resume();
+            resume.setId("0");
+            resume.setUserId("0");
+            resume.setCity("rostov");
+            resume.setProfession("Director");
+            
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.updateResume(resume);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
         } catch(Exception ex){
             System.out.println(ex.getMessage());
         }
     }
     
-    //никогда не пройдет, потому что не изменит запись, если айди такой не найдется
     @Test
-    void testUpdateUserNegative(){
+    void testUpdateCompany(){
         try{
-            User user = new User();
-            user.setTypePerson(TypePerson.UserType);
-            user.setId("-1");
-            user.setName("Nikolus");
+            Company company = new Company();
+            company.setId("0");
+            company.setUserId("0");
+            company.setTitle("IRIIRIRI");
             
             DataProviderCsv dp = new DataProviderCsv();
-            Result res = dp.updatePerson(user);
-            assertEquals(Constants.CODE_ERROR, res.getCode());
+            Result res = dp.updateCompany(company);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testUpdateVacancy(){
+        try{
+            Vacancy vacancy = new Vacancy();
+            vacancy.setId("0");
+            vacancy.setCompanyId("0");
+            vacancy.setTitle("developer");
+            vacancy.setSalary("35000");
+                    
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.updateVacancy(vacancy);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testUpdateSeparateQual(){
+        try{
+            SeparateQual separateQual = new SeparateQual();
+            separateQual.setId("0");
+            separateQual.setCompanyId("0");
+            separateQual.setEmployeeId("0");
+            separateQual.setQuality("-10");
+                    
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.updateSeparateQual(separateQual);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
         } catch(Exception ex){
             System.out.println(ex.getMessage());
         }
