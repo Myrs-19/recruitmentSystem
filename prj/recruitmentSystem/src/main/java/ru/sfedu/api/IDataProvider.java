@@ -204,9 +204,10 @@ public interface IDataProvider {
      * If a person is not valid returns a Result with a 422 code and a pair that consists of an object and errors.
      *
      * @param id - the id of person .
+     * @param typePerson - the type of person what (User, Employee).
      * @return an object that contains the result of the save.
      **/
-    Result deletePerson(String id);
+    Result deletePerson(String id, TypePerson typePerson);
     
     /**
      * Method for deleting a resume in the system by id.

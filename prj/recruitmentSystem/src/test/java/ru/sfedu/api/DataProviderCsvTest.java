@@ -386,4 +386,82 @@ public class DataProviderCsvTest {
             System.out.println(ex.getMessage());
         }
     }
+    
+    @Test
+    void testDeleteUser(){
+        try{
+            String id = "0";
+                    
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.deletePerson(id, TypePerson.UserType);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testDeleteEmployee(){
+        try{
+            String id = "0";
+                    
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.deletePerson(id, TypePerson.EmployeeType);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testDeleteResume(){
+        try{
+            String id = "0";
+                    
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.deleteResume(id);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testDeleteCompany(){
+        try{
+            String id = "0";
+                    
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.deleteCompany(id);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testDeleteVacancy(){
+        try{
+            String id = "0";
+                    
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.deleteVacancy(id);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    void testDeleteSeparateQual(){
+        try{
+            String id = "0";
+                    
+            DataProviderCsv dp = new DataProviderCsv();
+            Result res = dp.deleteSeparateQual(id);
+            assertEquals(Constants.CODE_SUCCESS, res.getCode());
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
 }

@@ -842,28 +842,236 @@ public class DataProviderCsv implements IDataProvider{
     }
 
     @Override
-    public Result deletePerson(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Result deletePerson(String id, TypePerson typePerson) {
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        
+        log.debug("deletePerson [1]: id = {}", id);
+        
+        Function<TypePerson, List> getPersons = (TypePerson type) -> {
+            return switch (type){
+                case UserType -> getAllUsers();
+                case EmployeeType -> getAllEmployees();
+                default -> null;
+            };
+        };
+        
+        List<Person> persons = getPersons.apply(typePerson);
+         
+        String pathToCsv = getPathPerson(typePerson);
+        
+        try(FileWriter writer = new FileWriter(pathToCsv, false)){
+            StatefulBeanToCsv<Person> beanToCsv = new StatefulBeanToCsvBuilder<Person>(writer)
+                .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
+                .build();
+            
+            persons.stream()
+                    .forEach((p) -> {
+                        try{
+                            if(!p.getId().equals(id)){
+                                    beanToCsv.write(p);
+                            }
+                            else{
+                                MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, p);
+                            }
+                        } catch(Exception ex){
+                            result.setCode(Constants.CODE_ERROR);
+                            result.setMessage(ex.getMessage());
+                        }
+                    }
+                    );
+            
+        } catch (NullPointerException | IOException ex) {
+            log.error("deletePerson [2]: error = {}",  ex.getMessage());
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        } 
+       
+        if(result.getCode() == Constants.CODE_ERROR){
+            log.error("deletePerson [3]: error = {}", result.getMessage());
+        }
+        return result;
     }
 
     @Override
     public Result deleteResume(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        log.debug("deleteResume [1]: id = {}", id);
+        
+        List<Resume> resumes = getAllResumes();
+         
+        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_RESUME);
+        
+        try(FileWriter writer = new FileWriter(pathToCsv, false)){
+            StatefulBeanToCsv<Resume> beanToCsv = new StatefulBeanToCsvBuilder<Resume>(writer)
+                .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
+                .build();
+            
+            resumes.stream()
+                    .forEach((r) -> {
+                        try{
+                            if(!r.getId().equals(id)){
+                                    beanToCsv.write(r);
+                            }
+                            else{
+                                MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, r);
+                            }
+                        } catch(Exception ex){
+                            result.setCode(Constants.CODE_ERROR);
+                            result.setMessage(ex.getMessage());
+                        }
+                    }
+                    );
+            
+        } catch (NullPointerException | IOException ex) {
+            log.error("deleteResume [2]: error = {}",  ex.getMessage());
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        } 
+       
+        if(result.getCode() == Constants.CODE_ERROR){
+            log.error("deleteResume [3]: error = {}", result.getMessage());
+        }
+        return result;
     }
 
     @Override
     public Result deleteCompany(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        log.debug("deleteCompany [1]: id = {}", id);
+        
+        List<Company> companies = getAllCompanies();
+         
+        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_COMPANY);
+        
+        try(FileWriter writer = new FileWriter(pathToCsv, false)){
+            StatefulBeanToCsv<Company> beanToCsv = new StatefulBeanToCsvBuilder<Company>(writer)
+                .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
+                .build();
+            
+            companies.stream()
+                    .forEach((c) -> {
+                        try{
+                            if(!c.getId().equals(id)){
+                                    beanToCsv.write(c);
+                            }
+                            else{
+                                MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, c);
+                            }
+                        } catch(Exception ex){
+                            result.setCode(Constants.CODE_ERROR);
+                            result.setMessage(ex.getMessage());
+                        }
+                    }
+                    );
+            
+        } catch (NullPointerException | IOException ex) {
+            log.error("deleteCompany [2]: error = {}",  ex.getMessage());
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        } 
+       
+        if(result.getCode() == Constants.CODE_ERROR){
+            log.error("deleteCompany [3]: error = {}", result.getMessage());
+        }
+        return result;
     }
 
     @Override
     public Result deleteVacancy(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        log.debug("deleteVacancy [1]: id = {}", id);
+        
+        List<Vacancy> vacancies = getAllVacancies();
+         
+        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_VACANCY);
+        
+        try(FileWriter writer = new FileWriter(pathToCsv, false)){
+            StatefulBeanToCsv<Vacancy> beanToCsv = new StatefulBeanToCsvBuilder<Vacancy>(writer)
+                .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
+                .build();
+            
+            vacancies.stream()
+                    .forEach((v) -> {
+                        try{
+                            if(!v.getId().equals(id)){
+                                    beanToCsv.write(v);
+                            }
+                            else{
+                                MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, v);
+                            }
+                        } catch(Exception ex){
+                            result.setCode(Constants.CODE_ERROR);
+                            result.setMessage(ex.getMessage());
+                        }
+                    }
+                    );
+            
+        } catch (NullPointerException | IOException ex) {
+            log.error("deleteVacancy [2]: error = {}",  ex.getMessage());
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        } 
+       
+        if(result.getCode() == Constants.CODE_ERROR){
+            log.error("deleteVacancy [3]: error = {}", result.getMessage());
+        }
+        return result;
     }
 
     @Override
     public Result deleteSeparateQual(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        log.debug("deleteSeparateQual [1]: id = {}", id);
+        
+        List<SeparateQual> separateQuals = getAllSeparateQuals();
+         
+        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_SEPARATE_QUAL);
+        
+        try(FileWriter writer = new FileWriter(pathToCsv, false)){
+            StatefulBeanToCsv<SeparateQual> beanToCsv = new StatefulBeanToCsvBuilder<SeparateQual>(writer)
+                .withSeparator(Constants.CSV_DEFAULT_SEPARATOR)
+                .build();
+            
+            separateQuals.stream()
+                    .forEach((sp) -> {
+                        try{
+                            if(!sp.getId().equals(id)){
+                                    beanToCsv.write(sp);
+                            }
+                            else{
+                                MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, sp);
+                            }
+                        } catch(Exception ex){
+                            result.setCode(Constants.CODE_ERROR);
+                            result.setMessage(ex.getMessage());
+                        }
+                    }
+                    );
+            
+        } catch (NullPointerException | IOException ex) {
+            log.error("deleteSeparateQual [2]: error = {}",  ex.getMessage());
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        } 
+       
+        if(result.getCode() == Constants.CODE_ERROR){
+            log.error("deleteSeparateQual [3]: error = {}", result.getMessage());
+        }
+        return result;
     }
-    
 }
