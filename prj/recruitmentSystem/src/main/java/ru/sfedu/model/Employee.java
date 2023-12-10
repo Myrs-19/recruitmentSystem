@@ -5,20 +5,32 @@
 package ru.sfedu.model;
 
 import com.opencsv.bean.CsvBindByPosition;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
 
 /**
  *
  * @author mike
  */
+@Root
 public class Employee extends Person {
+    @Element
     @CsvBindByPosition(position = 6)
     String companyId;
+    
+    @Element
     @CsvBindByPosition(position = 7)
     String startWorkDate;
+    
+    @Element
     @CsvBindByPosition(position = 8)
     String salary;
+    
+    @Element
     @CsvBindByPosition(position = 9)
     String position;
+    
+    @Element
     @CsvBindByPosition(position = 10)
     String isWorking;
     
