@@ -37,7 +37,7 @@ public class DataProviderCsvTest {
         person.setPhone("999");
         person.setAddress("zorge");
         
-        DataProviderCsv dp = new DataProviderCsv();
+        IDataProvider dp = new DataProviderCsv();
         dp.savePerson(person);
         
     }

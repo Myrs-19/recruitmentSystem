@@ -18,7 +18,7 @@ public class Person {
     @CsvBindByPosition(position = 2)
     private String surname;
     
-    @Element
+    @Element(required = false)
     @CsvBindByPosition(position = 3)
     private String middleName;
     
@@ -26,7 +26,7 @@ public class Person {
     @CsvBindByPosition(position = 4)
     private String age;
     
-    @Element
+    @Element(required = false)
     @CsvBindByPosition(position = 5)
     private String birthday;
 
@@ -94,9 +94,8 @@ public class Person {
     public String toString(){
         return "Person{" +
                 "id = " + getId() +
-                ", fio = " + getSurname() + " " + getName() + " " + getMiddleName() +
+                ", fi = " + getSurname() + " " + getName() +
                 ", age = " + getAge() +
-                ", birthday = " + getBirthday() +
                 '}';
     }
 }

@@ -81,7 +81,7 @@ public class Employee extends Person {
         return "Employee{" +
                 "id = " + getId() +
                 ", companyId = " + getCompanyId()+
-                ", fio =" + getSurname() + " " + getName() + " " + getMiddleName() +
+                ", fi =" + getSurname() + " " + getName() +
                 ", startWorkDate = " + getStartWorkDate() +
                 ", salary = " + getSalary() +
                 ", position = " + getPosition()+

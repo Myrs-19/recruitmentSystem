@@ -9,7 +9,6 @@ package ru.sfedu.model;
  * @author mike
  */
 public enum TypePerson {
-    PersonType,
     UserType,
     EmployeeType
 }

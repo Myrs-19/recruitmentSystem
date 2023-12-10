@@ -47,7 +47,7 @@ public class DataProviderCsv implements IDataProvider{
     private String getId(String pathToCsv){
         log.debug("getId [1]: gettind id, pathToCsv = {}", pathToCsv);
         
-        final String[] idWrapper = {Constants.CSV_FIRST_ID};
+        final String[] idWrapper = {Constants.FIRST_ID};
         String id = idWrapper[0];
         
         try(FileReader fileReader = new FileReader(pathToCsv)){
@@ -56,13 +56,13 @@ public class DataProviderCsv implements IDataProvider{
             csvReader.readAll().stream()
                     .forEach(
                     (it) -> {
-                        if(Integer.parseInt(it[0]) >= Integer.parseInt(idWrapper[0])){
-                            idWrapper[0] = it[0];
+                        if(Integer.parseInt(it[0]) > Integer.parseInt(idWrapper[0])){
+                            idWrapper[0] = String.valueOf(Integer.parseInt(it[0])+1);
                         }
                     }
                     );
             
-            id = String.valueOf(Integer.parseInt(idWrapper[0])+1);
+            id = idWrapper[0];
             
             log.debug("getId [2]: gettind has been successful");
             return id;
