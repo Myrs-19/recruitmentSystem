@@ -30,6 +30,7 @@ import static ru.sfedu.model.TypePerson.UserType;
 
 import ru.sfedu.util.FileUtil;
 import static ru.sfedu.util.ConfigurationUtilProperties.getConfigurationEntry;
+import ru.sfedu.util.TableName;
 
 public class DataProviderCsv implements IDataProvider{
     private static final Logger log = LogManager.getLogger(DataProviderCsv.class.getName());
@@ -47,7 +48,7 @@ public class DataProviderCsv implements IDataProvider{
     private String getId(String pathToCsv){
         log.debug("getId [1]: gettind id, pathToCsv = {}", pathToCsv);
         
-        final String[] idWrapper = {Constants.CSV_FIRST_ID};
+        final String[] idWrapper = {Constants.FIRST_ID};
         String id = idWrapper[0];
         
         try(FileReader fileReader = new FileReader(pathToCsv)){
@@ -56,13 +57,13 @@ public class DataProviderCsv implements IDataProvider{
             csvReader.readAll().stream()
                     .forEach(
                     (it) -> {
-                        if(Integer.parseInt(it[0]) >= Integer.parseInt(idWrapper[0])){
-                            idWrapper[0] = it[0];
+                        if(Integer.parseInt(it[0]) > Integer.parseInt(idWrapper[0])){
+                            idWrapper[0] = String.valueOf(Integer.parseInt(it[0])+1);
                         }
                     }
                     );
             
-            id = String.valueOf(Integer.parseInt(idWrapper[0])+1);
+            id = idWrapper[0];
             
             log.debug("getId [2]: gettind has been successful");
             return id;
@@ -78,15 +79,8 @@ public class DataProviderCsv implements IDataProvider{
     }
 
     private String getPathPerson(TypePerson type){
-        Function<TypePerson, String> func = (TypePerson t) -> {
-            return switch (t) {
-                case UserType -> Constants.CSV_TITLE_TABLE_USER;
-                case EmployeeType -> Constants.CSV_TITLE_TABLE_EMPLOYEE;
-                default -> null;
-            };
-        };
         
-        String tableName = func.apply(type);
+        String tableName = TableName.getTableNamePerson(type);
         String pathToCsv = getPath(tableName);
         
         return pathToCsv;
@@ -127,7 +121,7 @@ public class DataProviderCsv implements IDataProvider{
     public Result saveResume(Resume resume) {
         Result result = new Result();
         
-        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_RESUME);
+        String pathToCsv = getPath(Constants.TITLE_TABLE_RESUME);
         
         log.debug("saveResume [1]: obj = {}", resume);
         
@@ -157,7 +151,7 @@ public class DataProviderCsv implements IDataProvider{
     public Result saveCompany(Company company) {
         Result result = new Result();
         
-        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_COMPANY);
+        String pathToCsv = getPath(Constants.TITLE_TABLE_COMPANY);
         
         log.debug("saveCompany [1]: obj = {}", company);
         
@@ -187,7 +181,7 @@ public class DataProviderCsv implements IDataProvider{
     public Result saveVacancy(Vacancy vacancy) {
         Result result = new Result();
         
-        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_VACANCY);
+        String pathToCsv = getPath(Constants.TITLE_TABLE_VACANCY);
         
         log.debug("saveVacancy [1]: obj = {}", vacancy);
         
@@ -217,7 +211,7 @@ public class DataProviderCsv implements IDataProvider{
     public Result saveSeparateQual(SeparateQual separateQual) {
         Result result = new Result();
         
-        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_SEPARATE_QUAL);
+        String pathToCsv = getPath(Constants.TITLE_TABLE_SEPARATE_QUAL);
         
         log.debug("saveSeparateQual [1]: obj = {}", separateQual);
         
@@ -247,7 +241,7 @@ public class DataProviderCsv implements IDataProvider{
     public User getUser(String id) {
         log.debug("getUser [1]: id = {}", id);
        
-        try(FileReader fileReader = new FileReader(getPath(Constants.CSV_TITLE_TABLE_USER))){
+        try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_USER))){
             CSVReader csvReader = new CSVReader(fileReader);
            
             ColumnPositionMappingStrategy<User> beanStrategy = new ColumnPositionMappingStrategy<User>();
@@ -279,7 +273,7 @@ public class DataProviderCsv implements IDataProvider{
     public Resume getResume(String id) {
         log.debug("getResume [1]: id = {}", id);
        
-        try(FileReader fileReader = new FileReader(getPath(Constants.CSV_TITLE_TABLE_RESUME))){
+        try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_RESUME))){
             CSVReader csvReader = new CSVReader(fileReader);
            
             ColumnPositionMappingStrategy<Resume> beanStrategy = new ColumnPositionMappingStrategy<Resume>();
@@ -311,7 +305,7 @@ public class DataProviderCsv implements IDataProvider{
     public Company getCompany(String id) {
         log.debug("getCompany [1]: id = {}", id);
        
-        try(FileReader fileReader = new FileReader(getPath(Constants.CSV_TITLE_TABLE_COMPANY))){
+        try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_COMPANY))){
             CSVReader csvReader = new CSVReader(fileReader);
            
             ColumnPositionMappingStrategy<Company> beanStrategy = new ColumnPositionMappingStrategy<Company>();
@@ -343,7 +337,7 @@ public class DataProviderCsv implements IDataProvider{
     public Vacancy getVacancy(String id) {
         log.debug("getVacancy [1]: id = {}", id);
        
-        try(FileReader fileReader = new FileReader(getPath(Constants.CSV_TITLE_TABLE_VACANCY))){
+        try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_VACANCY))){
             CSVReader csvReader = new CSVReader(fileReader);
            
             ColumnPositionMappingStrategy<Vacancy> beanStrategy = new ColumnPositionMappingStrategy<Vacancy>();
@@ -375,7 +369,7 @@ public class DataProviderCsv implements IDataProvider{
     public Employee getEmployee(String id) {
         log.debug("getEmployee [1]: id = {}", id);
        
-        try(FileReader fileReader = new FileReader(getPath(Constants.CSV_TITLE_TABLE_EMPLOYEE))){
+        try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_EMPLOYEE))){
             CSVReader csvReader = new CSVReader(fileReader);
            
             ColumnPositionMappingStrategy<Employee> beanStrategy = new ColumnPositionMappingStrategy<Employee>();
@@ -407,7 +401,7 @@ public class DataProviderCsv implements IDataProvider{
     public SeparateQual getSeparateQual(String id) {
         log.debug("getSeparateQual [1]: id = {}", id);
        
-        try(FileReader fileReader = new FileReader(getPath(Constants.CSV_TITLE_TABLE_SEPARATE_QUAL))){
+        try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_SEPARATE_QUAL))){
             CSVReader csvReader = new CSVReader(fileReader);
            
             ColumnPositionMappingStrategy<SeparateQual> beanStrategy = new ColumnPositionMappingStrategy<SeparateQual>();
@@ -437,7 +431,7 @@ public class DataProviderCsv implements IDataProvider{
 
     @Override
     public List<User> getAllUsers() {
-        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_USER);
+        String pathToCsv = getPath(Constants.TITLE_TABLE_USER);
         log.debug("getAllUsers [1]: getting all record from = {}", pathToCsv);
         
         try(FileReader fileReader = new FileReader(pathToCsv)){
@@ -463,7 +457,7 @@ public class DataProviderCsv implements IDataProvider{
 
     @Override
     public List<Resume> getAllResumes() {
-        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_RESUME);
+        String pathToCsv = getPath(Constants.TITLE_TABLE_RESUME);
         log.debug("getAllResumes [1]: getting all record from = {}", pathToCsv);
         
         try(FileReader fileReader = new FileReader(pathToCsv)){
@@ -489,7 +483,7 @@ public class DataProviderCsv implements IDataProvider{
 
     @Override
     public List<Company> getAllCompanies() {
-        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_COMPANY);
+        String pathToCsv = getPath(Constants.TITLE_TABLE_COMPANY);
         log.debug("getAllCompanies [1]: getting all record from = {}", pathToCsv);
         
         try(FileReader fileReader = new FileReader(pathToCsv)){
@@ -515,7 +509,7 @@ public class DataProviderCsv implements IDataProvider{
 
     @Override
     public List<Vacancy> getAllVacancies() {
-        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_VACANCY);
+        String pathToCsv = getPath(Constants.TITLE_TABLE_VACANCY);
         log.debug("getAllVacancies [1]: getting all record from = {}", pathToCsv);
         
         try(FileReader fileReader = new FileReader(pathToCsv)){
@@ -541,7 +535,7 @@ public class DataProviderCsv implements IDataProvider{
 
     @Override
     public List<Employee> getAllEmployees() {
-        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_EMPLOYEE);
+        String pathToCsv = getPath(Constants.TITLE_TABLE_EMPLOYEE);
         log.debug("getAllEmployees [1]: getting all record from = {}", pathToCsv);
         
         try(FileReader fileReader = new FileReader(pathToCsv)){
@@ -567,7 +561,7 @@ public class DataProviderCsv implements IDataProvider{
 
     @Override
     public List<SeparateQual> getAllSeparateQuals() {
-        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_SEPARATE_QUAL);
+        String pathToCsv = getPath(Constants.TITLE_TABLE_SEPARATE_QUAL);
         log.debug("getAllSeparateQuals [1]: getting all record from = {}", pathToCsv);
         
         try(FileReader fileReader = new FileReader(pathToCsv)){
@@ -659,7 +653,7 @@ public class DataProviderCsv implements IDataProvider{
         
         List<Resume> resumes = getAllResumes();
          
-        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_RESUME);
+        String pathToCsv = getPath(Constants.TITLE_TABLE_RESUME);
         
         try(FileWriter writer = new FileWriter(pathToCsv, false)){
             StatefulBeanToCsv<Resume> beanToCsv = new StatefulBeanToCsvBuilder<Resume>(writer)
@@ -707,7 +701,7 @@ public class DataProviderCsv implements IDataProvider{
         
         List<Company> companies = getAllCompanies();
          
-        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_COMPANY);
+        String pathToCsv = getPath(Constants.TITLE_TABLE_COMPANY);
         
         try(FileWriter writer = new FileWriter(pathToCsv, false)){
             StatefulBeanToCsv<Company> beanToCsv = new StatefulBeanToCsvBuilder<Company>(writer)
@@ -755,7 +749,7 @@ public class DataProviderCsv implements IDataProvider{
         
         List<Vacancy> vacancies = getAllVacancies();
         
-        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_VACANCY);
+        String pathToCsv = getPath(Constants.TITLE_TABLE_VACANCY);
         
         try(FileWriter writer = new FileWriter(pathToCsv, false)){
             StatefulBeanToCsv<Vacancy> beanToCsv = new StatefulBeanToCsvBuilder<Vacancy>(writer)
@@ -803,7 +797,7 @@ public class DataProviderCsv implements IDataProvider{
         
         List<SeparateQual> separateQuals = getAllSeparateQuals();
         
-        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_SEPARATE_QUAL);
+        String pathToCsv = getPath(Constants.TITLE_TABLE_SEPARATE_QUAL);
         
         try(FileWriter writer = new FileWriter(pathToCsv, false)){
             StatefulBeanToCsv<SeparateQual> beanToCsv = new StatefulBeanToCsvBuilder<SeparateQual>(writer)
@@ -905,7 +899,7 @@ public class DataProviderCsv implements IDataProvider{
         
         List<Resume> resumes = getAllResumes();
          
-        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_RESUME);
+        String pathToCsv = getPath(Constants.TITLE_TABLE_RESUME);
         
         try(FileWriter writer = new FileWriter(pathToCsv, false)){
             StatefulBeanToCsv<Resume> beanToCsv = new StatefulBeanToCsvBuilder<Resume>(writer)
@@ -950,7 +944,7 @@ public class DataProviderCsv implements IDataProvider{
         
         List<Company> companies = getAllCompanies();
          
-        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_COMPANY);
+        String pathToCsv = getPath(Constants.TITLE_TABLE_COMPANY);
         
         try(FileWriter writer = new FileWriter(pathToCsv, false)){
             StatefulBeanToCsv<Company> beanToCsv = new StatefulBeanToCsvBuilder<Company>(writer)
@@ -995,7 +989,7 @@ public class DataProviderCsv implements IDataProvider{
         
         List<Vacancy> vacancies = getAllVacancies();
          
-        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_VACANCY);
+        String pathToCsv = getPath(Constants.TITLE_TABLE_VACANCY);
         
         try(FileWriter writer = new FileWriter(pathToCsv, false)){
             StatefulBeanToCsv<Vacancy> beanToCsv = new StatefulBeanToCsvBuilder<Vacancy>(writer)
@@ -1040,7 +1034,7 @@ public class DataProviderCsv implements IDataProvider{
         
         List<SeparateQual> separateQuals = getAllSeparateQuals();
          
-        String pathToCsv = getPath(Constants.CSV_TITLE_TABLE_SEPARATE_QUAL);
+        String pathToCsv = getPath(Constants.TITLE_TABLE_SEPARATE_QUAL);
         
         try(FileWriter writer = new FileWriter(pathToCsv, false)){
             StatefulBeanToCsv<SeparateQual> beanToCsv = new StatefulBeanToCsvBuilder<SeparateQual>(writer)

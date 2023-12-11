@@ -5,30 +5,53 @@
 package ru.sfedu.model;
 
 import com.opencsv.bean.CsvBindByPosition;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
 
 /**
  *
  * @author mike
  */
+@Root
 public class Resume {
+    @Element
     @CsvBindByPosition(position = 0)
     String id;
+    
+    @Element
     @CsvBindByPosition(position = 1)
     String userId;
+    
+    @Element
     @CsvBindByPosition(position = 2)
     String profession;
+    
+    @Element
     @CsvBindByPosition(position = 3)
     String city;
+    
+    
+    @Element(required = false)
     @CsvBindByPosition(position = 4)
     String skills;
+    
+    @Element(required = false)
     @CsvBindByPosition(position = 5)
     String education;
+    
+    @Element(required = false)
     @CsvBindByPosition(position = 6)
     String experience;
+    
+    @Element(required = false)
     @CsvBindByPosition(position = 8)
     String sex;
+    
+    @Element(required = false)
     @CsvBindByPosition(position = 10)
     String workPermit;
+    
+    @Element(required = false)
     @CsvBindByPosition(position = 11)
     String citizenship;
     

@@ -1,18 +1,32 @@
 package ru.sfedu.model;
 
 import com.opencsv.bean.CsvBindByPosition;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
 
+@Root
 public class Person {
+    @Element
     @CsvBindByPosition(position = 0)
     private String id;
+    
+    @Element
     @CsvBindByPosition(position = 1)
     private String name;
+    
+    @Element
     @CsvBindByPosition(position = 2)
     private String surname;
+    
+    @Element(required = false)
     @CsvBindByPosition(position = 3)
     private String middleName;
+    
+    @Element
     @CsvBindByPosition(position = 4)
     private String age;
+    
+    @Element(required = false)
     @CsvBindByPosition(position = 5)
     private String birthday;
 
@@ -80,9 +94,8 @@ public class Person {
     public String toString(){
         return "Person{" +
                 "id = " + getId() +
-                ", fio = " + getSurname() + " " + getName() + " " + getMiddleName() +
+                ", fi = " + getSurname() + " " + getName() +
                 ", age = " + getAge() +
-                ", birthday = " + getBirthday() +
                 '}';
     }
 }

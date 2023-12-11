@@ -25,5 +25,15 @@ public class FileUtil {
             log.debug("createFolderIfNotExists [2]: Folder {} is exists", file.getAbsolutePath());
         }
     }
+    
+    public static void createFileIfNotExists(String filePath) throws IOException {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            file.createNewFile();
+            log.debug("createFileIfNotExists [1]: New file {}, is created: {}", filePath);
+        } else {
+            log.debug("createFileIfNotExists [2]: File {} is exists", filePath);
+        }
+    }
 
 }
