@@ -18,15 +18,15 @@ public class Vacancy {
     @CsvBindByPosition(position = 2)
     String title;
     
-    @Element
+    @Element(required = false)
     @CsvBindByPosition(position = 3)
     String specialization;
     
-    @Element
+    @Element(required = false)
     @CsvBindByPosition(position = 4)
     String online;
     
-    @Element
+    @Element(required = false)
     @CsvBindByPosition(position = 5)
     String skills;
     
@@ -34,15 +34,15 @@ public class Vacancy {
     @CsvBindByPosition(position = 6)
     String salary;
     
-    @Element
+    @Element(required = false)
     @CsvBindByPosition(position = 7)
     String city;
     
-    @Element
+    @Element(required = false)
     @CsvBindByPosition(position = 8)
     String address;
     
-    @Element
+    @Element(required = false)
     @CsvBindByPosition(position = 9)
     String experience;
     

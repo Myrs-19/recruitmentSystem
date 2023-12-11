@@ -22,7 +22,7 @@ public class SeparateQual {
     @CsvBindByPosition(position = 3)
     String quality;
     
-    @Element
+    @Element(required = false)
     @CsvBindByPosition(position = 4)
     String description;
 

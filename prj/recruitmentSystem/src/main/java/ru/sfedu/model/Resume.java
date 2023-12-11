@@ -30,27 +30,28 @@ public class Resume {
     @CsvBindByPosition(position = 3)
     String city;
     
-    @Element
+    
+    @Element(required = false)
     @CsvBindByPosition(position = 4)
     String skills;
     
-    @Element
+    @Element(required = false)
     @CsvBindByPosition(position = 5)
     String education;
     
-    @Element
+    @Element(required = false)
     @CsvBindByPosition(position = 6)
     String experience;
     
-    @Element
+    @Element(required = false)
     @CsvBindByPosition(position = 8)
     String sex;
     
-    @Element
+    @Element(required = false)
     @CsvBindByPosition(position = 10)
     String workPermit;
     
-    @Element
+    @Element(required = false)
     @CsvBindByPosition(position = 11)
     String citizenship;
     

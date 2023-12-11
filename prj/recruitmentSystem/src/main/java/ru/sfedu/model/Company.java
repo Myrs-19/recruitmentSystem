@@ -22,7 +22,7 @@ public class Company {
     @CsvBindByPosition(position = 2)
     String title;
     
-    @Element
+    @Element(required = false)
     @CsvBindByPosition(position = 3)
     String description;
     

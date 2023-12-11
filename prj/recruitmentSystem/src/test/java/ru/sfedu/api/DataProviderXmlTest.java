@@ -57,6 +57,7 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testSaveUser() {
+        System.out.println("test saveUser xml");
         User user = new User();
         
         user.setTypePerson(TypePerson.UserType);
@@ -74,23 +75,50 @@ public class DataProviderXmlTest {
         
         IDataProvider dp = new DataProviderXml();
         result = dp.savePerson(user);
-        assertEquals(Constants.CODE_SUCCESS, result.getCode());
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+    }
+    
+    @Test
+    public void testSaveEmployee() {
+        System.out.println("test saveEmployee xml");
+        Employee employee = new Employee();
         
-}
+        employee.setTypePerson(TypePerson.EmployeeType);
+        
+        employee.setName("plplpl");
+        employee.setSurname("selsel");
+        employee.setAge("20");
+        
+        employee.setCompanyId("0");
+        employee.setStartWorkDate("12-06-2003");
+        employee.setSalary("99");
+        employee.setIsWorking("0");
+        employee.setPosition("middle");
+        
+        Result result = new Result();
+        
+        IDataProvider dp = new DataProviderXml();
+        result = dp.savePerson(employee);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+    }
 
     /**
      * Test of saveResume method, of class DataProviderXml.
      */
     @Test
     public void testSaveResume() {
-        System.out.println("saveResume");
-        Resume resume = null;
-        DataProviderXml instance = new DataProviderXml();
-        Result expResult = null;
-        Result result = instance.saveResume(resume);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test saveResume xml");
+        Resume resume = new Resume();
+        
+        resume.setUserId("0");
+        resume.setCity("rostov");
+        resume.setProfession("developer");
+        
+        Result result = new Result();
+        
+        IDataProvider dp = new DataProviderXml();
+        result = dp.saveResume(resume);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
     }
 
     /**
@@ -98,14 +126,17 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testSaveCompany() {
-        System.out.println("saveCompany");
-        Company company = null;
-        DataProviderXml instance = new DataProviderXml();
-        Result expResult = null;
-        Result result = instance.saveCompany(company);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test saveCompany xml");
+        Company company = new Company();
+        
+        company.setUserId("0");
+        company.setTitle("arenadata");
+        
+        Result result = new Result();
+        
+        IDataProvider dp = new DataProviderXml();
+        result = dp.saveCompany(company);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
     }
 
     /**
@@ -113,14 +144,18 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testSaveVacancy() {
-        System.out.println("saveVacancy");
-        Vacancy vacancy = null;
-        DataProviderXml instance = new DataProviderXml();
-        Result expResult = null;
-        Result result = instance.saveVacancy(vacancy);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test SaveVacancy xml");
+        Vacancy vacancy = new Vacancy();
+        
+        vacancy.setCompanyId("0");
+        vacancy.setTitle("java");
+        vacancy.setSalary("8797");
+        
+        Result result = new Result();
+        
+        IDataProvider dp = new DataProviderXml();
+        result = dp.saveVacancy(vacancy);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
     }
 
     /**
@@ -128,14 +163,18 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testSaveSeparateQual() {
-        System.out.println("saveSeparateQual");
-        SeparateQual separateQual = null;
-        DataProviderXml instance = new DataProviderXml();
-        Result expResult = null;
-        Result result = instance.saveSeparateQual(separateQual);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test SaveSeparateQual xml");
+        SeparateQual separateQual = new SeparateQual();
+        
+        separateQual.setCompanyId("0");
+        separateQual.setEmployeeId("0");
+        separateQual.setQuality("7");
+        
+        Result result = new Result();
+        
+        IDataProvider dp = new DataProviderXml();
+        result = dp.saveSeparateQual(separateQual);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
     }
 
     /**
@@ -143,14 +182,15 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testGetUser() {
-        System.out.println("getUser");
-        String id = "";
-        DataProviderXml instance = new DataProviderXml();
-        User expResult = null;
-        User result = instance.getUser(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test GetUser xml");
+        String id = "0";
+        IDataProvider dp = new DataProviderXml();
+        try{
+            User user = dp.getUser(id);
+            System.out.println(user);
+        } catch(Exception ex){
+            System.out.println("Пользователя с таким id еще нет, id = " + id);
+        }
     }
 
     /**
@@ -158,14 +198,15 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testGetResume() {
-        System.out.println("getResume");
-        String id = "";
-        DataProviderXml instance = new DataProviderXml();
-        Resume expResult = null;
-        Resume result = instance.getResume(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test GetResume xml");
+        String id = "-1";
+        IDataProvider dp = new DataProviderXml();
+        try{
+            Resume resume = dp.getResume(id);
+            System.out.println(resume);
+        } catch(Exception ex){
+            System.out.println("резюме с таким id еще нет, id = " + id);
+        }
     }
 
     /**
@@ -173,14 +214,15 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testGetCompany() {
-        System.out.println("getCompany");
-        String id = "";
-        DataProviderXml instance = new DataProviderXml();
-        Company expResult = null;
-        Company result = instance.getCompany(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test GetCompany xml");
+        String id = "0";
+        IDataProvider dp = new DataProviderXml();
+        try{
+            Company company = dp.getCompany(id);
+            System.out.println(company);
+        } catch(Exception ex){
+            System.out.println("компании с таким id еще нет, id = " + id);
+        }
     }
 
     /**
@@ -188,14 +230,15 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testGetVacancy() {
-        System.out.println("getVacancy");
-        String id = "";
-        DataProviderXml instance = new DataProviderXml();
-        Vacancy expResult = null;
-        Vacancy result = instance.getVacancy(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test GetVacancy xml");
+        String id = "0";
+        IDataProvider dp = new DataProviderXml();
+        try{
+            Vacancy vacancy = dp.getVacancy(id);
+            System.out.println(vacancy);
+        } catch(Exception ex){
+            System.out.println("вакансии с таким id еще нет, id = " + id);
+        }
     }
 
     /**
@@ -203,14 +246,15 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testGetEmployee() {
-        System.out.println("getEmployee");
-        String id = "";
-        DataProviderXml instance = new DataProviderXml();
-        Employee expResult = null;
-        Employee result = instance.getEmployee(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test GetEmployee xml");
+        String id = "0";
+        IDataProvider dp = new DataProviderXml();
+        try{
+            Employee employee = dp.getEmployee(id);
+            System.out.println(employee);
+        } catch(Exception ex){
+            System.out.println("работника с таким id еще нет, id = " + id);
+        }
     }
 
     /**
@@ -218,14 +262,15 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testGetSeparateQual() {
-        System.out.println("getSeparateQual");
-        String id = "";
-        DataProviderXml instance = new DataProviderXml();
-        SeparateQual expResult = null;
-        SeparateQual result = instance.getSeparateQual(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test GetSeparateQual xml");
+        String id = "0";
+        IDataProvider dp = new DataProviderXml();
+        try{
+            SeparateQual separateQual = dp.getSeparateQual(id);
+            System.out.println(separateQual);
+        } catch(Exception ex){
+            System.out.println("оценки с таким id еще нет, id = " + id);
+        }
     }
 
     /**
@@ -233,13 +278,14 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testGetAllUsers() {
-        System.out.println("getAllUsers");
-        DataProviderXml instance = new DataProviderXml();
-        List<User> expResult = null;
-        List<User> result = instance.getAllUsers();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test GetAllUsers xml");
+        IDataProvider dp = new DataProviderXml();
+        try{
+            dp.getAllUsers().stream()
+                    .forEach(System.out::println);
+        } catch(Exception ex){
+            System.out.println("ни один пользователь не был добавлен");
+        }
     }
 
     /**
@@ -247,13 +293,14 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testGetAllResumes() {
-        System.out.println("getAllResumes");
-        DataProviderXml instance = new DataProviderXml();
-        List<Resume> expResult = null;
-        List<Resume> result = instance.getAllResumes();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test GetAllResumes xml");
+        IDataProvider dp = new DataProviderXml();
+        try{
+            dp.getAllResumes().stream()
+                    .forEach(System.out::println);
+        } catch(Exception ex){
+            System.out.println("ни одно резюме не было добавлено");
+        }
     }
 
     /**
@@ -261,13 +308,14 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testGetAllCompanies() {
-        System.out.println("getAllCompanies");
-        DataProviderXml instance = new DataProviderXml();
-        List<Company> expResult = null;
-        List<Company> result = instance.getAllCompanies();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test GetAllCompanies xml");
+        IDataProvider dp = new DataProviderXml();
+        try{
+            dp.getAllCompanies().stream()
+                    .forEach(System.out::println);
+        } catch(Exception ex){
+            System.out.println("ни одна компания не была добавлена");
+        }
     }
 
     /**
@@ -275,13 +323,14 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testGetAllVacancies() {
-        System.out.println("getAllVacancies");
-        DataProviderXml instance = new DataProviderXml();
-        List<Vacancy> expResult = null;
-        List<Vacancy> result = instance.getAllVacancies();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test GetAllVacancies xml");
+        IDataProvider dp = new DataProviderXml();
+        try{
+            dp.getAllVacancies().stream()
+                    .forEach(System.out::println);
+        } catch(Exception ex){
+            System.out.println("ни одна вакансия не была добавлена");
+        }
     }
 
     /**
@@ -289,13 +338,14 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testGetAllEmployees() {
-        System.out.println("getAllEmployees");
-        DataProviderXml instance = new DataProviderXml();
-        List<Employee> expResult = null;
-        List<Employee> result = instance.getAllEmployees();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test GetAllEmployees xml");
+        IDataProvider dp = new DataProviderXml();
+        try{
+            dp.getAllEmployees().stream()
+                    .forEach(System.out::println);
+        } catch(Exception ex){
+            System.out.println("ни один работник не был добавлен");
+        }
     }
 
     /**
@@ -303,13 +353,14 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testGetAllSeparateQuals() {
-        System.out.println("getAllSeparateQuals");
-        DataProviderXml instance = new DataProviderXml();
-        List<SeparateQual> expResult = null;
-        List<SeparateQual> result = instance.getAllSeparateQuals();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test GetAllSeparateQuals xml");
+        IDataProvider dp = new DataProviderXml();
+        try{
+            dp.getAllSeparateQuals().stream()
+                    .forEach(System.out::println);
+        } catch(Exception ex){
+            System.out.println("ни одна оценка не была добавлена");
+        }
     }
 
     /**
