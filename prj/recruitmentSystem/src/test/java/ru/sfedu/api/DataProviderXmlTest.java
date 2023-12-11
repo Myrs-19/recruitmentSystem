@@ -499,31 +499,32 @@ public class DataProviderXmlTest {
      * Test of deletePerson method, of class DataProviderXml.
      */
     @Test
-    public void testDeletePerson() {
-        System.out.println("deletePerson");
-        String id = "";
-        TypePerson typePerson = null;
-        DataProviderXml instance = new DataProviderXml();
-        Result expResult = null;
-        Result result = instance.deletePerson(id, typePerson);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testDeleteUser() {
+        System.out.println("test DeleteUser xml");
+        String id = "-1";
+        IDataProvider dp = new DataProviderXml();
+        Result result = dp.deletePerson(id, TypePerson.UserType);
+        System.out.println(result);
     }
 
+    @Test
+    public void testDeleteEmployee() {
+        System.out.println("test DeleteEmployee xml");
+        String id = "0";
+        IDataProvider dp = new DataProviderXml();
+        Result result = dp.deletePerson(id, TypePerson.EmployeeType);
+        System.out.println(result);
+    }
     /**
      * Test of deleteResume method, of class DataProviderXml.
      */
     @Test
     public void testDeleteResume() {
-        System.out.println("deleteResume");
-        String id = "";
-        DataProviderXml instance = new DataProviderXml();
-        Result expResult = null;
-        Result result = instance.deleteResume(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test DeleteResume xml");
+        String id = "0";
+        IDataProvider dp = new DataProviderXml();
+        Result result = dp.deleteResume(id);
+        System.out.println(result);
     }
 
     /**
@@ -531,14 +532,11 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testDeleteCompany() {
-        System.out.println("deleteCompany");
-        String id = "";
-        DataProviderXml instance = new DataProviderXml();
-        Result expResult = null;
-        Result result = instance.deleteCompany(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test DeleteCompany xml");
+        String id = "0";
+        IDataProvider dp = new DataProviderXml();
+        Result result = dp.deleteCompany(id);
+        System.out.println(result);
     }
 
     /**
@@ -546,14 +544,11 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testDeleteVacancy() {
-        System.out.println("deleteVacancy");
-        String id = "";
-        DataProviderXml instance = new DataProviderXml();
-        Result expResult = null;
-        Result result = instance.deleteVacancy(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test DeleteVacancy xml");
+        String id = "0";
+        IDataProvider dp = new DataProviderXml();
+        Result result = dp.deleteVacancy(id);
+        System.out.println(result);
     }
 
     /**
@@ -561,14 +556,11 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testDeleteSeparateQual() {
-        System.out.println("deleteSeparateQual");
-        String id = "";
-        DataProviderXml instance = new DataProviderXml();
-        Result expResult = null;
-        Result result = instance.deleteSeparateQual(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test DeleteSeparateQual xml");
+        String id = "0";
+        IDataProvider dp = new DataProviderXml();
+        Result result = dp.deleteSeparateQual(id);
+        System.out.println(result);
     }
     
 }

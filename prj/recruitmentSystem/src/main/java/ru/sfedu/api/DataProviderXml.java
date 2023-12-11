@@ -661,27 +661,172 @@ public class DataProviderXml implements IDataProvider{
 
     @Override
     public Result deletePerson(String id, TypePerson typePerson) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("deletePerson [1]: deleting person, typePerson = {}, id = {}", typePerson, id);
+        
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        String tableName = TableName.getTableNamePerson(typePerson);
+        
+        try{
+            XmlWrapper<Person> wrap = DataProviderXml.<Person>getWrap(tableName);
+            
+            List<Person> list = wrap.getList().stream()
+                    .filter((p) -> !p.getId().equals(id))
+                    .toList();
+            boolean flag = wrap.getList().size() != list.size();
+            wrap.setList(list);
+            
+            saveWrap(tableName, wrap);
+            if(flag){
+                Person person = new Person();
+                person.setId(id);
+                MongoProvider.save(CommandType.DELETED, RepositoryType.XML, person);
+            }
+        } catch(Exception ex){
+            log.error("deletePerson [2]: error = File does not exist");
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        }
+        
+        return result;
     }
 
     @Override
     public Result deleteResume(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("deleteResume [1]: deleting resume, id = {}", id);
+        
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        String tableName = Constants.TITLE_TABLE_RESUME;
+        
+        try{
+            XmlWrapper<Resume> wrap = DataProviderXml.<Resume>getWrap(tableName);
+            
+            List<Resume> list = wrap.getList().stream()
+                    .filter((r) -> !r.getId().equals(id))
+                    .toList();
+            boolean flag = wrap.getList().size() != list.size();
+            wrap.setList(list);
+            
+            saveWrap(tableName, wrap);
+            if(flag){
+                Resume resume = new Resume();
+                resume.setId(id);
+                MongoProvider.save(CommandType.DELETED, RepositoryType.XML, resume);
+            }
+        } catch(Exception ex){
+            log.error("deleteResume [2]: error = File does not exist");
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        }
+        
+        return result;
     }
 
     @Override
     public Result deleteCompany(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("deleteCompany [1]: deleting company, id = {}", id);
+        
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        String tableName = Constants.TITLE_TABLE_COMPANY;
+        
+        try{
+            XmlWrapper<Company> wrap = DataProviderXml.<Company>getWrap(tableName);
+            
+            List<Company> list = wrap.getList().stream()
+                    .filter((c) -> !c.getId().equals(id))
+                    .toList();
+            boolean flag = wrap.getList().size() != list.size();
+            wrap.setList(list);
+            
+            saveWrap(tableName, wrap);
+            if(flag){
+                Company company = new Company();
+                company.setId(id);
+                MongoProvider.save(CommandType.DELETED, RepositoryType.XML, company);
+            }
+        } catch(Exception ex){
+            log.error("deleteCompany [2]: error = File does not exist");
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        }
+        
+        return result;
     }
 
     @Override
     public Result deleteVacancy(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("deleteVacancy [1]: deleting vacancy, id = {}", id);
+        
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        String tableName = Constants.TITLE_TABLE_VACANCY;
+        
+        try{
+            XmlWrapper<Vacancy> wrap = DataProviderXml.<Vacancy>getWrap(tableName);
+            
+            List<Vacancy> list = wrap.getList().stream()
+                    .filter((v) -> !v.getId().equals(id))
+                    .toList();
+            boolean flag = wrap.getList().size() != list.size();
+            wrap.setList(list);
+            
+            saveWrap(tableName, wrap);
+            if(flag){
+                Vacancy vacancy = new Vacancy();
+                vacancy.setId(id);
+                MongoProvider.save(CommandType.DELETED, RepositoryType.XML, vacancy);
+            }
+        } catch(Exception ex){
+            log.error("deleteVacancy [2]: error = File does not exist");
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        }
+        
+        return result;
     }
 
     @Override
     public Result deleteSeparateQual(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("deleteSeparateQual [1]: deleting separateQual, id = {}", id);
+        
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        String tableName = Constants.TITLE_TABLE_SEPARATE_QUAL;
+        
+        try{
+            XmlWrapper<SeparateQual> wrap = DataProviderXml.<SeparateQual>getWrap(tableName);
+            
+            List<SeparateQual> list = wrap.getList().stream()
+                    .filter((sp) -> !sp.getId().equals(id))
+                    .toList();
+            boolean flag = wrap.getList().size() != list.size();
+            wrap.setList(list);
+            
+            saveWrap(tableName, wrap);
+            if(flag){
+                SeparateQual separateQual = new SeparateQual();
+                separateQual.setId(id);
+                MongoProvider.save(CommandType.DELETED, RepositoryType.XML, separateQual);
+            }
+        } catch(Exception ex){
+            log.error("deleteSeparateQual [2]: error = File does not exist");
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        }
+        
+        return result;
     }
     
 }
