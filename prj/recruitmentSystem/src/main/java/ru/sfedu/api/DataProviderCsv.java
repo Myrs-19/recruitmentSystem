@@ -57,7 +57,7 @@ public class DataProviderCsv implements IDataProvider{
             csvReader.readAll().stream()
                     .forEach(
                     (it) -> {
-                        if(Integer.parseInt(it[0]) > Integer.parseInt(idWrapper[0])){
+                        if(Integer.parseInt(it[0]) >= Integer.parseInt(idWrapper[0])){
                             idWrapper[0] = String.valueOf(Integer.parseInt(it[0])+1);
                         }
                     }
