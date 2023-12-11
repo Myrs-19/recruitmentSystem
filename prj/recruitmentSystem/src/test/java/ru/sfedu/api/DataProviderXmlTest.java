@@ -367,30 +367,72 @@ public class DataProviderXmlTest {
      * Test of updatePerson method, of class DataProviderXml.
      */
     @Test
-    public void testUpdatePerson() {
-        System.out.println("updatePerson");
-        Person person = null;
-        DataProviderXml instance = new DataProviderXml();
-        Result expResult = null;
-        Result result = instance.updatePerson(person);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testUpdateUser() {
+        System.out.println("test updateUser xml");
+        User user = new User();
+        String id = "0";
+        user.setId(id);
+        user.setTypePerson(TypePerson.UserType);
+        
+        user.setName("plplpl");
+        user.setSurname("MIMIMIMI");
+        user.setAge("20");
+        
+        user.setEmail("a");
+        user.setPhone("756");
+        user.setAddress("zorrr");
+        user.setPassword("ppiipi");
+        
+        Result result = new Result();
+        
+        IDataProvider dp = new DataProviderXml();
+        result = dp.updatePerson(user);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
     }
 
+    @Test
+    public void testUpdatedEmployee() {
+        System.out.println("test UpdatedEmployee xml");
+        Employee employee = new Employee();
+        
+        employee.setId("0");
+        employee.setTypePerson(TypePerson.EmployeeType);
+        
+        employee.setName("aaaaaaa");
+        employee.setSurname("selsel");
+        employee.setAge("20");
+        
+        employee.setCompanyId("0");
+        employee.setStartWorkDate("12-06-2003");
+        employee.setSalary("99");
+        employee.setIsWorking("0");
+        employee.setPosition("middle");
+        
+        Result result = new Result();
+        
+        IDataProvider dp = new DataProviderXml();
+        result = dp.updatePerson(employee);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+    }
+    
     /**
      * Test of updateResume method, of class DataProviderXml.
      */
     @Test
     public void testUpdateResume() {
-        System.out.println("updateResume");
-        Resume resume = null;
-        DataProviderXml instance = new DataProviderXml();
-        Result expResult = null;
-        Result result = instance.updateResume(resume);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test UpdateResume xml");
+        Resume resume = new Resume();
+        
+        resume.setId("-1");
+        resume.setUserId("0");
+        resume.setCity("RRRRRRRRR");
+        resume.setProfession("developer");
+        
+        Result result = new Result();
+        
+        IDataProvider dp = new DataProviderXml();
+        result = dp.updateResume(resume);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
     }
 
     /**
@@ -398,14 +440,18 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testUpdateCompany() {
-        System.out.println("updateCompany");
-        Company company = null;
-        DataProviderXml instance = new DataProviderXml();
-        Result expResult = null;
-        Result result = instance.updateCompany(company);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test UpdateCompany xml");
+        Company company = new Company();
+        
+        company.setId("0");
+        company.setUserId("0");
+        company.setTitle("DATAAA");
+        
+        Result result = new Result();
+        
+        IDataProvider dp = new DataProviderXml();
+        result = dp.updateCompany(company);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
     }
 
     /**
@@ -413,14 +459,19 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testUpdateVacancy() {
-        System.out.println("updateVacancy");
-        Vacancy vacancy = null;
-        DataProviderXml instance = new DataProviderXml();
-        Result expResult = null;
-        Result result = instance.updateVacancy(vacancy);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test UpdateVacancy xml");
+        Vacancy vacancy = new Vacancy();
+        
+        vacancy.setId("0");
+        vacancy.setCompanyId("0");
+        vacancy.setTitle("JAAAAAAAVAAAAAAAa");
+        vacancy.setSalary("11");
+        
+        Result result = new Result();
+        
+        IDataProvider dp = new DataProviderXml();
+        result = dp.updateVacancy(vacancy);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
     }
 
     /**
@@ -428,14 +479,20 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testUpdateSeparateQual() {
-        System.out.println("updateSeparateQual");
-        SeparateQual separateQual = null;
-        DataProviderXml instance = new DataProviderXml();
-        Result expResult = null;
-        Result result = instance.updateSeparateQual(separateQual);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("test UpdateSeparateQual xml");
+        SeparateQual separateQual = new SeparateQual();
+        
+        separateQual.setId("0");
+        separateQual.setCompanyId("0");
+        separateQual.setEmployeeId("0");
+        separateQual.setQuality("7");
+        separateQual.setDescription("nice");
+        
+        Result result = new Result();
+        
+        IDataProvider dp = new DataProviderXml();
+        result = dp.updateSeparateQual(separateQual);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
     }
 
     /**

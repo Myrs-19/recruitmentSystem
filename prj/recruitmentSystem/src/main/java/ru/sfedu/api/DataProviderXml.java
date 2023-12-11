@@ -481,27 +481,182 @@ public class DataProviderXml implements IDataProvider{
 
     @Override
     public Result updatePerson(Person person) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("updatePerson [1]: updating person, type of person = {}, person = {}", person.getTypePerson(), person);
+        
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        String tableName = TableName.getTableNamePerson(person.getTypePerson());
+        
+        try{
+            XmlWrapper<Person> wrap = DataProviderXml.<Person>getWrap(tableName);
+            
+            List<Person> list = wrap.getList().stream()
+                    .map((p) -> {
+                        if(p.getId().equals(person.getId())){
+                            return person;
+                        }
+                        else{
+                            return p;
+                        }
+                    }).toList();
+            
+            wrap.setList(list);
+            
+            saveWrap(tableName, wrap);
+            MongoProvider.save(CommandType.UPDATED, RepositoryType.XML, person);
+        } catch(Exception ex){
+            log.error("updatePerson [2]: error = File does not exist");
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        }
+        
+        return result;
     }
 
     @Override
     public Result updateResume(Resume resume) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("updateResume [1]: updating resume, resume = {}", resume);
+        
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        String tableName = Constants.TITLE_TABLE_RESUME;
+        
+        try{
+            XmlWrapper<Resume> wrap = DataProviderXml.<Resume>getWrap(tableName);
+            
+            List<Resume> list = wrap.getList().stream()
+                    .map((r) -> {
+                        if(r.getId().equals(resume.getId())){
+                            return resume;
+                        }
+                        else{
+                            return r;
+                        }
+                    }).toList();
+            
+            wrap.setList(list);
+            
+            saveWrap(tableName, wrap);
+            MongoProvider.save(CommandType.UPDATED, RepositoryType.XML, resume);
+        } catch(Exception ex){
+            log.error("updateResume [2]: error = File does not exist");
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        }
+        
+        return result;
     }
 
     @Override
     public Result updateCompany(Company company) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("updateCompany [1]: updating company, company = {}", company);
+        
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        String tableName = Constants.TITLE_TABLE_COMPANY;
+        
+        try{
+            XmlWrapper<Company> wrap = DataProviderXml.<Company>getWrap(tableName);
+            
+            List<Company> list = wrap.getList().stream()
+                    .map((c) -> {
+                        if(c.getId().equals(company.getId())){
+                            return company;
+                        }
+                        else{
+                            return c;
+                        }
+                    }).toList();
+            
+            wrap.setList(list);
+            
+            saveWrap(tableName, wrap);
+            MongoProvider.save(CommandType.UPDATED, RepositoryType.XML, company);
+        } catch(Exception ex){
+            log.error("updateCompany [2]: error = File does not exist");
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        }
+        
+        return result;
     }
 
     @Override
     public Result updateVacancy(Vacancy vacancy) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("updateVacancy [1]: updating vacancy, vacancy = {}", vacancy);
+        
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        String tableName = Constants.TITLE_TABLE_VACANCY;
+        
+        try{
+            XmlWrapper<Vacancy> wrap = DataProviderXml.<Vacancy>getWrap(tableName);
+            
+            List<Vacancy> list = wrap.getList().stream()
+                    .map((v) -> {
+                        if(v.getId().equals(vacancy.getId())){
+                            return vacancy;
+                        }
+                        else{
+                            return v;
+                        }
+                    }).toList();
+            
+            wrap.setList(list);
+            
+            saveWrap(tableName, wrap);
+            MongoProvider.save(CommandType.UPDATED, RepositoryType.XML, vacancy);
+        } catch(Exception ex){
+            log.error("updateVacancy [2]: error = File does not exist");
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        }
+        
+        return result;
     }
 
     @Override
     public Result updateSeparateQual(SeparateQual separateQual) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("updateSeparateQual [1]: updating separateQual, separateQual = {}", separateQual);
+        
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        String tableName = Constants.TITLE_TABLE_SEPARATE_QUAL;
+        
+        try{
+            XmlWrapper<SeparateQual> wrap = DataProviderXml.<SeparateQual>getWrap(tableName);
+            
+            List<SeparateQual> list = wrap.getList().stream()
+                    .map((sp) -> {
+                        if(sp.getId().equals(separateQual.getId())){
+                            return separateQual;
+                        }
+                        else{
+                            return sp;
+                        }
+                    }).toList();
+            
+            wrap.setList(list);
+            
+            saveWrap(tableName, wrap);
+            MongoProvider.save(CommandType.UPDATED, RepositoryType.XML, separateQual);
+        } catch(Exception ex){
+            log.error("updateSeparateQual [2]: error = File does not exist");
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        }
+        
+        return result;
     }
 
     @Override
