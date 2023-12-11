@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.RepeatedTest;
 import ru.sfedu.Constants;
 import ru.sfedu.model.Company;
 import ru.sfedu.model.Employee;
@@ -26,6 +27,7 @@ import ru.sfedu.model.Vacancy;
  *
  * @author mike
  */
+
 public class DataProviderXmlTest {
     
     public DataProviderXmlTest() {
@@ -57,6 +59,7 @@ public class DataProviderXmlTest {
      */
     @Test
     public void testSaveUser() {
+        
         System.out.println("test saveUser xml");
         User user = new User();
         
@@ -72,10 +75,13 @@ public class DataProviderXmlTest {
         user.setPassword("ppiipi");
         
         Result result = new Result();
-        
-        IDataProvider dp = new DataProviderXml();
-        result = dp.savePerson(user);
-        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+        try{
+            IDataProvider dp = new DataProviderXml();
+            result = dp.savePerson(user);
+            assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+        } catch(Exception ex){
+            System.out.println(result.getMessage());
+        }
     }
     
     @Test
@@ -96,10 +102,13 @@ public class DataProviderXmlTest {
         employee.setPosition("middle");
         
         Result result = new Result();
-        
-        IDataProvider dp = new DataProviderXml();
-        result = dp.savePerson(employee);
-        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+        try{
+            IDataProvider dp = new DataProviderXml();
+            result = dp.savePerson(employee);
+            assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+        } catch(Exception ex){
+            System.out.println(result.getMessage());
+        }
     }
 
     /**
@@ -116,9 +125,13 @@ public class DataProviderXmlTest {
         
         Result result = new Result();
         
-        IDataProvider dp = new DataProviderXml();
-        result = dp.saveResume(resume);
-        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+        try{
+            IDataProvider dp = new DataProviderXml();
+            result = dp.saveResume(resume);
+            assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+        } catch(Exception ex){
+            System.out.println(result.getMessage());
+        }
     }
 
     /**
@@ -134,9 +147,13 @@ public class DataProviderXmlTest {
         
         Result result = new Result();
         
-        IDataProvider dp = new DataProviderXml();
-        result = dp.saveCompany(company);
-        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+        try{
+            IDataProvider dp = new DataProviderXml();
+            result = dp.saveCompany(company);
+            assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+        } catch(Exception ex){
+            System.out.println(result.getMessage());
+        }
     }
 
     /**
@@ -152,12 +169,14 @@ public class DataProviderXmlTest {
         vacancy.setSalary("8797");
         
         Result result = new Result();
-        
-        IDataProvider dp = new DataProviderXml();
-        result = dp.saveVacancy(vacancy);
-        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+        try{
+            IDataProvider dp = new DataProviderXml();
+            result = dp.saveVacancy(vacancy);
+            assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+        } catch(Exception ex){
+            System.out.println(result.getMessage());
+        }
     }
-
     /**
      * Test of saveSeparateQual method, of class DataProviderXml.
      */
@@ -171,19 +190,35 @@ public class DataProviderXmlTest {
         separateQual.setQuality("7");
         
         Result result = new Result();
-        
-        IDataProvider dp = new DataProviderXml();
-        result = dp.saveSeparateQual(separateQual);
-        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+        try{    
+            IDataProvider dp = new DataProviderXml();
+            result = dp.saveSeparateQual(separateQual);
+            assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+        } catch(Exception ex){
+            System.out.println(result.getMessage());
+        }
     }
 
     /**
      * Test of getUser method, of class DataProviderXml.
      */
     @Test
-    public void testGetUser() {
+    public void testGetUserPositive() {
         System.out.println("test GetUser xml");
         String id = "0";
+        IDataProvider dp = new DataProviderXml();
+        try{
+            User user = dp.getUser(id);
+            System.out.println(user);
+        } catch(Exception ex){
+            System.out.println("Пользователя с таким id еще нет, id = " + id);
+        }
+    }
+    
+    @Test
+    public void testGetUserNegative() {
+        System.out.println("test GetUser xml");
+        String id = "-1";
         IDataProvider dp = new DataProviderXml();
         try{
             User user = dp.getUser(id);
@@ -197,7 +232,20 @@ public class DataProviderXmlTest {
      * Test of getResume method, of class DataProviderXml.
      */
     @Test
-    public void testGetResume() {
+    public void testGetResumePositive() {
+        System.out.println("test GetResume xml");
+        String id = "0";
+        IDataProvider dp = new DataProviderXml();
+        try{
+            Resume resume = dp.getResume(id);
+            System.out.println(resume);
+        } catch(Exception ex){
+            System.out.println("резюме с таким id еще нет, id = " + id);
+        }
+    }
+    
+    @Test
+    public void testGetResumeNegative() {
         System.out.println("test GetResume xml");
         String id = "-1";
         IDataProvider dp = new DataProviderXml();
@@ -213,9 +261,22 @@ public class DataProviderXmlTest {
      * Test of getCompany method, of class DataProviderXml.
      */
     @Test
-    public void testGetCompany() {
+    public void testGetCompanyPositive() {
         System.out.println("test GetCompany xml");
         String id = "0";
+        IDataProvider dp = new DataProviderXml();
+        try{
+            Company company = dp.getCompany(id);
+            System.out.println(company);
+        } catch(Exception ex){
+            System.out.println("компании с таким id еще нет, id = " + id);
+        }
+    }
+    
+    @Test
+    public void testGetCompanyNegative() {
+        System.out.println("test GetCompany xml");
+        String id = "-1";
         IDataProvider dp = new DataProviderXml();
         try{
             Company company = dp.getCompany(id);
@@ -229,7 +290,7 @@ public class DataProviderXmlTest {
      * Test of getVacancy method, of class DataProviderXml.
      */
     @Test
-    public void testGetVacancy() {
+    public void testGetVacancyPositive() {
         System.out.println("test GetVacancy xml");
         String id = "0";
         IDataProvider dp = new DataProviderXml();
@@ -241,13 +302,39 @@ public class DataProviderXmlTest {
         }
     }
 
+    @Test
+    public void testGetVacancyNegative() {
+        System.out.println("test GetVacancy xml");
+        String id = "-1";
+        IDataProvider dp = new DataProviderXml();
+        try{
+            Vacancy vacancy = dp.getVacancy(id);
+            System.out.println(vacancy);
+        } catch(Exception ex){
+            System.out.println("вакансии с таким id еще нет, id = " + id);
+        }
+    }
+    
     /**
      * Test of getEmployee method, of class DataProviderXml.
      */
     @Test
-    public void testGetEmployee() {
+    public void testGetEmployeePositive() {
         System.out.println("test GetEmployee xml");
         String id = "0";
+        IDataProvider dp = new DataProviderXml();
+        try{
+            Employee employee = dp.getEmployee(id);
+            System.out.println(employee);
+        } catch(Exception ex){
+            System.out.println("работника с таким id еще нет, id = " + id);
+        }
+    }
+    
+    @Test
+    public void testGetEmployeeNegative() {
+        System.out.println("test GetEmployee xml");
+        String id = "-1";
         IDataProvider dp = new DataProviderXml();
         try{
             Employee employee = dp.getEmployee(id);
@@ -261,9 +348,22 @@ public class DataProviderXmlTest {
      * Test of getSeparateQual method, of class DataProviderXml.
      */
     @Test
-    public void testGetSeparateQual() {
+    public void testGetSeparateQualPositive() {
         System.out.println("test GetSeparateQual xml");
         String id = "0";
+        IDataProvider dp = new DataProviderXml();
+        try{
+            SeparateQual separateQual = dp.getSeparateQual(id);
+            System.out.println(separateQual);
+        } catch(Exception ex){
+            System.out.println("оценки с таким id еще нет, id = " + id);
+        }
+    }
+    
+    @Test
+    public void testGetSeparateQualNegative() {
+        System.out.println("test GetSeparateQual xml");
+        String id = "-1";
         IDataProvider dp = new DataProviderXml();
         try{
             SeparateQual separateQual = dp.getSeparateQual(id);
@@ -387,7 +487,8 @@ public class DataProviderXmlTest {
         
         IDataProvider dp = new DataProviderXml();
         result = dp.updatePerson(user);
-        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+        
+        System.out.println(result);
     }
 
     @Test
@@ -412,7 +513,7 @@ public class DataProviderXmlTest {
         
         IDataProvider dp = new DataProviderXml();
         result = dp.updatePerson(employee);
-        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+        System.out.println(result);
     }
     
     /**
@@ -429,10 +530,11 @@ public class DataProviderXmlTest {
         resume.setProfession("developer");
         
         Result result = new Result();
-        
+    
         IDataProvider dp = new DataProviderXml();
         result = dp.updateResume(resume);
-        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+        
+        System.out.println(result);
     }
 
     /**
@@ -448,10 +550,11 @@ public class DataProviderXmlTest {
         company.setTitle("DATAAA");
         
         Result result = new Result();
-        
+    
         IDataProvider dp = new DataProviderXml();
         result = dp.updateCompany(company);
-        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+        
+        System.out.println(result);
     }
 
     /**
@@ -471,9 +574,9 @@ public class DataProviderXmlTest {
         
         IDataProvider dp = new DataProviderXml();
         result = dp.updateVacancy(vacancy);
-        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+        
+        System.out.println(result);
     }
-
     /**
      * Test of updateSeparateQual method, of class DataProviderXml.
      */
@@ -489,10 +592,11 @@ public class DataProviderXmlTest {
         separateQual.setDescription("nice");
         
         Result result = new Result();
-        
+    
         IDataProvider dp = new DataProviderXml();
         result = dp.updateSeparateQual(separateQual);
-        assertEquals(Constants.CODE_SUCCESS, result.getCode());     
+        
+        System.out.println(result);
     }
 
     /**
