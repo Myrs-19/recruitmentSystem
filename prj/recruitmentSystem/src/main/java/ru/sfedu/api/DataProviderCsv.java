@@ -30,6 +30,7 @@ import static ru.sfedu.model.TypePerson.UserType;
 
 import ru.sfedu.util.FileUtil;
 import static ru.sfedu.util.ConfigurationUtilProperties.getConfigurationEntry;
+import ru.sfedu.util.TableName;
 
 public class DataProviderCsv implements IDataProvider{
     private static final Logger log = LogManager.getLogger(DataProviderCsv.class.getName());
@@ -78,15 +79,8 @@ public class DataProviderCsv implements IDataProvider{
     }
 
     private String getPathPerson(TypePerson type){
-        Function<TypePerson, String> func = (TypePerson t) -> {
-            return switch (t) {
-                case UserType -> Constants.TITLE_TABLE_USER;
-                case EmployeeType -> Constants.TITLE_TABLE_EMPLOYEE;
-                default -> null;
-            };
-        };
         
-        String tableName = func.apply(type);
+        String tableName = TableName.getTableNamePerson(type);
         String pathToCsv = getPath(tableName);
         
         return pathToCsv;

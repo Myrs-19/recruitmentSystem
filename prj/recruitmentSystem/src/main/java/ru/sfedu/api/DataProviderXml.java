@@ -20,6 +20,7 @@ import ru.sfedu.model.*;
 
 import static ru.sfedu.util.ConfigurationUtilProperties.getConfigurationEntry;
 import ru.sfedu.util.FileUtil;
+import ru.sfedu.util.TableName;
 
 /**
  *
@@ -86,15 +87,7 @@ public class DataProviderXml implements IDataProvider{
         result.setCode(Constants.CODE_SUCCESS);
         result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
         
-        Function<TypePerson, String> getTableName = (TypePerson type) -> {
-            return switch(type){
-                case UserType -> Constants.TITLE_TABLE_USER;
-                case EmployeeType -> Constants.TITLE_TABLE_EMPLOYEE;
-                default -> null;
-            };
-        };
-        
-        String tableName = getTableName.apply(person.getTypePerson());
+        String tableName = TableName.getTableNamePerson(person.getTypePerson());
         
         try{
             String id = Constants.FIRST_ID;
