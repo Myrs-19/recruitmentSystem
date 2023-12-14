@@ -315,7 +315,7 @@ public class DataProviderXml implements IDataProvider{
                     .findFirst();
             return optionalUser.get();
         } catch(Exception ex){
-            log.error("getUser [2]: error = ", ex.getMessage());
+            log.error("getUser [2]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("the user has not been found, id = " + id);
@@ -331,7 +331,7 @@ public class DataProviderXml implements IDataProvider{
                     .findFirst();
             return optionalResume.get();
         } catch(Exception ex){
-            log.error("getResume [2]: error = ", ex.getMessage());
+            log.error("getResume [2]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("the resume has not been found, id = " + id);
@@ -347,7 +347,7 @@ public class DataProviderXml implements IDataProvider{
                     .findFirst();
             return optionalCompany.get();
         } catch(Exception ex){
-            log.error("getCompany [2]: error = ", ex.getMessage());
+            log.error("getCompany [2]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("the company has not been found, id = " + id);
@@ -363,7 +363,7 @@ public class DataProviderXml implements IDataProvider{
                     .findFirst();
             return optionalVacancy.get();
         } catch(Exception ex){
-            log.error("getVacancy [2]: error = ", ex.getMessage());
+            log.error("getVacancy [2]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("the vacancy has not been found, id = " + id);
@@ -379,7 +379,7 @@ public class DataProviderXml implements IDataProvider{
                     .findFirst();
             return optionalEmployee.get();
         } catch(Exception ex){
-            log.error("getEmployee [2]: error = ", ex.getMessage());
+            log.error("getEmployee [2]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("the employee has not been found, id = " + id);
@@ -395,7 +395,7 @@ public class DataProviderXml implements IDataProvider{
                     .findFirst();
             return optionalSeparateQual.get();
         } catch(Exception ex){
-            log.error("getSeparateQual [2]: error = ", ex.getMessage());
+            log.error("getSeparateQual [2]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("the separateQual has not been found, id = " + id);
@@ -408,7 +408,7 @@ public class DataProviderXml implements IDataProvider{
             XmlWrapper<User> wrap = getWrap(Constants.TITLE_TABLE_USER);
             return wrap.getList();
         } catch(Exception ex){
-            log.error("getAllUsers [2]: error = ", ex.getMessage());
+            log.error("getAllUsers [2]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("no users were not found");
@@ -421,7 +421,7 @@ public class DataProviderXml implements IDataProvider{
             XmlWrapper<Resume> wrap = getWrap(Constants.TITLE_TABLE_RESUME);
             return wrap.getList();
         } catch(Exception ex){
-            log.error("getAllResumes [2]: error = ", ex.getMessage());
+            log.error("getAllResumes [2]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("no resumes were not found");
@@ -434,7 +434,7 @@ public class DataProviderXml implements IDataProvider{
             XmlWrapper<Company> wrap = getWrap(Constants.TITLE_TABLE_COMPANY);
             return wrap.getList();
         } catch(Exception ex){
-            log.error("getAllCompanies [2]: error = ", ex.getMessage());
+            log.error("getAllCompanies [2]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("no companies were not found");
@@ -447,7 +447,7 @@ public class DataProviderXml implements IDataProvider{
             XmlWrapper<Vacancy> wrap = getWrap(Constants.TITLE_TABLE_VACANCY);
             return wrap.getList();
         } catch(Exception ex){
-            log.error("getAllVacancies [2]: error = ", ex.getMessage());
+            log.error("getAllVacancies [2]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("no мacancies were not found");
@@ -460,7 +460,7 @@ public class DataProviderXml implements IDataProvider{
             XmlWrapper<Employee> wrap = getWrap(Constants.TITLE_TABLE_EMPLOYEE);
             return wrap.getList();
         } catch(Exception ex){
-            log.error("getAllEmployees [2]: error = ", ex.getMessage());
+            log.error("getAllEmployees [2]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("no employees were not found");
@@ -473,7 +473,7 @@ public class DataProviderXml implements IDataProvider{
             XmlWrapper<SeparateQual> wrap = getWrap(Constants.TITLE_TABLE_SEPARATE_QUAL);
             return wrap.getList();
         } catch(Exception ex){
-            log.error("getAllSeparateQuals [2]: error = ", ex.getMessage());
+            log.error("getAllSeparateQuals [2]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("no separateQuals were not found");

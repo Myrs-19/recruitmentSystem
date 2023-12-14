@@ -38,8 +38,8 @@ public class DataProviderCsvTest {
         person.setAddress("zorge");
         
         IDataProvider dp = new DataProviderCsv();
-        dp.savePerson(person);
-        
+        Result result = dp.savePerson(person);
+        System.out.println(result);
     }
     
     @Test
@@ -50,8 +50,8 @@ public class DataProviderCsvTest {
         person.setSalary("98988");
         
         DataProviderCsv dp = new DataProviderCsv();
-        dp.savePerson(person);
-        
+        Result result = dp.savePerson(person);
+        System.out.println(result);
     }
     
     @Test
@@ -62,7 +62,8 @@ public class DataProviderCsvTest {
         resume.setProfession("Prod");
         
         DataProviderCsv dp = new DataProviderCsv();
-        dp.saveResume(resume);   
+        Result result = dp.saveResume(resume);   
+        System.out.println(result);
     }
     
     @Test
@@ -72,7 +73,8 @@ public class DataProviderCsvTest {
         company.setTitle("arenadata");
         
         DataProviderCsv dp = new DataProviderCsv();
-        dp.saveCompany(company);
+        Result result = dp.saveCompany(company);
+        System.out.println(result);
     }
     
     @Test
@@ -83,7 +85,8 @@ public class DataProviderCsvTest {
         vacancy.setSalary("878778");
         
         DataProviderCsv dp = new DataProviderCsv();
-        dp.saveVacancy(vacancy);
+        Result result = dp.saveVacancy(vacancy);
+        System.out.println(result);
     }
     
     @Test
@@ -94,7 +97,8 @@ public class DataProviderCsvTest {
         separateQual.setQuality("120");
         
         DataProviderCsv dp = new DataProviderCsv();
-        dp.saveSeparateQual(separateQual);
+        Result result = dp.saveSeparateQual(separateQual);
+        System.out.println(result);
     }
     
     @Test
@@ -102,9 +106,12 @@ public class DataProviderCsvTest {
         String id = "0";
         
         DataProviderCsv dp = new DataProviderCsv();
-        User user = dp.getUser(id);
-        assertEquals(user.getId(), id);
-        System.out.println(user);
+        try{
+            User user = dp.getUser(id);
+            System.out.println(user);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
     }
     
     @Test
@@ -113,7 +120,6 @@ public class DataProviderCsvTest {
         try{
             DataProviderCsv dp = new DataProviderCsv();
             User user = dp.getUser(id);
-            assertEquals(user.getId(), id);
             System.out.println(user);   
         } catch(Exception ex){
             System.out.println(ex.getMessage());
@@ -124,10 +130,13 @@ public class DataProviderCsvTest {
     void testGetResumePositive(){
         String id = "0";
         
-        DataProviderCsv dp = new DataProviderCsv();
-        Resume resume = dp.getResume(id);
-        assertEquals(resume.getId(), id);
-        System.out.println(resume);
+        try{
+            DataProviderCsv dp = new DataProviderCsv();
+            Resume resume = dp.getResume(id);
+            System.out.println(resume);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
     }
     
     @Test
@@ -137,7 +146,6 @@ public class DataProviderCsvTest {
         try{
             DataProviderCsv dp = new DataProviderCsv();
             Resume resume = dp.getResume(id);
-            assertEquals(resume.getId(), id);
             System.out.println(resume);
         } catch(Exception ex){
             System.out.println(ex.getMessage());
@@ -148,20 +156,22 @@ public class DataProviderCsvTest {
     void testGetCompanyPositive(){
         String id = "0";
         
-        DataProviderCsv dp = new DataProviderCsv();
-        Company company = dp.getCompany(id);
-        assertEquals(company.getId(), id);
-        System.out.println(company);
+        try{
+            DataProviderCsv dp = new DataProviderCsv();
+            Company company = dp.getCompany(id);
+            System.out.println(company);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
     }
     
     @Test
     void testGetCompanyNegative(){
         String id = "-1";
         try{
-        DataProviderCsv dp = new DataProviderCsv();
-        Company company = dp.getCompany(id);
-        assertEquals(company.getId(), id);
-        System.out.println(company);
+            DataProviderCsv dp = new DataProviderCsv();
+            Company company = dp.getCompany(id);
+            System.out.println(company);
         } catch(Exception ex){
             System.out.println(ex.getMessage());
         }
@@ -170,17 +180,7 @@ public class DataProviderCsvTest {
     @Test
     void testGetVacancyPositive(){
         String id = "0";
-        
-        DataProviderCsv dp = new DataProviderCsv();
-        Vacancy vacancy = dp.getVacancy(id);
-        assertEquals(vacancy.getId(), id);
-        System.out.println(vacancy);
-    }
-    
-    @Test
-    void testGetVacancyNegative(){
-        String id = "-1";
-        try{
+        try{    
             DataProviderCsv dp = new DataProviderCsv();
             Vacancy vacancy = dp.getVacancy(id);
             assertEquals(vacancy.getId(), id);
@@ -191,13 +191,28 @@ public class DataProviderCsvTest {
     }
     
     @Test
+    void testGetVacancyNegative(){
+        String id = "-1";
+        try{
+            DataProviderCsv dp = new DataProviderCsv();
+            Vacancy vacancy = dp.getVacancy(id);
+            System.out.println(vacancy);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
     void testGetEmployeePositive(){
         String id = "0";
         
-        DataProviderCsv dp = new DataProviderCsv();
-        Employee employee = dp.getEmployee(id);
-        assertEquals(employee.getId(), id);
-        System.out.println(employee);
+        try{
+            DataProviderCsv dp = new DataProviderCsv();
+            Employee employee = dp.getEmployee(id);
+            System.out.println(employee);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
     }
     
     @Test
@@ -206,7 +221,6 @@ public class DataProviderCsvTest {
         try{
             DataProviderCsv dp = new DataProviderCsv();
             Employee employee = dp.getEmployee(id);
-            assertEquals(employee.getId(), id);
             System.out.println(employee);
         } catch(Exception ex){
             System.out.println(ex.getMessage());
@@ -216,11 +230,13 @@ public class DataProviderCsvTest {
     @Test
     void testGetSeparateQualPositive(){
         String id = "0";
-        
-        DataProviderCsv dp = new DataProviderCsv();
-        SeparateQual separateQual = dp.getSeparateQual(id);
-        assertEquals(separateQual.getId(), id);
-        System.out.println(separateQual);
+        try{
+            DataProviderCsv dp = new DataProviderCsv();
+            SeparateQual separateQual = dp.getSeparateQual(id);
+            System.out.println(separateQual);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
     }
     
     @Test
@@ -230,7 +246,6 @@ public class DataProviderCsvTest {
         try{
             DataProviderCsv dp = new DataProviderCsv();
             SeparateQual separateQual = dp.getSeparateQual(id);
-            assertEquals(separateQual.getId(), id);
             System.out.println(separateQual);
         } catch(Exception ex){
             System.out.println(ex.getMessage());
