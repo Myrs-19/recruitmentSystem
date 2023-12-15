@@ -13,7 +13,7 @@ public interface IDataProvider {
      * If a person is valid returns a Result with a 200 code and an object which was saved.
      * If a person is not valid returns a Result with a 422 code and a message.
      *
-     * @param person - the person(employee, user as inheriters) to be saved.
+     * @param person - the person(employee, client as inheriters) to be saved.
      * @return an object that contains the result of the save.
      **/
     Result savePerson(Person person);
@@ -59,10 +59,10 @@ public interface IDataProvider {
     Result saveSeparateQual(SeparateQual separateQual);
     
     /**
-     * Method that returns user in system by id.
+     * Method that returns client in system by id.
      *
-     * @param id - id of a user.
-     * @return user object.
+     * @param id - id of a client.
+     * @return client object.
      **/
     Client getClient(String id);
     
@@ -107,11 +107,11 @@ public interface IDataProvider {
     SeparateQual getSeparateQual(String id);
     
     /**
-     * Method that returns all users in system.
+     * Method that returns all clients in system.
      *
-     * @return a list of users objects.
+     * @return a list of clients objects.
      **/
-    List<Client> getAllUsers();
+    List<Client> getAllClients();
     
     /**
      * Method that returns all resume in system.
@@ -149,7 +149,7 @@ public interface IDataProvider {
     List<SeparateQual> getAllSeparateQuals();
 
     /**
-     * Method for updating a person(user, employee) in the system.
+     * Method for updating a person(client, employee) in the system.
      * If a person is valid returns a Result with a 200 code and an object which was updated.
      * If a person is not valid returns a Result with a 422 code and a pair that consists of an object and errors.
      *
@@ -204,7 +204,7 @@ public interface IDataProvider {
      * If a person is not valid returns a Result with a 422 code and a pair that consists of an object and errors.
      *
      * @param id - the id of person .
-     * @param typePerson - the type of person what (User, Employee).
+     * @param typePerson - the type of person what (Client, Employee).
      * @return an object that contains the result of the save.
      **/
     Result deletePerson(String id, TypePerson typePerson);

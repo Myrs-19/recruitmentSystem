@@ -239,7 +239,7 @@ public class DataProviderCsv implements IDataProvider{
 
     @Override
     public Client getClient(String id) {
-        log.debug("getUser [1]: id = {}", id);
+        log.debug("getClient [1]: id = {}", id);
        
         try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_CLIENT))){
             CSVReader csvReader = new CSVReader(fileReader);
@@ -253,20 +253,20 @@ public class DataProviderCsv implements IDataProvider{
             csvToBean.setMappingStrategy(beanStrategy);
             csvToBean.setOrderedResults(true);
             
-            Optional<Client> userWrap = csvToBean.parse()
+            Optional<Client> clientWrap = csvToBean.parse()
                     .stream()
-                    .filter(user -> {
-                        return user.getId().equals(id);
+                    .filter(client -> {
+                        return client.getId().equals(id);
                     })
                     .findFirst();
             
-            return userWrap.get();
+            return clientWrap.get();
                     
         } catch(IOException | NoSuchElementException ex){
-            log.error("getUser [2]: error = {}", ex.getMessage());
+            log.error("getClient [2]: error = {}", ex.getMessage());
         }
        
-       throw new NullPointerException("such record does not exist: bean = User, id = " + id);
+       throw new NullPointerException("such record does not exist: bean = Client, id = " + id);
     }
 
     @Override

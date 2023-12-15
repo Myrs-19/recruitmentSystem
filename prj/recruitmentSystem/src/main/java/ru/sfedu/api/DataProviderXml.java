@@ -307,18 +307,18 @@ public class DataProviderXml implements IDataProvider{
 
     @Override
     public Client getClient(String id) {
-        log.debug("getUser [1]: getting user, id = {}", id);
+        log.debug("getClient [1]: getting client, id = {}", id);
         try{
             XmlWrapper<Client> wrap = getWrap(Constants.TITLE_TABLE_CLIENT);
-            Optional<Client> optionalUser = wrap.getList().stream()
+            Optional<Client> optionalClient = wrap.getList().stream()
                     .filter(u -> u.getId().equals(id))
                     .findFirst();
-            return optionalUser.get();
+            return optionalClient.get();
         } catch(Exception ex){
-            log.error("getUser [2]: error = {}", ex.getMessage());
+            log.error("getClient [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException("the user has not been found, id = " + id);
+        throw new NullPointerException("the client has not been found, id = " + id);
     }
 
     @Override
@@ -402,16 +402,16 @@ public class DataProviderXml implements IDataProvider{
     }
 
     @Override
-    public List<Client> getAllUsers() {
-        log.debug("getAllUsers [1]: getting all users");
+    public List<Client> getAllClients() {
+        log.debug("getAllClients [1]: getting all clients");
         try{
             XmlWrapper<Client> wrap = getWrap(Constants.TITLE_TABLE_CLIENT);
             return wrap.getList();
         } catch(Exception ex){
-            log.error("getAllUsers [2]: error = {}", ex.getMessage());
+            log.error("getAllClients [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException("no users were not found");
+        throw new NullPointerException("no clients were not found");
     }
 
     @Override
