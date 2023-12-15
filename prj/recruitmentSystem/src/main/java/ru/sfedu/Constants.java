@@ -37,6 +37,10 @@ public class Constants {
     public static final int CODE_SUCCESS = 200;
     public static final String MESSAGE_CODE_SUCCESS = "OK";
     public static final int CODE_ERROR = 422;
+    
+    public static final String COMPLETED_SUCCESSFUL = "SUCCESSFUL";
+    public static final String COMPLETED_FAIL = "FAIL";
+    public static final String DEFAULT_ACTOR = "system";
 }
 
 

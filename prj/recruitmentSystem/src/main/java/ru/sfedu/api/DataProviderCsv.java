@@ -43,6 +43,7 @@ public class DataProviderCsv implements IDataProvider{
         } catch(IOException ex){
             log.error("DataProviderCsv [2]: error = {}", ex.getMessage());
         }
+        
     }
     
     private String getId(String pathToCsv){
