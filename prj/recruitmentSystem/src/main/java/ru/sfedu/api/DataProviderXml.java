@@ -306,11 +306,11 @@ public class DataProviderXml implements IDataProvider{
     }
 
     @Override
-    public User getUser(String id) {
+    public Client getClient(String id) {
         log.debug("getUser [1]: getting user, id = {}", id);
         try{
-            XmlWrapper<User> wrap = getWrap(Constants.TITLE_TABLE_USER);
-            Optional<User> optionalUser = wrap.getList().stream()
+            XmlWrapper<Client> wrap = getWrap(Constants.TITLE_TABLE_CLIENT);
+            Optional<Client> optionalUser = wrap.getList().stream()
                     .filter(u -> u.getId().equals(id))
                     .findFirst();
             return optionalUser.get();
@@ -402,10 +402,10 @@ public class DataProviderXml implements IDataProvider{
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<Client> getAllUsers() {
         log.debug("getAllUsers [1]: getting all users");
         try{
-            XmlWrapper<User> wrap = getWrap(Constants.TITLE_TABLE_USER);
+            XmlWrapper<Client> wrap = getWrap(Constants.TITLE_TABLE_CLIENT);
             return wrap.getList();
         } catch(Exception ex){
             log.error("getAllUsers [2]: error = {}", ex.getMessage());

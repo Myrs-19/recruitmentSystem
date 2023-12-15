@@ -7,7 +7,7 @@ public class Constants {
     public static final String XML_FILE_TYPE = ".xml";
     
     public static final String TITLE_TABLE_PERSON = "Person";
-    public static final String TITLE_TABLE_USER = "User";
+    public static final String TITLE_TABLE_CLIENT = "Client";
     public static final String TITLE_TABLE_EMPLOYEE = "Employee";
     public static final String TITLE_TABLE_RESUME = "Resume";
     public static final String TITLE_TABLE_VACANCY = "Vacancy";

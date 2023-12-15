@@ -13,7 +13,7 @@ import org.simpleframework.xml.Root;
  * @author mike
  */
 @Root
-public class User extends Person{
+public class Client extends Person{
     @Element
     @CsvBindByPosition(position = 6)
     private String password;
@@ -61,7 +61,7 @@ public class User extends Person{
         this.email = email;
     }
     
-    public User() {}
+    public Client() {}
     
     @Override
     public String toString(){

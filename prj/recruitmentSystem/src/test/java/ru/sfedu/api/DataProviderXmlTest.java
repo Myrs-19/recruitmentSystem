@@ -20,7 +20,7 @@ import ru.sfedu.model.Result;
 import ru.sfedu.model.Resume;
 import ru.sfedu.model.SeparateQual;
 import ru.sfedu.model.TypePerson;
-import ru.sfedu.model.User;
+import ru.sfedu.model.Client;
 import ru.sfedu.model.Vacancy;
 
 /**
@@ -61,7 +61,7 @@ public class DataProviderXmlTest {
     public void testSaveUser() {
         
         System.out.println("test saveUser xml");
-        User user = new User();
+        Client user = new Client();
         
         user.setTypePerson(TypePerson.UserType);
         
@@ -208,7 +208,7 @@ public class DataProviderXmlTest {
         String id = "0";
         IDataProvider dp = new DataProviderXml();
         try{
-            User user = dp.getUser(id);
+            Client user = dp.getClient(id);
             System.out.println(user);
         } catch(Exception ex){
             System.out.println("Пользователя с таким id еще нет, id = " + id);
@@ -221,7 +221,7 @@ public class DataProviderXmlTest {
         String id = "-1";
         IDataProvider dp = new DataProviderXml();
         try{
-            User user = dp.getUser(id);
+            Client user = dp.getClient(id);
             System.out.println(user);
         } catch(Exception ex){
             System.out.println("Пользователя с таким id еще нет, id = " + id);
@@ -469,7 +469,7 @@ public class DataProviderXmlTest {
     @Test
     public void testUpdateUser() {
         System.out.println("test updateUser xml");
-        User user = new User();
+        Client user = new Client();
         String id = "0";
         user.setId(id);
         user.setTypePerson(TypePerson.UserType);

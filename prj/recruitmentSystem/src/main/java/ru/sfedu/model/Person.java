@@ -29,6 +29,14 @@ public class Person {
     @Element(required = false)
     @CsvBindByPosition(position = 5)
     private String birthday;
+    
+    @Element(required = false)
+    @CsvBindByPosition(position = 6)
+    private String phone;
+    
+    @Element(required = false)
+    @CsvBindByPosition(position = 7)
+    private String email;
 
     private TypePerson typePerson;
 
@@ -86,6 +94,22 @@ public class Person {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
     
     public Person() {}

@@ -30,7 +30,7 @@ public class DataProviderCsvTest {
     
     @Test
     void testSavePersonUser(){
-        User person = new User();
+        Client person = new Client();
         person.setTypePerson(TypePerson.UserType);
         person.setName("Mike");
         person.setEmail("m@m.ru");
@@ -107,7 +107,7 @@ public class DataProviderCsvTest {
         
         DataProviderCsv dp = new DataProviderCsv();
         try{
-            User user = dp.getUser(id);
+            Client user = dp.getClient(id);
             System.out.println(user);
         } catch(Exception ex){
             System.out.println(ex.getMessage());
@@ -119,7 +119,7 @@ public class DataProviderCsvTest {
         String id = "-1";
         try{
             DataProviderCsv dp = new DataProviderCsv();
-            User user = dp.getUser(id);
+            Client user = dp.getClient(id);
             System.out.println(user);   
         } catch(Exception ex){
             System.out.println(ex.getMessage());
@@ -321,7 +321,7 @@ public class DataProviderCsvTest {
     @Test
     void testUpdateUser(){
         try{
-            User user = new User();
+            Client user = new Client();
             user.setTypePerson(TypePerson.UserType);
             user.setId("0");
             user.setName("MIMIMI");

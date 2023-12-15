@@ -64,7 +64,7 @@ public interface IDataProvider {
      * @param id - id of a user.
      * @return user object.
      **/
-    User getUser(String id);
+    Client getClient(String id);
     
     /**
      * Method that returns resume in system by id.
@@ -111,7 +111,7 @@ public interface IDataProvider {
      *
      * @return a list of users objects.
      **/
-    List<User> getAllUsers();
+    List<Client> getAllUsers();
     
     /**
      * Method that returns all resume in system.

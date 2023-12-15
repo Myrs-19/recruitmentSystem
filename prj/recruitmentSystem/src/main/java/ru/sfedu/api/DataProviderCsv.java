@@ -26,7 +26,7 @@ import ru.sfedu.Constants;
 import ru.sfedu.model.*;
 import ru.sfedu.model.TypePerson;
 import static ru.sfedu.model.TypePerson.EmployeeType;
-import static ru.sfedu.model.TypePerson.UserType;
+import static ru.sfedu.model.TypePerson.ClientType;
 
 import ru.sfedu.util.FileUtil;
 import static ru.sfedu.util.ConfigurationUtilProperties.getConfigurationEntry;
@@ -238,22 +238,22 @@ public class DataProviderCsv implements IDataProvider{
     }
 
     @Override
-    public User getUser(String id) {
+    public Client getClient(String id) {
         log.debug("getUser [1]: id = {}", id);
        
-        try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_USER))){
+        try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_CLIENT))){
             CSVReader csvReader = new CSVReader(fileReader);
            
-            ColumnPositionMappingStrategy<User> beanStrategy = new ColumnPositionMappingStrategy<User>();
-            beanStrategy.setType(User.class);
+            ColumnPositionMappingStrategy<Client> beanStrategy = new ColumnPositionMappingStrategy<Client>();
+            beanStrategy.setType(Client.class);
            
-            CsvToBean<User> csvToBean = new CsvToBean<User>();
+            CsvToBean<Client> csvToBean = new CsvToBean<Client>();
             
             csvToBean.setCsvReader(csvReader);
             csvToBean.setMappingStrategy(beanStrategy);
             csvToBean.setOrderedResults(true);
             
-            Optional<User> userWrap = csvToBean.parse()
+            Optional<Client> userWrap = csvToBean.parse()
                     .stream()
                     .filter(user -> {
                         return user.getId().equals(id);
@@ -430,17 +430,17 @@ public class DataProviderCsv implements IDataProvider{
     }
 
     @Override
-    public List<User> getAllUsers() {
-        String pathToCsv = getPath(Constants.TITLE_TABLE_USER);
-        log.debug("getAllUsers [1]: getting all record from = {}", pathToCsv);
+    public List<Client> getAllClients() {
+        String pathToCsv = getPath(Constants.TITLE_TABLE_CLIENT);
+        log.debug("getAllClients [1]: getting all record from = {}", pathToCsv);
         
         try(FileReader fileReader = new FileReader(pathToCsv)){
             CSVReader csvReader = new CSVReader(fileReader);
            
-            ColumnPositionMappingStrategy<User> beanStrategy = new ColumnPositionMappingStrategy<User>();
-            beanStrategy.setType(User.class);
+            ColumnPositionMappingStrategy<Client> beanStrategy = new ColumnPositionMappingStrategy<Client>();
+            beanStrategy.setType(Client.class);
             
-            CsvToBean<User> csvToBean = new CsvToBean<User>();
+            CsvToBean<Client> csvToBean = new CsvToBean<Client>();
             
             csvToBean.setCsvReader(csvReader);
             csvToBean.setMappingStrategy(beanStrategy);
@@ -449,10 +449,10 @@ public class DataProviderCsv implements IDataProvider{
             return csvToBean.parse();
             
         } catch(NullPointerException | IOException ex){
-            log.error("getAllUsers [2]: error = {}", ex.getMessage());
+            log.error("getAllClients [2]: error = {}", ex.getMessage());
         }
 
-        throw new NullPointerException("records such bean do not exists: bean = User");
+        throw new NullPointerException("records such bean do not exists: bean = Client");
     }
 
     @Override
@@ -597,7 +597,7 @@ public class DataProviderCsv implements IDataProvider{
         
         Function<TypePerson, List> getPersons = (TypePerson type) -> {
             return switch (type){
-                case UserType -> getAllUsers();
+                case ClientType -> getAllClients();
                 case EmployeeType -> getAllEmployees();
                 default -> null;
             };
@@ -846,7 +846,7 @@ public class DataProviderCsv implements IDataProvider{
         
         Function<TypePerson, List> getPersons = (TypePerson type) -> {
             return switch (type){
-                case UserType -> getAllUsers();
+                case ClientType -> getAllClients();
                 case EmployeeType -> getAllEmployees();
                 default -> null;
             };
