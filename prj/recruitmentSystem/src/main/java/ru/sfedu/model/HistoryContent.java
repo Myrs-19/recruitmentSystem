@@ -37,14 +37,6 @@ public class HistoryContent {
         this.actor = actor;
     }
 
-    public String getMethodName() {
-        return methodName;
-    }
-
-    public void setMethodName(String methodName) {
-        this.methodName = methodName;
-    }
-
     public String getJsonObj() {
         return jsonObj;
     }
