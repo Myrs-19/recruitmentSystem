@@ -205,9 +205,9 @@ public class DataProviderXml implements IDataProvider{
             }
             
             DataProviderXml.saveWrap(tableName, wrap);
-            
+            log.debug("saveCompany [3]: saving was successful, company = {}", company);
         } catch(Exception ex){
-            log.error("saveCompany [3]: error = {}", ex.getMessage());
+            log.error("saveCompany [4]: error = {}", ex.getMessage());
             result.setCode(Constants.CODE_ERROR);
             result.setMessage(ex.getMessage());
         }
