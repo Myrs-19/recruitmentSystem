@@ -41,6 +41,11 @@ public class Constants {
     public static final String COMPLETED_SUCCESSFUL = "SUCCESSFUL";
     public static final String COMPLETED_FAIL = "FAIL";
     public static final String DEFAULT_ACTOR = "system";
+    
+    public static final String H2_CONNECTOR = "ru.sfedu.h2.connector";
+    public static final String H2_DB_NAME = "recruitmentSystem";
+    public static final String H2_PREFIX_PATH = "./";
+    public static final String H2_PATH = "ru.sfedu.h2.folder";
 }
 
 

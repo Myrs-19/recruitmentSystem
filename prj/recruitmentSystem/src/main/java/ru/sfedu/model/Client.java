@@ -19,14 +19,6 @@ public class Client extends Person{
     private String password;
     
     @Element
-    @CsvBindByPosition(position = 7)
-    private String phone;
-    
-    @Element
-    @CsvBindByPosition(position = 8)
-    private String email;
-    
-    @Element
     @CsvBindByPosition(position = 9)
     private String address;
 
@@ -43,22 +35,6 @@ public class Client extends Person{
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
     
     public Client() {}
