@@ -30,8 +30,15 @@ public class DataProviderH2 implements IDataProvider{
         log.debug("createTables[1]: creating tables for h2 data base");
         try{
             Connection connect = getConnection(); 
+            Statement stat = connect.createStatement();
+            
+            stat.executeUpdate(Constants.H2_QUERY_CREATE_CLIENT);
+            log.debug("createTables[2]: created client table");
+            stat.executeUpdate(Constants.H2_QUERY_CREATE_EMPLOYEE);
+            log.debug("createTables[2]: created employee table");
+        
         } catch(SQLException ex){
-            log.error("createTables[2]: error = {}", ex.getMessage());
+            log.error("createTables[3]: error = {}", ex.getMessage());
         }
     }
     

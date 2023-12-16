@@ -6,13 +6,12 @@ public class Constants {
     public static final String XML_PATH_FOLDER = "ru.sfedu.xml.folder";
     public static final String XML_FILE_TYPE = ".xml";
     
-    public static final String TITLE_TABLE_PERSON = "Person";
-    public static final String TITLE_TABLE_CLIENT = "Client";
-    public static final String TITLE_TABLE_EMPLOYEE = "Employee";
-    public static final String TITLE_TABLE_RESUME = "Resume";
-    public static final String TITLE_TABLE_VACANCY = "Vacancy";
-    public static final String TITLE_TABLE_COMPANY = "Company";
-    public static final String TITLE_TABLE_SEPARATE_QUAL = "SeparateQual";
+    public static final String TITLE_TABLE_CLIENT = "client";
+    public static final String TITLE_TABLE_EMPLOYEE = "employee";
+    public static final String TITLE_TABLE_RESUME = "resume";
+    public static final String TITLE_TABLE_VACANCY = "vacancy";
+    public static final String TITLE_TABLE_COMPANY = "company";
+    public static final String TITLE_TABLE_SEPARATE_QUAL = "separateQual";
     
     public static final String FIRST_ID = "0";
     
@@ -46,6 +45,37 @@ public class Constants {
     public static final String H2_DB_NAME = "recruitmentSystem";
     public static final String H2_PREFIX_PATH = "./";
     public static final String H2_PATH = "ru.sfedu.h2.folder";
+    
+    public static final String H2_QUERY_CREATE_CLIENT = "CREATE TABLE IF NOT EXISTS ".concat(TITLE_TABLE_CLIENT)
+            .concat("(")
+            .concat("id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, ")
+            .concat("name VARCHAR(32) NOT NULL, ")
+            .concat("surname VARCHAR(32) NOT NULL, ")
+            .concat("middleName VARCHAR(32), ")
+            .concat("age INTEGER NOT NULL, ")
+            .concat("birthday DATE, ")
+            .concat("phone VARCHAR(11), ")
+            .concat("email varchar(128), ")
+            .concat("password varchar(128) NOT NULL, ")
+            .concat("address varchar(128) NOT NULL")
+            .concat(");");
+    
+    public static final String H2_QUERY_CREATE_EMPLOYEE = "CREATE TABLE IF NOT EXISTS ".concat(TITLE_TABLE_CLIENT)
+            .concat("(")
+            .concat("id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, ")
+            .concat("name VARCHAR(32) NOT NULL, ")
+            .concat("surname VARCHAR(32) NOT NULL, ")
+            .concat("middleName VARCHAR(32), ")
+            .concat("age INTEGER NOT NULL, ")
+            .concat("birthday DATE, ")
+            .concat("phone VARCHAR(11), ")
+            .concat("email varchar(128), ")
+            .concat("companyId INTEGER NOT NULL FOREIGN KEY(companyId) REFERENCES ").concat(TITLE_TABLE_COMPANY).concat("(id) CASCADE, ")
+            .concat("startWorkDate DATE NOT NULL, ")
+            .concat("salary INTEGER NOT NULL, ")
+            .concat("position varchar(256) NOT NULL, ")
+            .concat("isWorking BOOLEAN NOU NULL")
+            .concat(");");
 }
 
 
