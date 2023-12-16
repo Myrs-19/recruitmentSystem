@@ -20,7 +20,7 @@ public class Resume {
     
     @Element
     @CsvBindByPosition(position = 1)
-    String userId;
+    String clientId;
     
     @Element
     @CsvBindByPosition(position = 2)
@@ -29,7 +29,6 @@ public class Resume {
     @Element
     @CsvBindByPosition(position = 3)
     String city;
-    
     
     @Element(required = false)
     @CsvBindByPosition(position = 4)
@@ -65,12 +64,12 @@ public class Resume {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getClientId() {
+        return clientId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 
     public String getProfession() {
@@ -141,7 +140,7 @@ public class Resume {
     public String toString(){
         return "Resume{" +
                 "id = " + getId() +
-                ", userId = " + getUserId() +
+                ", clientId = " + getClientId() +
                 ", city = " + getCity() +
                 ", profession = " + getProfession() +
                 '}';

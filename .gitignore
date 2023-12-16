@@ -3,5 +3,6 @@
 /prj/recruitmentSystem/logs/
 /prj/recruitmentSystem/csv/
 /prj/recruitmentSystem/xml/
+/prj/recruitmentSystem/h2/
 docsPush.sh
 prjPush.sh

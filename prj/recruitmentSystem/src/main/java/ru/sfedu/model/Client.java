@@ -13,18 +13,10 @@ import org.simpleframework.xml.Root;
  * @author mike
  */
 @Root
-public class User extends Person{
+public class Client extends Person{
     @Element
     @CsvBindByPosition(position = 6)
     private String password;
-    
-    @Element
-    @CsvBindByPosition(position = 7)
-    private String phone;
-    
-    @Element
-    @CsvBindByPosition(position = 8)
-    private String email;
     
     @Element
     @CsvBindByPosition(position = 9)
@@ -44,24 +36,8 @@ public class User extends Person{
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
     
-    public User() {}
+    public Client() {}
     
     @Override
     public String toString(){

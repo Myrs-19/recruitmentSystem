@@ -17,6 +17,7 @@ import static ru.sfedu.util.ConfigurationUtilProperties.getConfigurationEntry;
 import ru.sfedu.Constants;
 
 import ru.sfedu.model.CommandType;
+import ru.sfedu.model.HistoryContent;
 import ru.sfedu.model.RepositoryType;
 /**
  *
@@ -29,13 +30,22 @@ public class MongoProvider {
         log.debug("save [1]: command = {}, type = {}, object = {}", command, repositoryType, obj);
         try{
             MongoCollection<Document> collection = getCollection(obj.getClass());
-
+            
             ObjectMapper objectMapper = new ObjectMapper();
+            String sObj = objectMapper.writeValueAsString(obj);
+            
+            HistoryContent content = new HistoryContent();
+            content.setId();
+            content.setActor(Constants.DEFAULT_ACTOR);
+            content.setClassName(obj.getClass().getSimpleName());
+            content.setStatus(Constants.COMPLETED_SUCCESSFUL);
+            content.setJsonObj(sObj);
+            
             Document document = new Document()
                     .append(Constants.MONGO_FIELD_TIME, new Date())
                     .append(Constants.MONGO_FIELD_COMMAND, command.toString())
                     .append(Constants.MONGO_FIELD_REPOSITORY, repositoryType.toString())
-                    .append(Constants.MONGO_FIELD_OBJECT, objectMapper.writeValueAsString(obj));
+                    .append(Constants.MONGO_FIELD_OBJECT, sObj);
 
             collection.insertOne(document);
             log.debug("save [2]: saved successfully obj = {}", obj);

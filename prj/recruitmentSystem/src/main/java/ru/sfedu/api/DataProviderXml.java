@@ -12,10 +12,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
+
 import ru.sfedu.Constants;
 import ru.sfedu.model.*;
 
@@ -40,10 +42,23 @@ public class DataProviderXml implements IDataProvider{
         }
     }
     
+    /**
+    * Method generates id for new record
+    * получаем список id и увеличиваем максимальный на 1
+    * @param ids - list of all of ids in data of bean
+    * @return new id for new record
+    **/
     private String getId(List<Integer> ids){
         return String.valueOf(Collections.max(ids) + 1);
     }
     
+    /**
+    * Method returnes path (and creates it if not exist)
+    * метод получает имя файла (для конкретного бина)
+    * и возвращает относительный путь этого файла
+    * @param tableName - имя файла
+    * @return возвращает относительный путь до файла
+    **/
     private static String getPathAndCreateFileIfNotExist(String tableName){
         String path = getConfigurationEntry(Constants.XML_PATH_FOLDER) + tableName + Constants.XML_FILE_TYPE;
         try{
@@ -55,6 +70,11 @@ public class DataProviderXml implements IDataProvider{
         return path;
     }
     
+    /**
+     * Method saves xml wrapper into which saved particular bean
+     * @param tableName - имя файла
+     * @param obj - обертка, в которой содержится наш бин
+     **/
     private static void saveWrap(String tableName, XmlWrapper obj) throws Exception{
         log.debug("save [1]: saving bean through XmlWrapper");
         String filePath = getPathAndCreateFileIfNotExist(tableName);
@@ -66,6 +86,11 @@ public class DataProviderXml implements IDataProvider{
         
     }
     
+    /**
+     * Method gives bean into xml wrap
+     * @param tableName - имя файла
+     * @return возвращает бин в обертке XmlWrapper
+     **/
     private static <T> XmlWrapper getWrap(String tableName) throws Exception{
         log.debug("save [1]: getting bean through XmlWrapper");
         Serializer serializer = new Persister();
@@ -80,6 +105,8 @@ public class DataProviderXml implements IDataProvider{
         return wrap;
     }
     
+    
+    /** See also {@link IDataProvider#savePerson(Person)}. */
     @Override
     public Result savePerson(Person person) {
         log.debug("savePerson [1]: saving person, type of person = {}, person = {}", person.getTypePerson(), person);
@@ -125,6 +152,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#saveResume(Resume)}. */
     @Override
     public Result saveResume(Resume resume) {
         log.debug("saveResume [1]: saving resume, resume = {}",resume);
@@ -170,6 +198,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#saveCompany(Company)}. */
     @Override
     public Result saveCompany(Company company) {
         log.debug("saveCompany [1]: saving company, company = {}",company);
@@ -205,9 +234,9 @@ public class DataProviderXml implements IDataProvider{
             }
             
             DataProviderXml.saveWrap(tableName, wrap);
-            
+            log.debug("saveCompany [3]: saving was successful, company = {}", company);
         } catch(Exception ex){
-            log.error("saveCompany [3]: error = {}", ex.getMessage());
+            log.error("saveCompany [4]: error = {}", ex.getMessage());
             result.setCode(Constants.CODE_ERROR);
             result.setMessage(ex.getMessage());
         }
@@ -215,6 +244,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#saveVacancy(Vacancy)}. */
     @Override
     public Result saveVacancy(Vacancy vacancy) {
         log.debug("saveVacancy [1]: saving vacancy, vacancy = {}",vacancy);
@@ -260,6 +290,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#saveSeparateQual(SeparateQual)}. */
     @Override
     public Result saveSeparateQual(SeparateQual separateQual) {
         log.debug("SeparateQual [1]: saving separateQual, separateQual = {}",separateQual);
@@ -305,22 +336,24 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#getClient(String)}. */
     @Override
-    public User getUser(String id) {
-        log.debug("getUser [1]: getting user, id = {}", id);
+    public Client getClient(String id) {
+        log.debug("getClient [1]: getting client, id = {}", id);
         try{
-            XmlWrapper<User> wrap = getWrap(Constants.TITLE_TABLE_USER);
-            Optional<User> optionalUser = wrap.getList().stream()
+            XmlWrapper<Client> wrap = getWrap(Constants.TITLE_TABLE_CLIENT);
+            Optional<Client> optionalClient = wrap.getList().stream()
                     .filter(u -> u.getId().equals(id))
                     .findFirst();
-            return optionalUser.get();
+            return optionalClient.get();
         } catch(Exception ex){
-            log.error("getUser [2]: error = {}", ex.getMessage());
+            log.error("getClient [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException("the user has not been found, id = " + id);
+        throw new NullPointerException("the client has not been found, id = " + id);
     }
 
+    /** See also {@link IDataProvider#getResume(String)}. */
     @Override
     public Resume getResume(String id) {
         log.debug("getResume [1]: getting resume, id = {}", id);
@@ -337,6 +370,7 @@ public class DataProviderXml implements IDataProvider{
         throw new NullPointerException("the resume has not been found, id = " + id);
     }
 
+    /** See also {@link IDataProvider#getCompany(String)}. */
     @Override
     public Company getCompany(String id) {
         log.debug("getCompany [1]: getting company, id = {}", id);
@@ -353,6 +387,7 @@ public class DataProviderXml implements IDataProvider{
         throw new NullPointerException("the company has not been found, id = " + id);
     }
 
+    /** See also {@link IDataProvider#getVacancy(String)}. */
     @Override
     public Vacancy getVacancy(String id) {
         log.debug("getVacancy [1]: getting vacancy, id = {}", id);
@@ -369,6 +404,7 @@ public class DataProviderXml implements IDataProvider{
         throw new NullPointerException("the vacancy has not been found, id = " + id);
     }
 
+    /** See also {@link IDataProvider#getEmployee(String)}. */
     @Override
     public Employee getEmployee(String id) {
         log.debug("getEmployee [1]: getting employee, id = {}", id);
@@ -385,6 +421,7 @@ public class DataProviderXml implements IDataProvider{
         throw new NullPointerException("the employee has not been found, id = " + id);
     }
 
+    /** See also {@link IDataProvider#getSeparateQual(String)}. */
     @Override
     public SeparateQual getSeparateQual(String id) {
         log.debug("getSeparateQual [1]: getting separateQual, id = {}", id);
@@ -401,19 +438,21 @@ public class DataProviderXml implements IDataProvider{
         throw new NullPointerException("the separateQual has not been found, id = " + id);
     }
 
+    /** See also {@link IDataProvider#getAllClients()}. */
     @Override
-    public List<User> getAllUsers() {
-        log.debug("getAllUsers [1]: getting all users");
+    public List<Client> getAllClients() {
+        log.debug("getAllClients [1]: getting all clients");
         try{
-            XmlWrapper<User> wrap = getWrap(Constants.TITLE_TABLE_USER);
+            XmlWrapper<Client> wrap = getWrap(Constants.TITLE_TABLE_CLIENT);
             return wrap.getList();
         } catch(Exception ex){
-            log.error("getAllUsers [2]: error = {}", ex.getMessage());
+            log.error("getAllClients [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException("no users were not found");
+        throw new NullPointerException("no clients were not found");
     }
 
+    /** See also {@link IDataProvider#getAllResumes()}. */
     @Override
     public List<Resume> getAllResumes() {
         log.debug("getAllResumes [1]: getting all resumes");
@@ -427,6 +466,7 @@ public class DataProviderXml implements IDataProvider{
         throw new NullPointerException("no resumes were not found");
     }
 
+    /** See also {@link IDataProvider#getAllCompanies()}. */
     @Override
     public List<Company> getAllCompanies() {
         log.debug("getAllCompanies [1]: getting all companies");
@@ -440,6 +480,7 @@ public class DataProviderXml implements IDataProvider{
         throw new NullPointerException("no companies were not found");
     }
 
+    /** See also {@link IDataProvider#getAllVacancies()}. */
     @Override
     public List<Vacancy> getAllVacancies() {
         log.debug("getAllVacancies [1]: getting all мacancies");
@@ -453,6 +494,7 @@ public class DataProviderXml implements IDataProvider{
         throw new NullPointerException("no мacancies were not found");
     }
 
+    /** See also {@link IDataProvider#getAllEmployees()}. */
     @Override
     public List<Employee> getAllEmployees() {
         log.debug("getAllEmployees [1]: getting all employees");
@@ -466,6 +508,7 @@ public class DataProviderXml implements IDataProvider{
         throw new NullPointerException("no employees were not found");
     }
 
+    /** See also {@link IDataProvider#getAllSeparateQuals()}. */
     @Override
     public List<SeparateQual> getAllSeparateQuals() {
         log.debug("getAllSeparateQuals [1]: getting all separateQuals");
@@ -479,6 +522,7 @@ public class DataProviderXml implements IDataProvider{
         throw new NullPointerException("no separateQuals were not found");
     }
 
+    /** See also {@link IDataProvider#updatePerson()}. */
     @Override
     public Result updatePerson(Person person) {
         log.debug("updatePerson [1]: updating person, type of person = {}, person = {}", person.getTypePerson(), person);
@@ -515,6 +559,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#updateResume(Resume)}. */
     @Override
     public Result updateResume(Resume resume) {
         log.debug("updateResume [1]: updating resume, resume = {}", resume);
@@ -551,6 +596,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#updateCompany(Company)}. */
     @Override
     public Result updateCompany(Company company) {
         log.debug("updateCompany [1]: updating company, company = {}", company);
@@ -587,6 +633,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#updateVacancy(Vacancy)}. */
     @Override
     public Result updateVacancy(Vacancy vacancy) {
         log.debug("updateVacancy [1]: updating vacancy, vacancy = {}", vacancy);
@@ -623,6 +670,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#updateSeparateQual(SeparateQual)}. */
     @Override
     public Result updateSeparateQual(SeparateQual separateQual) {
         log.debug("updateSeparateQual [1]: updating separateQual, separateQual = {}", separateQual);
@@ -659,6 +707,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#deletePerson(String, TypePerson)}. */
     @Override
     public Result deletePerson(String id, TypePerson typePerson) {
         log.debug("deletePerson [1]: deleting person, typePerson = {}, id = {}", typePerson, id);
@@ -693,6 +742,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#deleteResume(String)}. */
     @Override
     public Result deleteResume(String id) {
         log.debug("deleteResume [1]: deleting resume, id = {}", id);
@@ -727,6 +777,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#deleteCompany(String)}. */
     @Override
     public Result deleteCompany(String id) {
         log.debug("deleteCompany [1]: deleting company, id = {}", id);
@@ -761,6 +812,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#deleteVacancy(String)}. */
     @Override
     public Result deleteVacancy(String id) {
         log.debug("deleteVacancy [1]: deleting vacancy, id = {}", id);
@@ -795,6 +847,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#deleteSeparateQual(String)}. */
     @Override
     public Result deleteSeparateQual(String id) {
         log.debug("deleteSeparateQual [1]: deleting separateQual, id = {}", id);

@@ -29,9 +29,9 @@ public class DataProviderCsvTest {
 //    }
     
     @Test
-    void testSavePersonUser(){
-        User person = new User();
-        person.setTypePerson(TypePerson.UserType);
+    void testSavePersonClient(){
+        Client person = new Client();
+        person.setTypePerson(TypePerson.ClientType);
         person.setName("Mike");
         person.setEmail("m@m.ru");
         person.setPhone("999");
@@ -57,7 +57,7 @@ public class DataProviderCsvTest {
     @Test
     void testSaveResume(){
         Resume resume = new Resume();
-        resume.setUserId("0");
+        resume.setClientId("0");
         resume.setCity("rostov");
         resume.setProfession("Prod");
         
@@ -69,7 +69,6 @@ public class DataProviderCsvTest {
     @Test
     void testSaveCompany(){
         Company company = new Company();
-        company.setUserId("0");
         company.setTitle("arenadata");
         
         DataProviderCsv dp = new DataProviderCsv();
@@ -102,12 +101,12 @@ public class DataProviderCsvTest {
     }
     
     @Test
-    void testGetUserPositive(){
+    void testGetClientPositive(){
         String id = "0";
         
         DataProviderCsv dp = new DataProviderCsv();
         try{
-            User user = dp.getUser(id);
+            Client user = dp.getClient(id);
             System.out.println(user);
         } catch(Exception ex){
             System.out.println(ex.getMessage());
@@ -115,11 +114,11 @@ public class DataProviderCsvTest {
     }
     
     @Test
-    void testGetUserNegative(){
+    void testGetClientNegative(){
         String id = "-1";
         try{
             DataProviderCsv dp = new DataProviderCsv();
-            User user = dp.getUser(id);
+            Client user = dp.getClient(id);
             System.out.println(user);   
         } catch(Exception ex){
             System.out.println(ex.getMessage());
@@ -253,10 +252,10 @@ public class DataProviderCsvTest {
     }
     
     @Test
-    void testGetAllUsers(){
+    void testGetAllClients(){
         try{
             DataProviderCsv dp = new DataProviderCsv();
-            dp.getAllUsers().stream()
+            dp.getAllClients().stream()
                     .forEach(System.out::println);
         } catch(Exception ex){
             System.out.println(ex.getMessage());
@@ -319,10 +318,10 @@ public class DataProviderCsvTest {
     }
     
     @Test
-    void testUpdateUser(){
+    void testUpdateClient(){
         try{
-            User user = new User();
-            user.setTypePerson(TypePerson.UserType);
+            Client user = new Client();
+            user.setTypePerson(TypePerson.ClientType);
             user.setId("0");
             user.setName("MIMIMI");
             
@@ -339,7 +338,7 @@ public class DataProviderCsvTest {
         try{
             Resume resume = new Resume();
             resume.setId("0");
-            resume.setUserId("0");
+            resume.setClientId("0");
             resume.setCity("rostov");
             resume.setProfession("Director");
             
@@ -356,7 +355,6 @@ public class DataProviderCsvTest {
         try{
             Company company = new Company();
             company.setId("0");
-            company.setUserId("0");
             company.setTitle("IRIIRIRI");
             
             DataProviderCsv dp = new DataProviderCsv();
@@ -402,12 +400,12 @@ public class DataProviderCsvTest {
     }
     
     @Test
-    void testDeleteUser(){
+    void testDeleteClient(){
         try{
             String id = "0";
                     
             DataProviderCsv dp = new DataProviderCsv();
-            Result res = dp.deletePerson(id, TypePerson.UserType);
+            Result res = dp.deletePerson(id, TypePerson.ClientType);
             assertEquals(Constants.CODE_SUCCESS, res.getCode());
         } catch(Exception ex){
             System.out.println(ex.getMessage());

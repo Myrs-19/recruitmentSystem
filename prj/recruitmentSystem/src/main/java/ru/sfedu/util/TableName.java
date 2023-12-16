@@ -14,7 +14,7 @@ import ru.sfedu.model.TypePerson;
 public class TableName {
     public static String getTableNamePerson(TypePerson typePerson){
         return switch (typePerson) {
-            case UserType -> Constants.TITLE_TABLE_USER;
+            case ClientType -> Constants.TITLE_TABLE_CLIENT;
             case EmployeeType -> Constants.TITLE_TABLE_EMPLOYEE;
             default -> null;
         };

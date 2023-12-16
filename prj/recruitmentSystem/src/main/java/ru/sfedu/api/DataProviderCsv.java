@@ -26,7 +26,7 @@ import ru.sfedu.Constants;
 import ru.sfedu.model.*;
 import ru.sfedu.model.TypePerson;
 import static ru.sfedu.model.TypePerson.EmployeeType;
-import static ru.sfedu.model.TypePerson.UserType;
+import static ru.sfedu.model.TypePerson.ClientType;
 
 import ru.sfedu.util.FileUtil;
 import static ru.sfedu.util.ConfigurationUtilProperties.getConfigurationEntry;
@@ -43,8 +43,15 @@ public class DataProviderCsv implements IDataProvider{
         } catch(IOException ex){
             log.error("DataProviderCsv [2]: error = {}", ex.getMessage());
         }
+        
     }
     
+    /**
+    * Method generates id for new record
+    * @param pathToCsv - путь до файла бина, чьи ids нужно проанализировать
+    * и увеличить на 1
+    * @return new id for new record
+    **/
     private String getId(String pathToCsv){
         log.debug("getId [1]: gettind id, pathToCsv = {}", pathToCsv);
         
@@ -74,10 +81,22 @@ public class DataProviderCsv implements IDataProvider{
         return id;
     }
     
+    /**
+    * Method returnes file path
+    * возвращает относительный путь этого файла
+    * @param tableName - имя файла
+    * @return возвращает относительный путь до файла
+    **/
     private String getPath(String tableName){
         return getConfigurationEntry(Constants.CSV_PATH_FOLDER) + tableName + Constants.CSV_FILE_TYPE;
     }
 
+    /**
+    * Method for realizing which person is in front of us
+    * возвращает относительный путь этого файла
+    * @param type - тип TypePerson
+    * @return возвращает относительный путь до файла
+    **/
     private String getPathPerson(TypePerson type){
         
         String tableName = TableName.getTableNamePerson(type);
@@ -86,7 +105,7 @@ public class DataProviderCsv implements IDataProvider{
         return pathToCsv;
     }
     
-    
+    /** See also {@link IDataProvider#savePerson(Person)}. */
     @Override
     public Result savePerson(Person person) {
         Result result = new Result();
@@ -117,6 +136,7 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#saveResume(Resume)}. */
     @Override
     public Result saveResume(Resume resume) {
         Result result = new Result();
@@ -147,6 +167,7 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#saveCompany(Company)}. */
     @Override
     public Result saveCompany(Company company) {
         Result result = new Result();
@@ -177,6 +198,7 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#saveVacancy(Vacancy)}. */
     @Override
     public Result saveVacancy(Vacancy vacancy) {
         Result result = new Result();
@@ -207,6 +229,7 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#saveSeparateQual(SeparateQual)}. */
     @Override
     public Result saveSeparateQual(SeparateQual separateQual) {
         Result result = new Result();
@@ -237,38 +260,40 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#getClient(String)}. */
     @Override
-    public User getUser(String id) {
-        log.debug("getUser [1]: id = {}", id);
+    public Client getClient(String id) {
+        log.debug("getClient [1]: id = {}", id);
        
-        try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_USER))){
+        try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_CLIENT))){
             CSVReader csvReader = new CSVReader(fileReader);
            
-            ColumnPositionMappingStrategy<User> beanStrategy = new ColumnPositionMappingStrategy<User>();
-            beanStrategy.setType(User.class);
+            ColumnPositionMappingStrategy<Client> beanStrategy = new ColumnPositionMappingStrategy<Client>();
+            beanStrategy.setType(Client.class);
            
-            CsvToBean<User> csvToBean = new CsvToBean<User>();
+            CsvToBean<Client> csvToBean = new CsvToBean<Client>();
             
             csvToBean.setCsvReader(csvReader);
             csvToBean.setMappingStrategy(beanStrategy);
             csvToBean.setOrderedResults(true);
             
-            Optional<User> userWrap = csvToBean.parse()
+            Optional<Client> clientWrap = csvToBean.parse()
                     .stream()
-                    .filter(user -> {
-                        return user.getId().equals(id);
+                    .filter(client -> {
+                        return client.getId().equals(id);
                     })
                     .findFirst();
             
-            return userWrap.get();
+            return clientWrap.get();
                     
         } catch(IOException | NoSuchElementException ex){
-            log.error("getUser [2]: error = {}", ex.getMessage());
+            log.error("getClient [2]: error = {}", ex.getMessage());
         }
        
-       throw new NullPointerException("such record does not exist: bean = User, id = " + id);
+       throw new NullPointerException("such record does not exist: bean = Client, id = " + id);
     }
 
+    /** See also {@link IDataProvider#getResume(String)}. */
     @Override
     public Resume getResume(String id) {
         log.debug("getResume [1]: id = {}", id);
@@ -301,6 +326,7 @@ public class DataProviderCsv implements IDataProvider{
        throw new NullPointerException("such record does not exist: bean = Resume, id = " + id);
     }
 
+    /** See also {@link IDataProvider#getCompany(String)}. */
     @Override
     public Company getCompany(String id) {
         log.debug("getCompany [1]: id = {}", id);
@@ -333,6 +359,7 @@ public class DataProviderCsv implements IDataProvider{
        throw new NullPointerException("such record does not exist: bean = Company, id = " + id);
     }
 
+    /** See also {@link IDataProvider#getVacancy(String)}. */
     @Override
     public Vacancy getVacancy(String id) {
         log.debug("getVacancy [1]: id = {}", id);
@@ -365,6 +392,7 @@ public class DataProviderCsv implements IDataProvider{
        throw new NullPointerException("such record does not exist: bean = Vacancy, id = " + id);
     }
 
+    /** See also {@link IDataProvider#getEmployee(String)}. */
     @Override
     public Employee getEmployee(String id) {
         log.debug("getEmployee [1]: id = {}", id);
@@ -397,6 +425,7 @@ public class DataProviderCsv implements IDataProvider{
        throw new NullPointerException("such record does not exist: bean = Employee, id = " + id);
     }
 
+    /** See also {@link IDataProvider#getSeparateQual(String)}. */
     @Override
     public SeparateQual getSeparateQual(String id) {
         log.debug("getSeparateQual [1]: id = {}", id);
@@ -429,18 +458,19 @@ public class DataProviderCsv implements IDataProvider{
        throw new NullPointerException("such record does not exist: bean = SeparateQual, id = " + id);
     }
 
+    /** See also {@link IDataProvider#getAllClients()}. */
     @Override
-    public List<User> getAllUsers() {
-        String pathToCsv = getPath(Constants.TITLE_TABLE_USER);
-        log.debug("getAllUsers [1]: getting all record from = {}", pathToCsv);
+    public List<Client> getAllClients() {
+        String pathToCsv = getPath(Constants.TITLE_TABLE_CLIENT);
+        log.debug("getAllClients [1]: getting all record from = {}", pathToCsv);
         
         try(FileReader fileReader = new FileReader(pathToCsv)){
             CSVReader csvReader = new CSVReader(fileReader);
            
-            ColumnPositionMappingStrategy<User> beanStrategy = new ColumnPositionMappingStrategy<User>();
-            beanStrategy.setType(User.class);
+            ColumnPositionMappingStrategy<Client> beanStrategy = new ColumnPositionMappingStrategy<Client>();
+            beanStrategy.setType(Client.class);
             
-            CsvToBean<User> csvToBean = new CsvToBean<User>();
+            CsvToBean<Client> csvToBean = new CsvToBean<Client>();
             
             csvToBean.setCsvReader(csvReader);
             csvToBean.setMappingStrategy(beanStrategy);
@@ -449,12 +479,13 @@ public class DataProviderCsv implements IDataProvider{
             return csvToBean.parse();
             
         } catch(NullPointerException | IOException ex){
-            log.error("getAllUsers [2]: error = {}", ex.getMessage());
+            log.error("getAllClients [2]: error = {}", ex.getMessage());
         }
 
-        throw new NullPointerException("records such bean do not exists: bean = User");
+        throw new NullPointerException("records such bean do not exists: bean = Client");
     }
 
+    /** See also {@link IDataProvider#getAllResumes()}. */
     @Override
     public List<Resume> getAllResumes() {
         String pathToCsv = getPath(Constants.TITLE_TABLE_RESUME);
@@ -481,6 +512,7 @@ public class DataProviderCsv implements IDataProvider{
         throw new NullPointerException("records such bean do not exists: bean = Resume");
     }
 
+    /** See also {@link IDataProvider#getAllCompanies()}. */
     @Override
     public List<Company> getAllCompanies() {
         String pathToCsv = getPath(Constants.TITLE_TABLE_COMPANY);
@@ -507,6 +539,7 @@ public class DataProviderCsv implements IDataProvider{
         throw new NullPointerException("records such bean do not exists: bean = Company");
     }
 
+    /** See also {@link IDataProvider#getAllVacancies()}. */
     @Override
     public List<Vacancy> getAllVacancies() {
         String pathToCsv = getPath(Constants.TITLE_TABLE_VACANCY);
@@ -533,6 +566,7 @@ public class DataProviderCsv implements IDataProvider{
         throw new NullPointerException("records such bean do not exists: bean = Vacancy");
     }
 
+    /** See also {@link IDataProvider#getAllEmployees()}. */
     @Override
     public List<Employee> getAllEmployees() {
         String pathToCsv = getPath(Constants.TITLE_TABLE_EMPLOYEE);
@@ -559,6 +593,7 @@ public class DataProviderCsv implements IDataProvider{
         throw new NullPointerException("records such bean do not exists: bean = Employee");
     }
 
+    /** See also {@link IDataProvider#getAllSeparateQuals()}. */
     @Override
     public List<SeparateQual> getAllSeparateQuals() {
         String pathToCsv = getPath(Constants.TITLE_TABLE_SEPARATE_QUAL);
@@ -585,6 +620,7 @@ public class DataProviderCsv implements IDataProvider{
         throw new NullPointerException("records such bean do not exists: bean = SeparateQual");
     }
 
+    /** See also {@link IDataProvider#updatePerson()}. */
     @Override
     public Result updatePerson(Person person) {
         Result result = new Result();
@@ -597,7 +633,7 @@ public class DataProviderCsv implements IDataProvider{
         
         Function<TypePerson, List> getPersons = (TypePerson type) -> {
             return switch (type){
-                case UserType -> getAllUsers();
+                case ClientType -> getAllClients();
                 case EmployeeType -> getAllEmployees();
                 default -> null;
             };
@@ -643,6 +679,7 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#updateResume(Resume)}. */
     @Override
     public Result updateResume(Resume resume) {
         Result result = new Result();
@@ -691,6 +728,7 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#updateCompany(Company)}. */
     @Override
     public Result updateCompany(Company company) {
         Result result = new Result();
@@ -739,6 +777,7 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#updateVacancy(Vacancy)}. */
     @Override
     public Result updateVacancy(Vacancy vacancy) {
         Result result = new Result();
@@ -787,6 +826,7 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#updateSeparateQual(SeparateQual)}. */
     @Override
     public Result updateSeparateQual(SeparateQual separateQual) {
         Result result = new Result();
@@ -835,6 +875,7 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#deletePerson(String, TypePerson)}. */
     @Override
     public Result deletePerson(String id, TypePerson typePerson) {
         Result result = new Result();
@@ -846,7 +887,7 @@ public class DataProviderCsv implements IDataProvider{
         
         Function<TypePerson, List> getPersons = (TypePerson type) -> {
             return switch (type){
-                case UserType -> getAllUsers();
+                case ClientType -> getAllClients();
                 case EmployeeType -> getAllEmployees();
                 default -> null;
             };
@@ -889,6 +930,7 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#deleteResume(String)}. */
     @Override
     public Result deleteResume(String id) {
         Result result = new Result();
@@ -934,6 +976,7 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#deleteCompany(String)}. */
     @Override
     public Result deleteCompany(String id) {
         Result result = new Result();
@@ -979,6 +1022,7 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#deleteVacancy(String)}. */
     @Override
     public Result deleteVacancy(String id) {
         Result result = new Result();
@@ -1024,6 +1068,7 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#deleteSeparateQual(String)}. */
     @Override
     public Result deleteSeparateQual(String id) {
         Result result = new Result();

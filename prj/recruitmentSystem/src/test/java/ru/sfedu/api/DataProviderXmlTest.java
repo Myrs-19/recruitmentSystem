@@ -20,7 +20,7 @@ import ru.sfedu.model.Result;
 import ru.sfedu.model.Resume;
 import ru.sfedu.model.SeparateQual;
 import ru.sfedu.model.TypePerson;
-import ru.sfedu.model.User;
+import ru.sfedu.model.Client;
 import ru.sfedu.model.Vacancy;
 
 /**
@@ -58,26 +58,26 @@ public class DataProviderXmlTest {
      * Test of savePerson method, of class DataProviderXml.
      */
     @Test
-    public void testSaveUser() {
+    public void testSaveClient() {
         
-        System.out.println("test saveUser xml");
-        User user = new User();
+        System.out.println("test saveClient xml");
+        Client client = new Client();
         
-        user.setTypePerson(TypePerson.UserType);
+        client.setTypePerson(TypePerson.ClientType);
         
-        user.setName("plplpl");
-        user.setSurname("selsel");
-        user.setAge("20");
+        client.setName("plplpl");
+        client.setSurname("selsel");
+        client.setAge("20");
         
-        user.setEmail("a");
-        user.setPhone("756");
-        user.setAddress("zorrr");
-        user.setPassword("ppiipi");
+        client.setEmail("a");
+        client.setPhone("756");
+        client.setAddress("zorrr");
+        client.setPassword("ppiipi");
         
         Result result = new Result();
         try{
             IDataProvider dp = new DataProviderXml();
-            result = dp.savePerson(user);
+            result = dp.savePerson(client);
             assertEquals(Constants.CODE_SUCCESS, result.getCode());     
         } catch(Exception ex){
             System.out.println(result.getMessage());
@@ -119,7 +119,7 @@ public class DataProviderXmlTest {
         System.out.println("test saveResume xml");
         Resume resume = new Resume();
         
-        resume.setUserId("0");
+        resume.setClientId("0");
         resume.setCity("rostov");
         resume.setProfession("developer");
         
@@ -142,7 +142,6 @@ public class DataProviderXmlTest {
         System.out.println("test saveCompany xml");
         Company company = new Company();
         
-        company.setUserId("0");
         company.setTitle("arenadata");
         
         Result result = new Result();
@@ -200,29 +199,29 @@ public class DataProviderXmlTest {
     }
 
     /**
-     * Test of getUser method, of class DataProviderXml.
+     * Test of getClient method, of class DataProviderXml.
      */
     @Test
-    public void testGetUserPositive() {
-        System.out.println("test GetUser xml");
+    public void testGetClientPositive() {
+        System.out.println("test GetClient xml");
         String id = "0";
         IDataProvider dp = new DataProviderXml();
         try{
-            User user = dp.getUser(id);
-            System.out.println(user);
+            Client client = dp.getClient(id);
+            System.out.println(client);
         } catch(Exception ex){
             System.out.println("Пользователя с таким id еще нет, id = " + id);
         }
     }
     
     @Test
-    public void testGetUserNegative() {
-        System.out.println("test GetUser xml");
+    public void testGetClientNegative() {
+        System.out.println("test GetClient xml");
         String id = "-1";
         IDataProvider dp = new DataProviderXml();
         try{
-            User user = dp.getUser(id);
-            System.out.println(user);
+            Client client = dp.getClient(id);
+            System.out.println(client);
         } catch(Exception ex){
             System.out.println("Пользователя с таким id еще нет, id = " + id);
         }
@@ -374,14 +373,14 @@ public class DataProviderXmlTest {
     }
 
     /**
-     * Test of getAllUsers method, of class DataProviderXml.
+     * Test of getAllClients method, of class DataProviderXml.
      */
     @Test
-    public void testGetAllUsers() {
-        System.out.println("test GetAllUsers xml");
+    public void testGetAllClients() {
+        System.out.println("test GetAllClients xml");
         IDataProvider dp = new DataProviderXml();
         try{
-            dp.getAllUsers().stream()
+            dp.getAllClients().stream()
                     .forEach(System.out::println);
         } catch(Exception ex){
             System.out.println("ни один пользователь не был добавлен");
@@ -467,26 +466,26 @@ public class DataProviderXmlTest {
      * Test of updatePerson method, of class DataProviderXml.
      */
     @Test
-    public void testUpdateUser() {
-        System.out.println("test updateUser xml");
-        User user = new User();
+    public void testUpdateClient() {
+        System.out.println("test updateClient xml");
+        Client client = new Client();
         String id = "0";
-        user.setId(id);
-        user.setTypePerson(TypePerson.UserType);
+        client.setId(id);
+        client.setTypePerson(TypePerson.ClientType);
         
-        user.setName("plplpl");
-        user.setSurname("MIMIMIMI");
-        user.setAge("20");
+        client.setName("plplpl");
+        client.setSurname("MIMIMIMI");
+        client.setAge("20");
         
-        user.setEmail("a");
-        user.setPhone("756");
-        user.setAddress("zorrr");
-        user.setPassword("ppiipi");
+        client.setEmail("a");
+        client.setPhone("756");
+        client.setAddress("zorrr");
+        client.setPassword("ppiipi");
         
         Result result = new Result();
         
         IDataProvider dp = new DataProviderXml();
-        result = dp.updatePerson(user);
+        result = dp.updatePerson(client);
         
         System.out.println(result);
     }
@@ -525,7 +524,7 @@ public class DataProviderXmlTest {
         Resume resume = new Resume();
         
         resume.setId("-1");
-        resume.setUserId("0");
+        resume.setClientId("0");
         resume.setCity("RRRRRRRRR");
         resume.setProfession("developer");
         
@@ -546,7 +545,6 @@ public class DataProviderXmlTest {
         Company company = new Company();
         
         company.setId("0");
-        company.setUserId("0");
         company.setTitle("DATAAA");
         
         Result result = new Result();
@@ -603,11 +601,11 @@ public class DataProviderXmlTest {
      * Test of deletePerson method, of class DataProviderXml.
      */
     @Test
-    public void testDeleteUser() {
-        System.out.println("test DeleteUser xml");
+    public void testDeleteClient() {
+        System.out.println("test DeleteClient xml");
         String id = "-1";
         IDataProvider dp = new DataProviderXml();
-        Result result = dp.deletePerson(id, TypePerson.UserType);
+        Result result = dp.deletePerson(id, TypePerson.ClientType);
         System.out.println(result);
     }
 
