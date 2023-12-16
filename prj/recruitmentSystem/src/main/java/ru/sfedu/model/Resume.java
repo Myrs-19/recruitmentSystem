@@ -30,7 +30,6 @@ public class Resume {
     @CsvBindByPosition(position = 3)
     String city;
     
-    
     @Element(required = false)
     @CsvBindByPosition(position = 4)
     String skills;

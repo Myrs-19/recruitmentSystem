@@ -70,12 +70,58 @@ public class Constants {
             .concat("birthday DATE, ")
             .concat("phone VARCHAR(11), ")
             .concat("email varchar(128), ")
-            .concat("companyId INTEGER NOT NULL FOREIGN KEY(companyId) REFERENCES ").concat(TITLE_TABLE_COMPANY).concat("(id) CASCADE, ")
+            .concat("companyId INTEGER NOT NULL REFERENCES ").concat(TITLE_TABLE_COMPANY).concat("(id) ON DELETE CASCADE ON UPDATE CASCADE, ")
             .concat("startWorkDate DATE NOT NULL, ")
             .concat("salary INTEGER NOT NULL, ")
             .concat("position varchar(256) NOT NULL, ")
-            .concat("isWorking BOOLEAN NOU NULL")
+            .concat("isWorking BOOLEAN NOT NULL")
             .concat(");");
+    
+    public static final String H2_QUERY_CREATE_RESUME = "CREATE TABLE IF NOT EXISTS ".concat(TITLE_TABLE_RESUME)
+            .concat("(")
+            .concat("id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, ")
+            .concat("clientId INTEGER NOT NULL REFERENCES ").concat(TITLE_TABLE_CLIENT).concat("(id) ON DELETE CASCADE ON UPDATE CASCADE, ")
+            .concat("profession VARCHAR(128) NOT NULL, ")
+            .concat("city VARCHAR(64) NOT NULL, ")
+            .concat("skills VARCHAR(256), ")
+            .concat("education VARCHAR(256), ")
+            .concat("experience VARCHAR(256), ")
+            .concat("sex ENUM(" + "\'MAN\', " + "\'WOMAN\'), ")
+            .concat("workPermit BOOLEAN, ")
+            .concat("citizenship VARCHAR(32)")
+            .concat(");");
+    
+    public static final String H2_QUERY_CREATE_COMPANY = "CREATE TABLE IF NOT EXISTS ".concat(TITLE_TABLE_COMPANY)
+            .concat("(")
+            .concat("id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, ")
+            .concat("title VARCHAR(32) NOT NULL, ")
+            .concat("description VARCHAR(256) NOT NULL")
+            .concat(");");
+    
+    public static final String H2_QUERY_CREATE_VACANCY = "CREATE TABLE IF NOT EXISTS ".concat(TITLE_TABLE_VACANCY)
+            .concat("(")
+            .concat("id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, ")
+            .concat("companyId INTEGER NOT NULL REFERENCES ").concat(TITLE_TABLE_COMPANY).concat("(id) ON DELETE CASCADE ON UPDATE CASCADE, ")
+            .concat("title VARCHAR(64) NOT NULL, ")
+            .concat("specialization VARCHAR(64), ")
+            .concat("online BOOLEAN, ")
+            .concat("skills VARCHAR(256), ")
+            .concat("salary INTEGER NOT NULL, ")
+            .concat("city VARCHAR(64), ")
+            .concat("address VARCHAR(128), ")
+            .concat("experience VARCHAR(256)")
+            .concat(");");
+    
+    public static final String H2_QUERY_CREATE_SEPARATE_QUAL = "CREATE TABLE IF NOT EXISTS ".concat(TITLE_TABLE_SEPARATE_QUAL)
+            .concat("(")
+            .concat("id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, ")
+            .concat("companyId INTEGER NOT NULL REFERENCES ").concat(TITLE_TABLE_COMPANY).concat("(id) ON DELETE CASCADE ON UPDATE CASCADE, ")
+            .concat("employeeId INTEGER NOT NULL REFERENCES ").concat(TITLE_TABLE_COMPANY).concat("(id) ON DELETE NO ACTION ON UPDATE NO ACTION, ")
+            .concat("quality INTEGER NOT NULL, ")
+            .concat("description VARCHAR(256)")
+            .concat(");");
+            
+            
 }
 
 
