@@ -120,6 +120,11 @@ public class Constants {
             .concat("quality INTEGER NOT NULL, ")
             .concat("description VARCHAR(256)")
             .concat(");");
+    
+    public static final String H2_QUERY_INSERT_CLIENT = String.format("INSERT INTO %s (name, surname, middleName, age, birthday, phone, email, password, address) ")
+            .concat("VALUES(%s, %s, %s, %d, %s, %s, %s, %s, %s)");
+    
+    public static final String H2_QUERY_INSERT_EMPLOYEE = "";
             
             
 }

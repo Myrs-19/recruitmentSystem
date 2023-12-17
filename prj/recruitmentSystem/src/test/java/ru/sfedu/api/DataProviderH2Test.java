@@ -9,7 +9,10 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
+
+import ru.sfedu.model.*;
 
 /**
  *
@@ -39,6 +42,26 @@ public class DataProviderH2Test {
     @Test
     public void testInitH2(){
         IDataProvider dp = new DataProviderH2();
+    }
+    
+    @Test
+    public void testSaveClient(){
+        IDataProvider dp = new DataProviderH2();
+        
+        Client client = new Client();
+        
+        client.setTypePerson(TypePerson.ClientType);
+        
+        client.setName("Mike");
+        client.setSurname("Seleznev");
+        client.setAge("33");
+        
+        client.setPassword("998989898");
+        client.setAddress("zorge 28/2");
+        
+        Result result = dp.savePerson(client);
+        System.out.println(result);
+        
     }
     
 }
