@@ -16,11 +16,11 @@ import org.simpleframework.xml.Root;
 public class Resume {
     @Element
     @CsvBindByPosition(position = 0)
-    String id;
+    int id;
     
     @Element
     @CsvBindByPosition(position = 1)
-    String clientId;
+    int clientId;
     
     @Element
     @CsvBindByPosition(position = 2)
@@ -56,19 +56,19 @@ public class Resume {
     
     public Resume(){}
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getClientId() {
+    public int getClientId() {
         return clientId;
     }
 
-    public void setClientId(String clientId) {
+    public void setClientId(int clientId) {
         this.clientId = clientId;
     }
 

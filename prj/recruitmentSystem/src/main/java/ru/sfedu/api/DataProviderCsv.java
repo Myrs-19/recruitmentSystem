@@ -52,11 +52,11 @@ public class DataProviderCsv implements IDataProvider{
     * и увеличить на 1
     * @return new id for new record
     **/
-    private String getId(String pathToCsv){
+    private int getId(String pathToCsv){
         log.debug("getId [1]: gettind id, pathToCsv = {}", pathToCsv);
         
-        final String[] idWrapper = {Constants.FIRST_ID};
-        String id = idWrapper[0];
+        final int[] idWrapper = {Constants.FIRST_ID};
+        int id = idWrapper[0];
         
         try(FileReader fileReader = new FileReader(pathToCsv)){
             CSVReader csvReader = new CSVReader(fileReader);
@@ -64,8 +64,8 @@ public class DataProviderCsv implements IDataProvider{
             csvReader.readAll().stream()
                     .forEach(
                     (it) -> {
-                        if(Integer.parseInt(it[0]) >= Integer.parseInt(idWrapper[0])){
-                            idWrapper[0] = String.valueOf(Integer.parseInt(it[0])+1);
+                        if(Integer.parseInt(it[0]) >= idWrapper[0]){
+                            idWrapper[0] = Integer.parseInt(it[0])+1;
                         }
                     }
                     );
@@ -114,7 +114,7 @@ public class DataProviderCsv implements IDataProvider{
         
         log.debug("savePerson [1]: obj = {}", person);
         
-        String id = getId(pathToCsv);
+        int id = getId(pathToCsv);
         person.setId(id);
         
         try (FileWriter writer  = new FileWriter(pathToCsv, true)){
@@ -145,7 +145,7 @@ public class DataProviderCsv implements IDataProvider{
         
         log.debug("saveResume [1]: obj = {}", resume);
         
-        String id = getId(pathToCsv);
+        int id = getId(pathToCsv);
         resume.setId(id);
         
         try (FileWriter writer  = new FileWriter(pathToCsv, true)){
@@ -176,7 +176,7 @@ public class DataProviderCsv implements IDataProvider{
         
         log.debug("saveCompany [1]: obj = {}", company);
         
-        String id = getId(pathToCsv);
+        int id = getId(pathToCsv);
         company.setId(id);
         
         try (FileWriter writer  = new FileWriter(pathToCsv, true)){
@@ -207,7 +207,7 @@ public class DataProviderCsv implements IDataProvider{
         
         log.debug("saveVacancy [1]: obj = {}", vacancy);
         
-        String id = getId(pathToCsv);
+        int id = getId(pathToCsv);
         vacancy.setId(id);
         
         try (FileWriter writer  = new FileWriter(pathToCsv, true)){
@@ -238,7 +238,7 @@ public class DataProviderCsv implements IDataProvider{
         
         log.debug("saveSeparateQual [1]: obj = {}", separateQual);
         
-        String id = getId(pathToCsv);
+        int id = getId(pathToCsv);
         separateQual.setId(id);
         
         try (FileWriter writer  = new FileWriter(pathToCsv, true)){
@@ -262,7 +262,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#getClient(String)}. */
     @Override
-    public Client getClient(String id) {
+    public Client getClient(int id) {
         log.debug("getClient [1]: id = {}", id);
        
         try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_CLIENT))){
@@ -280,7 +280,7 @@ public class DataProviderCsv implements IDataProvider{
             Optional<Client> clientWrap = csvToBean.parse()
                     .stream()
                     .filter(client -> {
-                        return client.getId().equals(id);
+                        return client.getId() == id;
                     })
                     .findFirst();
             
@@ -295,7 +295,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#getResume(String)}. */
     @Override
-    public Resume getResume(String id) {
+    public Resume getResume(int id) {
         log.debug("getResume [1]: id = {}", id);
        
         try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_RESUME))){
@@ -313,7 +313,7 @@ public class DataProviderCsv implements IDataProvider{
             Optional<Resume> resumeWrap = csvToBean.parse()
                     .stream()
                     .filter(resume -> {
-                        return resume.getId().equals(id);
+                        return resume.getId() == id;
                     })
                     .findFirst();
             
@@ -328,7 +328,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#getCompany(String)}. */
     @Override
-    public Company getCompany(String id) {
+    public Company getCompany(int id) {
         log.debug("getCompany [1]: id = {}", id);
        
         try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_COMPANY))){
@@ -346,7 +346,7 @@ public class DataProviderCsv implements IDataProvider{
             Optional<Company> resumeWrap = csvToBean.parse()
                     .stream()
                     .filter(company -> {
-                        return company.getId().equals(id);
+                        return company.getId() == id;
                     })
                     .findFirst();
             
@@ -361,7 +361,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#getVacancy(String)}. */
     @Override
-    public Vacancy getVacancy(String id) {
+    public Vacancy getVacancy(int id) {
         log.debug("getVacancy [1]: id = {}", id);
        
         try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_VACANCY))){
@@ -379,7 +379,7 @@ public class DataProviderCsv implements IDataProvider{
             Optional<Vacancy> resumeWrap = csvToBean.parse()
                     .stream()
                     .filter(vacancy -> {
-                        return vacancy.getId().equals(id);
+                        return vacancy.getId() == id;
                     })
                     .findFirst();
             
@@ -394,7 +394,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#getEmployee(String)}. */
     @Override
-    public Employee getEmployee(String id) {
+    public Employee getEmployee(int id) {
         log.debug("getEmployee [1]: id = {}", id);
        
         try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_EMPLOYEE))){
@@ -412,7 +412,7 @@ public class DataProviderCsv implements IDataProvider{
             Optional<Employee> resumeWrap = csvToBean.parse()
                     .stream()
                     .filter(employee -> {
-                        return employee.getId().equals(id);
+                        return employee.getId() == id;
                     })
                     .findFirst();
             
@@ -427,7 +427,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#getSeparateQual(String)}. */
     @Override
-    public SeparateQual getSeparateQual(String id) {
+    public SeparateQual getSeparateQual(int id) {
         log.debug("getSeparateQual [1]: id = {}", id);
        
         try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_SEPARATE_QUAL))){
@@ -445,7 +445,7 @@ public class DataProviderCsv implements IDataProvider{
             Optional<SeparateQual> resumeWrap = csvToBean.parse()
                     .stream()
                     .filter(separateQual -> {
-                        return separateQual.getId().equals(id);
+                        return separateQual.getId() == id;
                     })
                     .findFirst();
             
@@ -627,7 +627,7 @@ public class DataProviderCsv implements IDataProvider{
         result.setCode(Constants.CODE_SUCCESS);
         result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
         
-        String id = person.getId();
+        int id = person.getId();
         
         log.debug("updatePerson [1]: obj = {}, id = {}", person, id);
         
@@ -651,7 +651,7 @@ public class DataProviderCsv implements IDataProvider{
             persons.stream()
                     .forEach((p) -> {
                         try{
-                            if(p.getId().equals(person.getId())){
+                            if(p.getId() == person.getId()){
                                     beanToCsv.write(person);
                             }
                             else{
@@ -700,7 +700,7 @@ public class DataProviderCsv implements IDataProvider{
             resumes.stream()
                     .forEach((r) -> {
                         try{
-                            if(r.getId().equals(resume.getId())){
+                            if(r.getId() == resume.getId()){
                                     beanToCsv.write(resume);
                             }
                             else{
@@ -749,7 +749,7 @@ public class DataProviderCsv implements IDataProvider{
             companies.stream()
                     .forEach((c) -> {
                         try{
-                            if(c.getId().equals(company.getId())){
+                            if(c.getId() == company.getId()){
                                     beanToCsv.write(company);
                             }
                             else{
@@ -798,7 +798,7 @@ public class DataProviderCsv implements IDataProvider{
             vacancies.stream()
                     .forEach((v) -> {
                         try{
-                            if(v.getId().equals(vacancy.getId())){
+                            if(v.getId() == vacancy.getId()){
                                     beanToCsv.write(vacancy);
                             }
                             else{
@@ -847,7 +847,7 @@ public class DataProviderCsv implements IDataProvider{
             separateQuals.stream()
                     .forEach((sp) -> {
                         try{
-                            if(sp.getId().equals(separateQual.getId())){
+                            if(sp.getId() == separateQual.getId()){
                                     beanToCsv.write(separateQual);
                             }
                             else{
@@ -877,7 +877,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#deletePerson(String, TypePerson)}. */
     @Override
-    public Result deletePerson(String id, TypePerson typePerson) {
+    public Result deletePerson(int id, TypePerson typePerson) {
         Result result = new Result();
         result.setCode(Constants.CODE_SUCCESS);
         result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
@@ -905,7 +905,7 @@ public class DataProviderCsv implements IDataProvider{
             persons.stream()
                     .forEach((p) -> {
                         try{
-                            if(!p.getId().equals(id)){
+                            if(p.getId() != id){
                                     beanToCsv.write(p);
                             }
                             else{
@@ -932,7 +932,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#deleteResume(String)}. */
     @Override
-    public Result deleteResume(String id) {
+    public Result deleteResume(int id) {
         Result result = new Result();
         result.setCode(Constants.CODE_SUCCESS);
         result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
@@ -951,7 +951,7 @@ public class DataProviderCsv implements IDataProvider{
             resumes.stream()
                     .forEach((r) -> {
                         try{
-                            if(!r.getId().equals(id)){
+                            if(r.getId() != id){
                                     beanToCsv.write(r);
                             }
                             else{
@@ -978,7 +978,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#deleteCompany(String)}. */
     @Override
-    public Result deleteCompany(String id) {
+    public Result deleteCompany(int id) {
         Result result = new Result();
         result.setCode(Constants.CODE_SUCCESS);
         result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
@@ -997,7 +997,7 @@ public class DataProviderCsv implements IDataProvider{
             companies.stream()
                     .forEach((c) -> {
                         try{
-                            if(!c.getId().equals(id)){
+                            if(c.getId() != id){
                                     beanToCsv.write(c);
                             }
                             else{
@@ -1024,7 +1024,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#deleteVacancy(String)}. */
     @Override
-    public Result deleteVacancy(String id) {
+    public Result deleteVacancy(int id) {
         Result result = new Result();
         result.setCode(Constants.CODE_SUCCESS);
         result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
@@ -1043,7 +1043,7 @@ public class DataProviderCsv implements IDataProvider{
             vacancies.stream()
                     .forEach((v) -> {
                         try{
-                            if(!v.getId().equals(id)){
+                            if(v.getId() != id){
                                     beanToCsv.write(v);
                             }
                             else{
@@ -1070,7 +1070,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#deleteSeparateQual(String)}. */
     @Override
-    public Result deleteSeparateQual(String id) {
+    public Result deleteSeparateQual(int id) {
         Result result = new Result();
         result.setCode(Constants.CODE_SUCCESS);
         result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
@@ -1089,7 +1089,7 @@ public class DataProviderCsv implements IDataProvider{
             separateQuals.stream()
                     .forEach((sp) -> {
                         try{
-                            if(!sp.getId().equals(id)){
+                            if(sp.getId() != id){
                                     beanToCsv.write(sp);
                             }
                             else{

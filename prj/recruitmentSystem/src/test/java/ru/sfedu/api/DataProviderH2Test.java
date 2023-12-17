@@ -59,7 +59,7 @@ public class DataProviderH2Test {
         
         client.setName("Mike");
         client.setSurname("Seleznev");
-        client.setAge("33");
+        client.setAge(33);
         
         client.setPassword("998989898");
         client.setAddress("zorge 28/2");
@@ -94,11 +94,11 @@ public class DataProviderH2Test {
         
         employee.setName("plplpl");
         employee.setSurname("selsel");
-        employee.setAge("20");
+        employee.setAge(20);
         
-        employee.setCompanyId("1");
+        employee.setCompanyId(1);
         employee.setStartWorkDate("12-06-2003");
-        employee.setSalary("99");
+        employee.setSalary(99);
         employee.setIsWorking(false);
         employee.setPosition("middle");
         
@@ -118,7 +118,7 @@ public class DataProviderH2Test {
         System.out.println("test saveResume h2");
         Resume resume = new Resume();
         
-        resume.setClientId("1");
+        resume.setClientId(1);
         resume.setCity("rostov");
         resume.setProfession("developer");
         
@@ -154,9 +154,165 @@ public class DataProviderH2Test {
         separateQual.setEmployeeId(1);
         separateQual.setQuality(7);
         
-        IDataProvider dp = new DataProviderXml();
+        IDataProvider dp = new DataProviderH2();
         Result result = dp.saveSeparateQual(separateQual);
        
         System.out.println(result);
+    }
+    
+    @Test
+    public void testGetClientByIdPositive(){
+        testSaveClient();
+        System.out.println("test GetClientById positive");
+        try{
+            int id = 1;
+            IDataProvider dp = new DataProviderH2();
+            System.out.println(dp.getClient(id)); 
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetClientByIdNegative(){
+       
+        System.out.println("test GetClientById negative");
+        try{
+            int id = -1;
+            IDataProvider dp = new DataProviderH2();
+            System.out.println(dp.getClient(id));
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetResumeByIdPositive(){
+        testSaveResume();
+        System.out.println("test getResumeById positive");
+        try{
+            int id = 1;
+            IDataProvider dp = new DataProviderH2();
+            System.out.println(dp.getResume(id)); 
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetResumeByIdNegative(){
+    
+        System.out.println("test getResumeById negative");
+        try{
+            int id = -1;
+            IDataProvider dp = new DataProviderH2();
+            System.out.println(dp.getResume(id));
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetCompanyByIdPositive(){
+        testSaveCompany();
+        System.out.println("test getCompanyById positive");
+        try{
+            int id = 1;
+            IDataProvider dp = new DataProviderH2();
+            System.out.println(dp.getCompany(id)); 
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetCompanyByIdNegative(){
+       
+        System.out.println("test getCompanyById negative");
+        try{
+            int id = -1;
+            IDataProvider dp = new DataProviderH2();
+            System.out.println(dp.getCompany(id));
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetVacancyByIdPositive(){
+        testSaveVacancy();
+        System.out.println("test getVacancyById positive");
+        try{
+            int id = 1;
+            IDataProvider dp = new DataProviderH2();
+            System.out.println(dp.getVacancy(id)); 
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetVacancyByIdNegative(){
+        
+        System.out.println("test getVacancyById negative");
+        try{
+            int id = -1;
+            IDataProvider dp = new DataProviderH2();
+            System.out.println(dp.getVacancy(id));
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetEmployeeByIdPositive(){
+        testSaveEmployee();
+        System.out.println("test getEmployeeById positive");
+        try{
+            int id = 1;
+            IDataProvider dp = new DataProviderH2();
+            System.out.println(dp.getEmployee(id)); 
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetEmployeeByIdNegative(){
+       
+        System.out.println("test getEmployeeById negative");
+        try{
+            int id = -1;
+            IDataProvider dp = new DataProviderH2();
+            System.out.println(dp.getEmployee(id));
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetSeparateQualByIdPositive(){
+        testSaveSeparateQual();
+        System.out.println("test getSeparateQualById positive");
+        try{
+            int id = 1;
+            IDataProvider dp = new DataProviderH2();
+            System.out.println(dp.getSeparateQual(id)); 
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetSeparateQualByIdNegative(){
+        
+        System.out.println("test getSeparateQualById negative");
+        try{
+            int id = -1;
+            IDataProvider dp = new DataProviderH2();
+            System.out.println(dp.getSeparateQual(id));
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
     }
 }

@@ -8,7 +8,7 @@ import org.simpleframework.xml.Root;
 public class Vacancy {
     @Element
     @CsvBindByPosition(position = 0)
-    String id;
+    int id;
     
     @Element
     @CsvBindByPosition(position = 1)
@@ -48,11 +48,11 @@ public class Vacancy {
     
     public Vacancy(){}
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -64,7 +64,7 @@ public interface IDataProvider {
      * @param id - id of a client.
      * @return client object.
      **/
-    Client getClient(String id);
+    Client getClient(int id);
     
     /**
      * Method that returns resume in system by id.
@@ -72,7 +72,7 @@ public interface IDataProvider {
      * @param id - id of a resume.
      * @return resume object.
      **/
-    Resume getResume(String id);
+    Resume getResume(int id);
     
     /**
      * Method that returns company in system by id.
@@ -80,7 +80,7 @@ public interface IDataProvider {
      * @param id - id of a company.
      * @return company object.
      **/
-    Company getCompany(String id);
+    Company getCompany(int id);
     
     /**
      * Method that returns vacancy in system by id.
@@ -88,7 +88,7 @@ public interface IDataProvider {
      * @param id - id of a vacancy .
      * @return vacancy object.
      **/
-    Vacancy getVacancy(String id);
+    Vacancy getVacancy(int id);
     
     /**
      * Method that returns employee in system by id.
@@ -96,7 +96,7 @@ public interface IDataProvider {
      * @param id - id of a employee .
      * @return employee object.
      **/
-    Employee getEmployee(String id);
+    Employee getEmployee(int id);
     
     /**
      * Method that returns separateQual in system by id.
@@ -104,7 +104,7 @@ public interface IDataProvider {
      * @param id - id of a separateQual .
      * @return separateQual object.
      **/
-    SeparateQual getSeparateQual(String id);
+    SeparateQual getSeparateQual(int id);
     
     /**
      * Method that returns all clients in system.
@@ -207,7 +207,7 @@ public interface IDataProvider {
      * @param typePerson - the type of person what (Client, Employee).
      * @return an object that contains the result of the save.
      **/
-    Result deletePerson(String id, TypePerson typePerson);
+    Result deletePerson(int id, TypePerson typePerson);
     
     /**
      * Method for deleting a resume in the system by id.
@@ -217,7 +217,7 @@ public interface IDataProvider {
      * @param id - the id of resume .
      * @return an object that contains the result of the save.
      **/
-    Result deleteResume(String id);
+    Result deleteResume(int id);
     
     /**
      * Method for deleting a company in the system by id.
@@ -227,7 +227,7 @@ public interface IDataProvider {
      * @param id - the id of company .
      * @return an object that contains the result of the save.
      **/
-    Result deleteCompany(String id);
+    Result deleteCompany(int id);
     
     /**
      * Method for deleting a vacancy in the system by id.
@@ -237,7 +237,7 @@ public interface IDataProvider {
      * @param id - the id of vacancy .
      * @return an object that contains the result of the save.
      **/
-    Result deleteVacancy(String id);
+    Result deleteVacancy(int id);
     
     /**
      * Method for deleting a separateQual in the system by id.
@@ -247,5 +247,5 @@ public interface IDataProvider {
      * @param id - the id of separateQual .
      * @return an object that contains the result of the save.
      **/
-    Result deleteSeparateQual(String id);
+    Result deleteSeparateQual(int id);
 }

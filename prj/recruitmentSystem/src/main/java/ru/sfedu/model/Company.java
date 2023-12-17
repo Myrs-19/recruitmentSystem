@@ -12,7 +12,7 @@ import org.simpleframework.xml.Root;
 public class Company {
     @Element
     @CsvBindByPosition(position = 0)
-    String id;
+    int id;
     
     @Element
     @CsvBindByPosition(position = 1)
@@ -24,11 +24,11 @@ public class Company {
     
     public Company(){}
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

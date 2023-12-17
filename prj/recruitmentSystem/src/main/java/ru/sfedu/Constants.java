@@ -13,7 +13,7 @@ public class Constants {
     public static final String TITLE_TABLE_COMPANY = "company";
     public static final String TITLE_TABLE_SEPARATE_QUAL = "separateQual";
     
-    public static final String FIRST_ID = "1";
+    public static final int FIRST_ID = 1;
     
     public static final String CSV_PATH_FOLDER = "ru.sfedu.csv.folder";
     public static final String CSV_FILE_TYPE = ".csv";
@@ -138,6 +138,9 @@ public class Constants {
     
     public static final String H2_QUERY_INSERT_SEPARATE_QUAL = String.format("INSERT INTO %s (companyId, employeeId, quality, description) ", TITLE_TABLE_SEPARATE_QUAL)
             .concat("VALUES(?, ?, ?, ?)");
+    
+    public static final String H2_QUERY_GET_RECORD_BY_ID = "SELECT * FROM %s WHERE id = %d";
+    
     
             
             

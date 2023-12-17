@@ -118,14 +118,14 @@ public class DataProviderXml implements IDataProvider{
         String tableName = TableName.getTableNamePerson(person.getTypePerson());
         
         try{
-            String id = Constants.FIRST_ID;
+            int id = Constants.FIRST_ID;
             XmlWrapper<Person> wrap;
             try{
                 wrap = DataProviderXml.<Person>getWrap(tableName);
-                id = getId(
-                wrap.getList().stream()
-                        .map((Person p) -> Integer.parseInt(p.getId())).toList()
-                );
+                id = Integer.parseInt(getId(
+                    wrap.getList().stream()
+                            .map((Person p) -> p.getId()).toList()
+                ));
                 person.setId(id);
                 
                 List<Person> list = wrap.getList();
@@ -164,14 +164,14 @@ public class DataProviderXml implements IDataProvider{
         String tableName = Constants.TITLE_TABLE_RESUME;
         
         try{
-            String id = Constants.FIRST_ID;
+            int id = Constants.FIRST_ID;
             XmlWrapper<Resume> wrap;
             try{
                 wrap = DataProviderXml.<Resume>getWrap(tableName);
-                id = getId(
+                id = Integer.parseInt(getId(
                 wrap.getList().stream()
-                        .map((Resume r) -> Integer.parseInt(r.getId())).toList()
-                );
+                        .map((Resume r) -> r.getId()).toList()
+                ));
                 resume.setId(id);
                 
                 List<Resume> list = wrap.getList();
@@ -210,14 +210,14 @@ public class DataProviderXml implements IDataProvider{
         String tableName = Constants.TITLE_TABLE_COMPANY;
         
         try{
-            String id = Constants.FIRST_ID;
+            int id = Constants.FIRST_ID;
             XmlWrapper<Company> wrap;
             try{
                 wrap = DataProviderXml.<Company>getWrap(tableName);
-                id = getId(
+                id = Integer.parseInt(getId(
                 wrap.getList().stream()
-                        .map((Company c) -> Integer.parseInt(c.getId())).toList()
-                );
+                        .map((Company c) -> c.getId()).toList()
+                ));
                 company.setId(id);
                 
                 List<Company> list = wrap.getList();
@@ -256,14 +256,14 @@ public class DataProviderXml implements IDataProvider{
         String tableName = Constants.TITLE_TABLE_VACANCY;
         
         try{
-            String id = Constants.FIRST_ID;
+            int id = Constants.FIRST_ID;
             XmlWrapper<Vacancy> wrap;
             try{
                 wrap = DataProviderXml.<Vacancy>getWrap(tableName);
-                id = getId(
+                id = Integer.parseInt(getId(
                 wrap.getList().stream()
-                        .map((Vacancy v) -> Integer.parseInt(v.getId())).toList()
-                );
+                        .map((Vacancy v) -> v.getId()).toList()
+                ));
                 vacancy.setId(id);
                 
                 List<Vacancy> list = wrap.getList();
@@ -302,14 +302,14 @@ public class DataProviderXml implements IDataProvider{
         String tableName = Constants.TITLE_TABLE_SEPARATE_QUAL;
         
         try{
-            String id = Constants.FIRST_ID;
+            int id = Constants.FIRST_ID;
             XmlWrapper<SeparateQual> wrap;
             try{
                 wrap = DataProviderXml.<SeparateQual>getWrap(tableName);
-                id = getId(
+                id = Integer.parseInt(getId(
                 wrap.getList().stream()
-                        .map((SeparateQual sq) -> Integer.parseInt(sq.getId())).toList()
-                );
+                        .map((SeparateQual sq) -> sq.getId()).toList()
+                ));
                 separateQual.setId(id);
                 
                 List<SeparateQual> list = wrap.getList();
@@ -338,12 +338,12 @@ public class DataProviderXml implements IDataProvider{
 
     /** See also {@link IDataProvider#getClient(String)}. */
     @Override
-    public Client getClient(String id) {
+    public Client getClient(int id) {
         log.debug("getClient [1]: getting client, id = {}", id);
         try{
             XmlWrapper<Client> wrap = getWrap(Constants.TITLE_TABLE_CLIENT);
             Optional<Client> optionalClient = wrap.getList().stream()
-                    .filter(u -> u.getId().equals(id))
+                    .filter(u -> u.getId() == id)
                     .findFirst();
             return optionalClient.get();
         } catch(Exception ex){
@@ -355,12 +355,12 @@ public class DataProviderXml implements IDataProvider{
 
     /** See also {@link IDataProvider#getResume(String)}. */
     @Override
-    public Resume getResume(String id) {
+    public Resume getResume(int id) {
         log.debug("getResume [1]: getting resume, id = {}", id);
         try{
             XmlWrapper<Resume> wrap = getWrap(Constants.TITLE_TABLE_RESUME);
             Optional<Resume> optionalResume = wrap.getList().stream()
-                    .filter(r -> r.getId().equals(id))
+                    .filter(r -> r.getId() == id)
                     .findFirst();
             return optionalResume.get();
         } catch(Exception ex){
@@ -372,12 +372,12 @@ public class DataProviderXml implements IDataProvider{
 
     /** See also {@link IDataProvider#getCompany(String)}. */
     @Override
-    public Company getCompany(String id) {
+    public Company getCompany(int id) {
         log.debug("getCompany [1]: getting company, id = {}", id);
         try{
             XmlWrapper<Company> wrap = getWrap(Constants.TITLE_TABLE_COMPANY);
             Optional<Company> optionalCompany = wrap.getList().stream()
-                    .filter(c -> c.getId().equals(id))
+                    .filter(c -> c.getId() == id)
                     .findFirst();
             return optionalCompany.get();
         } catch(Exception ex){
@@ -389,12 +389,12 @@ public class DataProviderXml implements IDataProvider{
 
     /** See also {@link IDataProvider#getVacancy(String)}. */
     @Override
-    public Vacancy getVacancy(String id) {
+    public Vacancy getVacancy(int id) {
         log.debug("getVacancy [1]: getting vacancy, id = {}", id);
         try{
             XmlWrapper<Vacancy> wrap = getWrap(Constants.TITLE_TABLE_VACANCY);
             Optional<Vacancy> optionalVacancy = wrap.getList().stream()
-                    .filter(v -> v.getId().equals(id))
+                    .filter(v -> v.getId() == id)
                     .findFirst();
             return optionalVacancy.get();
         } catch(Exception ex){
@@ -406,12 +406,12 @@ public class DataProviderXml implements IDataProvider{
 
     /** See also {@link IDataProvider#getEmployee(String)}. */
     @Override
-    public Employee getEmployee(String id) {
+    public Employee getEmployee(int id) {
         log.debug("getEmployee [1]: getting employee, id = {}", id);
         try{
             XmlWrapper<Employee> wrap = getWrap(Constants.TITLE_TABLE_EMPLOYEE);
             Optional<Employee> optionalEmployee = wrap.getList().stream()
-                    .filter(emp -> emp.getId().equals(id))
+                    .filter(emp -> emp.getId() == id)
                     .findFirst();
             return optionalEmployee.get();
         } catch(Exception ex){
@@ -423,12 +423,12 @@ public class DataProviderXml implements IDataProvider{
 
     /** See also {@link IDataProvider#getSeparateQual(String)}. */
     @Override
-    public SeparateQual getSeparateQual(String id) {
+    public SeparateQual getSeparateQual(int id) {
         log.debug("getSeparateQual [1]: getting separateQual, id = {}", id);
         try{
             XmlWrapper<SeparateQual> wrap = getWrap(Constants.TITLE_TABLE_SEPARATE_QUAL);
             Optional<SeparateQual> optionalSeparateQual = wrap.getList().stream()
-                    .filter(v -> v.getId().equals(id))
+                    .filter(v -> v.getId() == id)
                     .findFirst();
             return optionalSeparateQual.get();
         } catch(Exception ex){
@@ -538,7 +538,7 @@ public class DataProviderXml implements IDataProvider{
             
             List<Person> list = wrap.getList().stream()
                     .map((p) -> {
-                        if(p.getId().equals(person.getId())){
+                        if(p.getId() == person.getId()){
                             return person;
                         }
                         else{
@@ -575,7 +575,7 @@ public class DataProviderXml implements IDataProvider{
             
             List<Resume> list = wrap.getList().stream()
                     .map((r) -> {
-                        if(r.getId().equals(resume.getId())){
+                        if(r.getId() == resume.getId()){
                             return resume;
                         }
                         else{
@@ -612,7 +612,7 @@ public class DataProviderXml implements IDataProvider{
             
             List<Company> list = wrap.getList().stream()
                     .map((c) -> {
-                        if(c.getId().equals(company.getId())){
+                        if(c.getId() == company.getId()){
                             return company;
                         }
                         else{
@@ -649,7 +649,7 @@ public class DataProviderXml implements IDataProvider{
             
             List<Vacancy> list = wrap.getList().stream()
                     .map((v) -> {
-                        if(v.getId().equals(vacancy.getId())){
+                        if(v.getId() == vacancy.getId()){
                             return vacancy;
                         }
                         else{
@@ -686,7 +686,7 @@ public class DataProviderXml implements IDataProvider{
             
             List<SeparateQual> list = wrap.getList().stream()
                     .map((sp) -> {
-                        if(sp.getId().equals(separateQual.getId())){
+                        if(sp.getId() == separateQual.getId()){
                             return separateQual;
                         }
                         else{
@@ -709,7 +709,7 @@ public class DataProviderXml implements IDataProvider{
 
     /** See also {@link IDataProvider#deletePerson(String, TypePerson)}. */
     @Override
-    public Result deletePerson(String id, TypePerson typePerson) {
+    public Result deletePerson(int id, TypePerson typePerson) {
         log.debug("deletePerson [1]: deleting person, typePerson = {}, id = {}", typePerson, id);
         
         Result result = new Result();
@@ -722,7 +722,7 @@ public class DataProviderXml implements IDataProvider{
             XmlWrapper<Person> wrap = DataProviderXml.<Person>getWrap(tableName);
             
             List<Person> list = wrap.getList().stream()
-                    .filter((p) -> !p.getId().equals(id))
+                    .filter((p) -> p.getId() != id)
                     .toList();
             boolean flag = wrap.getList().size() != list.size();
             wrap.setList(list);
@@ -744,7 +744,7 @@ public class DataProviderXml implements IDataProvider{
 
     /** See also {@link IDataProvider#deleteResume(String)}. */
     @Override
-    public Result deleteResume(String id) {
+    public Result deleteResume(int id) {
         log.debug("deleteResume [1]: deleting resume, id = {}", id);
         
         Result result = new Result();
@@ -757,7 +757,7 @@ public class DataProviderXml implements IDataProvider{
             XmlWrapper<Resume> wrap = DataProviderXml.<Resume>getWrap(tableName);
             
             List<Resume> list = wrap.getList().stream()
-                    .filter((r) -> !r.getId().equals(id))
+                    .filter((r) -> r.getId() != id)
                     .toList();
             boolean flag = wrap.getList().size() != list.size();
             wrap.setList(list);
@@ -779,7 +779,7 @@ public class DataProviderXml implements IDataProvider{
 
     /** See also {@link IDataProvider#deleteCompany(String)}. */
     @Override
-    public Result deleteCompany(String id) {
+    public Result deleteCompany(int id) {
         log.debug("deleteCompany [1]: deleting company, id = {}", id);
         
         Result result = new Result();
@@ -792,7 +792,7 @@ public class DataProviderXml implements IDataProvider{
             XmlWrapper<Company> wrap = DataProviderXml.<Company>getWrap(tableName);
             
             List<Company> list = wrap.getList().stream()
-                    .filter((c) -> !c.getId().equals(id))
+                    .filter((c) -> c.getId() != id)
                     .toList();
             boolean flag = wrap.getList().size() != list.size();
             wrap.setList(list);
@@ -814,7 +814,7 @@ public class DataProviderXml implements IDataProvider{
 
     /** See also {@link IDataProvider#deleteVacancy(String)}. */
     @Override
-    public Result deleteVacancy(String id) {
+    public Result deleteVacancy(int id) {
         log.debug("deleteVacancy [1]: deleting vacancy, id = {}", id);
         
         Result result = new Result();
@@ -827,7 +827,7 @@ public class DataProviderXml implements IDataProvider{
             XmlWrapper<Vacancy> wrap = DataProviderXml.<Vacancy>getWrap(tableName);
             
             List<Vacancy> list = wrap.getList().stream()
-                    .filter((v) -> !v.getId().equals(id))
+                    .filter((v) -> v.getId() != id)
                     .toList();
             boolean flag = wrap.getList().size() != list.size();
             wrap.setList(list);
@@ -849,7 +849,7 @@ public class DataProviderXml implements IDataProvider{
 
     /** See also {@link IDataProvider#deleteSeparateQual(String)}. */
     @Override
-    public Result deleteSeparateQual(String id) {
+    public Result deleteSeparateQual(int id) {
         log.debug("deleteSeparateQual [1]: deleting separateQual, id = {}", id);
         
         Result result = new Result();
@@ -862,7 +862,7 @@ public class DataProviderXml implements IDataProvider{
             XmlWrapper<SeparateQual> wrap = DataProviderXml.<SeparateQual>getWrap(tableName);
             
             List<SeparateQual> list = wrap.getList().stream()
-                    .filter((sp) -> !sp.getId().equals(id))
+                    .filter((sp) -> sp.getId() != id)
                     .toList();
             boolean flag = wrap.getList().size() != list.size();
             wrap.setList(list);
