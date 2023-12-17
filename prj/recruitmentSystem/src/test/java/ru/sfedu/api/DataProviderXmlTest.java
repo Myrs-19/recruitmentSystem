@@ -98,7 +98,7 @@ public class DataProviderXmlTest {
         employee.setCompanyId("0");
         employee.setStartWorkDate("12-06-2003");
         employee.setSalary("99");
-        employee.setIsWorking("0");
+        employee.setIsWorking(false);
         employee.setPosition("middle");
         
         Result result = new Result();
@@ -119,7 +119,7 @@ public class DataProviderXmlTest {
         System.out.println("test saveResume xml");
         Resume resume = new Resume();
         
-        resume.setClientId("0");
+        resume.setClientId("1");
         resume.setCity("rostov");
         resume.setProfession("developer");
         
@@ -163,9 +163,9 @@ public class DataProviderXmlTest {
         System.out.println("test SaveVacancy xml");
         Vacancy vacancy = new Vacancy();
         
-        vacancy.setCompanyId("0");
+        vacancy.setCompanyId(1);
         vacancy.setTitle("java");
-        vacancy.setSalary("8797");
+        vacancy.setSalary(8797);
         
         Result result = new Result();
         try{
@@ -184,9 +184,9 @@ public class DataProviderXmlTest {
         System.out.println("test SaveSeparateQual xml");
         SeparateQual separateQual = new SeparateQual();
         
-        separateQual.setCompanyId("0");
-        separateQual.setEmployeeId("0");
-        separateQual.setQuality("7");
+        separateQual.setCompanyId(1);
+        separateQual.setEmployeeId(1);
+        separateQual.setQuality(7);
         
         Result result = new Result();
         try{    
@@ -505,7 +505,7 @@ public class DataProviderXmlTest {
         employee.setCompanyId("0");
         employee.setStartWorkDate("12-06-2003");
         employee.setSalary("99");
-        employee.setIsWorking("0");
+        employee.setIsWorking(false);
         employee.setPosition("middle");
         
         Result result = new Result();
@@ -564,9 +564,9 @@ public class DataProviderXmlTest {
         Vacancy vacancy = new Vacancy();
         
         vacancy.setId("0");
-        vacancy.setCompanyId("0");
+        vacancy.setCompanyId(1);
         vacancy.setTitle("JAAAAAAAVAAAAAAAa");
-        vacancy.setSalary("11");
+        vacancy.setSalary(11);
         
         Result result = new Result();
         
@@ -583,10 +583,10 @@ public class DataProviderXmlTest {
         System.out.println("test UpdateSeparateQual xml");
         SeparateQual separateQual = new SeparateQual();
         
-        separateQual.setId("0");
-        separateQual.setCompanyId("0");
-        separateQual.setEmployeeId("0");
-        separateQual.setQuality("7");
+        separateQual.setId("1");
+        separateQual.setCompanyId(1);
+        separateQual.setEmployeeId(1);
+        separateQual.setQuality(7);
         separateQual.setDescription("nice");
         
         Result result = new Result();

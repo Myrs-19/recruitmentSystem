@@ -44,11 +44,11 @@ public class Resume {
     
     @Element(required = false)
     @CsvBindByPosition(position = 8)
-    String sex;
+    boolean sex;
     
     @Element(required = false)
     @CsvBindByPosition(position = 10)
-    String workPermit;
+    boolean workPermit;
     
     @Element(required = false)
     @CsvBindByPosition(position = 11)
@@ -112,19 +112,19 @@ public class Resume {
         this.experience = experience;
     }
 
-    public String getSex() {
+    public boolean getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(boolean sex) {
         this.sex = sex;
     }
 
-    public String getWorkPermit() {
+    public boolean getWorkPermit() {
         return workPermit;
     }
 
-    public void setWorkPermit(String workPermit) {
+    public void setWorkPermit(boolean workPermit) {
         this.workPermit = workPermit;
     }
 

@@ -12,7 +12,7 @@ public class Vacancy {
     
     @Element
     @CsvBindByPosition(position = 1)
-    String companyId;
+    int companyId;
     
     @Element
     @CsvBindByPosition(position = 2)
@@ -24,7 +24,7 @@ public class Vacancy {
     
     @Element(required = false)
     @CsvBindByPosition(position = 4)
-    String online;
+    boolean online;
     
     @Element(required = false)
     @CsvBindByPosition(position = 5)
@@ -32,7 +32,7 @@ public class Vacancy {
     
     @Element
     @CsvBindByPosition(position = 6)
-    String salary;
+    int salary;
     
     @Element(required = false)
     @CsvBindByPosition(position = 7)
@@ -56,11 +56,11 @@ public class Vacancy {
         this.id = id;
     }
 
-    public String getCompanyId() {
+    public int getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(String companyId) {
+    public void setCompanyId(int companyId) {
         this.companyId = companyId;
     }
 
@@ -80,11 +80,11 @@ public class Vacancy {
         this.specialization = specialization;
     }
 
-    public String getOnline() {
+    public boolean getOnline() {
         return online;
     }
 
-    public void setOnline(String online) {
+    public void setOnline(boolean online) {
         this.online = online;
     }
 
@@ -96,11 +96,11 @@ public class Vacancy {
         this.skills = skills;
     }
 
-    public String getSalary() {
+    public int getSalary() {
         return salary;
     }
 
-    public void setSalary(String salary) {
+    public void setSalary(int salary) {
         this.salary = salary;
     }
 

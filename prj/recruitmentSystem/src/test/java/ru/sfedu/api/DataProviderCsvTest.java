@@ -49,6 +49,7 @@ public class DataProviderCsvTest {
         person.setName("Mike");
         person.setSalary("98988");
         
+        person.setIsWorking(false);
         DataProviderCsv dp = new DataProviderCsv();
         Result result = dp.savePerson(person);
         System.out.println(result);
@@ -79,9 +80,9 @@ public class DataProviderCsvTest {
     @Test
     void testSaveVacancy(){
         Vacancy vacancy = new Vacancy();
-        vacancy.setCompanyId("0");
+        vacancy.setCompanyId(1);
         vacancy.setTitle("junior");
-        vacancy.setSalary("878778");
+        vacancy.setSalary(878778);
         
         DataProviderCsv dp = new DataProviderCsv();
         Result result = dp.saveVacancy(vacancy);
@@ -91,9 +92,9 @@ public class DataProviderCsvTest {
     @Test
     void testSaveSeparateQual(){
         SeparateQual separateQual = new SeparateQual();
-        separateQual.setCompanyId("0");
-        separateQual.setEmployeeId("0");
-        separateQual.setQuality("120");
+        separateQual.setCompanyId(1);
+        separateQual.setEmployeeId(1);
+        separateQual.setQuality(120);
         
         DataProviderCsv dp = new DataProviderCsv();
         Result result = dp.saveSeparateQual(separateQual);
@@ -370,9 +371,9 @@ public class DataProviderCsvTest {
         try{
             Vacancy vacancy = new Vacancy();
             vacancy.setId("0");
-            vacancy.setCompanyId("0");
+            vacancy.setCompanyId(1);
             vacancy.setTitle("developer");
-            vacancy.setSalary("35000");
+            vacancy.setSalary(35000);
                     
             DataProviderCsv dp = new DataProviderCsv();
             Result res = dp.updateVacancy(vacancy);
@@ -387,9 +388,9 @@ public class DataProviderCsvTest {
         try{
             SeparateQual separateQual = new SeparateQual();
             separateQual.setId("0");
-            separateQual.setCompanyId("0");
-            separateQual.setEmployeeId("0");
-            separateQual.setQuality("-10");
+            separateQual.setCompanyId(1);
+            separateQual.setEmployeeId(1);
+            separateQual.setQuality(-10);
                     
             DataProviderCsv dp = new DataProviderCsv();
             Result res = dp.updateSeparateQual(separateQual);
