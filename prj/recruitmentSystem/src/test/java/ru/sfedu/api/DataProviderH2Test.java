@@ -5,6 +5,7 @@
 package ru.sfedu.api;
 
 import java.sql.*;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
@@ -163,7 +164,7 @@ public class DataProviderH2Test {
     @Test
     public void testGetClientByIdPositive(){
         testSaveClient();
-        System.out.println("test GetClientById positive");
+        System.out.println("test GetClientById positive h2");
         try{
             int id = 1;
             IDataProvider dp = new DataProviderH2();
@@ -176,7 +177,7 @@ public class DataProviderH2Test {
     @Test
     public void testGetClientByIdNegative(){
        
-        System.out.println("test GetClientById negative");
+        System.out.println("test GetClientById negative h2");
         try{
             int id = -1;
             IDataProvider dp = new DataProviderH2();
@@ -189,7 +190,7 @@ public class DataProviderH2Test {
     @Test
     public void testGetResumeByIdPositive(){
         testSaveResume();
-        System.out.println("test getResumeById positive");
+        System.out.println("test getResumeById positive h2");
         try{
             int id = 1;
             IDataProvider dp = new DataProviderH2();
@@ -202,7 +203,7 @@ public class DataProviderH2Test {
     @Test
     public void testGetResumeByIdNegative(){
     
-        System.out.println("test getResumeById negative");
+        System.out.println("test getResumeById negative h2");
         try{
             int id = -1;
             IDataProvider dp = new DataProviderH2();
@@ -215,7 +216,7 @@ public class DataProviderH2Test {
     @Test
     public void testGetCompanyByIdPositive(){
         testSaveCompany();
-        System.out.println("test getCompanyById positive");
+        System.out.println("test getCompanyById positive h2");
         try{
             int id = 1;
             IDataProvider dp = new DataProviderH2();
@@ -228,7 +229,7 @@ public class DataProviderH2Test {
     @Test
     public void testGetCompanyByIdNegative(){
        
-        System.out.println("test getCompanyById negative");
+        System.out.println("test getCompanyById negative h2");
         try{
             int id = -1;
             IDataProvider dp = new DataProviderH2();
@@ -241,7 +242,7 @@ public class DataProviderH2Test {
     @Test
     public void testGetVacancyByIdPositive(){
         testSaveVacancy();
-        System.out.println("test getVacancyById positive");
+        System.out.println("test getVacancyById positive h2");
         try{
             int id = 1;
             IDataProvider dp = new DataProviderH2();
@@ -254,7 +255,7 @@ public class DataProviderH2Test {
     @Test
     public void testGetVacancyByIdNegative(){
         
-        System.out.println("test getVacancyById negative");
+        System.out.println("test getVacancyById negative h2");
         try{
             int id = -1;
             IDataProvider dp = new DataProviderH2();
@@ -267,7 +268,7 @@ public class DataProviderH2Test {
     @Test
     public void testGetEmployeeByIdPositive(){
         testSaveEmployee();
-        System.out.println("test getEmployeeById positive");
+        System.out.println("test getEmployeeById positive h2");
         try{
             int id = 1;
             IDataProvider dp = new DataProviderH2();
@@ -280,7 +281,7 @@ public class DataProviderH2Test {
     @Test
     public void testGetEmployeeByIdNegative(){
        
-        System.out.println("test getEmployeeById negative");
+        System.out.println("test getEmployeeById negative h2");
         try{
             int id = -1;
             IDataProvider dp = new DataProviderH2();
@@ -293,7 +294,7 @@ public class DataProviderH2Test {
     @Test
     public void testGetSeparateQualByIdPositive(){
         testSaveSeparateQual();
-        System.out.println("test getSeparateQualById positive");
+        System.out.println("test getSeparateQualById positive h2");
         try{
             int id = 1;
             IDataProvider dp = new DataProviderH2();
@@ -306,13 +307,52 @@ public class DataProviderH2Test {
     @Test
     public void testGetSeparateQualByIdNegative(){
         
-        System.out.println("test getSeparateQualById negative");
+        System.out.println("test getSeparateQualById negative h2");
         try{
             int id = -1;
             IDataProvider dp = new DataProviderH2();
             System.out.println(dp.getSeparateQual(id));
         } catch(NullPointerException ex){
             System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetAllClients(){
+        System.out.println("test GetAllClients h2");
+        
+        try{
+        IDataProvider dp = new DataProviderH2();
+        
+        dp.getAllClients().forEach(System.out::println);
+        } catch(NullPointerException ex){
+            System.out.println("error = " + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetAllResumes(){
+        System.out.println("test GetAllResumes h2");
+        
+        try{
+        IDataProvider dp = new DataProviderH2();
+        
+        dp.getAllResumes().forEach(System.out::println);
+        } catch(NullPointerException ex){
+            System.out.println("error = " + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetAllCompanies(){
+        System.out.println("test GetAllCompanies h2");
+        
+        try{
+        IDataProvider dp = new DataProviderH2();
+        
+        dp.getAllCompanies().forEach(System.out::println);
+        } catch(NullPointerException ex){
+            System.out.println("error = " + ex.getMessage());
         }
     }
 }

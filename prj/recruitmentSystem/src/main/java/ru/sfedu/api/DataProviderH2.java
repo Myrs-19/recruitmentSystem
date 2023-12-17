@@ -5,7 +5,9 @@
 package ru.sfedu.api;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
@@ -40,22 +42,22 @@ public class DataProviderH2 implements IDataProvider{
                 ){
             
             
-            stat.executeUpdate(Constants.H2_QUERY_CREATE_CLIENT);
+            stat.execute(Constants.H2_QUERY_CREATE_CLIENT);
             log.debug("createTables[2]: created client table");
             
-            stat.executeUpdate(Constants.H2_QUERY_CREATE_COMPANY);
+            stat.execute(Constants.H2_QUERY_CREATE_COMPANY);
             log.debug("createTables[3]: created company table");
             
-            stat.executeUpdate(Constants.H2_QUERY_CREATE_EMPLOYEE);
+            stat.execute(Constants.H2_QUERY_CREATE_EMPLOYEE);
             log.debug("createTables[4]: created employee table");
             
-            stat.executeUpdate(Constants.H2_QUERY_CREATE_RESUME);
+            stat.execute(Constants.H2_QUERY_CREATE_RESUME);
             log.debug("createTables[5]: created resume table");
             
-            stat.executeUpdate(Constants.H2_QUERY_CREATE_VACANCY);
+            stat.execute(Constants.H2_QUERY_CREATE_VACANCY);
             log.debug("createTables[6]: created vacancy table");
             
-            stat.executeUpdate(Constants.H2_QUERY_CREATE_SEPARATE_QUAL);
+            stat.execute(Constants.H2_QUERY_CREATE_SEPARATE_QUAL);
             log.debug("createTables[7]: created separate quality table");
             
         } catch(SQLException ex){
@@ -132,21 +134,24 @@ public class DataProviderH2 implements IDataProvider{
      * @return filled instance Client
      */
     private Client createClient(ResultSet res) throws SQLException {
-        Client client = new Client();
-        res.next();
+        if(res.next()){
+            
+            Client client = new Client();
+            client.setId(res.getInt(1));
+            client.setName(res.getString(2));
+            client.setSurname(res.getString(3));
+            client.setMiddleName(res.getString(4));
+            client.setAge(res.getInt(5));
+            client.setBirthday(res.getString(6));
+            client.setPhone(res.getString(7));
+            client.setEmail(res.getString(8));
+            client.setPassword(res.getString(9));
+            client.setAddress(res.getString(10));
+            
+            return client;
+        }
         
-        client.setId(res.getInt(1));
-        client.setName(res.getString(2));
-        client.setSurname(res.getString(3));
-        client.setMiddleName(res.getString(4));
-        client.setAge(res.getInt(5));
-        client.setBirthday(res.getString(6));
-        client.setPhone(res.getString(7));
-        client.setEmail(res.getString(8));
-        client.setPassword(res.getString(9));
-        client.setAddress(res.getString(10));
-        
-        return client;
+        throw new NullPointerException("no data");
     }
     
     /** Method create client through ResultSet
@@ -154,21 +159,24 @@ public class DataProviderH2 implements IDataProvider{
      * @return filled instance Resume
      */
     private Resume createResume(ResultSet res) throws SQLException {
-        Resume resume = new Resume();
-        res.next();
+        if(res.next()){
+            Resume resume = new Resume();
+            
+            resume.setId(res.getInt(1));
+            resume.setClientId(res.getInt(2));
+            resume.setProfession(res.getString(3));
+            resume.setCity(res.getString(4));
+            resume.setSkills(res.getString(5));
+            resume.setEducation(res.getString(6));
+            resume.setExperience(res.getString(7));
+            resume.setSex(res.getBoolean(8));
+            resume.setWorkPermit(res.getBoolean(9));
+            resume.setCitizenship(res.getString(10));
+            
+            return resume;
+        }
         
-        resume.setId(res.getInt(1));
-        resume.setClientId(res.getInt(2));
-        resume.setProfession(res.getString(3));
-        resume.setCity(res.getString(4));
-        resume.setSkills(res.getString(5));
-        resume.setEducation(res.getString(6));
-        resume.setExperience(res.getString(7));
-        resume.setSex(res.getBoolean(8));
-        resume.setWorkPermit(res.getBoolean(9));
-        resume.setCitizenship(res.getString(10));
-        
-        return resume;
+        throw new NullPointerException("no data");
     }
     
     /** Method create client through ResultSet
@@ -176,14 +184,17 @@ public class DataProviderH2 implements IDataProvider{
      * @return filled instance Company
      */
     private Company createCompany(ResultSet res) throws SQLException {
-        Company company = new Company();
-        res.next();
+        if(res.next()){
+            Company company = new Company();
+            
+            company.setId(res.getInt(1));
+            company.setTitle(res.getString(2));
+            company.setDescription(res.getString(3));
         
-        company.setId(res.getInt(1));
-        company.setTitle(res.getString(2));
-        company.setDescription(res.getString(3));
+            return company;
+        }
         
-        return company;
+        throw new NullPointerException("no data");
     }
     
     /** Method create client through ResultSet
@@ -191,21 +202,24 @@ public class DataProviderH2 implements IDataProvider{
      * @return filled instance Vacancy
      */
     private Vacancy createVacancy(ResultSet res) throws SQLException {
-        Vacancy vacancy = new Vacancy();
-        res.next();
+        if(res.next()){
+            Vacancy vacancy = new Vacancy();
+            
+            vacancy.setId(res.getInt(1));
+            vacancy.setCompanyId(res.getInt(2));
+            vacancy.setTitle(res.getString(3));
+            vacancy.setSpecialization(res.getString(4));
+            vacancy.setOnline(res.getBoolean(5));
+            vacancy.setSkills(res.getString(6));
+            vacancy.setSalary(res.getInt(7));
+            vacancy.setCity(res.getString(8));
+            vacancy.setAddress(res.getString(9));
+            vacancy.setExperience(res.getString(10));
+            
+            return vacancy;
+        }
         
-        vacancy.setId(res.getInt(1));
-        vacancy.setCompanyId(res.getInt(2));
-        vacancy.setTitle(res.getString(3));
-        vacancy.setSpecialization(res.getString(4));
-        vacancy.setOnline(res.getBoolean(5));
-        vacancy.setSkills(res.getString(6));
-        vacancy.setSalary(res.getInt(7));
-        vacancy.setCity(res.getString(8));
-        vacancy.setAddress(res.getString(9));
-        vacancy.setExperience(res.getString(10));
-        
-        return vacancy;
+        throw new NullPointerException("no data");
     }
     
     /** Method create client through ResultSet
@@ -213,24 +227,27 @@ public class DataProviderH2 implements IDataProvider{
      * @return filled instance Employee
      */
     private Employee createEmployee(ResultSet res) throws SQLException {
-        Employee employee = new Employee();
-        res.next();
+        if(res.next()){
+            Employee employee = new Employee();
+            
+            employee.setId(res.getInt(1));
+            employee.setName(res.getString(2));
+            employee.setSurname(res.getString(3));
+            employee.setMiddleName(res.getString(4));
+            employee.setAge(res.getInt(5));
+            employee.setBirthday(res.getString(6));
+            employee.setPhone(res.getString(7));
+            employee.setEmail(res.getString(8));
+            employee.setCompanyId(res.getInt(9));
+            employee.setStartWorkDate(res.getString(10));
+            employee.setSalary(res.getInt(11));
+            employee.setPosition(res.getString(12));
+            employee.setIsWorking(res.getBoolean(13));
         
-        employee.setId(res.getInt(1));
-        employee.setName(res.getString(2));
-        employee.setSurname(res.getString(3));
-        employee.setMiddleName(res.getString(4));
-        employee.setAge(res.getInt(5));
-        employee.setBirthday(res.getString(6));
-        employee.setPhone(res.getString(7));
-        employee.setEmail(res.getString(8));
-        employee.setCompanyId(res.getInt(9));
-        employee.setStartWorkDate(res.getString(10));
-        employee.setSalary(res.getInt(11));
-        employee.setPosition(res.getString(12));
-        employee.setIsWorking(res.getBoolean(13));
+            return employee;
+        }
         
-        return employee;
+        throw new NullPointerException("no data");
     }
     
     /** Method create client through ResultSet
@@ -238,16 +255,19 @@ public class DataProviderH2 implements IDataProvider{
      * @return filled instance SeparateQual
      */
     private SeparateQual createSeparateQual(ResultSet res) throws SQLException {
-        SeparateQual separateQual = new SeparateQual();
-        res.next();
+        if(res.next()){
+            SeparateQual separateQual = new SeparateQual();
+            
+            separateQual.setId(res.getInt(1));
+            separateQual.setCompanyId(res.getInt(2));
+            separateQual.setEmployeeId(res.getInt(3));
+            separateQual.setQuality(res.getInt(4));
+            separateQual.setDescription(res.getString(5));
         
-        separateQual.setId(res.getInt(1));
-        separateQual.setCompanyId(res.getInt(2));
-        separateQual.setEmployeeId(res.getInt(3));
-        separateQual.setQuality(res.getInt(4));
-        separateQual.setDescription(res.getString(5));
+            return separateQual;
+        }
         
-        return separateQual;
+        throw new NullPointerException("no data");
     }
     
     /** See also {@link IDataProvider#savePerson(Person)} */ 
@@ -523,17 +543,80 @@ public class DataProviderH2 implements IDataProvider{
 
     @Override
     public List<Client> getAllClients() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("getAllClients [1]: getting all record client");
+        
+        try(
+            Connection conn = getConnection();
+            Statement stat = conn.createStatement();
+        ){
+            
+            String sql = String.format(Constants.H2_QUERY_GET_ALL_RECORD, Constants.TITLE_TABLE_CLIENT);
+            ResultSet res = stat.executeQuery(sql);
+  
+            List<Client> clients = new ArrayList<Client>();
+            while(!res.isAfterLast()){
+                clients.add(createClient(res));
+            }
+            
+            return clients;
+            
+        } catch(SQLException ex){
+            log.error("getAllClients [2]: error = {}", ex.getMessage());
+        }
+        
+        throw new NullPointerException();
     }
 
     @Override
     public List<Resume> getAllResumes() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("getAllResumes [1]: getting all record resume");
+        
+        try(
+            Connection conn = getConnection();
+            Statement stat = conn.createStatement();
+        ){
+            
+            String sql = String.format(Constants.H2_QUERY_GET_ALL_RECORD, Constants.TITLE_TABLE_RESUME);
+            ResultSet res = stat.executeQuery(sql);
+            
+            List<Resume> resumes = new ArrayList<Resume>();
+            while(!res.isAfterLast()){
+                resumes.add(createResume(res));
+            }
+            
+            return resumes;
+            
+        } catch(SQLException ex){
+            log.error("getAllResumes [2]: error = {}", ex.getMessage());
+        }
+        
+        throw new NullPointerException();
     }
 
     @Override
     public List<Company> getAllCompanies() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("getAllCompanies [1]: getting all record сompany");
+        
+        try(
+            Connection conn = getConnection();
+            Statement stat = conn.createStatement();
+        ){
+            
+            String sql = String.format(Constants.H2_QUERY_GET_ALL_RECORD, Constants.TITLE_TABLE_COMPANY);
+            ResultSet res = stat.executeQuery(sql);
+            
+            List<Company> сompanies = new ArrayList<Company>();
+            while(!res.isAfterLast()){
+                сompanies.add(createCompany(res));
+            }
+            
+            return сompanies;
+            
+        } catch(SQLException ex){
+            log.error("getAllCompanies [2]: error = {}", ex.getMessage());
+        }
+        
+        throw new NullPointerException();
     }
 
     @Override

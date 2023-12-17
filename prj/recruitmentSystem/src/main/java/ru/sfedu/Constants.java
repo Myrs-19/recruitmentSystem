@@ -141,6 +141,8 @@ public class Constants {
     
     public static final String H2_QUERY_GET_RECORD_BY_ID = "SELECT * FROM %s WHERE id = %d";
     
+    public static final String H2_QUERY_GET_ALL_RECORD = "SELECT * FROM %s";
+    
     
             
             
