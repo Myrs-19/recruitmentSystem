@@ -34,9 +34,10 @@ public class DataProviderH2 implements IDataProvider{
     */
     private void createTables(){
         log.debug("createTables[1]: creating tables for h2 data base");
-        try{
-            Connection connect = getConnection(); 
+        try(Connection connect = getConnection(); 
             Statement stat = connect.createStatement();
+            ){
+            
             
             stat.executeUpdate(Constants.H2_QUERY_CREATE_CLIENT);
             log.debug("createTables[2]: created client table");
@@ -112,10 +113,9 @@ public class DataProviderH2 implements IDataProvider{
         
         try(
             Connection conn = getConnection();
+            Statement stat = conn.createStatement();
         ){
             String sql = getSqlSavePerson(person);
-            
-            Statement stat = conn.createStatement();
         
             stat.executeUpdate(sql);
             log.debug("savePerson [2]: saved successful");
