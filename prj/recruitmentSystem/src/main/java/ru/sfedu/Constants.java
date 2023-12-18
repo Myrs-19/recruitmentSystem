@@ -34,8 +34,12 @@ public class Constants {
     public static final String MONGO_FIELD_OBJECT = "obj";
     
     public static final int CODE_SUCCESS = 200;
-    public static final String MESSAGE_CODE_SUCCESS = "OK";
+    
     public static final int CODE_ERROR = 422;
+    
+    public static final String MESSAGE_CODE_SUCCESS = "OK";
+    
+    public static final String MESSAGE_CODE_ERROR_UPDATE = "record has not changed";
     
     public static final String COMPLETED_SUCCESSFUL = "SUCCESSFUL";
     public static final String COMPLETED_FAIL = "FAIL";
@@ -143,7 +147,9 @@ public class Constants {
     
     public static final String H2_QUERY_GET_ALL_RECORD = "SELECT * FROM %s";
     
+    public static final String H2_QUERY_UPDATE_CLIENT = String.format("UPDATE %s SET name = ?, surname = ?, middleName = ?, age = ?, birthday = ?, phone = ?, email = ?, password = ?, address = ? ", TITLE_TABLE_CLIENT).concat(" WHERE id = %d");
     
+    public static final String H2_QUERY_UPDATE_EMPLOYEE = String.format("UPDATE %s SET name = ?, surname = ?, middleName = ?, age = ?, birthday = ?, phone = ?, email = ?, companyId = ?, startWorkDate = ?, salary = ?, position = ?, isWorking = ? ", TITLE_TABLE_EMPLOYEE).concat(" WHERE id = %d");
             
             
 }

@@ -355,4 +355,94 @@ public class DataProviderH2Test {
             System.out.println("error = " + ex.getMessage());
         }
     }
+    
+    @Test
+    public void testGetAllVacancies(){
+        System.out.println("test GetAllVacancies h2");
+        
+        try{
+        IDataProvider dp = new DataProviderH2();
+        
+        dp.getAllVacancies().forEach(System.out::println);
+        } catch(NullPointerException ex){
+            System.out.println("error = " + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetAllEmployees(){
+        System.out.println("test GetAllEmployees h2");
+        
+        try{
+        IDataProvider dp = new DataProviderH2();
+        
+        dp.getAllEmployees().forEach(System.out::println);
+        } catch(NullPointerException ex){
+            System.out.println("error = " + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetAllSeparateQuals(){
+        System.out.println("test GetAllSeparateQuals h2");
+        
+        try{
+        IDataProvider dp = new DataProviderH2();
+        
+        dp.getAllSeparateQuals().forEach(System.out::println);
+        } catch(NullPointerException ex){
+            System.out.println("error = " + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testUpdateClient() {
+        System.out.println("test updateClient h2");
+        Client client = new Client();
+        int id = 1;
+        client.setId(id);
+        client.setTypePerson(TypePerson.ClientType);
+        
+        client.setName("plplpl");
+        client.setSurname("MIMIMIMI");
+        client.setAge(20);
+        
+        client.setEmail("a");
+        client.setPhone("756");
+        client.setAddress("zorrr");
+        client.setPassword("ppiipi");
+        
+        Result result = new Result();
+        
+        IDataProvider dp = new DataProviderH2();
+        result = dp.updatePerson(client);
+        
+        System.out.println(result);
+    }
+    
+    
+    @Test
+    public void testUpdatedEmployee() {
+        System.out.println("test UpdatedEmployee h2");
+        Employee employee = new Employee();
+        
+        employee.setId(2);
+        employee.setTypePerson(TypePerson.EmployeeType);
+        
+        employee.setName("aaaaaaa");
+        employee.setSurname("selsel");
+        employee.setAge(20);
+        
+        employee.setCompanyId(1);
+        employee.setStartWorkDate("12-06-2003");
+        employee.setSalary(99);
+        employee.setIsWorking(false);
+        employee.setPosition("senior");
+        
+        Result result = new Result();
+        
+        IDataProvider dp = new DataProviderH2();
+        result = dp.updatePerson(employee);
+        System.out.println(result);
+    }
 }
