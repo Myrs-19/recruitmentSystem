@@ -43,6 +43,8 @@ public class Constants {
     
     public static final String MESSAGE_CODE_WARN_UPDATE = "record has not changed";
     
+    public static final String MESSAGE_CODE_WARN_DELETE = "record has not deleted";
+    
     public static final String COMPLETED_SUCCESSFUL = "SUCCESSFUL";
     public static final String COMPLETED_FAIL = "FAIL";
     public static final String DEFAULT_ACTOR = "system";
@@ -161,8 +163,7 @@ public class Constants {
     
     public static final String H2_QUERY_UPDATE_SEPARATE_QUAL = String.format("UPDATE %s SET companyId = ?, employeeId = ?, quality = ?, description = ? ", TITLE_TABLE_SEPARATE_QUAL).concat(" WHERE id = %d");
     
-    public static final String H2_QUERY_DELETE_RECORD_BY_ID = String.format("DELETE FROM %s WHERE id = %d");
-            
+    public static final String H2_QUERY_DELETE_RECORD_BY_ID = "DELETE FROM %s WHERE id = %d";
             
 }
 

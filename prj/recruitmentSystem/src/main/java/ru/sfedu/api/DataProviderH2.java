@@ -18,6 +18,7 @@ import ru.sfedu.model.*;
 import static ru.sfedu.model.TypePerson.ClientType;
 import static ru.sfedu.model.TypePerson.EmployeeType;
 import static ru.sfedu.util.ConfigurationUtilProperties.getConfigurationEntry;
+import ru.sfedu.util.TableName;
 import ru.sfedu.util.h2Util;
 
 /**
@@ -535,6 +536,9 @@ public class DataProviderH2 implements IDataProvider{
             
         } catch(SQLException ex){
             log.error("updatePerson [2]: error = {}", ex.getMessage());
+            
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
         }
         
         return result;
@@ -566,6 +570,9 @@ public class DataProviderH2 implements IDataProvider{
             
         } catch(SQLException ex){
             log.error("updateResume [2]: error = {}", ex.getMessage());
+            
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
         }
         
         return result;
@@ -597,6 +604,9 @@ public class DataProviderH2 implements IDataProvider{
             
         } catch(SQLException ex){
             log.error("updateCompany [2]: error = {}", ex.getMessage());
+            
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
         }
         
         return result;
@@ -628,6 +638,9 @@ public class DataProviderH2 implements IDataProvider{
             
         } catch(SQLException ex){
             log.error("updateVacancy [2]: error = {}", ex.getMessage());
+            
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
         }
         
         return result;
@@ -659,6 +672,9 @@ public class DataProviderH2 implements IDataProvider{
             
         } catch(SQLException ex){
             log.error("updateSeparateQual [2]: error = {}", ex.getMessage());
+            
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
         }
         
         return result;
@@ -666,27 +682,193 @@ public class DataProviderH2 implements IDataProvider{
 
     @Override
     public Result deletePerson(int id, TypePerson typePerson) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("deletePerson [1]: id = {}, typePerson = {}", id, typePerson);
+        
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        try(
+            Connection conn = getConnection();
+            Statement stat = conn.createStatement();
+                ){
+            
+            String sql = String.format(Constants.H2_QUERY_DELETE_RECORD_BY_ID, TableName.getTableNamePerson(typePerson), id);
+            
+            if(stat.executeUpdate(sql) == 1){
+                Person person = new Person();
+                person.setTypePerson(typePerson);
+                person.setId(id);
+                
+                MongoProvider.save(CommandType.DELETED, RepositoryType.H2, person);
+            }
+            else{
+                result.setCode(Constants.CODE_WARN);
+                result.setMessage(Constants.MESSAGE_CODE_WARN_DELETE);
+                
+                log.warn("{}", Constants.MESSAGE_CODE_WARN_DELETE);
+            }
+            
+        } catch(SQLException ex){
+            log.error("deletePerson [2]: error = {}", ex.getMessage());
+            
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        }
+        
+        return result;
     }
 
     @Override
     public Result deleteResume(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("deleteResume [1]: id = {}", id);
+        
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        try(
+            Connection conn = getConnection();
+            Statement stat = conn.createStatement();
+                ){
+            
+            String sql = String.format(Constants.H2_QUERY_DELETE_RECORD_BY_ID, Constants.TITLE_TABLE_RESUME, id);
+            
+            if(stat.executeUpdate(sql) == 1){
+                Resume resume = new Resume();
+                resume.setId(id);
+                
+                MongoProvider.save(CommandType.DELETED, RepositoryType.H2, resume);
+            }
+            else{
+                result.setCode(Constants.CODE_WARN);
+                result.setMessage(Constants.MESSAGE_CODE_WARN_DELETE);
+                
+                log.warn("{}", Constants.MESSAGE_CODE_WARN_DELETE);
+            }
+            
+        } catch(SQLException ex){
+            log.error("deleteResume [2]: error = {}", ex.getMessage());
+            
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        }
+        
+        return result;
     }
 
     @Override
     public Result deleteCompany(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("deleteCompany [1]: id = {}", id);
+        
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        try(
+            Connection conn = getConnection();
+            Statement stat = conn.createStatement();
+                ){
+            
+            String sql = String.format(Constants.H2_QUERY_DELETE_RECORD_BY_ID, Constants.TITLE_TABLE_COMPANY, id);
+            
+            if(stat.executeUpdate(sql) == 1){
+                Company company = new Company();
+                company.setId(id);
+                
+                MongoProvider.save(CommandType.DELETED, RepositoryType.H2, company);
+            }
+            else{
+                result.setCode(Constants.CODE_WARN);
+                result.setMessage(Constants.MESSAGE_CODE_WARN_DELETE);
+                
+                log.warn("{}", Constants.MESSAGE_CODE_WARN_DELETE);
+            }
+            
+        } catch(SQLException ex){
+            log.error("deleteCompany [2]: error = {}", ex.getMessage());
+            
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        }
+        
+        return result;
     }
 
     @Override
     public Result deleteVacancy(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("deleteVacancy [1]: id = {}", id);
+        
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        try(
+            Connection conn = getConnection();
+            Statement stat = conn.createStatement();
+                ){
+            
+            String sql = String.format(Constants.H2_QUERY_DELETE_RECORD_BY_ID, Constants.TITLE_TABLE_VACANCY, id);
+            
+            if(stat.executeUpdate(sql) == 1){
+                Vacancy vacancy = new Vacancy();
+                vacancy.setId(id);
+                
+                MongoProvider.save(CommandType.DELETED, RepositoryType.H2, vacancy);
+            }
+            else{
+                result.setCode(Constants.CODE_WARN);
+                result.setMessage(Constants.MESSAGE_CODE_WARN_DELETE);
+                
+                log.warn("{}", Constants.MESSAGE_CODE_WARN_DELETE);
+            }
+            
+        } catch(SQLException ex){
+            log.error("deleteVacancy [2]: error = {}", ex.getMessage());
+            
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        }
+        
+        return result;
     }
 
     @Override
     public Result deleteSeparateQual(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("deleteSeparateQual [1]: id = {}", id);
+        
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        try(
+            Connection conn = getConnection();
+            Statement stat = conn.createStatement();
+                ){
+            
+            String sql = String.format(Constants.H2_QUERY_DELETE_RECORD_BY_ID, Constants.TITLE_TABLE_SEPARATE_QUAL, id);
+            
+            if(stat.executeUpdate(sql) == 1){
+                SeparateQual separateQual = new SeparateQual();
+                separateQual.setId(id);
+                
+                MongoProvider.save(CommandType.DELETED, RepositoryType.H2, separateQual);
+            }
+            else{
+                result.setCode(Constants.CODE_WARN);
+                result.setMessage(Constants.MESSAGE_CODE_WARN_DELETE);
+                
+                log.warn("{}", Constants.MESSAGE_CODE_WARN_DELETE);
+            }
+            
+        } catch(SQLException ex){
+            log.error("deleteSeparateQual [2]: error = {}", ex.getMessage());
+            
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+        }
+        
+        return result;
     }
     
     

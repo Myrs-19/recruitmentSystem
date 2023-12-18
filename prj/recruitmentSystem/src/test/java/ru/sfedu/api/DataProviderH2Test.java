@@ -97,7 +97,7 @@ public class DataProviderH2Test {
         employee.setSurname("selsel");
         employee.setAge(20);
         
-        employee.setCompanyId(1);
+        employee.setCompanyId(4);
         employee.setStartWorkDate("12-06-2003");
         employee.setSalary(99);
         employee.setIsWorking(false);
@@ -119,7 +119,7 @@ public class DataProviderH2Test {
         System.out.println("test saveResume h2");
         Resume resume = new Resume();
         
-        resume.setClientId(1);
+        resume.setClientId(3);
         resume.setCity("rostov");
         resume.setProfession("developer");
         
@@ -135,7 +135,7 @@ public class DataProviderH2Test {
         System.out.println("test SaveVacancy h2");
         Vacancy vacancy = new Vacancy();
         
-        vacancy.setCompanyId(1);
+        vacancy.setCompanyId(4);
         vacancy.setTitle("java");
         vacancy.setSalary(8797);
         
@@ -151,8 +151,8 @@ public class DataProviderH2Test {
         System.out.println("test SaveSeparateQual h2");
         SeparateQual separateQual = new SeparateQual();
         
-        separateQual.setCompanyId(1);
-        separateQual.setEmployeeId(1);
+        separateQual.setCompanyId(4);
+        separateQual.setEmployeeId(8);
         separateQual.setQuality(7);
         
         IDataProvider dp = new DataProviderH2();
@@ -514,6 +514,60 @@ public class DataProviderH2Test {
         IDataProvider dp = new DataProviderH2();
         result = dp.updateSeparateQual(separateQual);
         
+        System.out.println(result);
+    }
+    
+    @Test
+    public void testDeleteClient() {
+        System.out.println("test DeleteClient h2");
+        int id = 1;
+        IDataProvider dp = new DataProviderH2();
+        Result result = dp.deletePerson(id, TypePerson.ClientType);
+        System.out.println(result);
+    }
+    
+    @Test
+    public void testDeleteEmployee() {
+        System.out.println("test DeleteEmployee h2");
+        int id = 1;
+        IDataProvider dp = new DataProviderH2();
+        Result result = dp.deletePerson(id, TypePerson.EmployeeType);
+        System.out.println(result);
+    }
+    
+    @Test
+    public void testDeleteResume() {
+        System.out.println("test DeleteResume h2");
+        int id = 4;
+        IDataProvider dp = new DataProviderH2();
+        Result result = dp.deleteResume(id);
+        System.out.println(result);
+    }
+    
+    @Test
+    public void testDeleteCompany() {
+        System.out.println("test DeleteCompany h2");
+        int id = 1;
+        IDataProvider dp = new DataProviderH2();
+        Result result = dp.deleteCompany(id);
+        System.out.println(result);
+    }
+    
+    @Test
+    public void testDeleteVacancy() {
+        System.out.println("test DeleteVacancy h2");
+        int id = 4;
+        IDataProvider dp = new DataProviderH2();
+        Result result = dp.deleteVacancy(id);
+        System.out.println(result);
+    }
+    
+    @Test
+    public void testDeleteSeparateQual() {
+        System.out.println("test DeleteSeparateQual h2");
+        int id = 3;
+        IDataProvider dp = new DataProviderH2();
+        Result result = dp.deleteSeparateQual(id);
         System.out.println(result);
     }
 }
