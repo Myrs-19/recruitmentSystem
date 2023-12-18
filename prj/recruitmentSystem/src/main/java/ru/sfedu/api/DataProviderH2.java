@@ -345,6 +345,7 @@ public class DataProviderH2 implements IDataProvider{
         throw new NullPointerException("such record does not exist, id = " + id);
     }
 
+    /** See also {@link IDataProvider#getAllClients()}. */
     @Override
     public List<Client> getAllClients() {
         log.debug("getAllClients [1]: getting all record client");
@@ -372,6 +373,7 @@ public class DataProviderH2 implements IDataProvider{
         throw new NullPointerException();
     }
 
+    /** See also {@link IDataProvider#getAllResumes()}. */
     @Override
     public List<Resume> getAllResumes() {
         log.debug("getAllResumes [1]: getting all record resume");
@@ -398,6 +400,7 @@ public class DataProviderH2 implements IDataProvider{
         throw new NullPointerException();
     }
 
+    /** See also {@link IDataProvider#getAllCompanies()}. */
     @Override
     public List<Company> getAllCompanies() {
         log.debug("getAllCompanies [1]: getting all record сompany");
@@ -424,6 +427,7 @@ public class DataProviderH2 implements IDataProvider{
         throw new NullPointerException();
     }
 
+    /** See also {@link IDataProvider#getAllVacancies()}. */
     @Override
     public List<Vacancy> getAllVacancies() {
         log.debug("getAllVacancies [1]: getting all record vacancy");
@@ -450,6 +454,7 @@ public class DataProviderH2 implements IDataProvider{
         throw new NullPointerException();
     }
 
+    /** See also {@link IDataProvider#getAllEmployees()}. */
     @Override
     public List<Employee> getAllEmployees() {
         log.debug("getAllEmployees [1]: getting all record employee");
@@ -476,6 +481,7 @@ public class DataProviderH2 implements IDataProvider{
         throw new NullPointerException();
     }
 
+    /** See also {@link IDataProvider#getAllSeparateQuals()}. */
     @Override
     public List<SeparateQual> getAllSeparateQuals() {
         log.debug("getAllSeparateQuals [1]: getting all record separateQual");
@@ -502,6 +508,7 @@ public class DataProviderH2 implements IDataProvider{
         throw new NullPointerException();
     }
 
+    /** See also {@link IDataProvider#updatePerson(Person)}. */
     @Override
     public Result updatePerson(Person person) {
         log.debug("updatePerson [1]: updating person, person id = ", person.getId());
@@ -544,6 +551,7 @@ public class DataProviderH2 implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#updateResume(Resume)}. */
     @Override
     public Result updateResume(Resume resume) {
         log.debug("updateResume [1]: updating resume, resume id = ", resume.getId());
@@ -578,6 +586,7 @@ public class DataProviderH2 implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#updateCompany(Company)}. */
     @Override
     public Result updateCompany(Company company) {
         log.debug("updateCompany [1]: updating company, company id = ", company.getId());
@@ -612,6 +621,7 @@ public class DataProviderH2 implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#updateVacancy(Vacancy)}. */
     @Override
     public Result updateVacancy(Vacancy vacancy) {
         log.debug("updateVacancy [1]: updating vacancy, vacancy id = ", vacancy.getId());
@@ -646,6 +656,7 @@ public class DataProviderH2 implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#updateSeparateQual(SeparateQual)}. */
     @Override
     public Result updateSeparateQual(SeparateQual separateQual) {
         log.debug("updateSeparateQual [1]: updating separateQual, separateQual id = ", separateQual.getId());
@@ -680,6 +691,7 @@ public class DataProviderH2 implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#deletePerson(int, TypePerson)}. */
     @Override
     public Result deletePerson(int id, TypePerson typePerson) {
         log.debug("deletePerson [1]: id = {}, typePerson = {}", id, typePerson);
@@ -719,6 +731,7 @@ public class DataProviderH2 implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#deleteResume(int)}. */
     @Override
     public Result deleteResume(int id) {
         log.debug("deleteResume [1]: id = {}", id);
@@ -757,6 +770,7 @@ public class DataProviderH2 implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#deleteCompany(int)}. */
     @Override
     public Result deleteCompany(int id) {
         log.debug("deleteCompany [1]: id = {}", id);
@@ -795,6 +809,7 @@ public class DataProviderH2 implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#deleteVacancy(int)}. */
     @Override
     public Result deleteVacancy(int id) {
         log.debug("deleteVacancy [1]: id = {}", id);
@@ -833,6 +848,7 @@ public class DataProviderH2 implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#deleteSeparateQual(int)}. */
     @Override
     public Result deleteSeparateQual(int id) {
         log.debug("deleteSeparateQual [1]: id = {}", id);
