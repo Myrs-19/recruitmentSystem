@@ -270,7 +270,7 @@ public class DataProviderH2Test {
         testSaveEmployee();
         System.out.println("test getEmployeeById positive h2");
         try{
-            int id = 1;
+            int id = 2;
             IDataProvider dp = new DataProviderH2();
             System.out.println(dp.getEmployee(id)); 
         } catch(NullPointerException ex){
@@ -429,7 +429,7 @@ public class DataProviderH2Test {
         employee.setId(2);
         employee.setTypePerson(TypePerson.EmployeeType);
         
-        employee.setName("aaaaaaa");
+        employee.setName("TEST");
         employee.setSurname("selsel");
         employee.setAge(20);
         
@@ -443,6 +443,77 @@ public class DataProviderH2Test {
         
         IDataProvider dp = new DataProviderH2();
         result = dp.updatePerson(employee);
+        System.out.println(result);
+    }
+    
+    @Test
+    public void testUpdateResume() {
+        System.out.println("test UpdateResume h2");
+        Resume resume = new Resume();
+        
+        resume.setId(1);
+        resume.setClientId(1);
+        resume.setCity("RRRRRRRRR");
+        resume.setProfession("developerTEST");
+        
+        Result result = new Result();
+    
+        IDataProvider dp = new DataProviderH2();
+        result = dp.updateResume(resume);
+        
+        System.out.println(result);
+    }
+    
+    @Test
+    public void testUpdateCompany() {
+        System.out.println("test UpdateCompany h2");
+        Company company = new Company();
+        
+        company.setId(1);
+        company.setTitle("DATAAA");
+        
+        Result result = new Result();
+    
+        IDataProvider dp = new DataProviderH2();
+        result = dp.updateCompany(company);
+        
+        System.out.println(result);
+    }
+    
+    @Test
+    public void testUpdateVacancy() {
+        System.out.println("test UpdateVacancy h2");
+        Vacancy vacancy = new Vacancy();
+        
+        vacancy.setId(1);
+        vacancy.setCompanyId(1);
+        vacancy.setTitle("JAAAAAAAVAAAAAAAa");
+        vacancy.setSalary(11);
+        
+        Result result = new Result();
+        
+        IDataProvider dp = new DataProviderH2();
+        result = dp.updateVacancy(vacancy);
+        
+        System.out.println(result);
+    }
+    
+    @Test
+    public void testUpdateSeparateQual() {
+        System.out.println("test UpdateSeparateQual h2");
+        SeparateQual separateQual = new SeparateQual();
+        
+        separateQual.setId(1);
+        separateQual.setCompanyId(1);
+        separateQual.setEmployeeId(1);
+        separateQual.setQuality(10);
+        separateQual.setDescription("nice");
+        
+        Result result = new Result();
+    
+        IDataProvider dp = new DataProviderH2();
+        result = dp.updateSeparateQual(separateQual);
+        
         System.out.println(result);
     }
 }

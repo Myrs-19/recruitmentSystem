@@ -37,9 +37,11 @@ public class Constants {
     
     public static final int CODE_ERROR = 422;
     
+    public static final int CODE_WARN = 250;
+    
     public static final String MESSAGE_CODE_SUCCESS = "OK";
     
-    public static final String MESSAGE_CODE_ERROR_UPDATE = "record has not changed";
+    public static final String MESSAGE_CODE_WARN_UPDATE = "record has not changed";
     
     public static final String COMPLETED_SUCCESSFUL = "SUCCESSFUL";
     public static final String COMPLETED_FAIL = "FAIL";
@@ -150,6 +152,16 @@ public class Constants {
     public static final String H2_QUERY_UPDATE_CLIENT = String.format("UPDATE %s SET name = ?, surname = ?, middleName = ?, age = ?, birthday = ?, phone = ?, email = ?, password = ?, address = ? ", TITLE_TABLE_CLIENT).concat(" WHERE id = %d");
     
     public static final String H2_QUERY_UPDATE_EMPLOYEE = String.format("UPDATE %s SET name = ?, surname = ?, middleName = ?, age = ?, birthday = ?, phone = ?, email = ?, companyId = ?, startWorkDate = ?, salary = ?, position = ?, isWorking = ? ", TITLE_TABLE_EMPLOYEE).concat(" WHERE id = %d");
+    
+    public static final String H2_QUERY_UPDATE_RESUME = String.format("UPDATE %s SET clientId = ?, profession = ?, city = ?, skills = ?, education = ?, experience = ?, sex = ?, workPermit = ?, citizenship = ? ", TITLE_TABLE_RESUME).concat(" WHERE id = %d");
+    
+    public static final String H2_QUERY_UPDATE_COMPANY = String.format("UPDATE %s SET title = ?, description = ? ", TITLE_TABLE_COMPANY).concat(" WHERE id = %d");
+    
+    public static final String H2_QUERY_UPDATE_VACANCY = String.format("UPDATE %s SET companyId = ?, title = ?, specialization = ?, online = ?, skills = ?, salary = ?, city = ?, address = ?, experience = ? ", TITLE_TABLE_VACANCY).concat(" WHERE id = %d");
+    
+    public static final String H2_QUERY_UPDATE_SEPARATE_QUAL = String.format("UPDATE %s SET companyId = ?, employeeId = ?, quality = ?, description = ? ", TITLE_TABLE_SEPARATE_QUAL).concat(" WHERE id = %d");
+    
+    public static final String H2_QUERY_DELETE_RECORD_BY_ID = String.format("DELETE FROM %s WHERE id = %d");
             
             
 }

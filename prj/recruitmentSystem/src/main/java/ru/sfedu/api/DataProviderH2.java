@@ -100,7 +100,7 @@ public class DataProviderH2 implements IDataProvider{
             PreparedStatement preStat = conn.prepareStatement(getSqlPerson.apply(person.getTypePerson()));
         ){
             
-            h2Util.fillStatPerson(person, preStat);
+            h2Util.fillStatPerson(preStat, person);
             preStat.executeUpdate();
             log.debug("savePerson [2]: saved successful");
         
@@ -521,13 +521,16 @@ public class DataProviderH2 implements IDataProvider{
             PreparedStatement preStat = conn.prepareStatement(String.format(getSqlPerson.apply(person.getTypePerson()), person.getId()));
                 ){
             
-            h2Util.fillStatPerson(person, preStat);
+            h2Util.fillStatPerson(preStat, person);
                     
-            if(preStat.executeUpdate() == 0){
-                result.setCode(Constants.CODE_ERROR);
-                result.setMessage(Constants.MESSAGE_CODE_ERROR_UPDATE);
+            if(preStat.executeUpdate() == 1){
+                MongoProvider.save(CommandType.UPDATED, RepositoryType.H2, person);
+            }
+            else{
+                result.setCode(Constants.CODE_WARN);
+                result.setMessage(Constants.MESSAGE_CODE_WARN_UPDATE);
                 
-                log.warn("{} person = {}", Constants.MESSAGE_CODE_ERROR_UPDATE, person);
+                log.warn("{} person = {}", Constants.MESSAGE_CODE_WARN_UPDATE, person);
             }
             
         } catch(SQLException ex){
@@ -539,22 +542,126 @@ public class DataProviderH2 implements IDataProvider{
 
     @Override
     public Result updateResume(Resume resume) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("updateResume [1]: updating resume, resume id = ", resume.getId());
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        try(
+            Connection conn = getConnection();
+            PreparedStatement preStat = conn.prepareStatement(String.format(Constants.H2_QUERY_UPDATE_RESUME, resume.getId()));
+                ){
+            
+            h2Util.fillStatResume(preStat, resume);
+                    
+            if(preStat.executeUpdate() == 1){
+                MongoProvider.save(CommandType.UPDATED, RepositoryType.H2, resume);
+            }
+            else{
+                result.setCode(Constants.CODE_WARN);
+                result.setMessage(Constants.MESSAGE_CODE_WARN_UPDATE);
+                
+                log.warn("{} resume = {}", Constants.MESSAGE_CODE_WARN_UPDATE, resume);
+            }
+            
+        } catch(SQLException ex){
+            log.error("updateResume [2]: error = {}", ex.getMessage());
+        }
+        
+        return result;
     }
 
     @Override
     public Result updateCompany(Company company) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("updateCompany [1]: updating company, company id = ", company.getId());
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        try(
+            Connection conn = getConnection();
+            PreparedStatement preStat = conn.prepareStatement(String.format(Constants.H2_QUERY_UPDATE_COMPANY, company.getId()));
+                ){
+            
+            h2Util.fillStatCompany(preStat, company);
+                    
+            if(preStat.executeUpdate() == 1){
+                MongoProvider.save(CommandType.UPDATED, RepositoryType.H2, company);
+            }
+            else{
+                result.setCode(Constants.CODE_WARN);
+                result.setMessage(Constants.MESSAGE_CODE_WARN_UPDATE);
+                
+                log.warn("{} company = {}", Constants.MESSAGE_CODE_WARN_UPDATE, company);
+            }
+            
+        } catch(SQLException ex){
+            log.error("updateCompany [2]: error = {}", ex.getMessage());
+        }
+        
+        return result;
     }
 
     @Override
     public Result updateVacancy(Vacancy vacancy) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("updateVacancy [1]: updating vacancy, vacancy id = ", vacancy.getId());
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        try(
+            Connection conn = getConnection();
+            PreparedStatement preStat = conn.prepareStatement(String.format(Constants.H2_QUERY_UPDATE_VACANCY, vacancy.getId()));
+                ){
+            
+            h2Util.fillStatVacancy(preStat, vacancy);
+                    
+            if(preStat.executeUpdate() == 1){
+                MongoProvider.save(CommandType.UPDATED, RepositoryType.H2, vacancy);
+            }
+            else{
+                result.setCode(Constants.CODE_WARN);
+                result.setMessage(Constants.MESSAGE_CODE_WARN_UPDATE);
+                
+                log.warn("{} vacancy = {}", Constants.MESSAGE_CODE_WARN_UPDATE, vacancy);
+            }
+            
+        } catch(SQLException ex){
+            log.error("updateVacancy [2]: error = {}", ex.getMessage());
+        }
+        
+        return result;
     }
 
     @Override
     public Result updateSeparateQual(SeparateQual separateQual) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("updateSeparateQual [1]: updating separateQual, separateQual id = ", separateQual.getId());
+        Result result = new Result();
+        result.setCode(Constants.CODE_SUCCESS);
+        result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        
+        try(
+            Connection conn = getConnection();
+            PreparedStatement preStat = conn.prepareStatement(String.format(Constants.H2_QUERY_UPDATE_SEPARATE_QUAL, separateQual.getId()));
+                ){
+            
+            h2Util.fillStatSeparateQual(preStat, separateQual);
+                    
+            if(preStat.executeUpdate() == 1){
+                MongoProvider.save(CommandType.UPDATED, RepositoryType.H2, separateQual);
+            }
+            else{
+                result.setCode(Constants.CODE_WARN);
+                result.setMessage(Constants.MESSAGE_CODE_WARN_UPDATE);
+                
+                log.warn("{} separateQual = {}", Constants.MESSAGE_CODE_WARN_UPDATE, separateQual);
+            }
+            
+        } catch(SQLException ex){
+            log.error("updateSeparateQual [2]: error = {}", ex.getMessage());
+        }
+        
+        return result;
     }
 
     @Override

@@ -26,7 +26,7 @@ public class h2Util {
      * @param person - бин который нужно обработать
      * @param preStat - statement with sql inside
      */
-    public static void fillStatPerson(Person person, PreparedStatement preStat) throws NullPointerException, SQLException{
+    public static void fillStatPerson(PreparedStatement preStat, Person person) throws NullPointerException, SQLException{
         switch(person.getTypePerson()){
             case ClientType:{
                 Client client = (Client) person;
