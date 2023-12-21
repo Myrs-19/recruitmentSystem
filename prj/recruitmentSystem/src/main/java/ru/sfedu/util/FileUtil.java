@@ -36,4 +36,14 @@ public class FileUtil {
         }
     }
 
+    public static void deleteFileOrFolderIfExists(String folderPath) {
+        File file = new File(folderPath);
+        if (file.exists()) {
+            boolean flag = file.delete();
+            log.debug("deleteFileOrFolderIfExists [1]: Folder of file {}, is deleted: {}", file.getAbsolutePath(), flag);
+        } else {
+            log.debug("deleteFileOrFolderIfExists [2]: Folder or file {} is not exists", file.getAbsolutePath());
+        }
+    }
+    
 }

@@ -47,8 +47,10 @@ public class DataProviderCsvTest {
         Employee person = new Employee();
         person.setTypePerson(TypePerson.EmployeeType);
         person.setName("Mike");
-        person.setSalary("98988");
+        person.setSalary(11010);
+        person.setCompanyId(1);
         
+        person.setIsWorking(false);
         DataProviderCsv dp = new DataProviderCsv();
         Result result = dp.savePerson(person);
         System.out.println(result);
@@ -57,7 +59,7 @@ public class DataProviderCsvTest {
     @Test
     void testSaveResume(){
         Resume resume = new Resume();
-        resume.setClientId("0");
+        resume.setClientId(1);
         resume.setCity("rostov");
         resume.setProfession("Prod");
         
@@ -79,9 +81,9 @@ public class DataProviderCsvTest {
     @Test
     void testSaveVacancy(){
         Vacancy vacancy = new Vacancy();
-        vacancy.setCompanyId("0");
+        vacancy.setCompanyId(1);
         vacancy.setTitle("junior");
-        vacancy.setSalary("878778");
+        vacancy.setSalary(878778);
         
         DataProviderCsv dp = new DataProviderCsv();
         Result result = dp.saveVacancy(vacancy);
@@ -91,9 +93,9 @@ public class DataProviderCsvTest {
     @Test
     void testSaveSeparateQual(){
         SeparateQual separateQual = new SeparateQual();
-        separateQual.setCompanyId("0");
-        separateQual.setEmployeeId("0");
-        separateQual.setQuality("120");
+        separateQual.setCompanyId(1);
+        separateQual.setEmployeeId(1);
+        separateQual.setQuality(120);
         
         DataProviderCsv dp = new DataProviderCsv();
         Result result = dp.saveSeparateQual(separateQual);
@@ -102,7 +104,7 @@ public class DataProviderCsvTest {
     
     @Test
     void testGetClientPositive(){
-        String id = "0";
+        int id = 1;
         
         DataProviderCsv dp = new DataProviderCsv();
         try{
@@ -115,7 +117,7 @@ public class DataProviderCsvTest {
     
     @Test
     void testGetClientNegative(){
-        String id = "-1";
+        int id = -1;
         try{
             DataProviderCsv dp = new DataProviderCsv();
             Client user = dp.getClient(id);
@@ -127,7 +129,7 @@ public class DataProviderCsvTest {
         
     @Test
     void testGetResumePositive(){
-        String id = "0";
+        int id = 1;
         
         try{
             DataProviderCsv dp = new DataProviderCsv();
@@ -140,7 +142,7 @@ public class DataProviderCsvTest {
     
     @Test
     void testGetResumeNegative(){
-        String id = "-1";
+        int id = -1;
         
         try{
             DataProviderCsv dp = new DataProviderCsv();
@@ -153,7 +155,7 @@ public class DataProviderCsvTest {
     
     @Test
     void testGetCompanyPositive(){
-        String id = "0";
+        int id = 1;
         
         try{
             DataProviderCsv dp = new DataProviderCsv();
@@ -166,7 +168,7 @@ public class DataProviderCsvTest {
     
     @Test
     void testGetCompanyNegative(){
-        String id = "-1";
+        int id = -1;
         try{
             DataProviderCsv dp = new DataProviderCsv();
             Company company = dp.getCompany(id);
@@ -178,7 +180,7 @@ public class DataProviderCsvTest {
     
     @Test
     void testGetVacancyPositive(){
-        String id = "0";
+        int id = 1;
         try{    
             DataProviderCsv dp = new DataProviderCsv();
             Vacancy vacancy = dp.getVacancy(id);
@@ -191,7 +193,7 @@ public class DataProviderCsvTest {
     
     @Test
     void testGetVacancyNegative(){
-        String id = "-1";
+        int id = -1;
         try{
             DataProviderCsv dp = new DataProviderCsv();
             Vacancy vacancy = dp.getVacancy(id);
@@ -203,7 +205,7 @@ public class DataProviderCsvTest {
     
     @Test
     void testGetEmployeePositive(){
-        String id = "0";
+        int id = 1;
         
         try{
             DataProviderCsv dp = new DataProviderCsv();
@@ -216,7 +218,7 @@ public class DataProviderCsvTest {
     
     @Test
     void testGetEmployeeNegative(){
-        String id = "-1";
+        int id = -1;
         try{
             DataProviderCsv dp = new DataProviderCsv();
             Employee employee = dp.getEmployee(id);
@@ -228,7 +230,7 @@ public class DataProviderCsvTest {
     
     @Test
     void testGetSeparateQualPositive(){
-        String id = "0";
+        int id = 1;
         try{
             DataProviderCsv dp = new DataProviderCsv();
             SeparateQual separateQual = dp.getSeparateQual(id);
@@ -240,7 +242,7 @@ public class DataProviderCsvTest {
     
     @Test
     void testGetSeparateQualNigga(){
-        String id = "-1";
+        int id = -1;
         
         try{
             DataProviderCsv dp = new DataProviderCsv();
@@ -322,7 +324,7 @@ public class DataProviderCsvTest {
         try{
             Client user = new Client();
             user.setTypePerson(TypePerson.ClientType);
-            user.setId("0");
+            user.setId(1);
             user.setName("MIMIMI");
             
             DataProviderCsv dp = new DataProviderCsv();
@@ -337,8 +339,8 @@ public class DataProviderCsvTest {
     void testUpdateResume(){
         try{
             Resume resume = new Resume();
-            resume.setId("0");
-            resume.setClientId("0");
+            resume.setId(1);
+            resume.setClientId(1);
             resume.setCity("rostov");
             resume.setProfession("Director");
             
@@ -354,7 +356,7 @@ public class DataProviderCsvTest {
     void testUpdateCompany(){
         try{
             Company company = new Company();
-            company.setId("0");
+            company.setId(1);
             company.setTitle("IRIIRIRI");
             
             DataProviderCsv dp = new DataProviderCsv();
@@ -369,10 +371,10 @@ public class DataProviderCsvTest {
     void testUpdateVacancy(){
         try{
             Vacancy vacancy = new Vacancy();
-            vacancy.setId("0");
-            vacancy.setCompanyId("0");
+            vacancy.setId(1);
+            vacancy.setCompanyId(1);
             vacancy.setTitle("developer");
-            vacancy.setSalary("35000");
+            vacancy.setSalary(35000);
                     
             DataProviderCsv dp = new DataProviderCsv();
             Result res = dp.updateVacancy(vacancy);
@@ -386,10 +388,10 @@ public class DataProviderCsvTest {
     void testUpdateSeparateQual(){
         try{
             SeparateQual separateQual = new SeparateQual();
-            separateQual.setId("0");
-            separateQual.setCompanyId("0");
-            separateQual.setEmployeeId("0");
-            separateQual.setQuality("-10");
+            separateQual.setId(1);
+            separateQual.setCompanyId(1);
+            separateQual.setEmployeeId(1);
+            separateQual.setQuality(-10);
                     
             DataProviderCsv dp = new DataProviderCsv();
             Result res = dp.updateSeparateQual(separateQual);
@@ -402,7 +404,7 @@ public class DataProviderCsvTest {
     @Test
     void testDeleteClient(){
         try{
-            String id = "0";
+            int id = 1;
                     
             DataProviderCsv dp = new DataProviderCsv();
             Result res = dp.deletePerson(id, TypePerson.ClientType);
@@ -415,7 +417,7 @@ public class DataProviderCsvTest {
     @Test
     void testDeleteEmployee(){
         try{
-            String id = "0";
+            int id = 1;
                     
             DataProviderCsv dp = new DataProviderCsv();
             Result res = dp.deletePerson(id, TypePerson.EmployeeType);
@@ -428,7 +430,7 @@ public class DataProviderCsvTest {
     @Test
     void testDeleteResume(){
         try{
-            String id = "0";
+            int id = 1;
                     
             DataProviderCsv dp = new DataProviderCsv();
             Result res = dp.deleteResume(id);
@@ -441,7 +443,7 @@ public class DataProviderCsvTest {
     @Test
     void testDeleteCompany(){
         try{
-            String id = "0";
+            int id = 1;
                     
             DataProviderCsv dp = new DataProviderCsv();
             Result res = dp.deleteCompany(id);
@@ -454,7 +456,7 @@ public class DataProviderCsvTest {
     @Test
     void testDeleteVacancy(){
         try{
-            String id = "0";
+            int id = 1;
                     
             DataProviderCsv dp = new DataProviderCsv();
             Result res = dp.deleteVacancy(id);
@@ -467,7 +469,7 @@ public class DataProviderCsvTest {
     @Test
     void testDeleteSeparateQual(){
         try{
-            String id = "0";
+            int id = 1;
                     
             DataProviderCsv dp = new DataProviderCsv();
             Result res = dp.deleteSeparateQual(id);

@@ -8,7 +8,7 @@ import org.simpleframework.xml.Root;
 public class Person {
     @Element
     @CsvBindByPosition(position = 0)
-    private String id;
+    private int id;
     
     @Element
     @CsvBindByPosition(position = 1)
@@ -24,7 +24,7 @@ public class Person {
     
     @Element
     @CsvBindByPosition(position = 4)
-    private String age;
+    private int age;
     
     @Element(required = false)
     @CsvBindByPosition(position = 5)
@@ -48,11 +48,11 @@ public class Person {
         this.typePerson = typePerson;
     }
         
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -72,11 +72,11 @@ public class Person {
         this.middleName = middleName;
     }
 
-    public String getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(int age) {
         this.age = age;
     }
 

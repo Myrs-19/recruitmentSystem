@@ -16,7 +16,7 @@ import org.simpleframework.xml.Root;
 public class Employee extends Person {
     @Element
     @CsvBindByPosition(position = 6)
-    String companyId;
+    int companyId;
     
     @Element
     @CsvBindByPosition(position = 7)
@@ -24,7 +24,7 @@ public class Employee extends Person {
     
     @Element
     @CsvBindByPosition(position = 8)
-    String salary;
+    int salary;
     
     @Element
     @CsvBindByPosition(position = 9)
@@ -32,23 +32,23 @@ public class Employee extends Person {
     
     @Element
     @CsvBindByPosition(position = 10)
-    String isWorking;
+    boolean isWorking;
     
     public Employee(){}
 
-    public String getIsWorking() {
+    public boolean getIsWorking() {
         return isWorking;
     }
 
-    public void setIsWorking(String isWorking) {
+    public void setIsWorking(boolean isWorking) {
         this.isWorking = isWorking;
     }
 
-    public String getCompanyId() {
+    public int getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(String companyId) {
+    public void setCompanyId(int companyId) {
         this.companyId = companyId;
     }
     
@@ -60,11 +60,11 @@ public class Employee extends Person {
         this.startWorkDate = startWorkDate;
     }
 
-    public String getSalary() {
+    public int getSalary() {
         return salary;
     }
 
-    public void setSalary(String salary) {
+    public void setSalary(int salary) {
         this.salary = salary;
     }
 

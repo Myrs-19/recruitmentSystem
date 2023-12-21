@@ -16,11 +16,11 @@ import org.simpleframework.xml.Root;
 public class Resume {
     @Element
     @CsvBindByPosition(position = 0)
-    String id;
+    int id;
     
     @Element
     @CsvBindByPosition(position = 1)
-    String clientId;
+    int clientId;
     
     @Element
     @CsvBindByPosition(position = 2)
@@ -44,11 +44,11 @@ public class Resume {
     
     @Element(required = false)
     @CsvBindByPosition(position = 8)
-    String sex;
+    boolean sex;
     
     @Element(required = false)
     @CsvBindByPosition(position = 10)
-    String workPermit;
+    boolean workPermit;
     
     @Element(required = false)
     @CsvBindByPosition(position = 11)
@@ -56,19 +56,19 @@ public class Resume {
     
     public Resume(){}
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getClientId() {
+    public int getClientId() {
         return clientId;
     }
 
-    public void setClientId(String clientId) {
+    public void setClientId(int clientId) {
         this.clientId = clientId;
     }
 
@@ -112,19 +112,19 @@ public class Resume {
         this.experience = experience;
     }
 
-    public String getSex() {
+    public boolean getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(boolean sex) {
         this.sex = sex;
     }
 
-    public String getWorkPermit() {
+    public boolean getWorkPermit() {
         return workPermit;
     }
 
-    public void setWorkPermit(String workPermit) {
+    public void setWorkPermit(boolean workPermit) {
         this.workPermit = workPermit;
     }
 

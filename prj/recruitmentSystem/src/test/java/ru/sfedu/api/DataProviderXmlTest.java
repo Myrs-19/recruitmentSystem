@@ -67,7 +67,7 @@ public class DataProviderXmlTest {
         
         client.setName("plplpl");
         client.setSurname("selsel");
-        client.setAge("20");
+        client.setAge(20);
         
         client.setEmail("a");
         client.setPhone("756");
@@ -93,12 +93,12 @@ public class DataProviderXmlTest {
         
         employee.setName("plplpl");
         employee.setSurname("selsel");
-        employee.setAge("20");
+        employee.setAge(20);
         
-        employee.setCompanyId("0");
+        employee.setCompanyId(1);
         employee.setStartWorkDate("12-06-2003");
-        employee.setSalary("99");
-        employee.setIsWorking("0");
+        employee.setSalary(9999);
+        employee.setIsWorking(false);
         employee.setPosition("middle");
         
         Result result = new Result();
@@ -119,7 +119,7 @@ public class DataProviderXmlTest {
         System.out.println("test saveResume xml");
         Resume resume = new Resume();
         
-        resume.setClientId("0");
+        resume.setClientId(1);
         resume.setCity("rostov");
         resume.setProfession("developer");
         
@@ -163,9 +163,9 @@ public class DataProviderXmlTest {
         System.out.println("test SaveVacancy xml");
         Vacancy vacancy = new Vacancy();
         
-        vacancy.setCompanyId("0");
+        vacancy.setCompanyId(1);
         vacancy.setTitle("java");
-        vacancy.setSalary("8797");
+        vacancy.setSalary(8797);
         
         Result result = new Result();
         try{
@@ -184,9 +184,9 @@ public class DataProviderXmlTest {
         System.out.println("test SaveSeparateQual xml");
         SeparateQual separateQual = new SeparateQual();
         
-        separateQual.setCompanyId("0");
-        separateQual.setEmployeeId("0");
-        separateQual.setQuality("7");
+        separateQual.setCompanyId(1);
+        separateQual.setEmployeeId(1);
+        separateQual.setQuality(7);
         
         Result result = new Result();
         try{    
@@ -204,7 +204,7 @@ public class DataProviderXmlTest {
     @Test
     public void testGetClientPositive() {
         System.out.println("test GetClient xml");
-        String id = "0";
+        int id = 1;
         IDataProvider dp = new DataProviderXml();
         try{
             Client client = dp.getClient(id);
@@ -217,7 +217,7 @@ public class DataProviderXmlTest {
     @Test
     public void testGetClientNegative() {
         System.out.println("test GetClient xml");
-        String id = "-1";
+        int id = -1;
         IDataProvider dp = new DataProviderXml();
         try{
             Client client = dp.getClient(id);
@@ -233,7 +233,7 @@ public class DataProviderXmlTest {
     @Test
     public void testGetResumePositive() {
         System.out.println("test GetResume xml");
-        String id = "0";
+        int id = 1;
         IDataProvider dp = new DataProviderXml();
         try{
             Resume resume = dp.getResume(id);
@@ -246,7 +246,7 @@ public class DataProviderXmlTest {
     @Test
     public void testGetResumeNegative() {
         System.out.println("test GetResume xml");
-        String id = "-1";
+        int id = -1;
         IDataProvider dp = new DataProviderXml();
         try{
             Resume resume = dp.getResume(id);
@@ -262,7 +262,7 @@ public class DataProviderXmlTest {
     @Test
     public void testGetCompanyPositive() {
         System.out.println("test GetCompany xml");
-        String id = "0";
+        int id = 1;
         IDataProvider dp = new DataProviderXml();
         try{
             Company company = dp.getCompany(id);
@@ -275,7 +275,7 @@ public class DataProviderXmlTest {
     @Test
     public void testGetCompanyNegative() {
         System.out.println("test GetCompany xml");
-        String id = "-1";
+        int id = -1;
         IDataProvider dp = new DataProviderXml();
         try{
             Company company = dp.getCompany(id);
@@ -291,7 +291,7 @@ public class DataProviderXmlTest {
     @Test
     public void testGetVacancyPositive() {
         System.out.println("test GetVacancy xml");
-        String id = "0";
+        int id = 1;
         IDataProvider dp = new DataProviderXml();
         try{
             Vacancy vacancy = dp.getVacancy(id);
@@ -304,7 +304,7 @@ public class DataProviderXmlTest {
     @Test
     public void testGetVacancyNegative() {
         System.out.println("test GetVacancy xml");
-        String id = "-1";
+        int id = -1;
         IDataProvider dp = new DataProviderXml();
         try{
             Vacancy vacancy = dp.getVacancy(id);
@@ -320,7 +320,7 @@ public class DataProviderXmlTest {
     @Test
     public void testGetEmployeePositive() {
         System.out.println("test GetEmployee xml");
-        String id = "0";
+        int id = 1;
         IDataProvider dp = new DataProviderXml();
         try{
             Employee employee = dp.getEmployee(id);
@@ -333,7 +333,7 @@ public class DataProviderXmlTest {
     @Test
     public void testGetEmployeeNegative() {
         System.out.println("test GetEmployee xml");
-        String id = "-1";
+        int id = -1;
         IDataProvider dp = new DataProviderXml();
         try{
             Employee employee = dp.getEmployee(id);
@@ -349,7 +349,7 @@ public class DataProviderXmlTest {
     @Test
     public void testGetSeparateQualPositive() {
         System.out.println("test GetSeparateQual xml");
-        String id = "0";
+        int id = 1;
         IDataProvider dp = new DataProviderXml();
         try{
             SeparateQual separateQual = dp.getSeparateQual(id);
@@ -362,7 +362,7 @@ public class DataProviderXmlTest {
     @Test
     public void testGetSeparateQualNegative() {
         System.out.println("test GetSeparateQual xml");
-        String id = "-1";
+        int id = -1;
         IDataProvider dp = new DataProviderXml();
         try{
             SeparateQual separateQual = dp.getSeparateQual(id);
@@ -469,13 +469,13 @@ public class DataProviderXmlTest {
     public void testUpdateClient() {
         System.out.println("test updateClient xml");
         Client client = new Client();
-        String id = "0";
+        int id = 1;
         client.setId(id);
         client.setTypePerson(TypePerson.ClientType);
         
         client.setName("plplpl");
         client.setSurname("MIMIMIMI");
-        client.setAge("20");
+        client.setAge(20);
         
         client.setEmail("a");
         client.setPhone("756");
@@ -495,17 +495,17 @@ public class DataProviderXmlTest {
         System.out.println("test UpdatedEmployee xml");
         Employee employee = new Employee();
         
-        employee.setId("0");
+        employee.setId(1);
         employee.setTypePerson(TypePerson.EmployeeType);
         
         employee.setName("aaaaaaa");
         employee.setSurname("selsel");
-        employee.setAge("20");
+        employee.setAge(20);
         
-        employee.setCompanyId("0");
+        employee.setCompanyId(1);
         employee.setStartWorkDate("12-06-2003");
-        employee.setSalary("99");
-        employee.setIsWorking("0");
+        employee.setSalary(99);
+        employee.setIsWorking(false);
         employee.setPosition("middle");
         
         Result result = new Result();
@@ -523,8 +523,8 @@ public class DataProviderXmlTest {
         System.out.println("test UpdateResume xml");
         Resume resume = new Resume();
         
-        resume.setId("-1");
-        resume.setClientId("0");
+        resume.setId(1);
+        resume.setClientId(1);
         resume.setCity("RRRRRRRRR");
         resume.setProfession("developer");
         
@@ -544,7 +544,7 @@ public class DataProviderXmlTest {
         System.out.println("test UpdateCompany xml");
         Company company = new Company();
         
-        company.setId("0");
+        company.setId(1);
         company.setTitle("DATAAA");
         
         Result result = new Result();
@@ -563,10 +563,10 @@ public class DataProviderXmlTest {
         System.out.println("test UpdateVacancy xml");
         Vacancy vacancy = new Vacancy();
         
-        vacancy.setId("0");
-        vacancy.setCompanyId("0");
+        vacancy.setId(1);
+        vacancy.setCompanyId(1);
         vacancy.setTitle("JAAAAAAAVAAAAAAAa");
-        vacancy.setSalary("11");
+        vacancy.setSalary(11);
         
         Result result = new Result();
         
@@ -583,10 +583,10 @@ public class DataProviderXmlTest {
         System.out.println("test UpdateSeparateQual xml");
         SeparateQual separateQual = new SeparateQual();
         
-        separateQual.setId("0");
-        separateQual.setCompanyId("0");
-        separateQual.setEmployeeId("0");
-        separateQual.setQuality("7");
+        separateQual.setId(1);
+        separateQual.setCompanyId(1);
+        separateQual.setEmployeeId(1);
+        separateQual.setQuality(7);
         separateQual.setDescription("nice");
         
         Result result = new Result();
@@ -603,7 +603,7 @@ public class DataProviderXmlTest {
     @Test
     public void testDeleteClient() {
         System.out.println("test DeleteClient xml");
-        String id = "-1";
+        int id = 1;
         IDataProvider dp = new DataProviderXml();
         Result result = dp.deletePerson(id, TypePerson.ClientType);
         System.out.println(result);
@@ -612,7 +612,7 @@ public class DataProviderXmlTest {
     @Test
     public void testDeleteEmployee() {
         System.out.println("test DeleteEmployee xml");
-        String id = "0";
+        int id = 1;
         IDataProvider dp = new DataProviderXml();
         Result result = dp.deletePerson(id, TypePerson.EmployeeType);
         System.out.println(result);
@@ -623,7 +623,7 @@ public class DataProviderXmlTest {
     @Test
     public void testDeleteResume() {
         System.out.println("test DeleteResume xml");
-        String id = "0";
+        int id = 1;
         IDataProvider dp = new DataProviderXml();
         Result result = dp.deleteResume(id);
         System.out.println(result);
@@ -635,7 +635,7 @@ public class DataProviderXmlTest {
     @Test
     public void testDeleteCompany() {
         System.out.println("test DeleteCompany xml");
-        String id = "0";
+        int id = 1;
         IDataProvider dp = new DataProviderXml();
         Result result = dp.deleteCompany(id);
         System.out.println(result);
@@ -647,7 +647,7 @@ public class DataProviderXmlTest {
     @Test
     public void testDeleteVacancy() {
         System.out.println("test DeleteVacancy xml");
-        String id = "0";
+        int id = 1;
         IDataProvider dp = new DataProviderXml();
         Result result = dp.deleteVacancy(id);
         System.out.println(result);
@@ -659,7 +659,7 @@ public class DataProviderXmlTest {
     @Test
     public void testDeleteSeparateQual() {
         System.out.println("test DeleteSeparateQual xml");
-        String id = "0";
+        int id = 1;
         IDataProvider dp = new DataProviderXml();
         Result result = dp.deleteSeparateQual(id);
         System.out.println(result);

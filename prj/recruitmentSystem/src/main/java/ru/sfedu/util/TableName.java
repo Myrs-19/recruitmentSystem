@@ -7,11 +7,13 @@ package ru.sfedu.util;
 import ru.sfedu.Constants;
 import ru.sfedu.model.TypePerson;
 
-/**
- *
- * @author mike
- */
+
 public class TableName {
+    
+    /** Method for returning title of table in dependes of type of person
+    * @param typePerson  - type of person
+    * @return string - title table person
+    */
     public static String getTableNamePerson(TypePerson typePerson){
         return switch (typePerson) {
             case ClientType -> Constants.TITLE_TABLE_CLIENT;
