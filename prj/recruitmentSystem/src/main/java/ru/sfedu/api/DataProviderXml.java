@@ -336,7 +336,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
-    /** See also {@link IDataProvider#getClient(String)}. */
+    /** See also {@link IDataProvider#getClient(int)}. */
     @Override
     public Client getClient(int id) {
         log.debug("getClient [1]: getting client, id = {}", id);
@@ -353,7 +353,7 @@ public class DataProviderXml implements IDataProvider{
         throw new NullPointerException("the client has not been found, id = " + id);
     }
 
-    /** See also {@link IDataProvider#getResume(String)}. */
+    /** See also {@link IDataProvider#getResume(int)}. */
     @Override
     public Resume getResume(int id) {
         log.debug("getResume [1]: getting resume, id = {}", id);
@@ -370,7 +370,7 @@ public class DataProviderXml implements IDataProvider{
         throw new NullPointerException("the resume has not been found, id = " + id);
     }
 
-    /** See also {@link IDataProvider#getCompany(String)}. */
+    /** See also {@link IDataProvider#getCompany(int)}. */
     @Override
     public Company getCompany(int id) {
         log.debug("getCompany [1]: getting company, id = {}", id);
@@ -387,7 +387,7 @@ public class DataProviderXml implements IDataProvider{
         throw new NullPointerException("the company has not been found, id = " + id);
     }
 
-    /** See also {@link IDataProvider#getVacancy(String)}. */
+    /** See also {@link IDataProvider#getVacancy(int)}. */
     @Override
     public Vacancy getVacancy(int id) {
         log.debug("getVacancy [1]: getting vacancy, id = {}", id);
@@ -404,7 +404,7 @@ public class DataProviderXml implements IDataProvider{
         throw new NullPointerException("the vacancy has not been found, id = " + id);
     }
 
-    /** See also {@link IDataProvider#getEmployee(String)}. */
+    /** See also {@link IDataProvider#getEmployee(int)}. */
     @Override
     public Employee getEmployee(int id) {
         log.debug("getEmployee [1]: getting employee, id = {}", id);
@@ -421,7 +421,7 @@ public class DataProviderXml implements IDataProvider{
         throw new NullPointerException("the employee has not been found, id = " + id);
     }
 
-    /** See also {@link IDataProvider#getSeparateQual(String)}. */
+    /** See also {@link IDataProvider#getSeparateQual(int)}. */
     @Override
     public SeparateQual getSeparateQual(int id) {
         log.debug("getSeparateQual [1]: getting separateQual, id = {}", id);
@@ -707,7 +707,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
-    /** See also {@link IDataProvider#deletePerson(String, TypePerson)}. */
+    /** See also {@link IDataProvider#deletePerson(int, TypePerson)}. */
     @Override
     public Result deletePerson(int id, TypePerson typePerson) {
         log.debug("deletePerson [1]: deleting person, typePerson = {}, id = {}", typePerson, id);
@@ -742,7 +742,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
-    /** See also {@link IDataProvider#deleteResume(String)}. */
+    /** See also {@link IDataProvider#deleteResume(int)}. */
     @Override
     public Result deleteResume(int id) {
         log.debug("deleteResume [1]: deleting resume, id = {}", id);
@@ -777,7 +777,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
-    /** See also {@link IDataProvider#deleteCompany(String)}. */
+    /** See also {@link IDataProvider#deleteCompany(int)}. */
     @Override
     public Result deleteCompany(int id) {
         log.debug("deleteCompany [1]: deleting company, id = {}", id);
@@ -812,7 +812,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
-    /** See also {@link IDataProvider#deleteVacancy(String)}. */
+    /** See also {@link IDataProvider#deleteVacancy(int)}. */
     @Override
     public Result deleteVacancy(int id) {
         log.debug("deleteVacancy [1]: deleting vacancy, id = {}", id);
@@ -847,7 +847,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
-    /** See also {@link IDataProvider#deleteSeparateQual(String)}. */
+    /** See also {@link IDataProvider#deleteSeparateQual(int)}. */
     @Override
     public Result deleteSeparateQual(int id) {
         log.debug("deleteSeparateQual [1]: deleting separateQual, id = {}", id);

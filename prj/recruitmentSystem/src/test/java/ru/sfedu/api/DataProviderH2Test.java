@@ -22,7 +22,7 @@ import ru.sfedu.model.*;
  *
  * @author mike
  */
-public class DataProviderH2Test {
+public class DataProviderH2Test extends BaseTest{
     
     public DataProviderH2Test() {
     }
@@ -45,7 +45,7 @@ public class DataProviderH2Test {
 
     @Test
     public void testInitH2(){
-        IDataProvider dp = new DataProviderH2();
+        IDataProvider dp = new DataProviderH2("test/");
     }
    
     

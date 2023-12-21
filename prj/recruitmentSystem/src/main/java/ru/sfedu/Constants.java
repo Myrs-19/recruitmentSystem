@@ -165,6 +165,7 @@ public class Constants {
     
     public static final String H2_QUERY_DELETE_RECORD_BY_ID = "DELETE FROM %s WHERE id = %d";
             
+    public static final String TEST_MAIN_FOLDER_PATH = "src/test/testFolder/testActualDataFolder/";
 }
 
 

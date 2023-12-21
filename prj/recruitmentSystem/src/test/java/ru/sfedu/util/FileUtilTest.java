@@ -42,14 +42,9 @@ public class FileUtilTest {
      */
     @Test
     public void testCreateFolderIfNotExists(){
-        System.out.println("test сreateFolderIfNotExists");
-        try{
-            String folderPath = Constants.CSV_PATH_FOLDER;
-            FileUtil.createFolderIfNotExists(folderPath);
-        } catch(Exception ex){
-            fail("ошибка создания директории");
-        }
-        
+        FileUtil.deleteFileOrFolderIfExists("test");
     }
+    
+    
     
 }

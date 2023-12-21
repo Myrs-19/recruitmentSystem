@@ -29,10 +29,17 @@ public class DataProviderH2 implements IDataProvider{
     
     private static final Logger log = LogManager.getLogger(DataProviderH2.class.getName());
 
+    private final String pathFolder;
+    
     public DataProviderH2(){
+        pathFolder = getConfigurationEntry(Constants.H2_PATH);
         createTables();
     }
     
+    public DataProviderH2(String path){
+        pathFolder = path.concat(getConfigurationEntry(Constants.H2_PATH));
+        createTables();
+    }
     /**Method creates all table all beans IF NOT EXISTS
     * создание таблиц, если еще не созданы
     */
@@ -42,7 +49,6 @@ public class DataProviderH2 implements IDataProvider{
                 Connection conn = getConnection(); 
                 Statement stat = conn.createStatement();
                 ){
-            
             
             stat.execute(Constants.H2_QUERY_CREATE_CLIENT);
             log.debug("createTables[2]: created client table");
@@ -75,7 +81,7 @@ public class DataProviderH2 implements IDataProvider{
         return DriverManager.getConnection(
                 getConfigurationEntry(Constants.H2_CONNECTOR)
                         .concat(Constants.H2_PREFIX_PATH)
-                        .concat(getConfigurationEntry(Constants.H2_PATH))
+                        .concat(pathFolder)
                         .concat(Constants.H2_DB_NAME));
     }
     

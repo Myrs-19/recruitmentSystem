@@ -260,7 +260,7 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
-    /** See also {@link IDataProvider#getClient(String)}. */
+    /** See also {@link IDataProvider#getClient(int)}. */
     @Override
     public Client getClient(int id) {
         log.debug("getClient [1]: id = {}", id);
@@ -293,7 +293,7 @@ public class DataProviderCsv implements IDataProvider{
        throw new NullPointerException("such record does not exist: bean = Client, id = " + id);
     }
 
-    /** See also {@link IDataProvider#getResume(String)}. */
+    /** See also {@link IDataProvider#getResume(int)}. */
     @Override
     public Resume getResume(int id) {
         log.debug("getResume [1]: id = {}", id);
@@ -326,7 +326,7 @@ public class DataProviderCsv implements IDataProvider{
        throw new NullPointerException("such record does not exist: bean = Resume, id = " + id);
     }
 
-    /** See also {@link IDataProvider#getCompany(String)}. */
+    /** See also {@link IDataProvider#getCompany(int)}. */
     @Override
     public Company getCompany(int id) {
         log.debug("getCompany [1]: id = {}", id);
@@ -359,7 +359,7 @@ public class DataProviderCsv implements IDataProvider{
        throw new NullPointerException("such record does not exist: bean = Company, id = " + id);
     }
 
-    /** See also {@link IDataProvider#getVacancy(String)}. */
+    /** See also {@link IDataProvider#getVacancy(int)}. */
     @Override
     public Vacancy getVacancy(int id) {
         log.debug("getVacancy [1]: id = {}", id);
@@ -392,7 +392,7 @@ public class DataProviderCsv implements IDataProvider{
        throw new NullPointerException("such record does not exist: bean = Vacancy, id = " + id);
     }
 
-    /** See also {@link IDataProvider#getEmployee(String)}. */
+    /** See also {@link IDataProvider#getEmployee(int)}. */
     @Override
     public Employee getEmployee(int id) {
         log.debug("getEmployee [1]: id = {}", id);
@@ -425,7 +425,7 @@ public class DataProviderCsv implements IDataProvider{
        throw new NullPointerException("such record does not exist: bean = Employee, id = " + id);
     }
 
-    /** See also {@link IDataProvider#getSeparateQual(String)}. */
+    /** See also {@link IDataProvider#getSeparateQual(int)}. */
     @Override
     public SeparateQual getSeparateQual(int id) {
         log.debug("getSeparateQual [1]: id = {}", id);
@@ -620,7 +620,7 @@ public class DataProviderCsv implements IDataProvider{
         throw new NullPointerException("records such bean do not exists: bean = SeparateQual");
     }
 
-    /** See also {@link IDataProvider#updatePerson()}. */
+    /** See also {@link IDataProvider#updatePerson(Person)}. */
     @Override
     public Result updatePerson(Person person) {
         Result result = new Result();
@@ -875,7 +875,7 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
-    /** See also {@link IDataProvider#deletePerson(String, TypePerson)}. */
+    /** See also {@link IDataProvider#deletePerson(int, TypePerson)}. */
     @Override
     public Result deletePerson(int id, TypePerson typePerson) {
         Result result = new Result();
@@ -930,7 +930,7 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
-    /** See also {@link IDataProvider#deleteResume(String)}. */
+    /** See also {@link IDataProvider#deleteResume(int)}. */
     @Override
     public Result deleteResume(int id) {
         Result result = new Result();
@@ -976,7 +976,7 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
-    /** See also {@link IDataProvider#deleteCompany(String)}. */
+    /** See also {@link IDataProvider#deleteCompany(int)}. */
     @Override
     public Result deleteCompany(int id) {
         Result result = new Result();
@@ -1022,7 +1022,7 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
-    /** See also {@link IDataProvider#deleteVacancy(String)}. */
+    /** See also {@link IDataProvider#deleteVacancy(int)}. */
     @Override
     public Result deleteVacancy(int id) {
         Result result = new Result();
@@ -1068,7 +1068,7 @@ public class DataProviderCsv implements IDataProvider{
         return result;
     }
 
-    /** See also {@link IDataProvider#deleteSeparateQual(String)}. */
+    /** See also {@link IDataProvider#deleteSeparateQual(int)}. */
     @Override
     public Result deleteSeparateQual(int id) {
         Result result = new Result();
