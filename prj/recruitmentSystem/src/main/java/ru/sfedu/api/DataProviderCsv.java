@@ -91,9 +91,11 @@ public class DataProviderCsv implements IDataProvider{
             
             log.debug("getId [2]: gettind has been successful");
             return id;
-        } catch(NullPointerException | IOException | CsvException ex){
+        } catch(CsvException ex){
             log.error("getId [3]: error = {}", ex.getMessage());
-        } 
+        } catch(IOException ex){
+            log.debug("getId [4]: creating first record");
+        }
         
         return id;
     }
@@ -279,7 +281,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#getClient(int)}. */
     @Override
-    public Client getClient(int id) {
+    public Client getClient(int id) throws NoSuchElementException{
         log.debug("getClient [1]: id = {}", id);
        
         try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_CLIENT))){
@@ -303,8 +305,10 @@ public class DataProviderCsv implements IDataProvider{
             
             return clientWrap.get();
                     
-        } catch(IOException | NoSuchElementException ex){
+        } catch(IOException ex){
             log.error("getClient [2]: error = {}", ex.getMessage());
+        } catch(NoSuchElementException ex){
+            log.debug("getClient [3]: such record does not exist: bean = SeparateQual, id = " + id);
         }
        
        throw new NullPointerException("such record does not exist: bean = Client, id = " + id);
@@ -312,7 +316,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#getResume(int)}. */
     @Override
-    public Resume getResume(int id) {
+    public Resume getResume(int id) throws NoSuchElementException{
         log.debug("getResume [1]: id = {}", id);
        
         try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_RESUME))){
@@ -336,8 +340,10 @@ public class DataProviderCsv implements IDataProvider{
             
             return resumeWrap.get();
                     
-        } catch(IOException | NoSuchElementException ex){
+        } catch(IOException ex){
             log.error("getResume [2]: error = {}", ex.getMessage());
+        } catch(NoSuchElementException ex){
+            log.debug("getResume [3]: such record does not exist: bean = SeparateQual, id = " + id);
         }
        
        throw new NullPointerException("such record does not exist: bean = Resume, id = " + id);
@@ -345,7 +351,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#getCompany(int)}. */
     @Override
-    public Company getCompany(int id) {
+    public Company getCompany(int id) throws NoSuchElementException{
         log.debug("getCompany [1]: id = {}", id);
        
         try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_COMPANY))){
@@ -369,8 +375,10 @@ public class DataProviderCsv implements IDataProvider{
             
             return resumeWrap.get();
                     
-        } catch(IOException | NoSuchElementException ex){
+        } catch(IOException ex){
             log.error("getCompany [2]: error = {}", ex.getMessage());
+        } catch(NoSuchElementException ex){
+            log.debug("getCompany [3]: such record does not exist: bean = SeparateQual, id = " + id);
         }
        
        throw new NullPointerException("such record does not exist: bean = Company, id = " + id);
@@ -378,7 +386,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#getVacancy(int)}. */
     @Override
-    public Vacancy getVacancy(int id) {
+    public Vacancy getVacancy(int id) throws NoSuchElementException{
         log.debug("getVacancy [1]: id = {}", id);
        
         try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_VACANCY))){
@@ -402,8 +410,10 @@ public class DataProviderCsv implements IDataProvider{
             
             return resumeWrap.get();
                     
-        } catch(IOException | NoSuchElementException ex){
+        } catch(IOException ex){
             log.error("getVacancy [2]: error = {}", ex.getMessage());
+        } catch(NoSuchElementException ex){
+            log.debug("getVacancy [3]: such record does not exist: bean = SeparateQual, id = " + id);
         }
        
        throw new NullPointerException("such record does not exist: bean = Vacancy, id = " + id);
@@ -411,7 +421,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#getEmployee(int)}. */
     @Override
-    public Employee getEmployee(int id) {
+    public Employee getEmployee(int id) throws NoSuchElementException{
         log.debug("getEmployee [1]: id = {}", id);
        
         try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_EMPLOYEE))){
@@ -435,8 +445,10 @@ public class DataProviderCsv implements IDataProvider{
             
             return resumeWrap.get();
                     
-        } catch(IOException | NoSuchElementException ex){
+        } catch(IOException  ex){
             log.error("getEmployee [2]: error = {}", ex.getMessage());
+        } catch(NoSuchElementException ex){
+            log.debug("getEmployee [3]: such record does not exist: bean = SeparateQual, id = " + id);
         }
        
        throw new NullPointerException("such record does not exist: bean = Employee, id = " + id);
@@ -444,7 +456,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#getSeparateQual(int)}. */
     @Override
-    public SeparateQual getSeparateQual(int id) {
+    public SeparateQual getSeparateQual(int id) throws NoSuchElementException{
         log.debug("getSeparateQual [1]: id = {}", id);
        
         try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_SEPARATE_QUAL))){
@@ -468,8 +480,10 @@ public class DataProviderCsv implements IDataProvider{
             
             return resumeWrap.get();
                     
-        } catch(IOException | NoSuchElementException ex){
+        } catch(IOException ex){
             log.error("getSeparateQual [2]: error = {}", ex.getMessage());
+        } catch(NoSuchElementException ex){
+            log.debug("getSeparateQual [3]: such record does not exist: bean = SeparateQual, id = " + id);
         }
        
        throw new NullPointerException("such record does not exist: bean = SeparateQual, id = " + id);
@@ -690,9 +704,7 @@ public class DataProviderCsv implements IDataProvider{
         if(result.getCode() == Constants.CODE_SUCCESS){
             MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, person);
         }
-        else if(result.getCode() == Constants.CODE_ERROR){
-            log.error("updatePerson [3]: error = {}", result.getMessage());
-        }
+        
         return result;
     }
 
@@ -739,9 +751,6 @@ public class DataProviderCsv implements IDataProvider{
         if(result.getCode() == Constants.CODE_SUCCESS){
             MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, resume);
         }
-        else if(result.getCode() == Constants.CODE_ERROR){
-            log.error("updateResume [3]: error = {}", result.getMessage());
-        }
         return result;
     }
 
@@ -787,9 +796,6 @@ public class DataProviderCsv implements IDataProvider{
        
         if(result.getCode() == Constants.CODE_SUCCESS){
             MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, company);
-        }
-        else if(result.getCode() == Constants.CODE_ERROR){
-            log.error("updateCompany [3]: error = {}", result.getMessage());
         }
         return result;
     }
@@ -885,9 +891,6 @@ public class DataProviderCsv implements IDataProvider{
        
         if(result.getCode() == Constants.CODE_SUCCESS){
             MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, separateQual);
-        }
-        else if(result.getCode() == Constants.CODE_ERROR){
-            log.error("updateSeparateQual [3]: error = {}", result.getMessage());
         }
         return result;
     }

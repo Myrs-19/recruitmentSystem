@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
@@ -148,7 +149,7 @@ public class DataProviderXml implements IDataProvider{
                 wrap.setList(list);
                 
             } catch(Exception ex){
-                log.error("savePerson [2]: error = File is Empty");
+                log.debug("savePerson [2]: first record");
                 person.setId(id);
                 
                 wrap = new XmlWrapper<Person>();    
@@ -194,7 +195,7 @@ public class DataProviderXml implements IDataProvider{
                 wrap.setList(list);
                 
             } catch(Exception ex){
-                log.error("saveResume [2]: error = File is Empty");
+                log.debug("saveResume [2]: first record");
                 resume.setId(id);
                 
                 wrap = new XmlWrapper<Resume>();    
@@ -240,7 +241,7 @@ public class DataProviderXml implements IDataProvider{
                 wrap.setList(list);
                 
             } catch(Exception ex){
-                log.error("saveCompany [2]: error = File is Empty");
+                log.debug("saveCompany [2]: first record");
                 company.setId(id);
                 
                 wrap = new XmlWrapper<Company>();    
@@ -286,7 +287,7 @@ public class DataProviderXml implements IDataProvider{
                 wrap.setList(list);
                 
             } catch(Exception ex){
-                log.error("saveVacancy [2]: error = File is Empty");
+                log.debug("saveVacancy [2]: first record");
                 vacancy.setId(id);
                 
                 wrap = new XmlWrapper<Vacancy>();    
@@ -332,7 +333,7 @@ public class DataProviderXml implements IDataProvider{
                 wrap.setList(list);
                 
             } catch(Exception ex){
-                log.error("SeparateQual [2]: error = File is Empty");
+                log.debug("SeparateQual [2]: first record");
                 separateQual.setId(id);
                 
                 wrap = new XmlWrapper<SeparateQual>();    
@@ -361,8 +362,10 @@ public class DataProviderXml implements IDataProvider{
                     .filter(u -> u.getId() == id)
                     .findFirst();
             return optionalClient.get();
+        } catch(NoSuchElementException ex){
+            log.debug("getClient [2]: such record does not exist: bean = Client, id = " + id);
         } catch(Exception ex){
-            log.error("getClient [2]: error = {}", ex.getMessage());
+            log.error("getClient [3]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("the client has not been found, id = " + id);
@@ -378,8 +381,10 @@ public class DataProviderXml implements IDataProvider{
                     .filter(r -> r.getId() == id)
                     .findFirst();
             return optionalResume.get();
+        } catch(NoSuchElementException ex){
+            log.debug("getResume [2]: such record does not exist: bean = Resume, id = " + id);
         } catch(Exception ex){
-            log.error("getResume [2]: error = {}", ex.getMessage());
+            log.error("getResume [3]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("the resume has not been found, id = " + id);
@@ -395,8 +400,10 @@ public class DataProviderXml implements IDataProvider{
                     .filter(c -> c.getId() == id)
                     .findFirst();
             return optionalCompany.get();
+        } catch(NoSuchElementException ex){
+            log.debug("getCompany [2]: such record does not exist: bean = Company, id = " + id);
         } catch(Exception ex){
-            log.error("getCompany [2]: error = {}", ex.getMessage());
+            log.error("getCompany [3]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("the company has not been found, id = " + id);
@@ -412,8 +419,10 @@ public class DataProviderXml implements IDataProvider{
                     .filter(v -> v.getId() == id)
                     .findFirst();
             return optionalVacancy.get();
+        } catch(NoSuchElementException ex){
+            log.debug("getVacancy [2]: such record does not exist: bean = Vacancy, id = " + id);
         } catch(Exception ex){
-            log.error("getVacancy [2]: error = {}", ex.getMessage());
+            log.error("getVacancy [3]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("the vacancy has not been found, id = " + id);
@@ -429,8 +438,10 @@ public class DataProviderXml implements IDataProvider{
                     .filter(emp -> emp.getId() == id)
                     .findFirst();
             return optionalEmployee.get();
+        } catch(NoSuchElementException ex){
+            log.debug("getEmployee [2]: such record does not exist: bean = Employee, id = " + id);
         } catch(Exception ex){
-            log.error("getEmployee [2]: error = {}", ex.getMessage());
+            log.error("getEmployee [3]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("the employee has not been found, id = " + id);
@@ -446,8 +457,10 @@ public class DataProviderXml implements IDataProvider{
                     .filter(v -> v.getId() == id)
                     .findFirst();
             return optionalSeparateQual.get();
+        } catch(NoSuchElementException ex){
+            log.debug("getSeparateQual [2]: such record does not exist: bean = SeparateQual, id = " + id);
         } catch(Exception ex){
-            log.error("getSeparateQual [2]: error = {}", ex.getMessage());
+            log.error("getSeparateQual [3]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("the separateQual has not been found, id = " + id);

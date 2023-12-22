@@ -79,7 +79,6 @@ public class Constants {
             .concat("phone VARCHAR(11), ")
             .concat("email varchar(128), ")
             .concat("companyId INTEGER NOT NULL REFERENCES ").concat(TITLE_TABLE_COMPANY).concat("(id) ON DELETE CASCADE ON UPDATE CASCADE, ")
-            .concat("startWorkDate VARCHAR(32) NOT NULL, ")
             .concat("salary INTEGER NOT NULL, ")
             .concat("position varchar(256) NOT NULL, ")
             .concat("isWorking BOOLEAN NOT NULL")
@@ -166,6 +165,10 @@ public class Constants {
     public static final String H2_QUERY_DELETE_RECORD_BY_ID = "DELETE FROM %s WHERE id = %d";
             
     public static final String TEST_MAIN_FOLDER_PATH = "src/test/testFolder/testActualDataFolder/";
+
+    public static final int MAX_QUALITY = 10;
+    
+    public static final int MIN_QUALITY = 0;
 }
 
 

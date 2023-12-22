@@ -56,10 +56,9 @@ public class h2Util {
                 preStat.setString(7, employee.getEmail());
                 
                 preStat.setInt(8, employee.getCompanyId());
-                preStat.setString(9, employee.getStartWorkDate());
-                preStat.setInt(10, employee.getSalary());
-                preStat.setString(11, employee.getPosition());
-                preStat.setBoolean(12, employee.getIsWorking());
+                preStat.setInt(9, employee.getSalary());
+                preStat.setString(10, employee.getPosition());
+                preStat.setBoolean(11, employee.getIsWorking());
                 
                 break;
             }
@@ -166,10 +165,9 @@ public class h2Util {
         employee.setPhone(res.getString(7));
         employee.setEmail(res.getString(8));
         employee.setCompanyId(res.getInt(9));
-        employee.setStartWorkDate(res.getString(10));
-        employee.setSalary(res.getInt(11));
-        employee.setPosition(res.getString(12));
-        employee.setIsWorking(res.getBoolean(13));
+        employee.setSalary(res.getInt(10));
+        employee.setPosition(res.getString(11));
+        employee.setIsWorking(res.getBoolean(12));
         
         return employee;
     }

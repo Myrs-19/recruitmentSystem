@@ -19,10 +19,6 @@ public class Employee extends Person {
     int companyId;
     
     @Element
-    @CsvBindByPosition(position = 7)
-    String startWorkDate;
-    
-    @Element
     @CsvBindByPosition(position = 8)
     int salary;
     
@@ -51,14 +47,6 @@ public class Employee extends Person {
     public void setCompanyId(int companyId) {
         this.companyId = companyId;
     }
-    
-    public String getStartWorkDate() {
-        return startWorkDate;
-    }
-
-    public void setStartWorkDate(String startWorkDate) {
-        this.startWorkDate = startWorkDate;
-    }
 
     public int getSalary() {
         return salary;
@@ -82,7 +70,6 @@ public class Employee extends Person {
                 "id = " + getId() +
                 ", companyId = " + getCompanyId()+
                 ", fi =" + getSurname() + " " + getName() +
-                ", startWorkDate = " + getStartWorkDate() +
                 ", salary = " + getSalary() +
                 ", position = " + getPosition()+
                 ", isWorking = " + getIsWorking()+
