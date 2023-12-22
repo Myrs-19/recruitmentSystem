@@ -28,6 +28,10 @@ public class LogicService {
         this.dataProvider = dataProvider;
     }
     
+    /**Method allows to hire person
+     * @param idResume - the ID of the resume through which they want to hire
+     * @param idVacancy - the ID of the vacancy for the position that is being hired
+     */
     public void hireEmployee(int idResume, int idVacancy){
         log.info("hireEmployee [1]: hiring employee, id resume = {}, id vacancy = {}", idResume, idVacancy);
         
@@ -66,7 +70,7 @@ public class LogicService {
     
     public void giveAssessment(int idEmployee, int idCompany, int quality, String description){
         log.info("giveAssessment [1]: Даем оценку компании, id employee = {}, id company = {}, quality = {}", idEmployee, idCompany, quality);
-        if(checkQuality(quality)){
+        if(checkQuality(quality) && checkDealTogether(idEmployee, idCompany)){
             try{
                 
                 

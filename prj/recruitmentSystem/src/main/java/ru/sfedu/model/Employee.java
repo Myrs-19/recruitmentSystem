@@ -15,19 +15,19 @@ import org.simpleframework.xml.Root;
 @Root
 public class Employee extends Person {
     @Element
-    @CsvBindByPosition(position = 6)
+    @CsvBindByPosition(position = 8)
     int companyId;
     
     @Element
-    @CsvBindByPosition(position = 8)
+    @CsvBindByPosition(position = 9)
     int salary;
     
     @Element
-    @CsvBindByPosition(position = 9)
+    @CsvBindByPosition(position = 10)
     String position;
     
     @Element
-    @CsvBindByPosition(position = 10)
+    @CsvBindByPosition(position = 11)
     boolean isWorking;
     
     public Employee(){}

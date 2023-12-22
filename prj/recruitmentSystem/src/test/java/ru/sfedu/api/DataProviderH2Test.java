@@ -97,7 +97,6 @@ public class DataProviderH2Test{
         employee.setAge(20);
         
         employee.setCompanyId(1);
-        employee.setStartWorkDate("12-06-2003");
         employee.setSalary(99);
         employee.setIsWorking(false);
         employee.setPosition("middle");
@@ -408,7 +407,6 @@ public class DataProviderH2Test{
         employee.setAge(20);
         
         employee.setCompanyId(1);
-        employee.setStartWorkDate("12-06-2003");
         employee.setSalary(99);
         employee.setIsWorking(false);
         employee.setPosition("senior");

@@ -131,8 +131,8 @@ public class Constants {
     public static final String H2_QUERY_INSERT_CLIENT = String.format("INSERT INTO %s (name, surname, middleName, age, birthday, phone, email, password, address) ", TITLE_TABLE_CLIENT)
             .concat("VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
-    public static final String H2_QUERY_INSERT_EMPLOYEE = String.format("INSERT INTO %s (name, surname, middleName, age, birthday, phone, email, companyId, startWorkDate, salary, position, isWorking) ", TITLE_TABLE_EMPLOYEE)
-            .concat("VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    public static final String H2_QUERY_INSERT_EMPLOYEE = String.format("INSERT INTO %s (name, surname, middleName, age, birthday, phone, email, companyId, salary, position, isWorking) ", TITLE_TABLE_EMPLOYEE)
+            .concat("VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
     public static final String H2_QUERY_INSERT_COMPANY = String.format("INSERT INTO %s (title, description) ", TITLE_TABLE_COMPANY)
             .concat("VALUES(?, ?)");
@@ -152,7 +152,7 @@ public class Constants {
     
     public static final String H2_QUERY_UPDATE_CLIENT = String.format("UPDATE %s SET name = ?, surname = ?, middleName = ?, age = ?, birthday = ?, phone = ?, email = ?, password = ?, address = ? ", TITLE_TABLE_CLIENT).concat(" WHERE id = %d");
     
-    public static final String H2_QUERY_UPDATE_EMPLOYEE = String.format("UPDATE %s SET name = ?, surname = ?, middleName = ?, age = ?, birthday = ?, phone = ?, email = ?, companyId = ?, startWorkDate = ?, salary = ?, position = ?, isWorking = ? ", TITLE_TABLE_EMPLOYEE).concat(" WHERE id = %d");
+    public static final String H2_QUERY_UPDATE_EMPLOYEE = String.format("UPDATE %s SET name = ?, surname = ?, middleName = ?, age = ?, birthday = ?, phone = ?, email = ?, companyId = ?, salary = ?, position = ?, isWorking = ? ", TITLE_TABLE_EMPLOYEE).concat(" WHERE id = %d");
     
     public static final String H2_QUERY_UPDATE_RESUME = String.format("UPDATE %s SET clientId = ?, profession = ?, city = ?, skills = ?, education = ?, experience = ?, sex = ?, workPermit = ?, citizenship = ? ", TITLE_TABLE_RESUME).concat(" WHERE id = %d");
     

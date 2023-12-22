@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import ru.sfedu.Constants;
 
 import ru.sfedu.api.DataProviderCsv;
+import ru.sfedu.api.DataProviderH2;
+import ru.sfedu.api.DataProviderXml;
 import ru.sfedu.api.IDataProvider;
 
 import ru.sfedu.model.*;
@@ -54,10 +56,71 @@ public class LogicServiceTest {
         
     }
     
+    
+    public static void deleteH2() {
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.H2_PATH)).concat(Constants.H2_DB_NAME).concat(".trace.db"));
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.H2_PATH)).concat(Constants.H2_DB_NAME).concat(".mv.db"));
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.H2_PATH)));
+    }
+    
+    public static void deleteXML() {
+            
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_CLIENT).concat(Constants.XML_FILE_TYPE));
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_COMPANY).concat(Constants.XML_FILE_TYPE));
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_EMPLOYEE).concat(Constants.XML_FILE_TYPE));
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_RESUME).concat(Constants.XML_FILE_TYPE));
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_SEPARATE_QUAL).concat(Constants.XML_FILE_TYPE));
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_VACANCY).concat(Constants.XML_FILE_TYPE));
+        
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)));
+        
+    }
+    
     @Test
-    public void testHireEmployeeCSVPositive(){
-        System.out.println("test HireEmployeeCSV Positive");
+    public void testHireEmployeePositiveAllDP(){
         IDataProvider dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test HireEmployeePositive CSV");
+        testHireEmployeePositive(dp);
+        deleteCSV();
+        
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test HireEmployeePositive H2");
+        testHireEmployeePositive(dp);
+        deleteH2();
+        
+        dp = new DataProviderXml(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test HireEmployeePositive XML");
+        testHireEmployeePositive(dp);
+        deleteXML();
+    }
+    
+    @Test
+    public void testHireEmployeeNegativeAllDP(){
+        IDataProvider dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test HireEmployeeNegative CSV");
+        testHireEmployeeNegative(dp);
+        deleteCSV();
+        
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test HireEmployeeNegative H2");
+        testHireEmployeeNegative(dp);
+        deleteH2();
+        
+        dp = new DataProviderXml(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test HireEmployeeNegative XML");
+        testHireEmployeeNegative(dp);
+        deleteXML();
+    }
+    
+    public void testHireEmployeePositive(IDataProvider dp){
+        System.out.println("test HireEmployeeCSV Positive");
+//        IDataProvider dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
         
         Company company = new Company();
         
@@ -93,14 +156,23 @@ public class LogicServiceTest {
         vacancy.setTitle("java");
         vacancy.setSalary(150000);
         
-        Result result = dp.saveVacancy(vacancy);
+        dp.saveVacancy(vacancy);
         
         LogicService service = new LogicService(dp);
         service.hireEmployee(1, 1);
         
         dp.getAllEmployees().forEach(System.out::println);
         
-        deleteCSV();
+    }
+    
+    @Test
+    public void testHireEmployeeNegative(IDataProvider dp){
+        System.out.println("test HireEmployeeCSV Negative");
+//        IDataProvider dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        LogicService service = new LogicService(dp);
+        service.hireEmployee(1, 1);
+        
     }
     
     @Test

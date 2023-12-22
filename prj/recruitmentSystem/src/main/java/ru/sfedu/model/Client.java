@@ -15,7 +15,7 @@ import org.simpleframework.xml.Root;
 @Root
 public class Client extends Person{
     @Element
-    @CsvBindByPosition(position = 6)
+    @CsvBindByPosition(position = 8)
     private String password;
     
     @Element
