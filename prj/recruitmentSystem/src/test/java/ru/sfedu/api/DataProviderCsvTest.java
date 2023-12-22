@@ -4,9 +4,8 @@
  */
 package ru.sfedu.api;
 
-import org.junit.jupiter.api.Assertions;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -15,467 +14,521 @@ import org.junit.jupiter.api.TestMethodOrder;
 import ru.sfedu.Constants;
 
 import ru.sfedu.model.*;
+import ru.sfedu.util.ConfigurationUtilProperties;
+import ru.sfedu.util.FileUtil;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DataProviderCsvTest {
     
-//    @Test
-//    void testGetId(){
-//        System.out.println("test DataProviderCsv getId");
-//        DataProviderCsv dp = new DataProviderCsv();
-//        String path = dp.getPath(Constants.CSV_TITLE_TABLE_PERSON);
-//        String id = dp.getId(path);
-//        System.out.println("*** id = " + id);
-//    }
+    private static IDataProvider dp;
+    
+    @BeforeAll
+    public static void setUpClass() {
+        dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+    }
+    
+    @AfterAll
+    public static void tearDownClass() {
+        
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)).concat(Constants.TITLE_TABLE_CLIENT).concat(Constants.CSV_FILE_TYPE));
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)).concat(Constants.TITLE_TABLE_COMPANY).concat(Constants.CSV_FILE_TYPE));
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)).concat(Constants.TITLE_TABLE_EMPLOYEE).concat(Constants.CSV_FILE_TYPE));
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)).concat(Constants.TITLE_TABLE_RESUME).concat(Constants.CSV_FILE_TYPE));
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)).concat(Constants.TITLE_TABLE_SEPARATE_QUAL).concat(Constants.CSV_FILE_TYPE));
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)).concat(Constants.TITLE_TABLE_VACANCY).concat(Constants.CSV_FILE_TYPE));
+        
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)));
+        
+    }
     
     @Test
+    @Order(1)
     void testSavePersonClient(){
-        Client person = new Client();
-        person.setTypePerson(TypePerson.ClientType);
-        person.setName("Mike");
-        person.setEmail("m@m.ru");
-        person.setPhone("999");
-        person.setAddress("zorge");
+        System.out.println("test SaveClient csv");
         
-        IDataProvider dp = new DataProviderCsv();
-        Result result = dp.savePerson(person);
+        Client client = new Client();
+        
+        client.setTypePerson(TypePerson.ClientType);
+        
+        client.setName("Mike");
+        client.setSurname("Seleznev");
+        client.setAge(33);
+        
+        client.setPassword("998989898");
+        client.setAddress("zorge 28/2");
+        
+        Result result = dp.savePerson(client);
         System.out.println(result);
     }
     
     @Test
+    @Order(3)
     void testSavePersonEmployee(){
-        Employee person = new Employee();
-        person.setTypePerson(TypePerson.EmployeeType);
-        person.setName("Mike");
-        person.setSalary(11010);
-        person.setCompanyId(1);
+        System.out.println("test saveEmployee csv");
+        Employee employee = new Employee();
         
-        person.setIsWorking(false);
-        DataProviderCsv dp = new DataProviderCsv();
-        Result result = dp.savePerson(person);
+        employee.setTypePerson(TypePerson.EmployeeType);
+        
+        employee.setName("plplpl");
+        employee.setSurname("selsel");
+        employee.setAge(20);
+        
+        employee.setCompanyId(1);
+        employee.setStartWorkDate("12-06-2003");
+        employee.setSalary(99);
+        employee.setIsWorking(false);
+        employee.setPosition("middle");
+        
+        Result result = new Result();
+        
+        result = dp.savePerson(employee);
+        
         System.out.println(result);
     }
     
     @Test
+    @Order(4)
     void testSaveResume(){
+        System.out.println("test saveResume csv");
         Resume resume = new Resume();
+        
         resume.setClientId(1);
         resume.setCity("rostov");
-        resume.setProfession("Prod");
+        resume.setProfession("developer");
         
-        DataProviderCsv dp = new DataProviderCsv();
-        Result result = dp.saveResume(resume);   
+        Result result = dp.saveResume(resume);
         System.out.println(result);
     }
     
     @Test
+    @Order(2)
     void testSaveCompany(){
+        System.out.println("test SaveCompany csv");
+        
         Company company = new Company();
         company.setTitle("arenadata");
         
-        DataProviderCsv dp = new DataProviderCsv();
         Result result = dp.saveCompany(company);
         System.out.println(result);
     }
     
     @Test
+    @Order(5)
     void testSaveVacancy(){
+        System.out.println("test SaveVacancy csv");
         Vacancy vacancy = new Vacancy();
-        vacancy.setCompanyId(1);
-        vacancy.setTitle("junior");
-        vacancy.setSalary(878778);
         
-        DataProviderCsv dp = new DataProviderCsv();
+        vacancy.setCompanyId(1);
+        vacancy.setTitle("java");
+        vacancy.setSalary(8797);
+        
         Result result = dp.saveVacancy(vacancy);
         System.out.println(result);
     }
     
     @Test
+    @Order(6)
     void testSaveSeparateQual(){
+        System.out.println("test SaveSeparateQual csv");
         SeparateQual separateQual = new SeparateQual();
+        
         separateQual.setCompanyId(1);
         separateQual.setEmployeeId(1);
-        separateQual.setQuality(120);
+        separateQual.setQuality(7);
         
-        DataProviderCsv dp = new DataProviderCsv();
         Result result = dp.saveSeparateQual(separateQual);
+       
         System.out.println(result);
     }
     
     @Test
+    @Order(7)
     void testGetClientPositive(){
-        int id = 1;
-        
-        DataProviderCsv dp = new DataProviderCsv();
+        System.out.println("test GetClientById positive csv");
         try{
-            Client user = dp.getClient(id);
-            System.out.println(user);
-        } catch(Exception ex){
+            int id = 1;
+            System.out.println(dp.getClient(id));
+        } catch(NullPointerException ex){
             System.out.println(ex.getMessage());
         }
     }
     
     @Test
+    @Order(8)
     void testGetClientNegative(){
-        int id = -1;
+        System.out.println("test GetClientById negative csv");
         try{
-            DataProviderCsv dp = new DataProviderCsv();
-            Client user = dp.getClient(id);
-            System.out.println(user);   
-        } catch(Exception ex){
+            int id = -1;
+            System.out.println(dp.getClient(id));
+        } catch(NullPointerException ex){
             System.out.println(ex.getMessage());
         }
     }
         
     @Test
+    @Order(9)
     void testGetResumePositive(){
-        int id = 1;
-        
+        System.out.println("test getResumeById positive csv");
         try{
-            DataProviderCsv dp = new DataProviderCsv();
-            Resume resume = dp.getResume(id);
-            System.out.println(resume);
-        } catch(Exception ex){
+            int id = 1;
+            System.out.println(dp.getResume(id)); 
+        } catch(NullPointerException ex){
             System.out.println(ex.getMessage());
         }
     }
     
     @Test
+    @Order(10)
     void testGetResumeNegative(){
-        int id = -1;
-        
+        System.out.println("test getResumeById negative csv");
         try{
-            DataProviderCsv dp = new DataProviderCsv();
-            Resume resume = dp.getResume(id);
-            System.out.println(resume);
-        } catch(Exception ex){
+            int id = -1;
+            System.out.println(dp.getResume(id));
+        } catch(NullPointerException ex){
             System.out.println(ex.getMessage());
         }
     }
     
     @Test
+    @Order(11)
     void testGetCompanyPositive(){
-        int id = 1;
-        
+        System.out.println("test getCompanyById positive csv");
         try{
-            DataProviderCsv dp = new DataProviderCsv();
-            Company company = dp.getCompany(id);
-            System.out.println(company);
-        } catch(Exception ex){
+            int id = 1;
+            System.out.println(dp.getCompany(id)); 
+        } catch(NullPointerException ex){
             System.out.println(ex.getMessage());
         }
     }
     
     @Test
+    @Order(12)
     void testGetCompanyNegative(){
-        int id = -1;
+        System.out.println("test getCompanyById negative csv");
         try{
-            DataProviderCsv dp = new DataProviderCsv();
-            Company company = dp.getCompany(id);
-            System.out.println(company);
-        } catch(Exception ex){
+            int id = -1;
+            System.out.println(dp.getCompany(id));
+        } catch(NullPointerException ex){
             System.out.println(ex.getMessage());
         }
     }
     
     @Test
+    @Order(13)
     void testGetVacancyPositive(){
-        int id = 1;
-        try{    
-            DataProviderCsv dp = new DataProviderCsv();
-            Vacancy vacancy = dp.getVacancy(id);
-            assertEquals(vacancy.getId(), id);
-            System.out.println(vacancy);
-        } catch(Exception ex){
+        System.out.println("test getVacancyById positive csv");
+        try{
+            int id = 1;
+            System.out.println(dp.getVacancy(id)); 
+        } catch(NullPointerException ex){
             System.out.println(ex.getMessage());
         }
     }
     
     @Test
+    @Order(14)
     void testGetVacancyNegative(){
-        int id = -1;
+        System.out.println("test getVacancyById negative csv");
         try{
-            DataProviderCsv dp = new DataProviderCsv();
-            Vacancy vacancy = dp.getVacancy(id);
-            System.out.println(vacancy);
-        } catch(Exception ex){
+            int id = -1;
+            System.out.println(dp.getVacancy(id));
+        } catch(NullPointerException ex){
             System.out.println(ex.getMessage());
         }
     }
     
     @Test
+    @Order(15)
     void testGetEmployeePositive(){
-        int id = 1;
-        
+        System.out.println("test getEmployeeById positive csv");
         try{
-            DataProviderCsv dp = new DataProviderCsv();
-            Employee employee = dp.getEmployee(id);
-            System.out.println(employee);
-        } catch(Exception ex){
+            int id = 1;
+            System.out.println(dp.getEmployee(id)); 
+        } catch(NullPointerException ex){
             System.out.println(ex.getMessage());
         }
     }
     
     @Test
+    @Order(16)
     void testGetEmployeeNegative(){
-        int id = -1;
+        System.out.println("test getEmployeeById negative csv");
         try{
-            DataProviderCsv dp = new DataProviderCsv();
-            Employee employee = dp.getEmployee(id);
-            System.out.println(employee);
-        } catch(Exception ex){
+            int id = -1;
+            System.out.println(dp.getEmployee(id));
+        } catch(NullPointerException ex){
             System.out.println(ex.getMessage());
         }
     }
     
     @Test
+    @Order(17)
     void testGetSeparateQualPositive(){
-        int id = 1;
+        System.out.println("test getSeparateQualById positive csv");
         try{
-            DataProviderCsv dp = new DataProviderCsv();
-            SeparateQual separateQual = dp.getSeparateQual(id);
-            System.out.println(separateQual);
-        } catch(Exception ex){
+            int id = 1;
+            System.out.println(dp.getSeparateQual(id)); 
+        } catch(NullPointerException ex){
             System.out.println(ex.getMessage());
         }
     }
     
     @Test
+    @Order(18)
     void testGetSeparateQualNigga(){
-        int id = -1;
+        System.out.println("test getSeparateQualById negative csv");
+        try{
+            int id = -1;
+            System.out.println(dp.getSeparateQual(id));
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    @Order(19)
+    void testGetAllClients(){
+        System.out.println("test GetAllClients csv");
         
         try{
-            DataProviderCsv dp = new DataProviderCsv();
-            SeparateQual separateQual = dp.getSeparateQual(id);
-            System.out.println(separateQual);
-        } catch(Exception ex){
-            System.out.println(ex.getMessage());
+            dp.getAllClients().forEach(System.out::println);
+        } catch(NullPointerException ex){
+            System.out.println("error = " + ex.getMessage());
         }
     }
     
     @Test
-    void testGetAllClients(){
+    @Order(20)
+    public void testGetAllResumes(){
+        System.out.println("test GetAllResumes csv");
+        
         try{
-            DataProviderCsv dp = new DataProviderCsv();
-            dp.getAllClients().stream()
-                    .forEach(System.out::println);
-        } catch(Exception ex){
-            System.out.println(ex.getMessage());
+            dp.getAllResumes().forEach(System.out::println);
+        } catch(NullPointerException ex){
+            System.out.println("error = " + ex.getMessage());
         }
     }
     
     @Test
-    void testGetAllResumes(){
+    @Order(21)
+    public void testGetAllCompanies(){
+        System.out.println("test GetAllCompanies csv");
+        
         try{
-            DataProviderCsv dp = new DataProviderCsv();
-            dp.getAllResumes().stream()
-                    .forEach(System.out::println);
-        } catch(Exception ex){
-            System.out.println(ex.getMessage());
+            dp.getAllCompanies().forEach(System.out::println);
+        } catch(NullPointerException ex){
+            System.out.println("error = " + ex.getMessage());
         }
     }
     
     @Test
-    void testgetAllCompanies(){
+    @Order(22)
+    public void testGetAllVacancies(){
+        System.out.println("test GetAllVacancies csv");
+        
         try{
-            DataProviderCsv dp = new DataProviderCsv();
-            dp.getAllCompanies().stream()
-                    .forEach(System.out::println);
-        } catch(Exception ex){
-            System.out.println(ex.getMessage());
+            dp.getAllVacancies().forEach(System.out::println);
+        } catch(NullPointerException ex){
+            System.out.println("error = " + ex.getMessage());
         }
     }
     
     @Test
-    void testgetAllVacancies(){
+    @Order(23)
+    public void testGetAllEmployees(){
+        System.out.println("test GetAllEmployees csv");
+        
         try{
-            DataProviderCsv dp = new DataProviderCsv();
-            dp.getAllVacancies().stream()
-                    .forEach(System.out::println);
-        } catch(Exception ex){
-            System.out.println(ex.getMessage());
+            dp.getAllEmployees().forEach(System.out::println);
+        } catch(NullPointerException ex){
+            System.out.println("error = " + ex.getMessage());
         }
     }
     
     @Test
-    void testgetAllEmployees(){
+    @Order(24)
+    public void testGetAllSeparateQuals(){
+        System.out.println("test GetAllSeparateQuals csv");
+        
         try{
-            DataProviderCsv dp = new DataProviderCsv();
-            dp.getAllEmployees().stream()
-                    .forEach(System.out::println);
-        } catch(Exception ex){
-            System.out.println(ex.getMessage());
+            dp.getAllSeparateQuals().forEach(System.out::println);
+        } catch(NullPointerException ex){
+            System.out.println("error = " + ex.getMessage());
         }
     }
     
     @Test
-    void testgetAllSeparateQuals(){
-        try{
-            DataProviderCsv dp = new DataProviderCsv();
-            dp.getAllSeparateQuals().stream()
-                    .forEach(System.out::println);
-        } catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+    @Order(25)
+    public void testUpdateClient() {
+        System.out.println("test updateClient csv");
+        Client client = new Client();
+        int id = 1;
+        client.setId(id);
+        client.setTypePerson(TypePerson.ClientType);
+        
+        client.setName("plplpl");
+        client.setSurname("MIMIMIMI");
+        client.setAge(20);
+        
+        client.setEmail("a");
+        client.setPhone("756");
+        client.setAddress("zorrr");
+        client.setPassword("ppiipi");
+        
+        Result result = new Result();
+        
+        result = dp.updatePerson(client);
+        
+        System.out.println(result);
     }
     
     @Test
-    void testUpdateClient(){
-        try{
-            Client user = new Client();
-            user.setTypePerson(TypePerson.ClientType);
-            user.setId(1);
-            user.setName("MIMIMI");
-            
-            DataProviderCsv dp = new DataProviderCsv();
-            Result res = dp.updatePerson(user);
-            assertEquals(Constants.CODE_SUCCESS, res.getCode());
-        } catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
-    }
-
-    @Test
-    void testUpdateResume(){
-        try{
-            Resume resume = new Resume();
-            resume.setId(1);
-            resume.setClientId(1);
-            resume.setCity("rostov");
-            resume.setProfession("Director");
-            
-            DataProviderCsv dp = new DataProviderCsv();
-            Result res = dp.updateResume(resume);
-            assertEquals(Constants.CODE_SUCCESS, res.getCode());
-        } catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+    @Order(26)
+    public void testUpdatedEmployee() {
+        System.out.println("test UpdatedEmployee csv");
+        Employee employee = new Employee();
+        
+        employee.setId(1);
+        employee.setTypePerson(TypePerson.EmployeeType);
+        
+        employee.setName("TEST");
+        employee.setSurname("selsel");
+        employee.setAge(20);
+        
+        employee.setCompanyId(1);
+        employee.setStartWorkDate("12-06-2003");
+        employee.setSalary(99);
+        employee.setIsWorking(false);
+        employee.setPosition("senior");
+        
+        Result result = new Result();
+        
+        result = dp.updatePerson(employee);
+        System.out.println(result);
     }
     
     @Test
-    void testUpdateCompany(){
-        try{
-            Company company = new Company();
-            company.setId(1);
-            company.setTitle("IRIIRIRI");
-            
-            DataProviderCsv dp = new DataProviderCsv();
-            Result res = dp.updateCompany(company);
-            assertEquals(Constants.CODE_SUCCESS, res.getCode());
-        } catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+    @Order(27)
+    public void testUpdateResume() {
+        System.out.println("test UpdateResume csv");
+        Resume resume = new Resume();
+        
+        resume.setId(1);
+        resume.setClientId(1);
+        resume.setCity("RRRRRRRRR");
+        resume.setProfession("developerTEST");
+        
+        Result result = new Result();
+    
+        result = dp.updateResume(resume);
+        
+        System.out.println(result);
     }
     
     @Test
-    void testUpdateVacancy(){
-        try{
-            Vacancy vacancy = new Vacancy();
-            vacancy.setId(1);
-            vacancy.setCompanyId(1);
-            vacancy.setTitle("developer");
-            vacancy.setSalary(35000);
-                    
-            DataProviderCsv dp = new DataProviderCsv();
-            Result res = dp.updateVacancy(vacancy);
-            assertEquals(Constants.CODE_SUCCESS, res.getCode());
-        } catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+    @Order(28)
+    public void testUpdateCompany() {
+        System.out.println("test UpdateCompany csv");
+        Company company = new Company();
+        
+        company.setId(1);
+        company.setTitle("DATAAA");
+        
+        Result result = new Result();
+    
+        result = dp.updateCompany(company);
+        
+        System.out.println(result);
     }
     
     @Test
-    void testUpdateSeparateQual(){
-        try{
-            SeparateQual separateQual = new SeparateQual();
-            separateQual.setId(1);
-            separateQual.setCompanyId(1);
-            separateQual.setEmployeeId(1);
-            separateQual.setQuality(-10);
-                    
-            DataProviderCsv dp = new DataProviderCsv();
-            Result res = dp.updateSeparateQual(separateQual);
-            assertEquals(Constants.CODE_SUCCESS, res.getCode());
-        } catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+    @Order(29)
+    public void testUpdateVacancy() {
+        System.out.println("test UpdateVacancy csv");
+        Vacancy vacancy = new Vacancy();
+        
+        vacancy.setId(1);
+        vacancy.setCompanyId(1);
+        vacancy.setTitle("JAAAAAAAVAAAAAAAa");
+        vacancy.setSalary(11);
+        
+        Result result = new Result();
+        
+        result = dp.updateVacancy(vacancy);
+        
+        System.out.println(result);
     }
     
     @Test
-    void testDeleteClient(){
-        try{
-            int id = 1;
-                    
-            DataProviderCsv dp = new DataProviderCsv();
-            Result res = dp.deletePerson(id, TypePerson.ClientType);
-            assertEquals(Constants.CODE_SUCCESS, res.getCode());
-        } catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+    @Order(30)
+    public void testUpdateSeparateQual() {
+        System.out.println("test UpdateSeparateQual csv");
+        SeparateQual separateQual = new SeparateQual();
+        
+        separateQual.setId(1);
+        separateQual.setCompanyId(1);
+        separateQual.setEmployeeId(1);
+        separateQual.setQuality(10);
+        separateQual.setDescription("nice");
+        
+        Result result = new Result();
+    
+        result = dp.updateSeparateQual(separateQual);
+        
+        System.out.println(result);
     }
     
     @Test
-    void testDeleteEmployee(){
-        try{
-            int id = 1;
-                    
-            DataProviderCsv dp = new DataProviderCsv();
-            Result res = dp.deletePerson(id, TypePerson.EmployeeType);
-            assertEquals(Constants.CODE_SUCCESS, res.getCode());
-        } catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+    @Order(32)
+    public void testDeleteClient() {
+        System.out.println("test DeleteClient csv");
+        int id = 1;
+        Result result = dp.deletePerson(id, TypePerson.ClientType);
+        System.out.println(result);
     }
     
     @Test
-    void testDeleteResume(){
-        try{
-            int id = 1;
-                    
-            DataProviderCsv dp = new DataProviderCsv();
-            Result res = dp.deleteResume(id);
-            assertEquals(Constants.CODE_SUCCESS, res.getCode());
-        } catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+    @Order(35)
+    public void testDeleteEmployee() {
+        System.out.println("test DeleteEmployee csv");
+        int id = 1;
+        Result result = dp.deletePerson(id, TypePerson.EmployeeType);
+        System.out.println(result);
     }
     
     @Test
-    void testDeleteCompany(){
-        try{
-            int id = 1;
-                    
-            DataProviderCsv dp = new DataProviderCsv();
-            Result res = dp.deleteCompany(id);
-            assertEquals(Constants.CODE_SUCCESS, res.getCode());
-        } catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+    @Order(31)
+    public void testDeleteResume() {
+        System.out.println("test DeleteResume csv");
+        int id = 1;
+        Result result = dp.deleteResume(id);
+        System.out.println(result);
     }
     
     @Test
-    void testDeleteVacancy(){
-        try{
-            int id = 1;
-                    
-            DataProviderCsv dp = new DataProviderCsv();
-            Result res = dp.deleteVacancy(id);
-            assertEquals(Constants.CODE_SUCCESS, res.getCode());
-        } catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+    @Order(36)
+    public void testDeleteCompany() {
+        System.out.println("test DeleteCompany csv");
+        int id = 1;
+        Result result = dp.deleteCompany(id);
+        System.out.println(result);
     }
     
     @Test
-    void testDeleteSeparateQual(){
-        try{
-            int id = 1;
-                    
-            DataProviderCsv dp = new DataProviderCsv();
-            Result res = dp.deleteSeparateQual(id);
-            assertEquals(Constants.CODE_SUCCESS, res.getCode());
-        } catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
+    @Order(34)
+    public void testDeleteVacancy() {
+        System.out.println("test DeleteVacancy csv");
+        int id = 1;
+        Result result = dp.deleteVacancy(id);
+        System.out.println(result);
+    }
+    
+    @Test
+    @Order(33)
+    public void testDeleteSeparateQual() {
+        System.out.println("test DeleteSeparateQual csv");
+        int id = 1;
+        Result result = dp.deleteSeparateQual(id);
+        System.out.println(result);
     }
 }

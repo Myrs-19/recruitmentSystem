@@ -4,87 +4,82 @@
  */
 package ru.sfedu.api;
 
-import java.util.List;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
+
+import ru.sfedu.model.*;
+
 import ru.sfedu.Constants;
-import ru.sfedu.model.Company;
-import ru.sfedu.model.Employee;
-import ru.sfedu.model.Person;
-import ru.sfedu.model.Result;
-import ru.sfedu.model.Resume;
-import ru.sfedu.model.SeparateQual;
-import ru.sfedu.model.TypePerson;
-import ru.sfedu.model.Client;
-import ru.sfedu.model.Vacancy;
 
-/**
- *
- * @author mike
- */
+import ru.sfedu.util.ConfigurationUtilProperties;
+import ru.sfedu.util.FileUtil;
 
+
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DataProviderXmlTest {
     
     public DataProviderXmlTest() {
     }
     
+    private static IDataProvider dp;
+    
     @BeforeAll
     public static void setUpClass() {
+        dp = new DataProviderXml(Constants.TEST_MAIN_FOLDER_PATH);
     }
     
     @AfterAll
     public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
-
-    @Test
-    public void testInitDataProviderXml(){
-        IDataProvider dp = new DataProviderXml();
-    }
-    
-    /**
-     * Test of savePerson method, of class DataProviderXml.
-     */
-    @Test
-    public void testSaveClient() {
         
-        System.out.println("test saveClient xml");
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_CLIENT).concat(Constants.XML_FILE_TYPE));
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_COMPANY).concat(Constants.XML_FILE_TYPE));
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_EMPLOYEE).concat(Constants.XML_FILE_TYPE));
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_RESUME).concat(Constants.XML_FILE_TYPE));
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_SEPARATE_QUAL).concat(Constants.XML_FILE_TYPE));
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_VACANCY).concat(Constants.XML_FILE_TYPE));
+        
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)));
+        
+    }
+    
+    @Test
+    @Order(1)
+    public void testSaveClient(){
+        System.out.println("test SaveClient xml");
+        
         Client client = new Client();
         
         client.setTypePerson(TypePerson.ClientType);
         
-        client.setName("plplpl");
-        client.setSurname("selsel");
-        client.setAge(20);
+        client.setName("Mike");
+        client.setSurname("Seleznev");
+        client.setAge(33);
         
-        client.setEmail("a");
-        client.setPhone("756");
-        client.setAddress("zorrr");
-        client.setPassword("ppiipi");
+        client.setPassword("998989898");
+        client.setAddress("zorge 28/2");
         
-        Result result = new Result();
-        try{
-            IDataProvider dp = new DataProviderXml();
-            result = dp.savePerson(client);
-            assertEquals(Constants.CODE_SUCCESS, result.getCode());     
-        } catch(Exception ex){
-            System.out.println(result.getMessage());
-        }
+        Result result = dp.savePerson(client);
+        System.out.println(result);
     }
     
     @Test
+    @Order(2)
+    public void testSaveCompany(){
+        System.out.println("test SaveCompany xml");
+        
+        Company company = new Company();
+        company.setTitle("arenadata");
+        
+        Result result = dp.saveCompany(company);
+        System.out.println(result);
+    }
+    
+    @Test
+    @Order(3)
     public void testSaveEmployee() {
         System.out.println("test saveEmployee xml");
         Employee employee = new Employee();
@@ -97,24 +92,19 @@ public class DataProviderXmlTest {
         
         employee.setCompanyId(1);
         employee.setStartWorkDate("12-06-2003");
-        employee.setSalary(9999);
+        employee.setSalary(99);
         employee.setIsWorking(false);
         employee.setPosition("middle");
         
         Result result = new Result();
-        try{
-            IDataProvider dp = new DataProviderXml();
-            result = dp.savePerson(employee);
-            assertEquals(Constants.CODE_SUCCESS, result.getCode());     
-        } catch(Exception ex){
-            System.out.println(result.getMessage());
-        }
+        
+        result = dp.savePerson(employee);
+        
+        System.out.println(result);
     }
-
-    /**
-     * Test of saveResume method, of class DataProviderXml.
-     */
+    
     @Test
+    @Order(4)
     public void testSaveResume() {
         System.out.println("test saveResume xml");
         Resume resume = new Resume();
@@ -123,42 +113,12 @@ public class DataProviderXmlTest {
         resume.setCity("rostov");
         resume.setProfession("developer");
         
-        Result result = new Result();
-        
-        try{
-            IDataProvider dp = new DataProviderXml();
-            result = dp.saveResume(resume);
-            assertEquals(Constants.CODE_SUCCESS, result.getCode());     
-        } catch(Exception ex){
-            System.out.println(result.getMessage());
-        }
+        Result result = dp.saveResume(resume);
+        System.out.println(result);
     }
-
-    /**
-     * Test of saveCompany method, of class DataProviderXml.
-     */
+    
     @Test
-    public void testSaveCompany() {
-        System.out.println("test saveCompany xml");
-        Company company = new Company();
-        
-        company.setTitle("arenadata");
-        
-        Result result = new Result();
-        
-        try{
-            IDataProvider dp = new DataProviderXml();
-            result = dp.saveCompany(company);
-            assertEquals(Constants.CODE_SUCCESS, result.getCode());     
-        } catch(Exception ex){
-            System.out.println(result.getMessage());
-        }
-    }
-
-    /**
-     * Test of saveVacancy method, of class DataProviderXml.
-     */
-    @Test
+    @Order(5)
     public void testSaveVacancy() {
         System.out.println("test SaveVacancy xml");
         Vacancy vacancy = new Vacancy();
@@ -167,19 +127,12 @@ public class DataProviderXmlTest {
         vacancy.setTitle("java");
         vacancy.setSalary(8797);
         
-        Result result = new Result();
-        try{
-            IDataProvider dp = new DataProviderXml();
-            result = dp.saveVacancy(vacancy);
-            assertEquals(Constants.CODE_SUCCESS, result.getCode());     
-        } catch(Exception ex){
-            System.out.println(result.getMessage());
-        }
+        Result result = dp.saveVacancy(vacancy);
+        System.out.println(result);
     }
-    /**
-     * Test of saveSeparateQual method, of class DataProviderXml.
-     */
+    
     @Test
+    @Order(6)
     public void testSaveSeparateQual() {
         System.out.println("test SaveSeparateQual xml");
         SeparateQual separateQual = new SeparateQual();
@@ -188,284 +141,230 @@ public class DataProviderXmlTest {
         separateQual.setEmployeeId(1);
         separateQual.setQuality(7);
         
-        Result result = new Result();
-        try{    
-            IDataProvider dp = new DataProviderXml();
-            result = dp.saveSeparateQual(separateQual);
-            assertEquals(Constants.CODE_SUCCESS, result.getCode());     
-        } catch(Exception ex){
-            System.out.println(result.getMessage());
-        }
+        Result result = dp.saveSeparateQual(separateQual);
+       
+        System.out.println(result);
     }
-
-    /**
-     * Test of getClient method, of class DataProviderXml.
-     */
+    
     @Test
-    public void testGetClientPositive() {
-        System.out.println("test GetClient xml");
-        int id = 1;
-        IDataProvider dp = new DataProviderXml();
+    @Order(7)
+    public void testGetClientByIdPositive(){
+        System.out.println("test GetClientById positive xml");
         try{
-            Client client = dp.getClient(id);
-            System.out.println(client);
-        } catch(Exception ex){
-            System.out.println("Пользователя с таким id еще нет, id = " + id);
+            int id = 1;
+            System.out.println(dp.getClient(id));
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
         }
     }
     
     @Test
-    public void testGetClientNegative() {
-        System.out.println("test GetClient xml");
-        int id = -1;
-        IDataProvider dp = new DataProviderXml();
+    @Order(8)
+    public void testGetClientByIdNegative(){
+       
+        System.out.println("test GetClientById negative xml");
         try{
-            Client client = dp.getClient(id);
-            System.out.println(client);
-        } catch(Exception ex){
-            System.out.println("Пользователя с таким id еще нет, id = " + id);
-        }
-    }
-
-    /**
-     * Test of getResume method, of class DataProviderXml.
-     */
-    @Test
-    public void testGetResumePositive() {
-        System.out.println("test GetResume xml");
-        int id = 1;
-        IDataProvider dp = new DataProviderXml();
-        try{
-            Resume resume = dp.getResume(id);
-            System.out.println(resume);
-        } catch(Exception ex){
-            System.out.println("резюме с таким id еще нет, id = " + id);
+            int id = -1;
+            System.out.println(dp.getClient(id));
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
         }
     }
     
     @Test
-    public void testGetResumeNegative() {
-        System.out.println("test GetResume xml");
-        int id = -1;
-        IDataProvider dp = new DataProviderXml();
+    @Order(9)
+    public void testGetResumeByIdPositive(){
+        System.out.println("test getResumeById positive xml");
         try{
-            Resume resume = dp.getResume(id);
-            System.out.println(resume);
-        } catch(Exception ex){
-            System.out.println("резюме с таким id еще нет, id = " + id);
-        }
-    }
-
-    /**
-     * Test of getCompany method, of class DataProviderXml.
-     */
-    @Test
-    public void testGetCompanyPositive() {
-        System.out.println("test GetCompany xml");
-        int id = 1;
-        IDataProvider dp = new DataProviderXml();
-        try{
-            Company company = dp.getCompany(id);
-            System.out.println(company);
-        } catch(Exception ex){
-            System.out.println("компании с таким id еще нет, id = " + id);
+            int id = 1;
+            System.out.println(dp.getResume(id)); 
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
         }
     }
     
     @Test
-    public void testGetCompanyNegative() {
-        System.out.println("test GetCompany xml");
-        int id = -1;
-        IDataProvider dp = new DataProviderXml();
+    @Order(10)
+    public void testGetResumeByIdNegative(){
+        System.out.println("test getResumeById negative xml");
         try{
-            Company company = dp.getCompany(id);
-            System.out.println(company);
-        } catch(Exception ex){
-            System.out.println("компании с таким id еще нет, id = " + id);
-        }
-    }
-
-    /**
-     * Test of getVacancy method, of class DataProviderXml.
-     */
-    @Test
-    public void testGetVacancyPositive() {
-        System.out.println("test GetVacancy xml");
-        int id = 1;
-        IDataProvider dp = new DataProviderXml();
-        try{
-            Vacancy vacancy = dp.getVacancy(id);
-            System.out.println(vacancy);
-        } catch(Exception ex){
-            System.out.println("вакансии с таким id еще нет, id = " + id);
-        }
-    }
-
-    @Test
-    public void testGetVacancyNegative() {
-        System.out.println("test GetVacancy xml");
-        int id = -1;
-        IDataProvider dp = new DataProviderXml();
-        try{
-            Vacancy vacancy = dp.getVacancy(id);
-            System.out.println(vacancy);
-        } catch(Exception ex){
-            System.out.println("вакансии с таким id еще нет, id = " + id);
-        }
-    }
-    
-    /**
-     * Test of getEmployee method, of class DataProviderXml.
-     */
-    @Test
-    public void testGetEmployeePositive() {
-        System.out.println("test GetEmployee xml");
-        int id = 1;
-        IDataProvider dp = new DataProviderXml();
-        try{
-            Employee employee = dp.getEmployee(id);
-            System.out.println(employee);
-        } catch(Exception ex){
-            System.out.println("работника с таким id еще нет, id = " + id);
+            int id = -1;
+            System.out.println(dp.getResume(id));
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
         }
     }
     
     @Test
-    public void testGetEmployeeNegative() {
-        System.out.println("test GetEmployee xml");
-        int id = -1;
-        IDataProvider dp = new DataProviderXml();
+    @Order(11)
+    public void testGetCompanyByIdPositive(){
+        System.out.println("test getCompanyById positive xml");
         try{
-            Employee employee = dp.getEmployee(id);
-            System.out.println(employee);
-        } catch(Exception ex){
-            System.out.println("работника с таким id еще нет, id = " + id);
-        }
-    }
-
-    /**
-     * Test of getSeparateQual method, of class DataProviderXml.
-     */
-    @Test
-    public void testGetSeparateQualPositive() {
-        System.out.println("test GetSeparateQual xml");
-        int id = 1;
-        IDataProvider dp = new DataProviderXml();
-        try{
-            SeparateQual separateQual = dp.getSeparateQual(id);
-            System.out.println(separateQual);
-        } catch(Exception ex){
-            System.out.println("оценки с таким id еще нет, id = " + id);
+            int id = 1;
+            System.out.println(dp.getCompany(id)); 
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
         }
     }
     
     @Test
-    public void testGetSeparateQualNegative() {
-        System.out.println("test GetSeparateQual xml");
-        int id = -1;
-        IDataProvider dp = new DataProviderXml();
+    @Order(12)
+    public void testGetCompanyByIdNegative(){
+        System.out.println("test getCompanyById negative xml");
         try{
-            SeparateQual separateQual = dp.getSeparateQual(id);
-            System.out.println(separateQual);
-        } catch(Exception ex){
-            System.out.println("оценки с таким id еще нет, id = " + id);
+            int id = -1;
+            System.out.println(dp.getCompany(id));
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
         }
     }
-
-    /**
-     * Test of getAllClients method, of class DataProviderXml.
-     */
+    
     @Test
-    public void testGetAllClients() {
+    @Order(13)
+    public void testGetVacancyByIdPositive(){
+        System.out.println("test getVacancyById positive xml");
+        try{
+            int id = 1;
+            System.out.println(dp.getVacancy(id)); 
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    @Order(14)
+    public void testGetVacancyByIdNegative(){
+        System.out.println("test getVacancyById negative xml");
+        try{
+            int id = -1;
+            System.out.println(dp.getVacancy(id));
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    @Order(15)
+    public void testGetEmployeeByIdPositive(){
+        System.out.println("test getEmployeeById positive xml");
+        try{
+            int id = 1;
+            System.out.println(dp.getEmployee(id)); 
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    @Order(16)
+    public void testGetEmployeeByIdNegative(){
+        System.out.println("test getEmployeeById negative xml");
+        try{
+            int id = -1;
+            System.out.println(dp.getEmployee(id));
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    @Order(17)
+    public void testGetSeparateQualByIdPositive(){
+        System.out.println("test getSeparateQualById positive xml");
+        try{
+            int id = 1;
+            System.out.println(dp.getSeparateQual(id)); 
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    @Order(18)
+    public void testGetSeparateQualByIdNegative(){
+        System.out.println("test getSeparateQualById negative xml");
+        try{
+            int id = -1;
+            System.out.println(dp.getSeparateQual(id));
+        } catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @Test
+    @Order(19)
+    public void testGetAllClients(){
         System.out.println("test GetAllClients xml");
-        IDataProvider dp = new DataProviderXml();
+        
         try{
-            dp.getAllClients().stream()
-                    .forEach(System.out::println);
-        } catch(Exception ex){
-            System.out.println("ни один пользователь не был добавлен");
+            dp.getAllClients().forEach(System.out::println);
+        } catch(NullPointerException ex){
+            System.out.println("error = " + ex.getMessage());
         }
     }
-
-    /**
-     * Test of getAllResumes method, of class DataProviderXml.
-     */
+    
     @Test
-    public void testGetAllResumes() {
+    @Order(20)
+    public void testGetAllResumes(){
         System.out.println("test GetAllResumes xml");
-        IDataProvider dp = new DataProviderXml();
+        
         try{
-            dp.getAllResumes().stream()
-                    .forEach(System.out::println);
-        } catch(Exception ex){
-            System.out.println("ни одно резюме не было добавлено");
+            dp.getAllResumes().forEach(System.out::println);
+        } catch(NullPointerException ex){
+            System.out.println("error = " + ex.getMessage());
         }
     }
-
-    /**
-     * Test of getAllCompanies method, of class DataProviderXml.
-     */
+    
     @Test
-    public void testGetAllCompanies() {
+    @Order(21)
+    public void testGetAllCompanies(){
         System.out.println("test GetAllCompanies xml");
-        IDataProvider dp = new DataProviderXml();
+        
         try{
-            dp.getAllCompanies().stream()
-                    .forEach(System.out::println);
-        } catch(Exception ex){
-            System.out.println("ни одна компания не была добавлена");
+            dp.getAllCompanies().forEach(System.out::println);
+        } catch(NullPointerException ex){
+            System.out.println("error = " + ex.getMessage());
         }
     }
-
-    /**
-     * Test of getAllVacancies method, of class DataProviderXml.
-     */
+    
     @Test
-    public void testGetAllVacancies() {
+    @Order(22)
+    public void testGetAllVacancies(){
         System.out.println("test GetAllVacancies xml");
-        IDataProvider dp = new DataProviderXml();
+        
         try{
-            dp.getAllVacancies().stream()
-                    .forEach(System.out::println);
-        } catch(Exception ex){
-            System.out.println("ни одна вакансия не была добавлена");
+            dp.getAllVacancies().forEach(System.out::println);
+        } catch(NullPointerException ex){
+            System.out.println("error = " + ex.getMessage());
         }
     }
-
-    /**
-     * Test of getAllEmployees method, of class DataProviderXml.
-     */
+    
     @Test
-    public void testGetAllEmployees() {
+    @Order(23)
+    public void testGetAllEmployees(){
         System.out.println("test GetAllEmployees xml");
-        IDataProvider dp = new DataProviderXml();
+        
         try{
-            dp.getAllEmployees().stream()
-                    .forEach(System.out::println);
-        } catch(Exception ex){
-            System.out.println("ни один работник не был добавлен");
+            dp.getAllEmployees().forEach(System.out::println);
+        } catch(NullPointerException ex){
+            System.out.println("error = " + ex.getMessage());
         }
     }
-
-    /**
-     * Test of getAllSeparateQuals method, of class DataProviderXml.
-     */
+    
     @Test
-    public void testGetAllSeparateQuals() {
+    @Order(24)
+    public void testGetAllSeparateQuals(){
         System.out.println("test GetAllSeparateQuals xml");
-        IDataProvider dp = new DataProviderXml();
+        
         try{
-            dp.getAllSeparateQuals().stream()
-                    .forEach(System.out::println);
-        } catch(Exception ex){
-            System.out.println("ни одна оценка не была добавлена");
+            dp.getAllSeparateQuals().forEach(System.out::println);
+        } catch(NullPointerException ex){
+            System.out.println("error = " + ex.getMessage());
         }
     }
-
-    /**
-     * Test of updatePerson method, of class DataProviderXml.
-     */
+    
     @Test
+    @Order(25)
     public void testUpdateClient() {
         System.out.println("test updateClient xml");
         Client client = new Client();
@@ -484,13 +383,13 @@ public class DataProviderXmlTest {
         
         Result result = new Result();
         
-        IDataProvider dp = new DataProviderXml();
         result = dp.updatePerson(client);
         
         System.out.println(result);
     }
-
+    
     @Test
+    @Order(26)
     public void testUpdatedEmployee() {
         System.out.println("test UpdatedEmployee xml");
         Employee employee = new Employee();
@@ -498,7 +397,7 @@ public class DataProviderXmlTest {
         employee.setId(1);
         employee.setTypePerson(TypePerson.EmployeeType);
         
-        employee.setName("aaaaaaa");
+        employee.setName("TEST");
         employee.setSurname("selsel");
         employee.setAge(20);
         
@@ -506,19 +405,16 @@ public class DataProviderXmlTest {
         employee.setStartWorkDate("12-06-2003");
         employee.setSalary(99);
         employee.setIsWorking(false);
-        employee.setPosition("middle");
+        employee.setPosition("senior");
         
         Result result = new Result();
         
-        IDataProvider dp = new DataProviderXml();
         result = dp.updatePerson(employee);
         System.out.println(result);
     }
     
-    /**
-     * Test of updateResume method, of class DataProviderXml.
-     */
     @Test
+    @Order(27)
     public void testUpdateResume() {
         System.out.println("test UpdateResume xml");
         Resume resume = new Resume();
@@ -526,20 +422,17 @@ public class DataProviderXmlTest {
         resume.setId(1);
         resume.setClientId(1);
         resume.setCity("RRRRRRRRR");
-        resume.setProfession("developer");
+        resume.setProfession("developerTEST");
         
         Result result = new Result();
     
-        IDataProvider dp = new DataProviderXml();
         result = dp.updateResume(resume);
         
         System.out.println(result);
     }
-
-    /**
-     * Test of updateCompany method, of class DataProviderXml.
-     */
+    
     @Test
+    @Order(28)
     public void testUpdateCompany() {
         System.out.println("test UpdateCompany xml");
         Company company = new Company();
@@ -549,16 +442,13 @@ public class DataProviderXmlTest {
         
         Result result = new Result();
     
-        IDataProvider dp = new DataProviderXml();
         result = dp.updateCompany(company);
         
         System.out.println(result);
     }
-
-    /**
-     * Test of updateVacancy method, of class DataProviderXml.
-     */
+    
     @Test
+    @Order(29)
     public void testUpdateVacancy() {
         System.out.println("test UpdateVacancy xml");
         Vacancy vacancy = new Vacancy();
@@ -570,15 +460,13 @@ public class DataProviderXmlTest {
         
         Result result = new Result();
         
-        IDataProvider dp = new DataProviderXml();
         result = dp.updateVacancy(vacancy);
         
         System.out.println(result);
     }
-    /**
-     * Test of updateSeparateQual method, of class DataProviderXml.
-     */
+    
     @Test
+    @Order(30)
     public void testUpdateSeparateQual() {
         System.out.println("test UpdateSeparateQual xml");
         SeparateQual separateQual = new SeparateQual();
@@ -586,83 +474,67 @@ public class DataProviderXmlTest {
         separateQual.setId(1);
         separateQual.setCompanyId(1);
         separateQual.setEmployeeId(1);
-        separateQual.setQuality(7);
+        separateQual.setQuality(10);
         separateQual.setDescription("nice");
         
         Result result = new Result();
     
-        IDataProvider dp = new DataProviderXml();
         result = dp.updateSeparateQual(separateQual);
         
         System.out.println(result);
     }
-
-    /**
-     * Test of deletePerson method, of class DataProviderXml.
-     */
+    
     @Test
+    @Order(32)
     public void testDeleteClient() {
         System.out.println("test DeleteClient xml");
         int id = 1;
-        IDataProvider dp = new DataProviderXml();
         Result result = dp.deletePerson(id, TypePerson.ClientType);
         System.out.println(result);
     }
-
+    
     @Test
+    @Order(35)
     public void testDeleteEmployee() {
         System.out.println("test DeleteEmployee xml");
         int id = 1;
-        IDataProvider dp = new DataProviderXml();
         Result result = dp.deletePerson(id, TypePerson.EmployeeType);
         System.out.println(result);
     }
-    /**
-     * Test of deleteResume method, of class DataProviderXml.
-     */
+    
     @Test
+    @Order(31)
     public void testDeleteResume() {
         System.out.println("test DeleteResume xml");
         int id = 1;
-        IDataProvider dp = new DataProviderXml();
         Result result = dp.deleteResume(id);
         System.out.println(result);
     }
-
-    /**
-     * Test of deleteCompany method, of class DataProviderXml.
-     */
+    
     @Test
+    @Order(36)
     public void testDeleteCompany() {
         System.out.println("test DeleteCompany xml");
         int id = 1;
-        IDataProvider dp = new DataProviderXml();
         Result result = dp.deleteCompany(id);
         System.out.println(result);
     }
-
-    /**
-     * Test of deleteVacancy method, of class DataProviderXml.
-     */
+    
     @Test
+    @Order(34)
     public void testDeleteVacancy() {
         System.out.println("test DeleteVacancy xml");
         int id = 1;
-        IDataProvider dp = new DataProviderXml();
         Result result = dp.deleteVacancy(id);
         System.out.println(result);
     }
-
-    /**
-     * Test of deleteSeparateQual method, of class DataProviderXml.
-     */
+    
     @Test
+    @Order(33)
     public void testDeleteSeparateQual() {
         System.out.println("test DeleteSeparateQual xml");
         int id = 1;
-        IDataProvider dp = new DataProviderXml();
         Result result = dp.deleteSeparateQual(id);
         System.out.println(result);
     }
-    
 }

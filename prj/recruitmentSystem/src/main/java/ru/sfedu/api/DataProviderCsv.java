@@ -35,11 +35,28 @@ import ru.sfedu.util.TableName;
 public class DataProviderCsv implements IDataProvider{
     private static final Logger log = LogManager.getLogger(DataProviderCsv.class.getName());
     
+    private final String pathFolder;
+    
     public DataProviderCsv(){
         log.debug("DataProviderCsv [1]: initialization");
         
+        pathFolder = getConfigurationEntry(Constants.CSV_PATH_FOLDER);
+        
         try{
-            FileUtil.createFolderIfNotExists(getConfigurationEntry(Constants.CSV_PATH_FOLDER));
+            FileUtil.createFolderIfNotExists(pathFolder);
+        } catch(IOException ex){
+            log.error("DataProviderCsv [2]: error = {}", ex.getMessage());
+        }
+        
+    }
+    
+    public DataProviderCsv(String path){
+        log.debug("DataProviderCsv [1]: initialization");
+        
+        pathFolder = path.concat(getConfigurationEntry(Constants.CSV_PATH_FOLDER));
+        
+        try{
+            FileUtil.createFolderIfNotExists(pathFolder);
         } catch(IOException ex){
             log.error("DataProviderCsv [2]: error = {}", ex.getMessage());
         }
@@ -88,7 +105,7 @@ public class DataProviderCsv implements IDataProvider{
     * @return возвращает относительный путь до файла
     **/
     private String getPath(String tableName){
-        return getConfigurationEntry(Constants.CSV_PATH_FOLDER) + tableName + Constants.CSV_FILE_TYPE;
+        return pathFolder + tableName + Constants.CSV_FILE_TYPE;
     }
 
     /**

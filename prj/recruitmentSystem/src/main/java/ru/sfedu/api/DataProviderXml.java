@@ -6,12 +6,11 @@ package ru.sfedu.api;
 
 import java.io.File;
 import java.io.IOException;
+
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,11 +31,27 @@ import ru.sfedu.util.TableName;
 public class DataProviderXml implements IDataProvider{
     private static final Logger log = LogManager.getLogger(DataProviderXml.class.getName());
     
+    private static String pathFolder;
+    
     public DataProviderXml(){
         log.debug("DataProviderXml [1]: initialization");
         
+        pathFolder = getConfigurationEntry(Constants.XML_PATH_FOLDER);
+        
         try{
-            FileUtil.createFolderIfNotExists(getConfigurationEntry(Constants.XML_PATH_FOLDER));
+            FileUtil.createFolderIfNotExists(pathFolder);
+        } catch(IOException ex){
+            log.error("DataProviderXml [2]: error = {}", ex.getMessage());
+        }
+    }
+    
+    public DataProviderXml(String path){
+        log.debug("DataProviderXml [1]: initialization, path = {}", path);
+        
+        pathFolder = path.concat(getConfigurationEntry(Constants.XML_PATH_FOLDER));
+        
+        try{
+            FileUtil.createFolderIfNotExists(pathFolder);
         } catch(IOException ex){
             log.error("DataProviderXml [2]: error = {}", ex.getMessage());
         }
@@ -60,7 +75,7 @@ public class DataProviderXml implements IDataProvider{
     * @return возвращает относительный путь до файла
     **/
     private static String getPathAndCreateFileIfNotExist(String tableName){
-        String path = getConfigurationEntry(Constants.XML_PATH_FOLDER) + tableName + Constants.XML_FILE_TYPE;
+        String path = pathFolder + tableName + Constants.XML_FILE_TYPE;
         try{
             FileUtil.createFileIfNotExists(path);
         } catch(IOException ex){
