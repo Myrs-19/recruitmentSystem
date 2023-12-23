@@ -477,7 +477,7 @@ public class DataProviderXml implements IDataProvider{
             log.error("getAllClients [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException("no clients were not found");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllResumes()}. */
@@ -491,7 +491,7 @@ public class DataProviderXml implements IDataProvider{
             log.error("getAllResumes [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException("no resumes were not found");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllCompanies()}. */
@@ -505,7 +505,7 @@ public class DataProviderXml implements IDataProvider{
             log.error("getAllCompanies [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException("no companies were not found");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllVacancies()}. */
@@ -519,7 +519,7 @@ public class DataProviderXml implements IDataProvider{
             log.error("getAllVacancies [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException("no мacancies were not found");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllEmployees()}. */
@@ -533,7 +533,7 @@ public class DataProviderXml implements IDataProvider{
             log.error("getAllEmployees [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException("no employees were not found");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllSeparateQuals()}. */
@@ -547,7 +547,7 @@ public class DataProviderXml implements IDataProvider{
             log.error("getAllSeparateQuals [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException("no separateQuals were not found");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#updatePerson()}. */

@@ -376,7 +376,7 @@ public class DataProviderH2 implements IDataProvider{
             log.error("getAllClients [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException();
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllResumes()}. */
@@ -403,7 +403,7 @@ public class DataProviderH2 implements IDataProvider{
             log.error("getAllResumes [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException();
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllCompanies()}. */
@@ -430,7 +430,7 @@ public class DataProviderH2 implements IDataProvider{
             log.error("getAllCompanies [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException();
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllVacancies()}. */
@@ -457,7 +457,7 @@ public class DataProviderH2 implements IDataProvider{
             log.error("getAllVacancies [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException();
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllEmployees()}. */
@@ -484,7 +484,7 @@ public class DataProviderH2 implements IDataProvider{
             log.error("getAllEmployees [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException();
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllSeparateQuals()}. */
@@ -511,7 +511,7 @@ public class DataProviderH2 implements IDataProvider{
             log.error("getAllSeparateQuals [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException();
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#updatePerson(Person)}. */

@@ -45,6 +45,10 @@ public class Constants {
     
     public static final String MESSAGE_CODE_WARN_DELETE = "record has not deleted";
     
+    public static final String MESSAGE_EXCEPTION_DONT_RECORDS = "records such bean do not exists";
+    
+    public static final String MESSAGE_EXCEPTION_DOESNT_VALID_DATA = "data does not valid";
+    
     public static final String COMPLETED_SUCCESSFUL = "SUCCESSFUL";
     public static final String COMPLETED_FAIL = "FAIL";
     public static final String DEFAULT_ACTOR = "system";

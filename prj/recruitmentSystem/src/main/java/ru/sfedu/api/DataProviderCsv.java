@@ -513,7 +513,7 @@ public class DataProviderCsv implements IDataProvider{
             log.error("getAllClients [2]: error = {}", ex.getMessage());
         }
 
-        throw new NullPointerException("records such bean do not exists: bean = Client");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllResumes()}. */
@@ -540,7 +540,7 @@ public class DataProviderCsv implements IDataProvider{
             log.error("getAllResumes [2]: error = {}", ex.getMessage());
         }
 
-        throw new NullPointerException("records such bean do not exists: bean = Resume");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllCompanies()}. */
@@ -567,7 +567,7 @@ public class DataProviderCsv implements IDataProvider{
             log.error("getAllCompanies [2]: error = {}", ex.getMessage());
         }
 
-        throw new NullPointerException("records such bean do not exists: bean = Company");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllVacancies()}. */
@@ -594,7 +594,7 @@ public class DataProviderCsv implements IDataProvider{
             log.error("getAllVacancies [2]: error = {}", ex.getMessage());
         }
 
-        throw new NullPointerException("records such bean do not exists: bean = Vacancy");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllEmployees()}. */
@@ -621,7 +621,7 @@ public class DataProviderCsv implements IDataProvider{
             log.error("getAllEmployees [2]: error = {}", ex.getMessage());
         }
 
-        throw new NullPointerException("records such bean do not exists: bean = Employee");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllSeparateQuals()}. */
@@ -648,7 +648,7 @@ public class DataProviderCsv implements IDataProvider{
             log.error("getAllSeparateQuals [2]: error = {}", ex.getMessage());
         }
 
-        throw new NullPointerException("records such bean do not exists: bean = SeparateQual");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#updatePerson(Person)}. */
