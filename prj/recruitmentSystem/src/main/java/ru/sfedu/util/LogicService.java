@@ -187,6 +187,41 @@ public class LogicService {
         log.debug("resumeRegistration [3]: save resume result - {}", result.getMessage());   
     }
     
+    /**Method saving new resume
+     * @param idClient - ID client of resume
+     * @param profession  - profession in resume
+     * @param city - city in resume
+     * @param skills  - skills in resume
+     * @param education  - education in resume
+     * @param experience  - experience in resume
+     * @param sex  - sex in resume
+     * @param workPermit  - workPermit in resume
+     * @param citizenship  - citizenship in resume
+     * @throws Exception then data is not valid or such client does not exists
+     */
+    public void vacancyRegistration(int idCompany, String title, String specialization, boolean online, String skills, int salary, String city, String address, String experience) throws Exception{
+        log.debug("vacancyRegistration [1]: registration new vacancy");
+        
+        Vacancy vacancy = new Vacancy();
+        
+        vacancy.setCompanyId(idCompany);
+        vacancy.setTitle(title);
+        vacancy.setSpecialization(specialization);
+        vacancy.setOnline(online);
+        vacancy.setSkills(skills);
+        vacancy.setSalary(salary);
+        vacancy.setCity(city);
+        vacancy.setAddress(address);
+        vacancy.setExperience(experience);
+        
+        validateVacancy(vacancy);
+        
+        log.debug("vacancyRegistration [2]: saving new vacancy, vacancy = {}", vacancy);
+        Result result = dataProvider.saveVacancy(vacancy);
+        
+        log.debug("vacancyRegistration [3]: save vacancy result - {}", result.getMessage());   
+    }
+    
     /**Method validates quality
      @param quality - quality of assessment
      @return result of quality validation 
@@ -220,6 +255,9 @@ public class LogicService {
         return false;
     }
     
+    /**Method validates client data
+     * @throws Exception means data is not valide
+     */
     private void validateClient(Client client) throws Exception{
         log.debug("validateClient [1]: validation client");
         if(client.getName() == null || client.getSurname() == null || client.getAge() == 0 || client.getPassword() == null || client.getAddress() == null){
@@ -227,6 +265,9 @@ public class LogicService {
         }
     }
     
+    /**Method validates company data
+     * @throws Exception means data is not valide
+     */
     private void validateCompany(Company company) throws Exception{
         log.debug("validateCompany [1]: validation company");
         if(company.getTitle()== null){
@@ -234,6 +275,9 @@ public class LogicService {
         }
     }
     
+    /**Method validates resume data and is exists client
+     * @throws Exception means data is not valide or client does not exists
+     */
     private void validateResume(Resume resume) throws Exception{
         log.debug("validateResume [1]: validation resume");
         try{
@@ -243,6 +287,22 @@ public class LogicService {
         }
         
         if(resume.getClientId()== 0 || resume.getProfession() == null || resume.getCity() == null){
+            throw new Exception(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
+        }
+    }
+    
+    /**Method validates vacancy data and is exists company
+     * @throws Exception means data is not valide or company does not exists
+     */
+    private void validateVacancy(Vacancy vacancy) throws Exception{
+        log.debug("validateVacancy [1]: validation vacancy");
+        try{
+            dataProvider.getCompany(vacancy.getCompanyId());
+        } catch(NullPointerException ex){
+            throw new Exception(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
+        }
+        
+        if(vacancy.getCompanyId() == 0 || vacancy.getTitle() == null){
             throw new Exception(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
         }
     }

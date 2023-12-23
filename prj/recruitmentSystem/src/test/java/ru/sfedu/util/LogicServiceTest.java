@@ -642,4 +642,55 @@ public class LogicServiceTest {
         }
     }
     
+    @Test
+    public void testVacancyRegistrationPositiveAllDP(){
+        IDataProvider dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test VacancyRegistration Positive CSV");
+        testVacancyRegistrationPositive(dp);
+        deleteCSV();
+        
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test VacancyRegistration Positive H2");
+        testVacancyRegistrationPositive(dp);
+        deleteH2();
+        
+        dp = new DataProviderXml(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test VacancyRegistration Positive XML");
+        testVacancyRegistrationPositive(dp);
+        deleteXML();
+    }
+    
+    public void testVacancyRegistrationPositive(IDataProvider dp){
+        System.out.println("test VacancyRegistration Positive");
+        
+        int idCompany = 1;
+        String title = "Java. Developer";
+        String specialization = "Programmer";
+        boolean online = false;
+        String skills = "SOAP, RESTFULL";
+        int salary = 95000;
+        String city = "Moscow";
+        String address = "ploshyad`";
+        String experience = "1-3 years";
+        
+        Company company = new Company();
+        company.setTitle("arenadata");
+        company.setDescription("description");
+        
+        Result result = dp.saveCompany(company);
+        System.out.println(result);
+        
+        try{
+            LogicService service = new LogicService(dp);
+            service.vacancyRegistration(idCompany, title, specialization, online, skills, salary, city, address, experience);
+        
+            dp.getAllVacancies().forEach(System.out::println);
+        } catch(Exception ex){
+            fail("the test failed");
+        }
+    }
+    
 }
