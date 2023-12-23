@@ -5,6 +5,7 @@
 package ru.sfedu.util;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -86,7 +87,8 @@ public class LogicService {
                 
             Result result = dataProvider.saveSeparateQual(separateQual);
             log.debug("giveAssessment [2]: результат сохранения, result = {}", result.getMessage());
-        }else{
+        }
+        else{
             throw new Exception(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
         }
     }
@@ -95,7 +97,29 @@ public class LogicService {
      @param idCompany - ID company
      */
     public void calculateAssessment(int idCompany) throws Exception{
+        log.debug("calculateAssessment [1]: calculate assessment, idCompany = {}", idCompany);
         
+        dataProvider.getCompany(idCompany);
+        
+        try{
+            
+            double result;
+            
+            List<SeparateQual> list = dataProvider.getAllSeparateQuals();
+            list = list.stream()
+                    .filter((separateQual) -> separateQual.getCompanyId() == idCompany)
+                    .toList();
+            int count = list.size();
+            double sum = list.stream().
+                    mapToInt((separateQual) -> (separateQual.getQuality()))
+                    .sum();
+            
+            result = sum / count;
+            
+//            System.out.println("AAAAAAAAAAAAAAAAAAAAAAA result = " + result);
+        } catch(NullPointerException ex){
+            log.error("calculateAssessment [2]: error = {}", ex.getMessage());
+        }
     }
     
     /**Method saving new client
@@ -321,6 +345,63 @@ public class LogicService {
         log.debug("vacancyChange [3]: change vacancy result - {}", result.getMessage());   
     }
     
+    /**Method deletes person by type and id and also deletes like cascade other depended records
+     * @param id - person id
+     * @param typePerson person type
+     */
+    public void deletePerson(int id, TypePerson typePerson){
+        log.debug("deletePerson [1]: delete person, id = {}, type = {}", id, typePerson);
+        Result result = dataProvider.deletePerson(id, typePerson);
+        log.debug("deletePerson [2]: result = {}", result);
+        if(typePerson == TypePerson.ClientType){
+           log.debug("deletePerson [3]: delete cascade resumes, id = {}, type = {}", id, typePerson);
+           deleteCascadeResume(id);
+       }
+    }
+    
+    /**Method deletes company by id and also deletes like cascade other depended records
+     * @param id - company id
+     */
+    public void deleteCompany(int id){
+        log.debug("deleteCompany [1]: delete company, id = {}", id);
+        Result result = dataProvider.deleteCompany(id);
+        log.debug("deleteCompany [2]: result = {}", result);
+        
+        log.debug("deleteCompany [3]: delete cascade employees, id = {}", id);
+        deleteCascadeEmployee(id);
+        log.debug("deleteCompany [4]: delete cascade separate quals, id = {}", id);
+        deleteCascadeSeparateQual(id);
+        log.debug("deleteCompany [5]: delete cascade vacancies, id = {}", id);
+        deleteCascadeVacancy(id);
+    }
+    
+    /**Method deletes Vacancy by id
+     * @param id - company id
+     */
+    public void deleteVacancy(int id){
+        log.debug("deleteVacancy [1]: delete vacancy, id = {}", id);
+        Result result = dataProvider.deleteVacancy(id);
+        log.debug("deleteVacancy [1]: result = {}", result);
+    }
+    
+    /**Method deletes Resume by id
+     * @param id - company id
+     */
+    public void deleteResume(int id){
+        log.debug("deleteResume [1]: delete Resume, id = {}", id);
+        Result result = dataProvider.deleteResume(id);  
+        log.debug("deleteResume [1]: delete result = {}", result);
+    }
+    
+    /**Method deletes SeparateQual by id
+     * @param id - company id
+     */
+    public void deleteSeparateQual(int id){
+        log.debug("deleteSeparateQual [1]: delete SeparateQual, id = {}", id);
+        Result result = dataProvider.deleteSeparateQual(id);        
+        log.debug("deleteSeparateQual [1]: delete result = {}", result);
+    }
+    
     /**Method validates quality
      @param quality - quality of assessment
      @return result of quality validation 
@@ -453,5 +534,93 @@ public class LogicService {
         vacancy.setCity(city);
         vacancy.setAddress(address);
         vacancy.setExperience(experience);
+    }
+    
+    /** Method delete all resumes with idClient equal idClient
+     * @param idClient idClient of resumes
+     */
+    private void deleteCascadeResume(int idClient){
+        log.debug("deleteCascadeResume [1]: delete all resumes with idClient = {}", idClient);
+        try{
+            List<Resume> resumes = dataProvider.getAllResumes();
+            if(resumes != null){
+                resumes.stream()
+                        .forEach((resume) -> {
+                           if(resume.getClientId() == idClient){
+                               deleteResume(resume.getId());
+                           } 
+                        });
+                
+                log.debug("deleteCascadeResume [2]: records deleted");
+            }
+        } catch(NullPointerException ex){
+            log.debug("deleteCascadeResume [3]: nothing to delete, ex = {}", ex.getMessage());
+        }
+    }
+    
+    /** Method delete all SeparateQuals with idCompany equal idCompany
+     * @param idCompany - ID company
+     */
+    private void deleteCascadeSeparateQual(int idCompany){
+        log.debug("deleteCascadeSeparateQual [1]: delete all SeparateQuals with idCompany = {}", idCompany);
+        try{
+            List<SeparateQual> separateQuals = dataProvider.getAllSeparateQuals();
+            if(separateQuals != null){
+                separateQuals.stream()
+                        .forEach((separateQual) -> {
+                           if(separateQual.getCompanyId() == idCompany){
+                               deleteSeparateQual(separateQual.getId());
+                           } 
+                        });
+                
+                log.debug("deleteCascadeResume [2]: records deleted");
+            }
+        } catch(NullPointerException ex){
+            log.debug("deleteCascadeResume [3]: nothing to delete");
+        }
+    }
+    
+    /** Method delete all Vacancies with idCompany equal idCompany
+     * @param idCompany - ID company
+     */
+    private void deleteCascadeVacancy(int idCompany){
+        log.debug("deleteCascadeVacancy [1]: delete all vacancies with idCompany = {}", idCompany);
+        try{
+            List<Vacancy> vacancies = dataProvider.getAllVacancies();
+            if(vacancies != null){
+                vacancies.stream()
+                        .forEach((vacancy) -> {
+                           if(vacancy.getCompanyId() == idCompany){
+                               deleteVacancy(vacancy.getId());
+                           } 
+                        });
+                
+                log.debug("deleteCascadeVacancy [2]: records deleted");
+            }
+        } catch(NullPointerException ex){
+            log.debug("deleteCascadeVacancy [3]: nothing to delete");
+        }
+    }
+    
+    /** Method delete all Employees with idCompany equal idCompany
+     * @param idCompany - ID company
+     */
+    private void deleteCascadeEmployee(int idCompany){
+        log.debug("deleteCascadeEmployee [1]: delete all employees with idCompany = {}", idCompany);
+        try{
+            List<Employee> employees = dataProvider.getAllEmployees();
+            if(employees != null){
+                employees.stream()
+                        .forEach((employee) -> {
+                           if(employee.getCompanyId() == idCompany){
+                               deletePerson(employee.getId(), TypePerson.EmployeeType);
+                           } 
+                        });
+                
+                log.debug("deleteCascadeEmployee [2]: records deleted");
+            }
+        } catch(NullPointerException ex){
+            log.debug("deleteCascadeEmployee [3]: nothing to delete");
+        }
     }
 }

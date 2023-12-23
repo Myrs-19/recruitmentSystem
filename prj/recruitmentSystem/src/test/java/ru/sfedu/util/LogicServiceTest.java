@@ -200,7 +200,7 @@ public class LogicServiceTest {
         } catch(NullPointerException ex){
             assertEquals(Constants.MESSAGE_EXCEPTION_DONT_RECORDS, ex.getMessage());
         } catch(Exception ex){
-            assertEquals(Constants.MESSAGE_EXCEPTION_DONT_RECORDS, ex.getMessage());
+            assertEquals(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA, ex.getMessage());
         }
     }
     
@@ -318,7 +318,7 @@ public class LogicServiceTest {
         } catch(NullPointerException ex){
             assertEquals(Constants.MESSAGE_EXCEPTION_DONT_RECORDS, ex.getMessage());
         } catch(Exception ex){
-            assertEquals(Constants.MESSAGE_EXCEPTION_DONT_RECORDS, ex.getMessage());
+            assertEquals(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA, ex.getMessage());
         }
     }
     
@@ -981,6 +981,295 @@ public class LogicServiceTest {
             dp.getAllVacancies().forEach(System.out::println);
         } catch(Exception ex){
             fail("the test failed");
+        }
+    }
+    
+    @Test
+    public void testDeleteClientAllDp(){
+        IDataProvider dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test DeleteClientAllDp CSV");
+        testDeleteClient(dp);
+        deleteCSV();
+        
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test DeleteClientAllDp H2");
+        testDeleteClient(dp);
+        deleteH2();
+        
+        dp = new DataProviderXml(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test DeleteClientAllDp XML");
+        testDeleteClient(dp);
+        deleteXML();
+    }
+    
+    public void testDeleteClient(IDataProvider dp){
+        
+        for(int i = 0; i < 3; i++){
+            testResumeRegistrationPositive(dp);
+        }
+        
+        testClientRegistrationPositive(dp);
+        
+        try{
+            int id = 1;
+            
+            LogicService service = new LogicService(dp);
+            service.deletePerson(id, TypePerson.ClientType);
+            
+            List<Resume> resumes = dp.getAllResumes();
+            if(resumes != null && !resumes.isEmpty()){
+                fail("the test failed");
+            }
+            
+        } catch(NullPointerException ex){
+            
+        }
+    }
+    
+    @Test
+    public void testDeleteCompanyAllDp(){
+        IDataProvider dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test DeleteCompanyAllDp CSV");
+        testDeleteCompany(dp);
+        deleteCSV();
+        
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test DeleteCompanyAllDp H2");
+        testDeleteCompany(dp);
+        deleteH2();
+        
+        dp = new DataProviderXml(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test DeleteCompanyAllDp XML");
+        testDeleteCompany(dp);
+        deleteXML();
+    }
+    
+    public void testDeleteCompany(IDataProvider dp){
+        
+        for(int i = 0; i < 3; i++){
+            testVacancyRegistrationPositive(dp);
+        }
+        
+        testCompanyRegistrationPositive(dp);
+        
+        try{
+            int id = 1;
+            
+            LogicService service = new LogicService(dp);
+            service.deleteCompany(id);
+            
+            List<Vacancy> vacancies = dp.getAllVacancies();
+            if(vacancies != null && !vacancies.isEmpty()){
+                fail("the test failed");
+            }
+            
+        } catch(NullPointerException ex){
+            
+        }
+    }
+    
+    @Test
+    public void testDeleteVacancyAllDp(){
+        IDataProvider dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test DeleteVacancyAllDp CSV");
+        testDeleteVacancy(dp);
+        deleteCSV();
+        
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test DeleteVacancyAllDp H2");
+        testDeleteVacancy(dp);
+        deleteH2();
+        
+        dp = new DataProviderXml(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test DeleteVacancyAllDp XML");
+        testDeleteVacancy(dp);
+        deleteXML();
+    }
+    
+    public void testDeleteVacancy(IDataProvider dp){
+        
+        testVacancyRegistrationPositive(dp);
+        
+        try{
+            int id = 1;
+            
+            LogicService service = new LogicService(dp);
+            service.deleteVacancy(id);
+            
+            List<Vacancy> vacancies = dp.getAllVacancies();
+            if(vacancies != null && !vacancies.isEmpty()){
+                fail("the test failed");
+            }
+            
+        } catch(NullPointerException ex){
+            
+        }
+    }
+    
+    @Test
+    public void testDeleteResumeAllDp(){
+        IDataProvider dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test DeleteResumeAllDp CSV");
+        testDeleteResume(dp);
+        deleteCSV();
+        
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test DeleteResumeAllDp H2");
+        testDeleteResume(dp);
+        deleteH2();
+        
+        dp = new DataProviderXml(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test DeleteResumeAllDp XML");
+        testDeleteResume(dp);
+        deleteXML();
+    }
+    
+    public void testDeleteResume(IDataProvider dp){
+        
+        testResumeRegistrationPositive(dp);
+        
+        try{
+            int id = 1;
+            
+            LogicService service = new LogicService(dp);
+            service.deleteResume(id);
+            
+            List<Resume> resumes = dp.getAllResumes();
+            if(resumes != null && !resumes.isEmpty()){
+                fail("the test failed");
+            }
+            
+        } catch(NullPointerException ex){
+            
+        }
+    }
+    
+    @Test
+    public void testDeleteSeparateQualAllDp(){
+        IDataProvider dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test DeleteSeparateQualAllDp CSV");
+        testDeleteSeparateQual(dp);
+        deleteCSV();
+        
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test DeleteSeparateQualAllDp H2");
+        testDeleteSeparateQual(dp);
+        deleteH2();
+        
+        dp = new DataProviderXml(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test DeleteSeparateQualAllDp XML");
+        testDeleteSeparateQual(dp);
+        deleteXML();
+    }
+    
+    public void testDeleteSeparateQual(IDataProvider dp){
+        
+        testGiveAssessmentPositive(dp);
+        
+        try{
+            int id = 1;
+            
+            LogicService service = new LogicService(dp);
+            service.deleteSeparateQual(id);
+            
+            List<SeparateQual> separateQuals = dp.getAllSeparateQuals();
+            if(separateQuals != null && !separateQuals.isEmpty()){
+                fail("the test failed");
+            }
+            
+        } catch(NullPointerException ex){
+            
+        }
+    }
+    
+    @Test
+    public void testCalculateAssessmentPositiveAllDp(){
+        IDataProvider dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test CalculateAssessmentPositiveAllDp CSV");
+        testCalculateAssessmentPositive(dp);
+        deleteCSV();
+        
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test CalculateAssessmentPositiveAllDp H2");
+        testCalculateAssessmentPositive(dp);
+        deleteH2();
+        
+        dp = new DataProviderXml(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test CalculateAssessmentPositiveAllDp XML");
+        testCalculateAssessmentPositive(dp);
+        deleteXML();
+    }
+    
+    
+    public void testCalculateAssessmentPositive(IDataProvider dp){
+        testGiveAssessmentPositive(dp);
+        testGiveAssessmentPositive(dp);
+        testGiveAssessmentPositive(dp);
+        
+        try{
+            
+            int idCompany = 1;
+            LogicService service = new LogicService(dp);
+            service.calculateAssessment(idCompany);
+            
+        } catch(Exception ex){
+            fail("the test faield ex = " + ex);
+        }
+    }
+    
+    @Test
+    public void testCalculateAssessmentNegativeAllDp(){
+        IDataProvider dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test CalculateAssessmentNegativeAllDp CSV");
+        testCalculateAssessmentNegative(dp);
+        deleteCSV();
+        
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test CalculateAssessmentNegativeAllDp H2");
+        testCalculateAssessmentNegative(dp);
+        deleteH2();
+        
+        dp = new DataProviderXml(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test CalculateAssessmentNegativeAllDp XML");
+        testCalculateAssessmentNegative(dp);
+        deleteXML();
+    }
+    
+    
+    public void testCalculateAssessmentNegative(IDataProvider dp){
+        testGiveAssessmentPositive(dp);
+        testGiveAssessmentPositive(dp);
+        testGiveAssessmentPositive(dp);
+        
+        try{
+            
+            int idCompany = -1;
+            LogicService service = new LogicService(dp);
+            service.calculateAssessment(idCompany);
+            fail("the test faield");
+        } catch(Exception ex){
+            assertEquals(NullPointerException.class, ex.getClass());
         }
     }
 }
