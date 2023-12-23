@@ -166,9 +166,10 @@ public class LogicServiceTest {
         dp.saveVacancy(vacancy);
         
         LogicService service = new LogicService(dp);
-        service.hireEmployee(1, 1);
+        
         
         try{
+            service.hireEmployee(1, 1);
             List<Employee> list = dp.getAllEmployees(); 
             if(list.isEmpty()){
                 fail("the test failed");
@@ -177,6 +178,8 @@ public class LogicServiceTest {
             
         } catch(NullPointerException ex){
             fail("the test failed");
+        } catch(Exception ex){
+            assertEquals(Constants.MESSAGE_EXCEPTION_DONT_RECORDS, ex.getMessage());
         }
         
     }
@@ -185,16 +188,18 @@ public class LogicServiceTest {
         System.out.println("test HireEmployeeCSV Negative");
         
         LogicService service = new LogicService(dp);
-        service.hireEmployee(1, 1);
+        
         
         try{
-            
+            service.hireEmployee(1, 1);
             List<Employee> list = dp.getAllEmployees(); 
             if(!list.isEmpty()){
                 fail("the test failed");
             }
             
         } catch(NullPointerException ex){
+            assertEquals(Constants.MESSAGE_EXCEPTION_DONT_RECORDS, ex.getMessage());
+        } catch(Exception ex){
             assertEquals(Constants.MESSAGE_EXCEPTION_DONT_RECORDS, ex.getMessage());
         }
     }
@@ -272,9 +277,10 @@ public class LogicServiceTest {
         String description = null;
         
         LogicService service = new LogicService(dp);
-        service.giveAssessment(idEmployee, idCompany, quality, description);
+        
         
         try{
+            service.giveAssessment(idEmployee, idCompany, quality, description);
             List<SeparateQual> list = dp.getAllSeparateQuals(); 
             if(list.isEmpty()){
                 fail("the test failed");
@@ -284,6 +290,8 @@ public class LogicServiceTest {
             
         } catch(NullPointerException ex){
             fail("the test failed");
+        } catch(Exception ex){
+            assertEquals(Constants.MESSAGE_EXCEPTION_DONT_RECORDS, ex.getMessage());
         }
     }
     
@@ -296,9 +304,10 @@ public class LogicServiceTest {
         String description = null;
         
         LogicService service = new LogicService(dp);
-        service.giveAssessment(idEmployee, idCompany, quality, description);
+        
         
         try{
+            service.giveAssessment(idEmployee, idCompany, quality, description);
             dp.getAllSeparateQuals().forEach(System.out::println);
             
             List<SeparateQual> list = dp.getAllSeparateQuals(); 
@@ -307,6 +316,8 @@ public class LogicServiceTest {
             }
             
         } catch(NullPointerException ex){
+            assertEquals(Constants.MESSAGE_EXCEPTION_DONT_RECORDS, ex.getMessage());
+        } catch(Exception ex){
             assertEquals(Constants.MESSAGE_EXCEPTION_DONT_RECORDS, ex.getMessage());
         }
     }
@@ -693,4 +704,283 @@ public class LogicServiceTest {
         }
     }
     
+    @Test
+    public void testVacancyRegistrationNegativeCompanyAllDP(){
+        IDataProvider dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test VacancyRegistration Negative Company CSV");
+        testVacancyRegistrationNegativeCompany(dp);
+        deleteCSV();
+        
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test VacancyRegistration Negative Company H2");
+        testVacancyRegistrationNegativeCompany(dp);
+        deleteH2();
+        
+        dp = new DataProviderXml(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test VacancyRegistration Negative Company XML");
+        testVacancyRegistrationNegativeCompany(dp);
+        deleteXML();
+    }
+    
+    public void testVacancyRegistrationNegativeCompany(IDataProvider dp){
+        System.out.println("test VacancyRegistration Company Negative");
+        
+        //проверка когда такой компании нет
+        
+        int idCompany = 1;
+        String title = "Java. Developer";
+        String specialization = "Programmer";
+        boolean online = false;
+        String skills = "SOAP, RESTFULL";
+        int salary = 95000;
+        String city = "Moscow";
+        String address = "ploshyad`";
+        String experience = "1-3 years";
+        
+        try{
+            LogicService service = new LogicService(dp);
+            service.vacancyRegistration(idCompany, title, specialization, online, skills, salary, city, address, experience);
+        
+            fail("the test failed");
+        } catch(Exception ex){
+            assertEquals(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA, ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testVacancyRegistrationNegativeDataAllDP(){
+        IDataProvider dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test VacancyRegistration Negative Data CSV");
+        testVacancyRegistrationNegativeData(dp);
+        deleteCSV();
+        
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test VacancyRegistration Negative Company H2");
+        testVacancyRegistrationNegativeData(dp);
+        deleteH2();
+        
+        dp = new DataProviderXml(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test VacancyRegistration Negative Company XML");
+        testVacancyRegistrationNegativeData(dp);
+        deleteXML();
+    }
+    
+    public void testVacancyRegistrationNegativeData(IDataProvider dp){
+        System.out.println("test VacancyRegistration Negative Data");
+        
+        int idCompany = 1;
+        String title = null;
+        String specialization = "Programmer";
+        boolean online = false;
+        String skills = "SOAP, RESTFULL";
+        int salary = 95000;
+        String city = "Moscow";
+        String address = "ploshyad`";
+        String experience = "1-3 years";
+        
+        //сохранение компании вакансии
+        Company company = new Company();
+        company.setTitle("arenadata");
+        company.setDescription("description");
+        
+        Result result = dp.saveCompany(company);
+        System.out.println(result);
+        
+        try{
+            LogicService service = new LogicService(dp);
+            service.vacancyRegistration(idCompany, title, specialization, online, skills, salary, city, address, experience);
+        
+            fail("the test failed");
+        } catch(Exception ex){
+            assertEquals(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA, ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testClientChangeAllDp(){
+        IDataProvider dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test ClientChangeAllDp CSV");
+        testClientChange(dp);
+        deleteCSV();
+        
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test ClientChangeAllDp H2");
+        testClientChange(dp);
+        deleteH2();
+        
+        dp = new DataProviderXml(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test ClientChangeAllDp XML");
+        testClientChange(dp);
+        deleteXML();
+    }
+    
+    public void testClientChange(IDataProvider dp){
+        System.out.println("test ClientChange");
+        
+        testClientRegistrationPositive(dp);
+        
+        int id = 1;
+        String name = "Mik";
+        String surname = "Sel";
+        String middleName = "Mih";
+        int age = 21;
+        String birthday = "12-06-2003";
+        String phone = "7878787877";
+        String email = "Ilya@lab.com";
+        String password = "pipipip";
+        String address = "zorge 28/2";
+        
+        try{
+            LogicService service = new LogicService(dp);
+            service.clientChange(id, name, surname, middleName, age, birthday, phone, email, password, address);
+            
+            dp.getAllClients().forEach(System.out::println);
+        } catch(Exception ex){
+            fail(ex.getMessage());
+        }
+        
+    }
+    
+    @Test
+    public void testCompanyChangeAllDP(){
+        IDataProvider dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test CompanyChangeAllDP CSV");
+        testCompanyChange(dp);
+        deleteCSV();
+        
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test CompanyChangeAllDP H2");
+        testCompanyChange(dp);
+        deleteH2();
+        
+        dp = new DataProviderXml(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test CompanyChangeAllDP XML");
+        testCompanyChange(dp);
+        deleteXML();
+    }
+    
+    public void testCompanyChange(IDataProvider dp){
+        System.out.println("test CompanyChange");
+        
+        int id = 1;
+        String title = "Bebra";
+        String description = "Data bases company";
+        
+        testCompanyRegistrationPositive(dp);
+        
+        try{
+            LogicService service = new LogicService(dp);
+            service.companyChange(id, title, description);
+        
+            dp.getAllCompanies().forEach(System.out::println);
+        } catch(Exception ex){
+            fail("the test failed");
+        }
+    }
+    
+    @Test
+    public void testResumeChangeAllDP(){
+        IDataProvider dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test ResumeChangeAllDP CSV");
+        testResumeChange(dp);
+        deleteCSV();
+        
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test ResumeChangeAllDP H2");
+        testResumeChange(dp);
+        deleteH2();
+        
+        dp = new DataProviderXml(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test ResumeChangeAllDP XML");
+        testResumeChange(dp);
+        deleteXML();
+    }
+    
+    public void testResumeChange(IDataProvider dp){
+        System.out.println("testResume Change");
+        
+        int id = 1;
+        int idClient = 1;
+        String profession = "MANAGER";
+        String city = "KRASNODAR";
+        String skills = "NO SKILL";
+        String education = "education";
+        String experience = "experience";
+        boolean sex = true;
+        boolean workPermit = true;
+        String citizenship = "Russian";
+        
+        testResumeRegistrationPositive(dp);
+        
+        try{
+            LogicService service = new LogicService(dp);
+            service.resumeChange(id, idClient, profession, city, skills, education, experience, sex, workPermit, citizenship);
+        
+            dp.getAllResumes().forEach(System.out::println);
+        } catch(Exception ex){
+            fail("the test failed " + ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void testVacancyChangeAllDP(){
+        IDataProvider dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test VacancyChangeAllDP CSV");
+        testVacancyChange(dp);
+        deleteCSV();
+        
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test VacancyChangeAllDP H2");
+        testVacancyChange(dp);
+        deleteH2();
+        
+        dp = new DataProviderXml(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        System.out.println("test VacancyChangeAllDP XML");
+        testVacancyChange(dp);
+        deleteXML();
+    }
+    
+    public void testVacancyChange(IDataProvider dp){
+        System.out.println("test VacancyChange");
+        
+        int id = 1;
+        int idCompany = 1;
+        String title = "Java. Developer";
+        String specialization = "Programmer";
+        boolean online = false;
+        String skills = "SOAP, RESTFULL";
+        int salary = 200000;
+        String city = "ANAPA";
+        String address = "NENENE`";
+        String experience = "5 years and above";
+        
+        testVacancyRegistrationPositive(dp);
+        
+        try{
+            LogicService service = new LogicService(dp);
+            service.vacancyChange(id, idCompany, title, specialization, online, skills, salary, city, address, experience);
+        
+            dp.getAllVacancies().forEach(System.out::println);
+        } catch(Exception ex){
+            fail("the test failed");
+        }
+    }
 }

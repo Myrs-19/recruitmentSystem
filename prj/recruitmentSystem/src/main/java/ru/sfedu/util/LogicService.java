@@ -32,7 +32,7 @@ public class LogicService {
      * @param idResume - the ID of the resume through which they want to hire
      * @param idVacancy - the ID of the vacancy for the position that is being hired
      */
-    public void hireEmployee(int idResume, int idVacancy){
+    public void hireEmployee(int idResume, int idVacancy) throws Exception{
         log.debug("hireEmployee [1]: hiring employee, id resume = {}, id vacancy = {}", idResume, idVacancy);
         
         try{
@@ -62,8 +62,7 @@ public class LogicService {
             
         } catch(NullPointerException ex){
             log.error("hireEmployee [3]: Таких записей нет");
-            
-            return;
+            throw new Exception(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
         }
         
     }
@@ -74,7 +73,7 @@ public class LogicService {
      * @param quality - quality of assessment
      * @param description - description of assessment
      */
-    public void giveAssessment(int idEmployee, int idCompany, int quality, String description){
+    public void giveAssessment(int idEmployee, int idCompany, int quality, String description) throws Exception{
         log.debug("giveAssessment [1]: Даем оценку компании, id employee = {}, id company = {}, quality = {}", idEmployee, idCompany, quality);
         if(checkQuality(quality) && checkDealTogether(idEmployee, idCompany)){
             
@@ -87,13 +86,15 @@ public class LogicService {
                 
             Result result = dataProvider.saveSeparateQual(separateQual);
             log.debug("giveAssessment [2]: результат сохранения, result = {}", result.getMessage());
+        }else{
+            throw new Exception(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
         }
     }
     
     /**Method creating file with result of calculate assessment. Result - average quality of assessment
      @param idCompany - ID company
      */
-    public void calculateAssessment(int idCompany){
+    public void calculateAssessment(int idCompany) throws Exception{
         
     }
     
@@ -114,15 +115,7 @@ public class LogicService {
         Client client = new Client();
         client.setTypePerson(TypePerson.ClientType);
         
-        client.setName(name);
-        client.setSurname(surname);
-        client.setMiddleName(middleName);
-        client.setAge(age);
-        client.setBirthday(birthday);
-        client.setPhone(phone);
-        client.setEmail(email);
-        client.setPassword(password);
-        client.setAddress(address);
+        fillClient(client, name, surname, middleName, age, birthday, phone, email, password, address);
         
         validateClient(client);
         
@@ -141,8 +134,8 @@ public class LogicService {
         log.debug("companyRegistration [1]: registration new company");
         
         Company company = new Company();
-        company.setTitle(title);
-        company.setDescription(description);
+        
+        fillCompany(company, title, description);
         
         validateCompany(company);
         
@@ -169,15 +162,7 @@ public class LogicService {
         
         Resume resume = new Resume();
         
-        resume.setClientId(idClient);
-        resume.setProfession(profession);
-        resume.setCity(city);
-        resume.setSkills(skills);
-        resume.setEducation(education);
-        resume.setExperience(experience);
-        resume.setSex(sex);
-        resume.setWorkPermit(workPermit);
-        resume.setCitizenship(citizenship);
+        fillResume(resume, idClient, profession, city, skills, education, experience, sex, workPermit, citizenship);
         
         validateResume(resume);
         
@@ -187,7 +172,93 @@ public class LogicService {
         log.debug("resumeRegistration [3]: save resume result - {}", result.getMessage());   
     }
     
-    /**Method saving new resume
+    /**Method saving new vacancy
+     * @param idCompany - ID resume company
+     * @param title  - title in resume
+     * @param specialization - specialization in resume
+     * @param online  - online in resume
+     * @param skills  - education in resume
+     * @param salary  - experience in resume
+     * @param city  - sex in resume
+     * @param address  - workPermit in resume
+     * @param experience  - citizenship in resume
+     * @throws Exception then data is not valid or such client does not exists
+     */
+    public void vacancyRegistration(int idCompany, String title, String specialization, boolean online, String skills, int salary, String city, String address, String experience) throws Exception{
+        log.debug("vacancyRegistration [1]: registration new vacancy");
+        
+        Vacancy vacancy = new Vacancy();
+        
+        fillVacancy(vacancy, idCompany, title, specialization, online, skills, salary, city, address, experience);
+        
+        validateVacancy(vacancy);
+        
+        log.debug("vacancyRegistration [2]: saving new vacancy, vacancy = {}", vacancy);
+        Result result = dataProvider.saveVacancy(vacancy);
+        
+        log.debug("vacancyRegistration [3]: save vacancy result - {}", result.getMessage());   
+    }
+    
+    /**Method changes client by id
+     * @param id - client id
+     * @param name - client name
+     * @param surname - client surname
+     * @param middleName - client middleName
+     * @param age - client age
+     * @param birthday - client birthday
+     * @param phone - client phone
+     * @param email - client email
+     * @param password - client password
+     * @param address - client address
+     * @throws Exception then data is not valid
+     */
+    public void clientChange(int id, String name, String surname, String middleName, int age, String birthday, String phone, String email, String password, String address) throws Exception{
+        log.debug("clientChange [1]: changing client by id, id = {}", id);
+        
+        dataProvider.getClient(id);
+        
+        Client client = new Client();
+        client.setTypePerson(TypePerson.ClientType);
+        
+        fillClient(client, name, surname, middleName, age, birthday, phone, email, password, address);
+        
+        validateClient(client);
+        
+        client.setId(id);
+        
+        log.debug("clientChange [2]: change client, client = {}", client);
+        Result result = dataProvider.updatePerson(client);
+        
+        log.debug("clientChange [3]: change client result - {}", result.getMessage());        
+    }
+    
+    /**Method changing company
+     * @param id - company id
+     * @param title - title company
+     * @param description  - description company
+     * @throws Exception then data is not valid
+     */
+    public void companyChange(int id, String title, String description) throws Exception{
+        log.debug("companyChange [1]: changing company, id = {}", id);
+        
+        dataProvider.getCompany(id);
+        
+        Company company = new Company();
+        
+        fillCompany(company, title, description);
+        
+        validateCompany(company);
+        
+        company.setId(id);
+        
+        log.debug("companyChange [3]: changing company, company = {}", company);
+        Result result = dataProvider.updateCompany(company);
+        
+        log.debug("companyChange [4]: change company result - {}", result.getMessage());   
+    }
+    
+    /**Method changing resume
+     * @param id - resume id
      * @param idClient - ID client of resume
      * @param profession  - profession in resume
      * @param city - city in resume
@@ -199,27 +270,55 @@ public class LogicService {
      * @param citizenship  - citizenship in resume
      * @throws Exception then data is not valid or such client does not exists
      */
-    public void vacancyRegistration(int idCompany, String title, String specialization, boolean online, String skills, int salary, String city, String address, String experience) throws Exception{
-        log.debug("vacancyRegistration [1]: registration new vacancy");
+    public void resumeChange(int id, int idClient, String profession, String city, String skills, String education, String experience, boolean sex, boolean workPermit, String citizenship) throws Exception{
+        log.debug("resumeChange [1]: changing resume, id = {}", id);
+        
+        dataProvider.getResume(id);
+        
+        Resume resume = new Resume();
+        
+        fillResume(resume, idClient, profession, city, skills, education, experience, sex, workPermit, citizenship);
+        
+        validateResume(resume);
+        
+        resume.setId(id);
+        
+        log.debug("resumeChange [2]: changing resume, resume = {}", resume);
+        Result result = dataProvider.updateResume(resume);
+        
+        log.debug("resumeChange [3]: change resume result - {}", result.getMessage());   
+    }
+    
+    /**Method changing vacancy
+     * @param id - vacancy id
+     * @param idCompany - ID resume company
+     * @param title  - title in resume
+     * @param specialization - specialization in resume
+     * @param online  - online in resume
+     * @param skills  - education in resume
+     * @param salary  - experience in resume
+     * @param city  - sex in resume
+     * @param address  - workPermit in resume
+     * @param experience  - citizenship in resume
+     * @throws Exception then data is not valid or such client does not exists
+     */
+    public void vacancyChange(int id, int idCompany, String title, String specialization, boolean online, String skills, int salary, String city, String address, String experience) throws Exception{
+        log.debug("vacancyChange [1]: changing vacancy, id = {}", id);
+        
+        dataProvider.getVacancy(id);
         
         Vacancy vacancy = new Vacancy();
         
-        vacancy.setCompanyId(idCompany);
-        vacancy.setTitle(title);
-        vacancy.setSpecialization(specialization);
-        vacancy.setOnline(online);
-        vacancy.setSkills(skills);
-        vacancy.setSalary(salary);
-        vacancy.setCity(city);
-        vacancy.setAddress(address);
-        vacancy.setExperience(experience);
+        fillVacancy(vacancy, idCompany, title, specialization, online, skills, salary, city, address, experience);
         
         validateVacancy(vacancy);
         
-        log.debug("vacancyRegistration [2]: saving new vacancy, vacancy = {}", vacancy);
-        Result result = dataProvider.saveVacancy(vacancy);
+        vacancy.setId(id);
         
-        log.debug("vacancyRegistration [3]: save vacancy result - {}", result.getMessage());   
+        log.debug("vacancyChange [2]: change vacancy, vacancy = {}", vacancy);
+        Result result = dataProvider.updateVacancy(vacancy);
+        
+        log.debug("vacancyChange [3]: change vacancy result - {}", result.getMessage());   
     }
     
     /**Method validates quality
@@ -305,5 +404,54 @@ public class LogicService {
         if(vacancy.getCompanyId() == 0 || vacancy.getTitle() == null){
             throw new Exception(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
         }
+    }
+    
+    /**Method fill client bean
+     */
+    private void fillClient(Client client, String name, String surname, String middleName, int age, String birthday, String phone, String email, String password, String address){
+        client.setName(name);
+        client.setSurname(surname);
+        client.setMiddleName(middleName);
+        client.setAge(age);
+        client.setBirthday(birthday);
+        client.setPhone(phone);
+        client.setEmail(email);
+        client.setPassword(password);
+        client.setAddress(address);
+    }
+    
+    /**Method fill company bean
+     */
+    private void fillCompany(Company company, String title, String description){
+        company.setTitle(title);
+        company.setDescription(description);
+    }
+    
+    /**Method fill resume bean
+     */
+    private void fillResume(Resume resume, int idClient, String profession, String city, String skills, String education, String experience, boolean sex, boolean workPermit, String citizenship){
+        resume.setClientId(idClient);
+        resume.setProfession(profession);
+        resume.setCity(city);
+        resume.setSkills(skills);
+        resume.setEducation(education);
+        resume.setExperience(experience);
+        resume.setSex(sex);
+        resume.setWorkPermit(workPermit);
+        resume.setCitizenship(citizenship);
+    }
+    
+    /**Method fill vacancy bean
+     */
+    private void fillVacancy(Vacancy vacancy, int idCompany, String title, String specialization, boolean online, String skills, int salary, String city, String address, String experience){
+        vacancy.setCompanyId(idCompany);
+        vacancy.setTitle(title);
+        vacancy.setSpecialization(specialization);
+        vacancy.setOnline(online);
+        vacancy.setSkills(skills);
+        vacancy.setSalary(salary);
+        vacancy.setCity(city);
+        vacancy.setAddress(address);
+        vacancy.setExperience(experience);
     }
 }
