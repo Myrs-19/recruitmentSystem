@@ -4,16 +4,26 @@
  */
 package ru.sfedu.util;
 
-import java.util.Date;
+import com.opencsv.CSVWriter;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import java.time.LocalDateTime;
+
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import ru.sfedu.Constants;
 
 import ru.sfedu.api.*;
 
 import ru.sfedu.model.*;
+
+import static ru.sfedu.util.ConfigurationUtilProperties.getConfigurationEntry;
 
 /**
  *
@@ -99,7 +109,7 @@ public class LogicService {
     public void calculateAssessment(int idCompany) throws Exception{
         log.debug("calculateAssessment [1]: calculate assessment, idCompany = {}", idCompany);
         
-        dataProvider.getCompany(idCompany);
+        Company company = dataProvider.getCompany(idCompany);
         
         try{
             
@@ -115,8 +125,7 @@ public class LogicService {
                     .sum();
             
             result = sum / count;
-            
-//            System.out.println("AAAAAAAAAAAAAAAAAAAAAAA result = " + result);
+            writeResult(company, result);
         } catch(NullPointerException ex){
             log.error("calculateAssessment [2]: error = {}", ex.getMessage());
         }
@@ -621,6 +630,34 @@ public class LogicService {
             }
         } catch(NullPointerException ex){
             log.debug("deleteCascadeEmployee [3]: nothing to delete");
+        }
+    }
+    
+    /**Method writes result of calculating average company quality 
+     * @param company - bean company
+     * @param result - result of calculating
+     */
+    private void writeResult(Company company, double result){
+        log.debug("writeResult [1]: writting result, company = {}, result = {}", company, result);
+        String filePath = getConfigurationEntry(Constants.PATH_RESULT).concat(String.format(Constants.NAME_FILE_RESULT, company.getTitle(), company.getId(), String.valueOf(LocalDateTime.now()))).concat(Constants.CSV_FILE_TYPE);
+     
+        try{
+            FileUtil.createFolderIfNotExists(getConfigurationEntry(Constants.PATH_RESULT));
+            FileUtil.createFileIfNotExists(filePath);
+            File file = new File(filePath);
+            
+            FileWriter outputfile = new FileWriter(file);
+            
+            CSVWriter writer = new CSVWriter(outputfile);
+            
+            writer.writeNext(Constants.HEADER_RESULT);
+            
+            String[] data = {String.valueOf(company.getId()), company.getTitle(), String.valueOf(result)};
+            writer.writeNext(data);
+            
+            writer.close();
+        } catch(IOException ex){
+            log.error("writeResult [2]: error = {}", ex.getMessage());
         }
     }
 }

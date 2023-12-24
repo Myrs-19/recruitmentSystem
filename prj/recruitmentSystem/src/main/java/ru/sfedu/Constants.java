@@ -173,6 +173,13 @@ public class Constants {
     public static final int MAX_QUALITY = 10;
     
     public static final int MIN_QUALITY = 0;
+    
+    public static final String PATH_RESULT = "ru.sfedu.calculate.result.folder";
+    //%s - title company, %d - id company, %s - time
+    public static final String NAME_FILE_RESULT = "%s_%d_%s";
+    
+    public static final String[] HEADER_RESULT = {"id", "title", "result"};
+    
 }
 
 
