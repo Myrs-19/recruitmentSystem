@@ -180,6 +180,40 @@ public class Constants {
     
     public static final String[] HEADER_RESULT = {"id", "title", "result"};
     
+    //CLI
+    public static final String CLI_CONFIG = "config";
+    public static final String CLI_LOG4J = "log4j";
+    
+    public static final String CLI_XML = "XML";
+    public static final String CLI_H2 = "H2";
+    public static final String CLI_CSV = "CSV";
+    
+    public static final String CLI_REGISTRATION_CLIENTALL = "-clientAll";
+    public static final String CLI_REGISTRATION_CLIENT = "-client";
+    public static final String CLI_CHANGE_CLIENT = "-clientChange";
+    public static final String CLI_DELETE_CLIENT = "-clientD";
+    
+    public static final String CLI_REGISTRATION_RESUMEALL = "-resumeAll";
+    public static final String CLI_REGISTRATION_RESUME = "-resume";
+    public static final String CLI_CHANGE_RESUME = "-resumeChange";
+    public static final String CLI_DELETE_RESUME = "-resumeD";
+    
+    public static final String CLI_REGISTRATION_COMPANY = "-company";
+    public static final String CLI_CHANGE_COMPANY = "-companyChange";
+    public static final String CLI_DELETE_COMPANY = "-companyD";
+    
+    public static final String CLI_REGISTRATION_VACANCYALL = "-vacancyAll";
+    public static final String CLI_REGISTRATION_VACANCY = "-vacancy";
+    public static final String CLI_CHANGE_VACANCY = "-vacancyChange";
+    public static final String CLI_DELETE_VACANCY = "-vacancyD";
+    
+    public static final String CLI_HIRE = "-hire";
+    
+    public static final String CLI_GIVE_ASSESSMENT = "-ga";
+    public static final String CLI_DELETE_SEPARATE_QUAL = "-spD";
+    
+    public static final String CLI_CALCULATE_ASSESSMENT = "-ca";
+    
 }
 
 
