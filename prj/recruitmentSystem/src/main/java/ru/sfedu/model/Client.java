@@ -41,7 +41,7 @@ public class Client extends Person{
     
     @Override
     public String toString(){
-        return "User{" +
+        return "Client{" +
                 "id = " + getId() +
                 ", name = " + getName() +
                 ", email = " + getEmail()+

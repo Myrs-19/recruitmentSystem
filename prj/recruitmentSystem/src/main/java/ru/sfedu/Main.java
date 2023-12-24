@@ -223,7 +223,7 @@ public class Main {
             }
             
             if(command.equals(Constants.CLI_GIVE_ASSESSMENT)){
-                log.info("main [29]: hiring");
+                log.info("main [29]: giving assessment");
                 try{
                     int idEmployee = Integer.parseInt(args[2]);
                     int idCompany = Integer.parseInt(args[3]);

@@ -176,10 +176,8 @@ public class LogicServiceTest {
             }
             list.forEach(System.out::println);
             
-        } catch(NullPointerException ex){
-            fail("the test failed");
         } catch(Exception ex){
-            assertEquals(Constants.MESSAGE_EXCEPTION_DONT_RECORDS, ex.getMessage());
+            fail("the test failed");
         }
         
     }
@@ -360,7 +358,12 @@ public class LogicServiceTest {
             LogicService service = new LogicService(dp);
             service.clientRegistration(name, surname, middleName, age, birthday, phone, email, password, address);
             
-            dp.getAllClients().forEach(System.out::println);
+            List<Client> list = dp.getAllClients();
+            if(list.isEmpty()){
+                fail("the test failed");
+            }
+            
+            list.forEach(System.out::println);
         } catch(Exception ex){
             fail(ex.getMessage());
         }
@@ -442,7 +445,11 @@ public class LogicServiceTest {
             LogicService service = new LogicService(dp);
             service.companyRegistration(title, description);
         
-            dp.getAllCompanies().forEach(System.out::println);
+            List<Company> list = dp.getAllCompanies();
+            if(list.isEmpty()){
+                fail("the test failed");
+            }
+            list.forEach(System.out::println);
         } catch(Exception ex){
             fail("the test failed");
         }
@@ -538,7 +545,11 @@ public class LogicServiceTest {
             LogicService service = new LogicService(dp);
             service.resumeRegistration(idClient, profession, city, skills, education, experience, sex, workPermit, citizenship);
         
-            dp.getAllResumes().forEach(System.out::println);
+            List<Resume> list = dp.getAllResumes();
+            if(list.isEmpty()){
+                fail("the test failed");
+            }
+            list.forEach(System.out::println);
         } catch(Exception ex){
             fail("the test failed " + ex.getMessage());
         }
@@ -698,7 +709,11 @@ public class LogicServiceTest {
             LogicService service = new LogicService(dp);
             service.vacancyRegistration(idCompany, title, specialization, online, skills, salary, city, address, experience);
         
-            dp.getAllVacancies().forEach(System.out::println);
+            List<Vacancy> list = dp.getAllVacancies();
+            if(list.isEmpty()){
+                fail("the test failed");
+            }
+            list.forEach(System.out::println);
         } catch(Exception ex){
             fail("the test failed");
         }
