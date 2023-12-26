@@ -30,7 +30,7 @@ public class h2Util {
         switch(person.getTypePerson()){
             case ClientType:{
                 Client client = (Client) person;
-                
+                //person fields
                 preStat.setString(1, client.getName());
                 preStat.setString(2, client.getSurname());
                 preStat.setString(3, client.getMiddleName());
@@ -38,7 +38,7 @@ public class h2Util {
                 preStat.setString(5, client.getBirthday());
                 preStat.setString(6, client.getPhone());
                 preStat.setString(7, client.getEmail());
-                
+                //client fields
                 preStat.setString(8, client.getPassword());
                 preStat.setString(9, client.getAddress());
                 
@@ -46,7 +46,7 @@ public class h2Util {
             }
             case EmployeeType:{
                 Employee employee = (Employee) person;
-                
+                //person fields
                 preStat.setString(1, employee.getName());
                 preStat.setString(2, employee.getSurname());
                 preStat.setString(3, employee.getMiddleName());
@@ -54,8 +54,7 @@ public class h2Util {
                 preStat.setString(5, employee.getBirthday());
                 preStat.setString(6, employee.getPhone());
                 preStat.setString(7, employee.getEmail());
-                
-                preStat.setInt(8, employee.getCompanyId());
+                //employee fields
                 preStat.setInt(9, employee.getSalary());
                 preStat.setString(10, employee.getPosition());
                 preStat.setBoolean(11, employee.getIsWorking());
