@@ -97,7 +97,6 @@ public class h2Util {
         Resume resume = new Resume();
             
         resume.setId(res.getInt(1));
-        resume.setClientId(res.getInt(2));
         resume.setProfession(res.getString(3));
         resume.setCity(res.getString(4));
         resume.setSkills(res.getString(5));
