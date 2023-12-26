@@ -14,27 +14,27 @@ import org.simpleframework.xml.Root;
 public class Company {
     @Element
     @CsvBindByPosition(position = 0)
-    int id;
+    private int id;
     
     @Element
     @CsvBindByPosition(position = 1)
-    String title;
+    private String title;
     
     @Element(required = false)
     @CsvBindByPosition(position = 2)
-    String description;
+    private String description;
     
     @ElementList
     @CsvBindAndSplitByName(elementType = Vacancy.class)
-    List<Vacancy> vacancies;
+    private List<Vacancy> vacancies;
     
     @ElementList
     @CsvBindAndSplitByName(elementType = SeparateQual.class)
-    List<SeparateQual> separateQual;
+    private List<SeparateQual> separateQual;
     
     @ElementList
     @CsvBindAndSplitByName(elementType = Employee.class)
-    List<Employee> employees;
+    private List<Employee> employees;
 
     public Company(){}
 

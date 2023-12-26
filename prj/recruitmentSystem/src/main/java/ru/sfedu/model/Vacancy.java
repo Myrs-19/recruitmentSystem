@@ -8,39 +8,39 @@ import org.simpleframework.xml.Root;
 public class Vacancy {
     @Element
     @CsvBindByPosition(position = 0)
-    int id;
+    private int id;
     
     @Element
     @CsvBindByPosition(position = 1)
-    String title;
+    private String title;
     
     @Element(required = false)
     @CsvBindByPosition(position = 2)
-    String specialization;
+    private String specialization;
     
     @Element(required = false)
     @CsvBindByPosition(position = 3)
-    boolean online;
+    private boolean online;
     
     @Element(required = false)
     @CsvBindByPosition(position = 4)
-    String skills;
+    private String skills;
     
     @Element
     @CsvBindByPosition(position = 5)
-    int salary;
+    private int salary;
     
     @Element(required = false)
     @CsvBindByPosition(position = 6)
-    String city;
+    private String city;
     
     @Element(required = false)
     @CsvBindByPosition(position = 7)
-    String address;
+    private String address;
     
     @Element(required = false)
     @CsvBindByPosition(position = 8)
-    String experience;
+    private String experience;
     
     public Vacancy(){}
 

@@ -4,8 +4,11 @@
  */
 package ru.sfedu.model;
 
+import com.opencsv.bean.CsvBindAndSplitByName;
 import com.opencsv.bean.CsvBindByPosition;
+import java.util.List;
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 /**
@@ -22,6 +25,18 @@ public class Client extends Person{
     @CsvBindByPosition(position = 9)
     private String address;
 
+    @ElementList
+    @CsvBindAndSplitByName(elementType = Resume.class)
+    private List<Resume> resumes;
+
+    private List<Resume> getResumes() {
+        return resumes;
+    }
+
+    public void setResumes(List<Resume> resumes) {
+        this.resumes = resumes;
+    }
+    
     public String getAddress() {
         return address;
     }

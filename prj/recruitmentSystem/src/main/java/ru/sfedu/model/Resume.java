@@ -16,43 +16,43 @@ import org.simpleframework.xml.Root;
 public class Resume {
     @Element
     @CsvBindByPosition(position = 0)
-    int id;
+    private int id;
     
     @Element
     @CsvBindByPosition(position = 1)
-    int clientId;
+    private int clientId;
     
     @Element
     @CsvBindByPosition(position = 2)
-    String profession;
+    private String profession;
     
     @Element
     @CsvBindByPosition(position = 3)
-    String city;
+    private String city;
     
     @Element(required = false)
     @CsvBindByPosition(position = 4)
-    String skills;
+    private String skills;
     
     @Element(required = false)
     @CsvBindByPosition(position = 5)
-    String education;
+    private String education;
     
     @Element(required = false)
     @CsvBindByPosition(position = 6)
-    String experience;
+    private String experience;
     
     @Element(required = false)
     @CsvBindByPosition(position = 8)
-    boolean sex;
+    private boolean sex;
     
     @Element(required = false)
     @CsvBindByPosition(position = 10)
-    boolean workPermit;
+    private boolean workPermit;
     
     @Element(required = false)
     @CsvBindByPosition(position = 11)
-    String citizenship;
+    private String citizenship;
     
     public Resume(){}
 

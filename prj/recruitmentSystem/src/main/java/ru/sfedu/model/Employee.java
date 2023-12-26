@@ -17,15 +17,15 @@ public class Employee extends Person {
     
     @Element
     @CsvBindByPosition(position = 8)
-    int salary;
+    private int salary;
     
     @Element
     @CsvBindByPosition(position = 9)
-    String position;
+    private String position;
     
     @Element
     @CsvBindByPosition(position = 10)
-    boolean isWorking;
+    private boolean isWorking;
     
     public Employee(){}
 

@@ -7,7 +7,7 @@ import org.simpleframework.xml.Root;
 @Root
 public class XmlWrapper<T> {
     @ElementList(inline=true)
-    public List<T> list;
+    private List<T> list;
 
     public List<T> getList() {
         return list;
