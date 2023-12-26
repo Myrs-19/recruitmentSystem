@@ -161,7 +161,6 @@ public class h2Util {
         employee.setBirthday(res.getString(6));
         employee.setPhone(res.getString(7));
         employee.setEmail(res.getString(8));
-        employee.setCompanyId(res.getInt(9));
         employee.setSalary(res.getInt(10));
         employee.setPosition(res.getString(11));
         employee.setIsWorking(res.getBoolean(12));
@@ -178,8 +177,6 @@ public class h2Util {
         SeparateQual separateQual = new SeparateQual();
             
         separateQual.setId(res.getInt(1));
-        separateQual.setCompanyId(res.getInt(2));
-        separateQual.setEmployeeId(res.getInt(3));
         separateQual.setQuality(res.getInt(4));
         separateQual.setDescription(res.getString(5));
         
