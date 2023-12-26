@@ -4,8 +4,10 @@
  */
 package ru.sfedu.model;
 
-import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.*;
+import java.util.List;
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 @Root
@@ -22,6 +24,18 @@ public class Company {
     @CsvBindByPosition(position = 2)
     String description;
     
+    @ElementList
+    @CsvBindAndSplitByName(elementType = Vacancy.class)
+    List<Vacancy> vacancies;
+    
+    @ElementList
+    @CsvBindAndSplitByName(elementType = SeparateQual.class)
+    List<SeparateQual> separateQual;
+    
+    @ElementList
+    @CsvBindAndSplitByName(elementType = Employee.class)
+    List<Employee> employees;
+
     public Company(){}
 
     public int getId() {
@@ -46,6 +60,30 @@ public class Company {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public List<Vacancy> getVacancies() {
+        return vacancies;
+    }
+
+    public void setVacancies(List<Vacancy> vacancies) {
+        this.vacancies = vacancies;
+    }
+
+    public List<SeparateQual> getSeparateQual() {
+        return separateQual;
+    }
+
+    public void setSeparateQual(List<SeparateQual> separateQual) {
+        this.separateQual = separateQual;
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
     
     @Override
