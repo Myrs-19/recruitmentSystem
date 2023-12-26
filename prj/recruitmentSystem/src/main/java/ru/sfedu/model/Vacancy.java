@@ -120,7 +120,6 @@ public class Vacancy {
     public String toString(){
         return "Vacancy{" +
                 "id = " + getId() +
-                ", companyId = " + getCompanyId()+
                 ", title = " + getTitle()+
                 ", salary = " + getSalary()+
                 '}';
