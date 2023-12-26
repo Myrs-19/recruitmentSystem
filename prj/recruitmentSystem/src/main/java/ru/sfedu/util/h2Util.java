@@ -133,7 +133,6 @@ public class h2Util {
         Vacancy vacancy = new Vacancy();
             
         vacancy.setId(res.getInt(1));
-        vacancy.setCompanyId(res.getInt(2));
         vacancy.setTitle(res.getString(3));
         vacancy.setSpecialization(res.getString(4));
         vacancy.setOnline(res.getBoolean(5));
