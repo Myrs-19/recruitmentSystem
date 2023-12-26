@@ -188,7 +188,7 @@ public class h2Util {
      * @param resume - which filling PreparedStatement
      */
     public static void fillStatResume(PreparedStatement preStat, Resume resume) throws SQLException{
-        preStat.setInt(1, resume.getClientId());
+        
         preStat.setString(2, resume.getProfession());
         preStat.setString(3, resume.getCity());
         preStat.setString(4, resume.getSkills());
@@ -213,7 +213,7 @@ public class h2Util {
      * @param vacancy - which filling PreparedStatement
      */
     public static void fillStatVacancy(PreparedStatement preStat, Vacancy vacancy) throws SQLException{
-        preStat.setInt(1, vacancy.getCompanyId());
+        
         preStat.setString(2, vacancy.getTitle());
         preStat.setString(3, vacancy.getSpecialization());
         preStat.setBoolean(4, vacancy.getOnline());
@@ -229,8 +229,7 @@ public class h2Util {
      * @param separateQual  - which filling PreparedStatement
      */
     public static void fillStatSeparateQual(PreparedStatement preStat, SeparateQual separateQual) throws SQLException{
-        preStat.setInt(1, separateQual.getCompanyId());
-        preStat.setInt(2, separateQual.getEmployeeId());
+        
         preStat.setInt(3, separateQual.getQuality());
         preStat.setString(4, separateQual.getDescription());
     }
