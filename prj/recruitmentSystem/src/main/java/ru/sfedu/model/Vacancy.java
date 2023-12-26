@@ -12,38 +12,34 @@ public class Vacancy {
     
     @Element
     @CsvBindByPosition(position = 1)
-    int companyId;
-    
-    @Element
-    @CsvBindByPosition(position = 2)
     String title;
     
     @Element(required = false)
-    @CsvBindByPosition(position = 3)
+    @CsvBindByPosition(position = 2)
     String specialization;
     
     @Element(required = false)
-    @CsvBindByPosition(position = 4)
+    @CsvBindByPosition(position = 3)
     boolean online;
     
     @Element(required = false)
-    @CsvBindByPosition(position = 5)
+    @CsvBindByPosition(position = 4)
     String skills;
     
     @Element
-    @CsvBindByPosition(position = 6)
+    @CsvBindByPosition(position = 5)
     int salary;
     
     @Element(required = false)
-    @CsvBindByPosition(position = 7)
+    @CsvBindByPosition(position = 6)
     String city;
     
     @Element(required = false)
-    @CsvBindByPosition(position = 8)
+    @CsvBindByPosition(position = 7)
     String address;
     
     @Element(required = false)
-    @CsvBindByPosition(position = 9)
+    @CsvBindByPosition(position = 8)
     String experience;
     
     public Vacancy(){}
@@ -54,14 +50,6 @@ public class Vacancy {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
     }
 
     public String getTitle() {
