@@ -20,38 +20,34 @@ public class Resume {
     
     @Element
     @CsvBindByPosition(position = 1)
-    private int clientId;
-    
-    @Element
-    @CsvBindByPosition(position = 2)
     private String profession;
     
     @Element
-    @CsvBindByPosition(position = 3)
+    @CsvBindByPosition(position = 2)
     private String city;
     
     @Element(required = false)
-    @CsvBindByPosition(position = 4)
+    @CsvBindByPosition(position = 3)
     private String skills;
     
     @Element(required = false)
-    @CsvBindByPosition(position = 5)
+    @CsvBindByPosition(position = 4)
     private String education;
     
     @Element(required = false)
-    @CsvBindByPosition(position = 6)
+    @CsvBindByPosition(position = 5)
     private String experience;
     
     @Element(required = false)
-    @CsvBindByPosition(position = 8)
+    @CsvBindByPosition(position = 6)
     private boolean sex;
     
     @Element(required = false)
-    @CsvBindByPosition(position = 10)
+    @CsvBindByPosition(position = 7)
     private boolean workPermit;
     
     @Element(required = false)
-    @CsvBindByPosition(position = 11)
+    @CsvBindByPosition(position = 8)
     private String citizenship;
     
     public Resume(){}
@@ -62,14 +58,6 @@ public class Resume {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
     }
 
     public String getProfession() {
@@ -140,7 +128,6 @@ public class Resume {
     public String toString(){
         return "Resume{" +
                 "id = " + getId() +
-                ", clientId = " + getClientId() +
                 ", city = " + getCity() +
                 ", profession = " + getProfession() +
                 '}';
