@@ -29,7 +29,7 @@ public class CompanyCsvConverter extends AbstractBeanField<Company, Integer>{
         
         String[] fields = string.split("#");
         
-        company.setId(Integer.valueOf(fields[0]));
+        company.setId(Integer.parseInt(fields[0]));
         company.setTitle(fields[1]);
         company.setDescription(fields[2]);
 

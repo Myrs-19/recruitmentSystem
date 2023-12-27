@@ -926,7 +926,7 @@ public class DataProviderXml implements IDataProvider{
     }
 
     @Override
-    public int calculateAssessmentWithOthers(ResultAnalisys resultAnalisys) {
+    public Result calculateAssessmentWithOthers(ResultAnalisys resultAnalisys) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

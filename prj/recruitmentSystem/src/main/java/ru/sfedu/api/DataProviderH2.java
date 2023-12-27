@@ -353,7 +353,6 @@ public class DataProviderH2 implements IDataProvider{
             if(res.next()){
                 SeparateQual separateQual = h2Util.createSeparateQual(res);
                 separateQual.setCompany(getCompany(res.getInt(2)));
-                separateQual.setEmployee(getEmployee(res.getInt(3)));
                 
                 return separateQual;
             }
@@ -407,7 +406,9 @@ public class DataProviderH2 implements IDataProvider{
             
             List<Resume> resumes = new ArrayList<Resume>();
             while(res.next()){
-                resumes.add(h2Util.createResume(res));
+                Resume resume = h2Util.createResume(res);
+                resume.setClient(getClient(res.getInt(2)));
+                resumes.add(resume);
             }
             
             return resumes;
@@ -461,7 +462,9 @@ public class DataProviderH2 implements IDataProvider{
             
             List<Vacancy> vacancies = new ArrayList<Vacancy>();
             while(res.next()){
-                vacancies.add(h2Util.createVacancy(res));
+                Vacancy vacancy = h2Util.createVacancy(res);
+                vacancy.setCompany(getCompany(res.getInt(2)));
+                vacancies.add(vacancy);
             }
             
             return vacancies;
@@ -488,7 +491,9 @@ public class DataProviderH2 implements IDataProvider{
             
             List<Employee> employees = new ArrayList<Employee>();
             while(res.next()){
-                employees.add(h2Util.createEmployee(res));
+                Employee employee = h2Util.createEmployee(res);
+                employee.setCompany(getCompany(res.getInt(9)));
+                employees.add(employee);
             }
             
             return employees;
@@ -515,7 +520,9 @@ public class DataProviderH2 implements IDataProvider{
             
             List<SeparateQual> separateQuals = new ArrayList<SeparateQual>();
             while(res.next()){
-                separateQuals.add(h2Util.createSeparateQual(res));
+                SeparateQual separateQual = h2Util.createSeparateQual(res);
+                separateQual.setCompany(getCompany(res.getInt(2)));
+                separateQuals.add(separateQual);
             }
             
             return separateQuals;
@@ -922,7 +929,7 @@ public class DataProviderH2 implements IDataProvider{
     }
 
     @Override
-    public int calculateAssessmentWithOthers(ResultAnalisys resultAnalisys) {
+    public Result calculateAssessmentWithOthers(ResultAnalisys resultAnalisys) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

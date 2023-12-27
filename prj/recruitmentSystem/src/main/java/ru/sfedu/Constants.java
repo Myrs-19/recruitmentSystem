@@ -127,7 +127,6 @@ public class Constants {
             .concat("(")
             .concat("id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, ")
             .concat("companyId INTEGER NOT NULL REFERENCES ").concat(TITLE_TABLE_COMPANY).concat("(id) ON DELETE CASCADE ON UPDATE CASCADE, ")
-            .concat("employeeId INTEGER NOT NULL REFERENCES ").concat(TITLE_TABLE_COMPANY).concat("(id) ON DELETE NO ACTION ON UPDATE NO ACTION, ")
             .concat("quality INTEGER NOT NULL, ")
             .concat("description VARCHAR(256)")
             .concat(");");
@@ -147,8 +146,8 @@ public class Constants {
     public static final String H2_QUERY_INSERT_VACANCY = String.format("INSERT INTO %s (companyId, title, specialization, online, skills, salary, city, address, experience) ", TITLE_TABLE_VACANCY)
             .concat("VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
-    public static final String H2_QUERY_INSERT_SEPARATE_QUAL = String.format("INSERT INTO %s (companyId, employeeId, quality, description) ", TITLE_TABLE_SEPARATE_QUAL)
-            .concat("VALUES(?, ?, ?, ?)");
+    public static final String H2_QUERY_INSERT_SEPARATE_QUAL = String.format("INSERT INTO %s (companyId, quality, description) ", TITLE_TABLE_SEPARATE_QUAL)
+            .concat("VALUES(?, ?, ?)");
     
     public static final String H2_QUERY_GET_RECORD_BY_ID = "SELECT * FROM %s WHERE id = %d";
     
@@ -164,7 +163,7 @@ public class Constants {
     
     public static final String H2_QUERY_UPDATE_VACANCY = String.format("UPDATE %s SET companyId = ?, title = ?, specialization = ?, online = ?, skills = ?, salary = ?, city = ?, address = ?, experience = ? ", TITLE_TABLE_VACANCY).concat(" WHERE id = %d");
     
-    public static final String H2_QUERY_UPDATE_SEPARATE_QUAL = String.format("UPDATE %s SET companyId = ?, employeeId = ?, quality = ?, description = ? ", TITLE_TABLE_SEPARATE_QUAL).concat(" WHERE id = %d");
+    public static final String H2_QUERY_UPDATE_SEPARATE_QUAL = String.format("UPDATE %s SET companyId = ?, quality = ?, description = ? ", TITLE_TABLE_SEPARATE_QUAL).concat(" WHERE id = %d");
     
     public static final String H2_QUERY_DELETE_RECORD_BY_ID = "DELETE FROM %s WHERE id = %d";
             

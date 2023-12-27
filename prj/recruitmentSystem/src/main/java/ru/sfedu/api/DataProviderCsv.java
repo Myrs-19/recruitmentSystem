@@ -1148,8 +1148,7 @@ public class DataProviderCsv implements IDataProvider{
                 
             log.debug("giveAssessment [1]: установка объекту оценки поле company");
             separateQual.setCompany(getCompany(idCompany));
-            log.debug("giveAssessment [1]: установка объекту оценки поле employee");
-            separateQual.setEmployee(getEmployee(idEmployee));
+            
             separateQual.setDescription(description);
             separateQual.setQuality(quality);
                 
@@ -1185,12 +1184,89 @@ public class DataProviderCsv implements IDataProvider{
     }
 
     @Override
-    public Result calculateAssessment(int idCompany, boolean others) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Result calculateAssessment(int idCompany, boolean others) throws NoSuchElementException{
+        log.debug("calculateAssessment [1]: calculate assessment, idCompany = {}", idCompany);
+        
+        Company company = getCompany(idCompany);
+        Result result = new Result();
+        
+        try{
+            
+            log.debug("calculateAssessment [2]: get all quals");
+            List<SeparateQual> separateQuals = getAllSeparateQuals();
+            separateQuals = separateQuals.stream()
+                    .filter((separateQual) -> separateQual.getCompany().getId() == idCompany)
+                    .toList();
+            
+            ResultAnalisys resultAnalisys = getResultAnalisys(company, separateQuals);
+            
+            log.debug("calculateAssessment [3]: check extend");
+            if(others){
+                calculateAssessmentWithOthers(resultAnalisys);
+            }
+            
+            log.debug("calculateAssessment [4]: generate result file");
+            generateResultFile(resultAnalisys);
+            
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+            
+        } catch(NullPointerException ex){
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+            log.error("calculateAssessment [5]: error = {}", ex.getMessage());
+        }
+        
+        return result;
     }
 
     @Override
-    public int calculateAssessmentWithOthers(ResultAnalisys resultAnalisys) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Result calculateAssessmentWithOthers(ResultAnalisys resultAnalisys) {
+        log.debug("calculateAssessmentWithOthers[1]: resultAnalisys = {}", resultAnalisys.getResult());
+        Result result = new Result();
+        
+        try{
+            
+            List<Company> companies = getAllCompanies();
+            List<SeparateQual> separateQuals = getAllSeparateQuals();
+            int place = 0;
+            for(Company cmp : companies){
+            
+                log.debug("calculateAssessmentWithOthers[2]: расчет среднего, company = {}", cmp);
+                ResultAnalisys tempResultAnalisys = getResultAnalisys(
+                        cmp, 
+                        separateQuals.stream()
+                        .filter((separateQual) -> separateQual.getCompany().getId() == cmp.getId())
+                        .toList());
+            
+                if(resultAnalisys.getResult() > tempResultAnalisys.getResult()){
+                    place++;
+                }
+            }
+            
+            resultAnalisys.setPlace(place);
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        } catch(Exception ex){
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+            log.error("calculateAssessmentWithOthers[3]: error = {}", ex.getMessage());
+        }
+        
+        return result;
+    }
+    
+    private ResultAnalisys getResultAnalisys(Company company, List<SeparateQual> separateQuals){
+        log.debug("getResultAnalisys[1]: company = {}", company);
+        
+        int count = separateQuals.size();
+        double sum = separateQuals.stream()
+                .mapToInt((separateQual) -> (separateQual.getQuality()))
+                .sum();
+            
+        double avg = sum / count;
+        ResultAnalisys resultAnalisys = new ResultAnalisys(avg, company);
+            
+        return resultAnalisys;
     }
 }

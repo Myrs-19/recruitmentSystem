@@ -184,7 +184,6 @@ public class h2Util {
             
         separateQual.setId(res.getInt(1));
 //        separateQual.setCompanyId(res.getInt(2));
-//        separateQual.setEmployeeId(res.getInt(3));
         separateQual.setQuality(res.getInt(4));
         separateQual.setDescription(res.getString(5));
         
@@ -238,8 +237,7 @@ public class h2Util {
      */
     public static void fillStatSeparateQual(PreparedStatement preStat, SeparateQual separateQual) throws SQLException{
         preStat.setInt(1, separateQual.getCompany().getId());
-        preStat.setInt(2, separateQual.getEmployee().getId());
-        preStat.setInt(3, separateQual.getQuality());
-        preStat.setString(4, separateQual.getDescription());
+        preStat.setInt(2, separateQual.getQuality());
+        preStat.setString(3, separateQual.getDescription());
     }
 }

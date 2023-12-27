@@ -178,27 +178,10 @@ public class DataProviderH2Test{
         company.setTitle("company test save employee");
         company.setDescription("xml test save");
         
-        Employee employee = new Employee();
-        employee.setTypePerson(TypePerson.EmployeeType);  
-        
-        employee.setCompany(company);
-        
-        employee.setId(1);
-        employee.setName("nameEmployee");
-        employee.setSurname("surnameEmployee");
-        employee.setMiddleName("middleNameEmployee");
-        employee.setAge(33);
-        employee.setBirthday("12-06-2003");
-        employee.setPhone("89964095446");
-        employee.setEmail("mseleznev@sfedu.ru");
-        employee.setSalary(350000);
-        employee.setPosition("head of yandex");
-        employee.setIsWorking(false);
         
         SeparateQual separateQual = new SeparateQual();
         
         separateQual.setCompany(company);
-        separateQual.setEmployee(employee);
         separateQual.setQuality(7);
         
         Result result = dp.saveSeparateQual(separateQual);
@@ -343,7 +326,6 @@ public class DataProviderH2Test{
             SeparateQual separateQual = dp.getSeparateQual(id); 
             System.out.println(separateQual); 
             System.out.println(separateQual.getCompany()); 
-            System.out.println(separateQual.getEmployee());
         } catch(NullPointerException ex){
             System.out.println(ex.getMessage());
         }
@@ -592,7 +574,6 @@ public class DataProviderH2Test{
         
         separateQual.setId(1);
         separateQual.setCompany(company);
-        separateQual.setEmployee(employee);
         separateQual.setQuality(10);
         separateQual.setDescription("nice");
         

@@ -178,25 +178,11 @@ public class DataProviderCsvTest {
         company.setTitle("company test save employee");
         company.setDescription("csv test save");
         
-        Employee employee = new Employee();
-            
-        employee.setId(1);
-        employee.setName("nameEmployee");
-        employee.setSurname("surnameEmployee");
-        employee.setMiddleName("middleNameEmployee");
-        employee.setAge(33);
-        employee.setBirthday("12-06-2003");
-        employee.setPhone("89964095446");
-        employee.setEmail("mseleznev@sfedu.ru");
-        employee.setSalary(350000);
-        employee.setPosition("head of yandex");
-        employee.setIsWorking(false);
-        
         SeparateQual separateQual = new SeparateQual();
         
         separateQual.setCompany(company);
-        separateQual.setEmployee(employee);
         separateQual.setQuality(7);
+        separateQual.setDescription("desc");
         
         Result result = dp.saveSeparateQual(separateQual);
        
@@ -559,25 +545,10 @@ public class DataProviderCsvTest {
         company.setTitle("company test update separateQual");
         company.setDescription("csv update save");
         
-        Employee employee = new Employee();
-            
-        employee.setId(1);
-        employee.setName("nameEmployee");
-        employee.setSurname("surnameEmployee");
-        employee.setMiddleName("middleNameEmployee");
-        employee.setAge(33);
-        employee.setBirthday("12-06-2003");
-        employee.setPhone("89964095446");
-        employee.setEmail("mseleznev@sfedu.ru");
-        employee.setSalary(350000);
-        employee.setPosition("head of yandex");
-        employee.setIsWorking(false);
-        
         SeparateQual separateQual = new SeparateQual();
         
         separateQual.setId(1);
         separateQual.setCompany(company);
-        separateQual.setEmployee(employee);
         separateQual.setQuality(10);
         separateQual.setDescription("nice");
         
@@ -775,5 +746,59 @@ public class DataProviderCsvTest {
         assertEquals(Constants.CODE_ERROR, result.getCode());
         
 //        tearDownClass();
+    }
+    
+    @Test
+    @Order(38)
+    public void testcalculateAssessmentPositive(){
+        tearDownClass();
+        dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        System.out.println("testcalculateAssessmentPositive");
+        
+        Company company = new Company();
+        int idCompany = 1;
+        company.setTitle("company test save company");
+        company.setDescription("csv test save");
+        
+        dp.saveCompany(company);
+        
+        for(int i = 0; i < 3; i++){
+            SeparateQual separateQual = new SeparateQual();
+        
+            separateQual.setCompany(company);
+            separateQual.setQuality(3+i);
+            separateQual.setDescription("desc");
+            dp.saveSeparateQual(separateQual);
+        }
+        
+        Result result = dp.calculateAssessment(1, false);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());
+    }
+    
+    @Test
+    @Order(39)
+    public void testcalculateAssessmentPositive(){
+        tearDownClass();
+        dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        System.out.println("testcalculateAssessmentPositive");
+        
+        Company company = new Company();
+        int idCompany = 1;
+        company.setTitle("company test save company");
+        company.setDescription("csv test save");
+        
+        dp.saveCompany(company);
+        
+        for(int i = 0; i < 3; i++){
+            SeparateQual separateQual = new SeparateQual();
+        
+            separateQual.setCompany(company);
+            separateQual.setQuality(3+i);
+            separateQual.setDescription("desc");
+            dp.saveSeparateQual(separateQual);
+        }
+        
+        Result result = dp.calculateAssessment(1, false);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());
     }
 }

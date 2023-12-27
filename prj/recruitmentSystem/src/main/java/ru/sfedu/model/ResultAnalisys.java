@@ -9,21 +9,25 @@ package ru.sfedu.model;
  * @author mike
  */
 public class ResultAnalisys {
-    int result;
+    Double result;
     Company company;
     int place;
 
-    public ResultAnalisys(int result, Company company, int place) {
+    public ResultAnalisys(Double result, Company company) {
+        setResult(result);
+        setCompany(company);
+    }
+    public ResultAnalisys(Double result, Company company, int place) {
         setResult(result);
         setCompany(company);
         setPlace(place);
     }
 
-    public int getResult() {
+    public Double getResult() {
         return result;
     }
 
-    public void setResult(int result) {
+    public void setResult(Double result) {
         this.result = result;
     }
 

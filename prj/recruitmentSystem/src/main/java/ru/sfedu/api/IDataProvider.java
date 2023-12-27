@@ -284,7 +284,7 @@ public interface IDataProvider {
     Result calculateAssessment(int idCompany, boolean others);
     
     
-    int calculateAssessmentWithOthers(ResultAnalisys resultAnalisys);
+    Result calculateAssessmentWithOthers(ResultAnalisys resultAnalisys);
     
     
     default void generateResultFile(ResultAnalisys resultAnalisys){

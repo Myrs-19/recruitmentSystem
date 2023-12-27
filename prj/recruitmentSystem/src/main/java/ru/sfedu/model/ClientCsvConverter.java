@@ -30,11 +30,11 @@ public class ClientCsvConverter extends AbstractBeanField<Company, Integer>{
         
         String[] fields = string.split("#");
         
-        client.setId(Integer.valueOf(fields[0]));
+        client.setId(Integer.parseInt(fields[0]));
         client.setName(fields[1]);
         client.setSurname(fields[2]);
         client.setMiddleName(fields[3]);
-        client.setAge(Integer.valueOf(fields[4]));
+        client.setAge(Integer.parseInt(fields[4]));
         client.setBirthday(fields[5]);
         client.setPhone(fields[6]);
         client.setEmail(fields[7]);
