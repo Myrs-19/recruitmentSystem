@@ -913,24 +913,195 @@ public class DataProviderH2 implements IDataProvider{
         return result;
     }
 
+    /** See also {@link IDataProvider#giveAssessment(int)}. */
     @Override
     public Result giveAssessment(int idEmployee, int idCompany, int quality, String description){
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("giveAssessment [1]: Даем оценку компании, id employee = {}, id company = {}, quality = {}", idEmployee, idCompany, quality);
+        Result result = new Result();
+
+        if(checkQuality(quality) && checkDealTogether(idEmployee, idCompany)){
+            
+            SeparateQual separateQual = new SeparateQual();
+                
+            log.debug("giveAssessment [1]: установка объекту оценки поле company");
+            separateQual.setCompany(getCompany(idCompany));
+            
+            separateQual.setDescription(description);
+            separateQual.setQuality(quality);
+                
+            result = saveSeparateQual(separateQual);
+            log.debug("giveAssessment [2]: результат сохранения, result = {}", result.getMessage());
+        }
+        else{
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
+        }
+        
+        return result;
     }
 
+    /** See also {@link IDataProvider#checkDealTogether(int, int)}. */
     @Override
     public boolean checkDealTogether(int idEmployee, int idCompany) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("checkDealTogether [1]: checking deal");
+        try{
+            getCompany(idCompany);
+        } catch(NullPointerException ex){
+            log.debug("checkDealTogether [2]: такой компании нет, id company = {}", idCompany);
+            return false;
+        }
+        
+        try{
+            Employee employee = getEmployee(idEmployee);
+            return employee.getCompany().getId() == idCompany;
+        } catch(NullPointerException ex){
+            log.debug("checkDealTogether [2]: такого сотрудника нет, id employee = {}", idEmployee);
+        }
+        
+        return false;
     }
 
+    /** See also {@link IDataProvider#calculateAssessment(int, boolean)}. */
     @Override
     public Result calculateAssessment(int idCompany, boolean others) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("calculateAssessment [1]: calculate assessment, idCompany = {}", idCompany);
+        
+        Result result = new Result();
+        
+        try{
+            Company company = getCompany(idCompany);
+            
+            log.debug("calculateAssessment [2]: get all quals");
+            List<SeparateQual> separateQuals = getAllSeparateQuals();
+            separateQuals = separateQuals.stream()
+                    .filter((separateQual) -> separateQual.getCompany().getId() == idCompany)
+                    .toList();
+            
+            ResultAnalisys resultAnalisys = getResultAnalisys(company, separateQuals);
+            
+            log.debug("calculateAssessment [3]: check extend");
+            if(others){
+                calculateAssessmentWithOthers(resultAnalisys);
+            }
+            
+            log.debug("calculateAssessment [4]: generate result file");
+            generateResultFile(resultAnalisys);
+            
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+            
+        } catch(NullPointerException ex){
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+            log.error("calculateAssessment [5]: error = {}", ex.getMessage());
+        }
+        
+        return result;
     }
 
+    /** See also {@link IDataProvider#calculateAssessmentWithOthers(ResultAnalisys)}. */
     @Override
     public Result calculateAssessmentWithOthers(ResultAnalisys resultAnalisys) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        log.debug("calculateAssessmentWithOthers[1]: resultAnalisys = {}", resultAnalisys.getResult());
+        Result result = new Result();
+        
+        try{
+            
+            List<Company> companies = getAllCompanies();
+            List<SeparateQual> separateQuals = getAllSeparateQuals();
+            int place = Constants.DEFAULT_PLACE_COMPANY;
+            for(Company cmp : companies){
+            
+                log.debug("calculateAssessmentWithOthers[2]: расчет среднего, company = {}", cmp);
+                ResultAnalisys tempResultAnalisys = getResultAnalisys(
+                        cmp, 
+                        separateQuals.stream()
+                        .filter((separateQual) -> separateQual.getCompany().getId() == cmp.getId())
+                        .toList());
+            
+                if(resultAnalisys.getResult() > tempResultAnalisys.getResult()){
+                    place++;
+                }
+            }
+            
+            resultAnalisys.setPlace(place);
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        } catch(Exception ex){
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+            log.error("calculateAssessmentWithOthers[3]: error = {}", ex.getMessage());
+        }
+        
+        return result;
+    }
+
+    /** See also {@link IDataProvider#hireEmployee(int, int, boolean)}. */
+    @Override
+    public Result hireEmployee(int idResume, int idVacancy, boolean test){
+        log.debug("hireEmployee [1]: hiring employee, id resume = {}, id vacancy = {}", idResume, idVacancy);
+        Result result = new Result();
+        try{
+            Resume resume = getResume(idResume);
+            Vacancy vacancy = getVacancy(idVacancy);
+            Client client = getClient(resume.getClient().getId());
+            
+            Employee employee = new Employee();
+            
+            employee.setTypePerson(TypePerson.EmployeeType);
+            
+            employee.setName(client.getName());
+            employee.setSurname(client.getSurname());
+            employee.setMiddleName(client.getMiddleName());
+            employee.setAge(client.getAge());
+            employee.setBirthday(client.getBirthday());
+            employee.setPhone(client.getPhone());
+            employee.setEmail(client.getEmail());
+            employee.setCompany(vacancy.getCompany());
+            employee.setSalary(vacancy.getSalary());
+            employee.setPosition(vacancy.getTitle());
+            employee.setIsWorking(true);
+            
+            savePerson(employee);
+            
+            log.debug("hireEmployee [2]: send hire message");
+            sendHireMessage(employee.getEmail(), vacancy);
+            
+            if(test){
+                log.debug("hireEmployee [3]: send test message");
+                sendTestMessage(employee.getEmail(), vacancy);
+            }
+            
+            log.debug("hireEmployee [4]: Человек успешно нанят");
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        } catch(NullPointerException ex){
+            log.error("hireEmployee [5]: {}", Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Method filles ResultAnalisys
+     * @param company - company
+     * @param separateQuals  - list of company sepatareQuals
+     * @return ResultAnalisys
+     **/
+    private ResultAnalisys getResultAnalisys(Company company, List<SeparateQual> separateQuals){
+        log.debug("getResultAnalisys[1]: company = {}", company);
+        
+        int count = separateQuals.size();
+        double sum = separateQuals.stream()
+                .mapToInt((separateQual) -> (separateQual.getQuality()))
+                .sum();
+            
+        double avg = sum / count;
+        ResultAnalisys resultAnalisys = new ResultAnalisys(avg, company);
+            
+        return resultAnalisys;
     }
     
     

@@ -184,8 +184,8 @@ public class h2Util {
             
         separateQual.setId(res.getInt(1));
 //        separateQual.setCompanyId(res.getInt(2));
-        separateQual.setQuality(res.getInt(4));
-        separateQual.setDescription(res.getString(5));
+        separateQual.setQuality(res.getInt(3));
+        separateQual.setDescription(res.getString(4));
         
         return separateQual;
     }

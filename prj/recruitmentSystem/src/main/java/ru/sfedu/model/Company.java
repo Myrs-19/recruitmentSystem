@@ -13,15 +13,15 @@ import org.simpleframework.xml.Root;
 public class Company {
     @Element
     @CsvBindByPosition(position = 0)
-    int id;
+    private int id;
     
     @Element
     @CsvBindByPosition(position = 1)
-    String title;
+    private String title;
     
     @Element
     @CsvBindByPosition(position = 2)
-    String description;
+    private String description;
     
     public Company(){}
 

@@ -6,6 +6,7 @@ package ru.sfedu.api;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -37,12 +38,12 @@ public class DataProviderH2Test{
         dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
     }
     
-//    @AfterAll
-//    public static void tearDownClass() {
-//        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.H2_PATH)).concat(Constants.H2_DB_NAME).concat(".trace.db"));
-//        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.H2_PATH)).concat(Constants.H2_DB_NAME).concat(".mv.db"));
-//        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.H2_PATH)));
-//    }
+    @AfterAll
+    public static void tearDownClass() {
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.H2_PATH)).concat(Constants.H2_DB_NAME).concat(".trace.db"));
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.H2_PATH)).concat(Constants.H2_DB_NAME).concat(".mv.db"));
+        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.H2_PATH)));
+    }
     
     @BeforeEach
     public void setUp() {
@@ -636,5 +637,405 @@ public class DataProviderH2Test{
         int id = 1;
         Result result = dp.deleteSeparateQual(id);
         System.out.println(result);
+    }
+    
+    //tests of use case diagramms
+    
+    @Test
+    public void testCheckQualityPositive(){
+        System.out.println("testCheckQualityPositive");
+        IDataProvider dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        for(int i = 0; i <= 10; i++){
+            assertEquals(true, dp.checkQuality(i));
+        }
+    }
+    
+    @Test
+    public void testCheckQualityNegative(){
+        System.out.println("testCheckQualityNegative");
+        IDataProvider dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        assertEquals(false, dp.checkQuality(-1));
+        assertEquals(false, dp.checkQuality(11));
+        
+    }
+    
+    @Test
+    @Order(37)
+    public void testcheckDealTogetherPositive(){
+        tearDownClass();
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        System.out.println("testcheckDealTogetherPositive");
+        
+        Company company = new Company();
+        company.setId(1);
+        company.setTitle("company test save company");
+        company.setDescription("csv test save");
+        
+        Employee employee = new Employee();
+        employee.setTypePerson(TypePerson.EmployeeType);
+        employee.setCompany(company);
+        employee.setId(1);
+        
+        employee.setName("nameEmployee");
+        employee.setSurname("surnameEmployee");
+        employee.setMiddleName("middleNameEmployee");
+        employee.setAge(33);
+        employee.setBirthday("12-06-2003");
+        employee.setPhone("89964095446");
+        employee.setEmail("mseleznev@sfedu.ru");
+        
+        employee.setSalary(350000);
+        employee.setPosition("head of yandex");
+        employee.setIsWorking(false);
+        
+        System.out.println("save company");
+        dp.saveCompany(company);
+        System.out.println("save employee");
+        dp.savePerson(employee);
+        
+        System.out.println("checking");
+        int idEmployee = 1;
+        int idCompany = 1;
+        assertEquals(true, dp.checkDealTogether(idEmployee, idCompany));
+        
+        tearDownClass();
+    }
+    
+    @Test
+    @Order(38)
+    public void testcheckDealTogetherNegative(){
+        tearDownClass();
+        System.out.println("testCheckQualityNegative");
+        assertEquals(false, dp.checkDealTogether(1, 1));
+    }
+    
+    @Test
+    @Order(39)
+    public void testGiveAssessmentPositive(){
+        tearDownClass();
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        System.out.println("testcheckDealTogetherPositive");
+        
+        Company company = new Company();
+        company.setId(1);
+        company.setTitle("company test save company");
+        company.setDescription("csv test save");
+        
+        Employee employee = new Employee();
+        employee.setTypePerson(TypePerson.EmployeeType);
+        employee.setCompany(company);  
+        employee.setId(1);  
+        
+        employee.setName("nameEmployee");
+        employee.setSurname("surnameEmployee");
+        employee.setMiddleName("middleNameEmployee");
+        employee.setAge(33);
+        employee.setBirthday("12-06-2003");
+        employee.setPhone("89964095446");
+        employee.setEmail("mseleznev@sfedu.ru");
+        
+        employee.setSalary(350000);
+        employee.setPosition("head of yandex");
+        employee.setIsWorking(false);
+        
+        System.out.println("save company");
+        dp.saveCompany(company);
+        System.out.println("save employee");
+        dp.savePerson(employee);
+        
+        System.out.println("checking");
+        int idEmployee = 1;
+        int idCompany = 1;
+        int quality = 3;
+        String description = "probably";
+        
+        Result result = dp.giveAssessment(idEmployee, idCompany, quality, description);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());
+        
+        tearDownClass();
+    }
+    
+    @Test
+    @Order(40)
+    public void testGiveAssessmentNegative(){
+        tearDownClass();
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        System.out.println("testGiveAssessmentNegative");
+        
+        System.out.println("checking");
+        int idEmployee = 1;
+        int idCompany = 1;
+        int quality = 3;
+        String description = "probably";
+        
+        Result result = dp.giveAssessment(idEmployee, idCompany, quality, description);
+        assertEquals(Constants.CODE_ERROR, result.getCode());
+        
+//        tearDownClass();
+    }
+    
+    @Test
+    @Order(41)
+    public void testcalculateAssessmentFALSEPositive(){
+        tearDownClass();
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        System.out.println("testcalculateAssessmentFALSEPositive");
+        
+        Company company = new Company();
+        int idCompany = 1;
+        company.setTitle("company test save company");
+        company.setId(1);
+        company.setDescription("csv test save");
+        
+        dp.saveCompany(company);
+        
+        for(int i = 0; i < 3; i++){
+            SeparateQual separateQual = new SeparateQual();
+        
+            separateQual.setCompany(company);
+            separateQual.setQuality(3+i);
+            separateQual.setDescription("desc");
+            dp.saveSeparateQual(separateQual);
+        }
+        
+        Result result = dp.calculateAssessment(1, false);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());
+    }
+    
+    @Test
+    @Order(42)
+    public void testcalculateAssessmentFALSENegative(){
+        tearDownClass();
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        System.out.println("testcalculateAssessmentFALSENegative");
+        
+        Result result = dp.calculateAssessment(1, false);
+        assertEquals(Constants.CODE_ERROR, result.getCode());
+    }
+    
+    @Test
+    @Order(43)
+    public void testcalculateAssessmentTRUEPositive(){
+        tearDownClass();
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        System.out.println("testcalculateAssessmentTRUEPositive");
+        
+        for(int i = 1; i <= 3; i++){
+            Company company = new Company();
+            
+            company.setTitle("company test save company");
+            company.setDescription("csv test save");
+            company.setId(i);
+
+            dp.saveCompany(company);
+
+            for(int j = 0; j < 3; j++){
+                SeparateQual separateQual = new SeparateQual();
+
+                separateQual.setCompany(company);
+                separateQual.setQuality(1+i+j);
+                separateQual.setDescription("desc");
+                dp.saveSeparateQual(separateQual);
+            }
+        }
+        
+        int idCompany = 3;
+        Result result = dp.calculateAssessment(idCompany, true);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());
+    }
+    
+    @Test
+    @Order(44)
+    public void testcalculateAssessmentTRUENegative(){
+        System.out.println("testcalculateAssessmentTRUENegative");
+        tearDownClass();
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        Result result = dp.calculateAssessment(1, true);
+        assertEquals(Constants.CODE_ERROR, result.getCode());
+    }
+    
+    @Test
+    @Order(45)
+    public void testCalculateAssessmentWithOthers(){
+        tearDownClass();
+        System.out.println("testCalculateAssessmentWithOthers");
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        for(int i = 1; i <= 3; i++){
+            Company company = new Company();
+            
+            company.setTitle("company test save company");
+            company.setDescription("csv test save");
+            company.setId(i);
+
+            dp.saveCompany(company);
+
+            for(int j = 0; j < 3; j++){
+                SeparateQual separateQual = new SeparateQual();
+
+                separateQual.setCompany(company);
+                separateQual.setQuality(1+i+j);
+                separateQual.setDescription("desc");
+                dp.saveSeparateQual(separateQual);
+            }
+        }
+        
+        Company company = new Company();
+        company.setId(1);
+        company.setTitle("title");
+        company.setDescription("desc");
+        
+        ResultAnalisys resultAnalisys = new ResultAnalisys(0.0, company);
+        
+        Result result = dp.calculateAssessmentWithOthers(resultAnalisys);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());
+    }
+    
+    @Test
+    @Order(46)
+    public void testHireEmployeePositiveFALSE(){
+        tearDownClass();
+        System.out.println("testHireEmployeePositiveFALSE");
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        //client
+        Client client = new Client();
+        client.setTypePerson(TypePerson.ClientType);
+        client.setId(1);
+        client.setName("nameClient");
+        client.setSurname("nameSurname");
+        client.setMiddleName("middleNameClient");
+        client.setAge(32);
+        client.setBirthday("12-06-2003");
+        client.setPhone("89996940159");
+        client.setEmail("my.rs@mail.ru");
+        client.setPassword("pipipipi");
+        client.setAddress("address zorge 28/2");
+        
+        dp.savePerson(client);
+        
+        //resume
+        Resume resume = new Resume();
+        resume.setId(1);
+        resume.setClient(client);
+        resume.setCity("rostov");
+        resume.setProfession("developer");
+        resume.setSkills("OOP, SOAP");
+        resume.setEducation("3 years graduation");
+        resume.setExperience("3 years as manager");
+        resume.setSex(true);
+        resume.setWorkPermit(true);
+        resume.setCitizenship("Russian");
+        
+        dp.saveResume(resume);
+        
+        //company
+        Company company = new Company();
+        company.setId(1);
+        company.setTitle("title");
+        company.setDescription("desc");
+        
+        dp.saveCompany(company);
+        
+        //vacancy
+        Vacancy vacancy = new Vacancy();
+        
+        vacancy.setId(1);
+        vacancy.setCompany(company);
+        vacancy.setTitle("java");
+        vacancy.setSpecialization("java");
+        vacancy.setOnline(false);
+        vacancy.setSkills("OOP");
+        vacancy.setSalary(35000);
+        vacancy.setCity("Rostov");
+        vacancy.setAddress("Center of Rostov");
+        vacancy.setExperience("1 years");
+        
+        dp.saveVacancy(vacancy);
+    
+        int idResume = 1;
+        int idVacancy = 1;
+        Result result = dp.hireEmployee(idResume, idVacancy, false);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());
+    }
+    
+    @Test
+    @Order(47)
+    public void testHireEmployeeNegativeFALSE(){
+        tearDownClass();
+        System.out.println("testHireEmployeeNegativeFALSE");
+        dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        int idResume = 1;
+        int idVacancy = 1;
+        Result result = dp.hireEmployee(idResume, idVacancy, false);
+        assertEquals(Constants.CODE_ERROR, result.getCode());
+    }
+    
+    @Test
+    @Order(48)
+    public void testSendHireMessage(){
+        System.out.println("testSendHireMessage");
+        
+        String email = "mseleznev@sfedu.ru";
+        
+        //company
+        Company company = new Company();
+        company.setId(1);
+        company.setTitle("title");
+        company.setDescription("desc");
+        
+        //vacancy
+        Vacancy vacancy = new Vacancy();
+        vacancy.setId(1);
+        vacancy.setCompany(company);
+        vacancy.setTitle("java");
+        vacancy.setSpecialization("java");
+        vacancy.setOnline(false);
+        vacancy.setSkills("OOP");
+        vacancy.setSalary(35000);
+        vacancy.setCity("Rostov");
+        vacancy.setAddress("Center of Rostov");
+        vacancy.setExperience("1 years");
+        
+        IDataProvider dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+
+        Result result = dp.sendHireMessage(email, vacancy);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());
+    }
+    
+    @Test
+    @Order(49)
+    public void testSendTestMessage(){
+        System.out.println("testSendHireMessage");
+        
+        String email = "mseleznev@sfedu.ru";
+        
+        //company
+        Company company = new Company();
+        company.setId(1);
+        company.setTitle("title");
+        company.setDescription("desc");
+        
+        //vacancy
+        Vacancy vacancy = new Vacancy();
+        
+        vacancy.setCompany(company);
+        vacancy.setId(1);
+        vacancy.setTitle("java");
+        vacancy.setSpecialization("java");
+        vacancy.setOnline(false);
+        vacancy.setSkills("OOP");
+        vacancy.setSalary(35000);
+        vacancy.setCity("Rostov");
+        vacancy.setAddress("Center of Rostov");
+        vacancy.setExperience("1 years");
+        
+        IDataProvider dp = new DataProviderH2(Constants.TEST_MAIN_FOLDER_PATH);
+
+        Result result = dp.sendTestMessage(email, vacancy);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());
     }
 }

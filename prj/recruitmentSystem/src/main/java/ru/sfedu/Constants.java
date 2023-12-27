@@ -3,6 +3,14 @@ package ru.sfedu;
 import static ru.sfedu.util.ConfigurationUtilProperties.getConfigurationEntry;
 
 public class Constants {  
+    public static final String PROP_MAIL = "mail.properties";
+    public static final String USERNAME_MAIL = "miha.seleznv.98@gmail.com";
+    public static final String PASSWORD_MAIL = "fcew qikt wuxm qvbr";
+    public static final String SUBJECT_MAIL = "ВАС НАНЯЛИ!!!";
+    public static final String TEXT_MESSAGE_HAIR_MAIL = "вы были наняты на позицию %s, с зарплатой %d";
+    public static final String TEXT_MESSAGE_TEST_MAIL = "вы были наняты на позицию %s, с зарплатой %d, но вас просят пройти тест, свяжитесь с компанией по адресу: %s";
+    
+    
     public static final String XML_PATH_FOLDER = "ru.sfedu.xml.folder";
     public static final String XML_FILE_TYPE = ".xml";
     
@@ -187,12 +195,10 @@ public class Constants {
     public static final String CLI_H2 = "H2";
     public static final String CLI_CSV = "CSV";
     
-    public static final String CLI_REGISTRATION_CLIENTALL = "-clientAll";
     public static final String CLI_REGISTRATION_CLIENT = "-client";
     public static final String CLI_CHANGE_CLIENT = "-clientChange";
     public static final String CLI_DELETE_CLIENT = "-clientD";
     
-    public static final String CLI_REGISTRATION_RESUMEALL = "-resumeAll";
     public static final String CLI_REGISTRATION_RESUME = "-resume";
     public static final String CLI_CHANGE_RESUME = "-resumeChange";
     public static final String CLI_DELETE_RESUME = "-resumeD";
@@ -201,7 +207,6 @@ public class Constants {
     public static final String CLI_CHANGE_COMPANY = "-companyChange";
     public static final String CLI_DELETE_COMPANY = "-companyD";
     
-    public static final String CLI_REGISTRATION_VACANCYALL = "-vacancyAll";
     public static final String CLI_REGISTRATION_VACANCY = "-vacancy";
     public static final String CLI_CHANGE_VACANCY = "-vacancyChange";
     public static final String CLI_DELETE_VACANCY = "-vacancyD";

@@ -10,43 +10,43 @@ import org.simpleframework.xml.Root;
 public class Vacancy {
     @Element
     @CsvBindByPosition(position = 0)
-    int id;
+    private int id;
     
     @Element
     @CsvCustomBindByPosition(position = 1, converter = CompanyCsvConverter.class)
-    Company company;
+    private Company company;
     
     @Element
     @CsvBindByPosition(position = 2)
-    String title;
+    private String title;
     
     @Element
     @CsvBindByPosition(position = 3)
-    String specialization;
+    private String specialization;
     
     @Element
     @CsvBindByPosition(position = 4)
-    boolean online;
+    private boolean online;
     
     @Element
     @CsvBindByPosition(position = 5)
-    String skills;
+    private String skills;
     
     @Element
     @CsvBindByPosition(position = 6)
-    int salary;
+    private int salary;
     
     @Element
     @CsvBindByPosition(position = 7)
-    String city;
+    private String city;
     
     @Element
     @CsvBindByPosition(position = 8)
-    String address;
+    private String address;
     
     @Element
     @CsvBindByPosition(position = 9)
-    String experience;
+    private String experience;
     
     
     public Vacancy(){}

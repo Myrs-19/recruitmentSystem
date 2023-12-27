@@ -8,19 +8,19 @@ import org.simpleframework.xml.Root;
 public class SeparateQual {
     @Element
     @CsvBindByPosition(position = 0)
-    int id;
+    private int id;
     
     @Element
     @CsvCustomBindByPosition(position = 1, converter = CompanyCsvConverter.class)
-    Company company;
+    private Company company;
 
     @Element
     @CsvBindByPosition(position = 2)
-    int quality;
+    private int quality;
     
     @Element(required = false)
     @CsvBindByPosition(position = 3)
-    String description;
+    private String description;
 
     public int getId() {
         return id;
