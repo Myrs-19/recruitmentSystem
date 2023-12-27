@@ -909,5 +909,25 @@ public class DataProviderXml implements IDataProvider{
         
         return result;
     }
+
+    @Override
+    public Result giveAssessment(int idEmployee, int idCompany, int quality, String description){
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean checkDealTogether(int idEmployee, int idCompany) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Result calculateAssessment(int idCompany, boolean others) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public int calculateAssessmentWithOthers(ResultAnalisys resultAnalisys) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }

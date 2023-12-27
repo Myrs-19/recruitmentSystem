@@ -16,7 +16,7 @@ public class SeparateQual {
     
     @Element
     @CsvBindByPosition(position = 2)
-    int employeeId;
+    Employee employee;
     
     @Element
     @CsvBindByPosition(position = 3)
@@ -42,12 +42,12 @@ public class SeparateQual {
         this.company = company;
     }
 
-    public int getEmployeeId() {
-        return employeeId;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public int getQuality() {
@@ -73,7 +73,7 @@ public class SeparateQual {
         return "SeparateQual{" +
                 "id = " + getId() +
                 ", companyId = " + company.getId()+
-                ", employeeId = " + getEmployeeId()+
+                ", employeeId = " + getEmployee().getId()+
                 ", quality = " + getQuality()+
                 '}';
     }

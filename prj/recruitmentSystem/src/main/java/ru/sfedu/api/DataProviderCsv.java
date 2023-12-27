@@ -1135,4 +1135,62 @@ public class DataProviderCsv implements IDataProvider{
         }
         return result;
     }
+    
+    /** See also {@link IDataProvider#giveAssessment(int)}. */
+    @Override
+    public Result giveAssessment(int idEmployee, int idCompany, int quality, String description){
+        log.debug("giveAssessment [1]: Даем оценку компании, id employee = {}, id company = {}, quality = {}", idEmployee, idCompany, quality);
+        Result result = new Result();
+
+        if(checkQuality(quality) && checkDealTogether(idEmployee, idCompany)){
+            
+            SeparateQual separateQual = new SeparateQual();
+                
+            log.debug("giveAssessment [1]: установка объекту оценки поле company");
+            separateQual.setCompany(getCompany(idCompany));
+            log.debug("giveAssessment [1]: установка объекту оценки поле employee");
+            separateQual.setEmployee(getEmployee(idEmployee));
+            separateQual.setDescription(description);
+            separateQual.setQuality(quality);
+                
+            result = saveSeparateQual(separateQual);
+            log.debug("giveAssessment [2]: результат сохранения, result = {}", result.getMessage());
+        }
+        else{
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
+        }
+        
+        return result;
+    }
+    
+    @Override
+    public boolean checkDealTogether(int idEmployee, int idCompany){
+        log.debug("checkDealTogether [1]: checking deal");
+        try{
+            getCompany(idCompany);
+        } catch(NullPointerException ex){
+            log.debug("checkDealTogether [2]: такой компании нет, id company = {}", idCompany);
+            return false;
+        }
+        
+        try{
+            Employee employee = getEmployee(idEmployee);
+            return employee.getCompany().getId() == idCompany;
+        } catch(NullPointerException ex){
+            log.debug("checkDealTogether [2]: такого сотрудника нет, id employee = {}", idEmployee);
+        }
+        
+        return false;
+    }
+
+    @Override
+    public Result calculateAssessment(int idCompany, boolean others) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public int calculateAssessmentWithOthers(ResultAnalisys resultAnalisys) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

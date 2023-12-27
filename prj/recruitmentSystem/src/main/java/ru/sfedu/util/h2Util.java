@@ -74,7 +74,8 @@ public class h2Util {
     public static Client createClient(ResultSet res) throws SQLException {
         
         Client client = new Client();
-            
+        client.setTypePerson(ClientType);
+        
         client.setId(res.getInt(1));
         client.setName(res.getString(2));
         client.setSurname(res.getString(3));
@@ -155,7 +156,8 @@ public class h2Util {
     public static Employee createEmployee(ResultSet res) throws SQLException {
         
         Employee employee = new Employee();
-            
+        employee.setTypePerson(EmployeeType);
+        
         employee.setId(res.getInt(1));
         employee.setName(res.getString(2));
         employee.setSurname(res.getString(3));
@@ -182,7 +184,7 @@ public class h2Util {
             
         separateQual.setId(res.getInt(1));
 //        separateQual.setCompanyId(res.getInt(2));
-        separateQual.setEmployeeId(res.getInt(3));
+//        separateQual.setEmployeeId(res.getInt(3));
         separateQual.setQuality(res.getInt(4));
         separateQual.setDescription(res.getString(5));
         
@@ -219,7 +221,7 @@ public class h2Util {
      * @param vacancy - which filling PreparedStatement
      */
     public static void fillStatVacancy(PreparedStatement preStat, Vacancy vacancy) throws SQLException{
-//        preStat.setInt(1, vacancy.getCompanyId());
+        preStat.setInt(1, vacancy.getCompany().getId());
         preStat.setString(2, vacancy.getTitle());
         preStat.setString(3, vacancy.getSpecialization());
         preStat.setBoolean(4, vacancy.getOnline());
@@ -236,7 +238,7 @@ public class h2Util {
      */
     public static void fillStatSeparateQual(PreparedStatement preStat, SeparateQual separateQual) throws SQLException{
         preStat.setInt(1, separateQual.getCompany().getId());
-        preStat.setInt(2, separateQual.getEmployeeId());
+        preStat.setInt(2, separateQual.getEmployee().getId());
         preStat.setInt(3, separateQual.getQuality());
         preStat.setString(4, separateQual.getDescription());
     }

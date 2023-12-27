@@ -1,13 +1,34 @@
 package ru.sfedu.api;
 
+import com.opencsv.CSVWriter;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import java.time.LocalDateTime;
+
 import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import ru.sfedu.Constants;
+
 import ru.sfedu.model.*;
+
+import static ru.sfedu.util.ConfigurationUtilProperties.getConfigurationEntry;
+
+import ru.sfedu.util.FileUtil;
 
 /**
  *
  * @author mike
  */
 public interface IDataProvider {
+    
+    static final Logger log = LogManager.getLogger(IDataProvider.class.getName());
+    
     /**
      * Method for registering a person in the system.
      * If a person is valid returns a Result with a 200 code and an object which was saved.
@@ -248,4 +269,63 @@ public interface IDataProvider {
      * @return an object that contains the result of the save.
      **/
     Result deleteSeparateQual(int id);
+    
+    
+    Result giveAssessment(int idEmployee, int idCompany, int quality, String description);
+    
+    
+    default boolean checkQuality(int quality){
+        return quality >= Constants.MIN_QUALITY && quality <= Constants.MAX_QUALITY;
+    }
+    
+    boolean checkDealTogether(int idEmployee, int idCompany);
+    
+    
+    Result calculateAssessment(int idCompany, boolean others);
+    
+    
+    int calculateAssessmentWithOthers(ResultAnalisys resultAnalisys);
+    
+    
+    default void generateResultFile(ResultAnalisys resultAnalisys){
+        log.debug("generateResultFile [1]: writting result, company = {}, result = {}", resultAnalisys.getCompany(), resultAnalisys.getResult());
+        
+        String filePath = getConfigurationEntry(Constants.PATH_RESULT).concat(String.format(Constants.NAME_FILE_RESULT, resultAnalisys.getCompany().getTitle(), resultAnalisys.getCompany().getId(), String.valueOf(LocalDateTime.now()))).concat(Constants.CSV_FILE_TYPE);
+     
+        try{
+            FileUtil.createFolderIfNotExists(getConfigurationEntry(Constants.PATH_RESULT));
+            FileUtil.createFileIfNotExists(filePath);
+            File file = new File(filePath);
+            
+            FileWriter outputfile = new FileWriter(file);
+            
+            CSVWriter writer = new CSVWriter(outputfile);
+            
+            writer.writeNext(Constants.HEADER_RESULT);
+            String[] data;
+            if(resultAnalisys.getPlace() != 0){
+                data = new String[] {
+                    String.valueOf( resultAnalisys.getCompany().getId()), 
+                    resultAnalisys.getCompany().getTitle(), 
+                    String.valueOf(resultAnalisys.getResult()), 
+                    String.valueOf(resultAnalisys.getPlace())
+                };
+                
+            }
+            else{
+                data = new String[] {
+                    String.valueOf( resultAnalisys.getCompany().getId()), 
+                    resultAnalisys.getCompany().getTitle(), 
+                    String.valueOf(resultAnalisys.getResult())
+                };
+                
+            }
+            
+            writer.writeNext(data);
+            
+            writer.close();
+        } catch(IOException ex){
+            log.error("generateResultFile [2]: error = {}", ex.getMessage());
+        }
+    }
 }

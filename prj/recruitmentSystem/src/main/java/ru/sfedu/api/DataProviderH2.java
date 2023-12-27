@@ -262,7 +262,10 @@ public class DataProviderH2 implements IDataProvider{
             String sql = String.format(Constants.H2_QUERY_GET_RECORD_BY_ID, Constants.TITLE_TABLE_RESUME, id);
             ResultSet res = stat.executeQuery(sql);
             if(res.next()){
-                return h2Util.createResume(res);
+                Resume resume = h2Util.createResume(res);
+                resume.setClient(getClient(res.getInt(2)));
+                
+                return resume;
             }
         } catch(SQLException ex){
             log.error("getResume [2]: error = {}", ex.getMessage());
@@ -302,7 +305,10 @@ public class DataProviderH2 implements IDataProvider{
             String sql = String.format(Constants.H2_QUERY_GET_RECORD_BY_ID, Constants.TITLE_TABLE_VACANCY, id);
             ResultSet res = stat.executeQuery(sql);
             if(res.next()){
-                return h2Util.createVacancy(res);
+                Vacancy vacancy = h2Util.createVacancy(res);
+                vacancy.setCompany(getCompany(res.getInt(2)));
+                
+                return vacancy;
             }
         } catch(SQLException ex){
             log.error("getVacancy [2]: error = {}", ex.getMessage());
@@ -314,7 +320,7 @@ public class DataProviderH2 implements IDataProvider{
     /** See also {@link IDataProvider#getEmployee(int)}. */
     @Override
     public Employee getEmployee(int id) {
-        log.debug("getEmployee [1]: gettind vacancy by id, id = {}", id);
+        log.debug("getEmployee [1]: gettind employee by id, id = {}", id);
         try(
                 Connection conn = getConnection();
                 Statement stat = conn.createStatement();
@@ -322,10 +328,13 @@ public class DataProviderH2 implements IDataProvider{
             String sql = String.format(Constants.H2_QUERY_GET_RECORD_BY_ID, Constants.TITLE_TABLE_EMPLOYEE, id);
             ResultSet res = stat.executeQuery(sql);
             if(res.next()){
-                return h2Util.createEmployee(res);
+                Employee employee = h2Util.createEmployee(res);
+                employee.setCompany(getCompany(res.getInt(9)));
+                
+                return employee;
             }
         } catch(SQLException ex){
-            log.error("getVacancy [2]: error = {}", ex.getMessage());
+            log.error("getEmployee [2]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("such record does not exist, id = " + id);
@@ -342,7 +351,11 @@ public class DataProviderH2 implements IDataProvider{
             String sql = String.format(Constants.H2_QUERY_GET_RECORD_BY_ID, Constants.TITLE_TABLE_SEPARATE_QUAL, id);
             ResultSet res = stat.executeQuery(sql);
             if(res.next()){
-                return h2Util.createSeparateQual(res);
+                SeparateQual separateQual = h2Util.createSeparateQual(res);
+                separateQual.setCompany(getCompany(res.getInt(2)));
+                separateQual.setEmployee(getEmployee(res.getInt(3)));
+                
+                return separateQual;
             }
         } catch(SQLException ex){
             log.error("getSeparateQual [2]: error = {}", ex.getMessage());
@@ -891,6 +904,26 @@ public class DataProviderH2 implements IDataProvider{
         }
         
         return result;
+    }
+
+    @Override
+    public Result giveAssessment(int idEmployee, int idCompany, int quality, String description){
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean checkDealTogether(int idEmployee, int idCompany) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Result calculateAssessment(int idCompany, boolean others) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public int calculateAssessmentWithOthers(ResultAnalisys resultAnalisys) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

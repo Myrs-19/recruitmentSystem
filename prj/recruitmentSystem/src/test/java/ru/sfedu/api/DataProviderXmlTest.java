@@ -175,10 +175,24 @@ public class DataProviderXmlTest {
         company.setTitle("company test save separate qual");
         company.setDescription("xml test save");
         
+        Employee employee = new Employee();
+            
+        employee.setId(1);
+        employee.setName("nameEmployee");
+        employee.setSurname("surnameEmployee");
+        employee.setMiddleName("middleNameEmployee");
+        employee.setAge(33);
+        employee.setBirthday("12-06-2003");
+        employee.setPhone("89964095446");
+        employee.setEmail("mseleznev@sfedu.ru");
+        employee.setSalary(350000);
+        employee.setPosition("head of yandex");
+        employee.setIsWorking(false);
+        
         SeparateQual separateQual = new SeparateQual();
         
         separateQual.setCompany(company);
-        separateQual.setEmployeeId(1);
+        separateQual.setEmployee(employee);
         separateQual.setQuality(7);
         
         Result result = dp.saveSeparateQual(separateQual);
@@ -546,11 +560,25 @@ public class DataProviderXmlTest {
         company.setTitle("company test Update SeparateQual");
         company.setDescription("xml test Update");
         
+        Employee employee = new Employee();
+            
+        employee.setId(1);
+        employee.setName("nameEmployee");
+        employee.setSurname("surnameEmployee");
+        employee.setMiddleName("middleNameEmployee");
+        employee.setAge(33);
+        employee.setBirthday("12-06-2003");
+        employee.setPhone("89964095446");
+        employee.setEmail("mseleznev@sfedu.ru");
+        employee.setSalary(350000);
+        employee.setPosition("head of yandex");
+        employee.setIsWorking(false);
+        
         SeparateQual separateQual = new SeparateQual();
         
         separateQual.setId(1);
         separateQual.setCompany(company);
-        separateQual.setEmployeeId(1);
+        separateQual.setEmployee(employee);
         separateQual.setQuality(10);
         separateQual.setDescription("nice");
         
