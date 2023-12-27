@@ -3,6 +3,7 @@ package ru.sfedu.api;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
@@ -369,7 +370,7 @@ public class DataProviderCsv implements IDataProvider{
             Optional<Company> resumeWrap = csvToBean.parse()
                     .stream()
                     .filter(company -> {
-                        return company.getId() == id;
+                        return company.getId()== id;
                     })
                     .findFirst();
             
@@ -404,7 +405,8 @@ public class DataProviderCsv implements IDataProvider{
             Optional<Vacancy> resumeWrap = csvToBean.parse()
                     .stream()
                     .filter(vacancy -> {
-                        return vacancy.getId() == id;
+                        System.out.println(vacancy.getId());
+                        return vacancy.getId()== id;
                     })
                     .findFirst();
             
@@ -413,7 +415,7 @@ public class DataProviderCsv implements IDataProvider{
         } catch(IOException ex){
             log.error("getVacancy [2]: error = {}", ex.getMessage());
         } catch(NoSuchElementException ex){
-            log.debug("getVacancy [3]: such record does not exist: bean = SeparateQual, id = " + id);
+            log.debug("getVacancy [3]: such record does not exist: bean = Vacancy, id = " + id);
         }
        
        throw new NullPointerException("such record does not exist: bean = Vacancy, id = " + id);
@@ -775,7 +777,7 @@ public class DataProviderCsv implements IDataProvider{
             companies.stream()
                     .forEach((c) -> {
                         try{
-                            if(c.getId() == company.getId()){
+                            if(c.getId()== company.getId()){
                                     beanToCsv.write(company);
                             }
                             else{
@@ -821,7 +823,7 @@ public class DataProviderCsv implements IDataProvider{
             vacancies.stream()
                     .forEach((v) -> {
                         try{
-                            if(v.getId() == vacancy.getId()){
+                            if(v.getId()== vacancy.getId()){
                                     beanToCsv.write(vacancy);
                             }
                             else{
@@ -1017,7 +1019,7 @@ public class DataProviderCsv implements IDataProvider{
             companies.stream()
                     .forEach((c) -> {
                         try{
-                            if(c.getId() != id){
+                            if(c.getId()!= id){
                                     beanToCsv.write(c);
                             }
                             else{
@@ -1063,7 +1065,7 @@ public class DataProviderCsv implements IDataProvider{
             vacancies.stream()
                     .forEach((v) -> {
                         try{
-                            if(v.getId() != id){
+                            if(v.getId()!= id){
                                     beanToCsv.write(v);
                             }
                             else{

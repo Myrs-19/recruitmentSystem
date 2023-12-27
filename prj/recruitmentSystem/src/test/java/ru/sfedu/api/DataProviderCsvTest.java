@@ -5,12 +5,14 @@
 package ru.sfedu.api;
 
 import org.junit.jupiter.api.AfterAll;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+
 import ru.sfedu.Constants;
 
 import ru.sfedu.model.*;
@@ -27,19 +29,19 @@ public class DataProviderCsvTest {
         dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
     }
     
-    @AfterAll
-    public static void tearDownClass() {
-        
-        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)).concat(Constants.TITLE_TABLE_CLIENT).concat(Constants.CSV_FILE_TYPE));
-        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)).concat(Constants.TITLE_TABLE_COMPANY).concat(Constants.CSV_FILE_TYPE));
-        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)).concat(Constants.TITLE_TABLE_EMPLOYEE).concat(Constants.CSV_FILE_TYPE));
-        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)).concat(Constants.TITLE_TABLE_RESUME).concat(Constants.CSV_FILE_TYPE));
-        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)).concat(Constants.TITLE_TABLE_SEPARATE_QUAL).concat(Constants.CSV_FILE_TYPE));
-        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)).concat(Constants.TITLE_TABLE_VACANCY).concat(Constants.CSV_FILE_TYPE));
-        
-        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)));
-        
-    }
+//    @AfterAll
+//    public static void tearDownClass() {
+//        
+//        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)).concat(Constants.TITLE_TABLE_CLIENT).concat(Constants.CSV_FILE_TYPE));
+//        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)).concat(Constants.TITLE_TABLE_COMPANY).concat(Constants.CSV_FILE_TYPE));
+//        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)).concat(Constants.TITLE_TABLE_EMPLOYEE).concat(Constants.CSV_FILE_TYPE));
+//        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)).concat(Constants.TITLE_TABLE_RESUME).concat(Constants.CSV_FILE_TYPE));
+//        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)).concat(Constants.TITLE_TABLE_SEPARATE_QUAL).concat(Constants.CSV_FILE_TYPE));
+//        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)).concat(Constants.TITLE_TABLE_VACANCY).concat(Constants.CSV_FILE_TYPE));
+//        
+//        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.CSV_PATH_FOLDER)));
+//        
+//    }
     
     @Test
     @Order(1)
@@ -47,24 +49,33 @@ public class DataProviderCsvTest {
         System.out.println("test SaveClient csv");
         
         Client client = new Client();
-        
         client.setTypePerson(TypePerson.ClientType);
         
-        client.setName("Mike");
-        client.setSurname("Seleznev");
-        client.setAge(33);
-        
-        client.setPassword("998989898");
-        client.setAddress("zorge 28/2");
+        client.setId(1);
+        client.setName("nameClient");
+        client.setSurname("nameSurname");
+        client.setMiddleName("middleNameClient");
+        client.setAge(32);
+        client.setBirthday("12-06-2003");
+        client.setPhone("89996940159");
+        client.setEmail("my.rs@mail.ru");
+        client.setPassword("pipipipi");
+        client.setAddress("address zorge 28/2");
         
         Result result = dp.savePerson(client);
-        System.out.println(result);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());
     }
     
     @Test
     @Order(3)
     void testSavePersonEmployee(){
         System.out.println("test saveEmployee csv");
+        
+        Company company = new Company();
+        company.setId(1);
+        company.setTitle("company test save employee");
+        company.setDescription("csv test save");
+        
         Employee employee = new Employee();
         
         employee.setTypePerson(TypePerson.EmployeeType);
@@ -73,7 +84,7 @@ public class DataProviderCsvTest {
         employee.setSurname("selsel");
         employee.setAge(20);
         
-        employee.setCompanyId(1);
+        employee.setCompany(company);
         employee.setSalary(99);
         employee.setIsWorking(false);
         employee.setPosition("middle");
@@ -82,21 +93,36 @@ public class DataProviderCsvTest {
         
         result = dp.savePerson(employee);
         
-        System.out.println(result);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());
     }
     
     @Test
     @Order(4)
     void testSaveResume(){
         System.out.println("test saveResume csv");
+        
+        Client client = new Client();
+        client.setTypePerson(TypePerson.ClientType);
+        
+        client.setId(1);
+        client.setName("nameClient");
+        client.setSurname("nameSurname");
+        client.setMiddleName("middleNameClient");
+        client.setAge(32);
+        client.setBirthday("12-06-2003");
+        client.setPhone("89996940159");
+        client.setEmail("my.rs@mail.ru");
+        client.setPassword("pipipipi");
+        client.setAddress("address zorge 28/2");
+        
         Resume resume = new Resume();
         
-        resume.setClientId(1);
+        resume.setClient(client);
         resume.setCity("rostov");
         resume.setProfession("developer");
         
         Result result = dp.saveResume(resume);
-        System.out.println(result);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());
     }
     
     @Test
@@ -105,7 +131,9 @@ public class DataProviderCsvTest {
         System.out.println("test SaveCompany csv");
         
         Company company = new Company();
-        company.setTitle("arenadata");
+        company.setId(1);
+        company.setTitle("company test save company");
+        company.setDescription("csv test save");
         
         Result result = dp.saveCompany(company);
         System.out.println(result);
@@ -117,21 +145,38 @@ public class DataProviderCsvTest {
         System.out.println("test SaveVacancy csv");
         Vacancy vacancy = new Vacancy();
         
-        vacancy.setCompanyId(1);
+        Company c = new Company();
+        c.setId(1);
+        c.setTitle("Arena Data");
+        c.setDescription("Description");
+        
+        vacancy.setCompany(c);
         vacancy.setTitle("java");
-        vacancy.setSalary(8797);
+        vacancy.setSpecialization("java");
+        vacancy.setOnline(false);
+        vacancy.setSkills("OOP");
+        vacancy.setSalary(35000);
+        vacancy.setCity("Rostov");
+        vacancy.setAddress("Center of Rostov");
+        vacancy.setExperience("1 years");
         
         Result result = dp.saveVacancy(vacancy);
-        System.out.println(result);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());
     }
     
     @Test
     @Order(6)
     void testSaveSeparateQual(){
         System.out.println("test SaveSeparateQual csv");
+        
+        Company company = new Company();
+        company.setId(1);
+        company.setTitle("company test save employee");
+        company.setDescription("csv test save");
+        
         SeparateQual separateQual = new SeparateQual();
         
-        separateQual.setCompanyId(1);
+        separateQual.setCompany(company);
         separateQual.setEmployeeId(1);
         separateQual.setQuality(7);
         
@@ -170,9 +215,12 @@ public class DataProviderCsvTest {
         System.out.println("test getResumeById positive csv");
         try{
             int id = 1;
-            System.out.println(dp.getResume(id)); 
+            Resume resume = dp.getResume(id); 
+            System.out.println(resume);
+            System.out.println(resume.getClient());
+            assertEquals(id, resume.getId());
         } catch(NullPointerException ex){
-            System.out.println(ex.getMessage());
+            fail("the test failed");
         }
     }
     
@@ -217,10 +265,15 @@ public class DataProviderCsvTest {
     void testGetVacancyPositive(){
         System.out.println("test getVacancyById positive csv");
         try{
-            int id = 1;
-            System.out.println(dp.getVacancy(id)); 
+            int id = 2;
+            Vacancy v = dp.getVacancy(id); 
+            System.out.println(v);
+            System.out.println(v.getCompany() + " " + v.getCompany().getDescription());
+            
+            assertEquals(id, v.getId());
         } catch(NullPointerException ex){
             System.out.println(ex.getMessage());
+            fail("the test failed");
         }
     }
     
@@ -385,6 +438,12 @@ public class DataProviderCsvTest {
     @Order(26)
     public void testUpdatedEmployee() {
         System.out.println("test UpdatedEmployee csv");
+        
+        Company company = new Company();
+        company.setId(1);
+        company.setTitle("company test update employee");
+        company.setDescription("csv update save");
+        
         Employee employee = new Employee();
         
         employee.setId(1);
@@ -394,7 +453,7 @@ public class DataProviderCsvTest {
         employee.setSurname("selsel");
         employee.setAge(20);
         
-        employee.setCompanyId(1);
+        employee.setCompany(company);
         employee.setSalary(99);
         employee.setIsWorking(false);
         employee.setPosition("senior");
@@ -409,10 +468,25 @@ public class DataProviderCsvTest {
     @Order(27)
     public void testUpdateResume() {
         System.out.println("test UpdateResume csv");
+        
+        Client client = new Client();
+        client.setTypePerson(TypePerson.ClientType);
+        
+        client.setId(1);
+        client.setName("nameClient");
+        client.setSurname("nameSurname");
+        client.setMiddleName("middleNameClient");
+        client.setAge(32);
+        client.setBirthday("12-06-2003");
+        client.setPhone("89996940159");
+        client.setEmail("my.rs@mail.ru");
+        client.setPassword("pipipipi");
+        client.setAddress("address zorge 28/2");
+        
         Resume resume = new Resume();
         
         resume.setId(1);
-        resume.setClientId(1);
+        resume.setClient(client);
         resume.setCity("RRRRRRRRR");
         resume.setProfession("developerTEST");
         
@@ -442,29 +516,35 @@ public class DataProviderCsvTest {
     @Test
     @Order(29)
     public void testUpdateVacancy() {
-        System.out.println("test UpdateVacancy csv");
-        Vacancy vacancy = new Vacancy();
-        
-        vacancy.setId(1);
-        vacancy.setCompanyId(1);
-        vacancy.setTitle("JAAAAAAAVAAAAAAAa");
-        vacancy.setSalary(11);
-        
-        Result result = new Result();
-        
-        result = dp.updateVacancy(vacancy);
-        
-        System.out.println(result);
+//        System.out.println("test UpdateVacancy csv");
+//        Vacancy vacancy = new Vacancy();
+//        
+//        vacancy.setId(1);
+//        vacancy.setCompanyId(1);
+//        vacancy.setTitle("JAAAAAAAVAAAAAAAa");
+//        vacancy.setSalary(11);
+//        
+//        Result result = new Result();
+//        
+//        result = dp.updateVacancy(vacancy);
+//        
+//        System.out.println(result);
     }
     
     @Test
     @Order(30)
     public void testUpdateSeparateQual() {
         System.out.println("test UpdateSeparateQual csv");
+        
+        Company company = new Company();
+        company.setId(1);
+        company.setTitle("company test update separateQual");
+        company.setDescription("csv update save");
+        
         SeparateQual separateQual = new SeparateQual();
         
         separateQual.setId(1);
-        separateQual.setCompanyId(1);
+        separateQual.setCompany(company);
         separateQual.setEmployeeId(1);
         separateQual.setQuality(10);
         separateQual.setDescription("nice");

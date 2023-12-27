@@ -5,6 +5,8 @@
 package ru.sfedu.api;
 
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.MethodOrderer;
@@ -32,19 +34,19 @@ public class DataProviderXmlTest {
         dp = new DataProviderXml(Constants.TEST_MAIN_FOLDER_PATH);
     }
     
-    @AfterAll
-    public static void tearDownClass() {
-        
-        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_CLIENT).concat(Constants.XML_FILE_TYPE));
-        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_COMPANY).concat(Constants.XML_FILE_TYPE));
-        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_EMPLOYEE).concat(Constants.XML_FILE_TYPE));
-        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_RESUME).concat(Constants.XML_FILE_TYPE));
-        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_SEPARATE_QUAL).concat(Constants.XML_FILE_TYPE));
-        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_VACANCY).concat(Constants.XML_FILE_TYPE));
-        
-        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)));
-        
-    }
+//    @AfterAll
+//    public static void tearDownClass() {
+//        
+//        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_CLIENT).concat(Constants.XML_FILE_TYPE));
+//        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_COMPANY).concat(Constants.XML_FILE_TYPE));
+//        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_EMPLOYEE).concat(Constants.XML_FILE_TYPE));
+//        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_RESUME).concat(Constants.XML_FILE_TYPE));
+//        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_SEPARATE_QUAL).concat(Constants.XML_FILE_TYPE));
+//        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)).concat(Constants.TITLE_TABLE_VACANCY).concat(Constants.XML_FILE_TYPE));
+//        
+//        FileUtil.deleteFileOrFolderIfExists(Constants.TEST_MAIN_FOLDER_PATH.concat(ConfigurationUtilProperties.getConfigurationEntry(Constants.XML_PATH_FOLDER)));
+//        
+//    }
     
     @Test
     @Order(1)
@@ -82,6 +84,12 @@ public class DataProviderXmlTest {
     @Order(3)
     public void testSaveEmployee() {
         System.out.println("test saveEmployee xml");
+        
+        Company company = new Company();
+        company.setId(1);
+        company.setTitle("company test save employee");
+        company.setDescription("xml test save");
+        
         Employee employee = new Employee();
         
         employee.setTypePerson(TypePerson.EmployeeType);
@@ -90,7 +98,7 @@ public class DataProviderXmlTest {
         employee.setSurname("selsel");
         employee.setAge(20);
         
-        employee.setCompanyId(1);
+        employee.setCompany(company);
         employee.setSalary(99);
         employee.setIsWorking(false);
         employee.setPosition("middle");
@@ -99,32 +107,59 @@ public class DataProviderXmlTest {
         
         result = dp.savePerson(employee);
         
-        System.out.println(result);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());
     }
     
     @Test
     @Order(4)
     public void testSaveResume() {
         System.out.println("test saveResume xml");
+        
+        Client client = new Client();
+        client.setTypePerson(TypePerson.ClientType);
+        
+        client.setId(1);
+        client.setName("nameClient");
+        client.setSurname("nameSurname");
+        client.setMiddleName("middleNameClient");
+        client.setAge(32);
+        client.setBirthday("12-06-2003");
+        client.setPhone("89996940159");
+        client.setEmail("my.rs@mail.ru");
+        client.setPassword("pipipipi");
+        client.setAddress("address zorge 28/2");
+        
         Resume resume = new Resume();
         
-        resume.setClientId(1);
+        resume.setClient(client);
         resume.setCity("rostov");
         resume.setProfession("developer");
         
         Result result = dp.saveResume(resume);
-        System.out.println(result);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());
     }
     
     @Test
     @Order(5)
     public void testSaveVacancy() {
         System.out.println("test SaveVacancy xml");
+        
+        Company company = new Company();
+        company.setId(1);
+        company.setTitle("company test save vacancy");
+        company.setDescription("xml test save");
+        
         Vacancy vacancy = new Vacancy();
         
-        vacancy.setCompanyId(1);
-        vacancy.setTitle("java");
-        vacancy.setSalary(8797);
+        vacancy.setCompany(company);
+        vacancy.setTitle("javaJJJXLM");
+        vacancy.setSpecialization("java");
+        vacancy.setOnline(false);
+        vacancy.setSkills("OOP");
+        vacancy.setSalary(35000);
+        vacancy.setCity("Rostov");
+        vacancy.setAddress("Center of Rostov");
+        vacancy.setExperience("1 years");
         
         Result result = dp.saveVacancy(vacancy);
         System.out.println(result);
@@ -134,9 +169,15 @@ public class DataProviderXmlTest {
     @Order(6)
     public void testSaveSeparateQual() {
         System.out.println("test SaveSeparateQual xml");
+        
+        Company company = new Company();
+        company.setId(1);
+        company.setTitle("company test save separate qual");
+        company.setDescription("xml test save");
+        
         SeparateQual separateQual = new SeparateQual();
         
-        separateQual.setCompanyId(1);
+        separateQual.setCompany(company);
         separateQual.setEmployeeId(1);
         separateQual.setQuality(7);
         
@@ -176,7 +217,12 @@ public class DataProviderXmlTest {
         System.out.println("test getResumeById positive xml");
         try{
             int id = 1;
-            System.out.println(dp.getResume(id)); 
+            Resume resume = dp.getResume(id); 
+            
+            System.out.println(resume); 
+            System.out.println(resume.getClient()); 
+            
+            assertEquals(id, resume.getId());
         } catch(NullPointerException ex){
             System.out.println(ex.getMessage());
         }
@@ -391,6 +437,12 @@ public class DataProviderXmlTest {
     @Order(26)
     public void testUpdatedEmployee() {
         System.out.println("test UpdatedEmployee xml");
+        
+        Company company = new Company();
+        company.setId(1);
+        company.setTitle("company test update employee");
+        company.setDescription("xml test update");
+        
         Employee employee = new Employee();
         
         employee.setId(1);
@@ -400,7 +452,7 @@ public class DataProviderXmlTest {
         employee.setSurname("selsel");
         employee.setAge(20);
         
-        employee.setCompanyId(1);
+        employee.setCompany(company);
         employee.setSalary(99);
         employee.setIsWorking(false);
         employee.setPosition("senior");
@@ -415,10 +467,25 @@ public class DataProviderXmlTest {
     @Order(27)
     public void testUpdateResume() {
         System.out.println("test UpdateResume xml");
+        
+        Client client = new Client();
+        client.setTypePerson(TypePerson.ClientType);
+        
+        client.setId(1);
+        client.setName("nameClient");
+        client.setSurname("nameSurname");
+        client.setMiddleName("middleNameClient");
+        client.setAge(32);
+        client.setBirthday("12-06-2003");
+        client.setPhone("89996940159");
+        client.setEmail("my.rs@mail.ru");
+        client.setPassword("pipipipi");
+        client.setAddress("address zorge 28/2");
+        
         Resume resume = new Resume();
         
         resume.setId(1);
-        resume.setClientId(1);
+        resume.setClient(client);
         resume.setCity("RRRRRRRRR");
         resume.setProfession("developerTEST");
         
@@ -449,10 +516,16 @@ public class DataProviderXmlTest {
     @Order(29)
     public void testUpdateVacancy() {
         System.out.println("test UpdateVacancy xml");
+        
+        Company company = new Company();
+        company.setId(1);
+        company.setTitle("company test Update Vacancy");
+        company.setDescription("xml test Update");
+        
         Vacancy vacancy = new Vacancy();
         
         vacancy.setId(1);
-        vacancy.setCompanyId(1);
+        vacancy.setCompany(company);
         vacancy.setTitle("JAAAAAAAVAAAAAAAa");
         vacancy.setSalary(11);
         
@@ -467,10 +540,16 @@ public class DataProviderXmlTest {
     @Order(30)
     public void testUpdateSeparateQual() {
         System.out.println("test UpdateSeparateQual xml");
+        
+        Company company = new Company();
+        company.setId(1);
+        company.setTitle("company test Update SeparateQual");
+        company.setDescription("xml test Update");
+        
         SeparateQual separateQual = new SeparateQual();
         
         separateQual.setId(1);
-        separateQual.setCompanyId(1);
+        separateQual.setCompany(company);
         separateQual.setEmployeeId(1);
         separateQual.setQuality(10);
         separateQual.setDescription("nice");

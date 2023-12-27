@@ -4,6 +4,7 @@
  */
 package ru.sfedu.model;
 
+import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
@@ -18,7 +19,7 @@ public class Company {
     @CsvBindByPosition(position = 1)
     String title;
     
-    @Element(required = false)
+    @Element
     @CsvBindByPosition(position = 2)
     String description;
     
@@ -51,7 +52,7 @@ public class Company {
     @Override
     public String toString(){
         return "Company{" +
-                "id = " + getId() +
+                "id = " + getId()+
                 ", title = " + getTitle()+
                 '}';
     }

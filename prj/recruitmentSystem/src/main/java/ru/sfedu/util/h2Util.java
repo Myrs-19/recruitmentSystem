@@ -30,7 +30,7 @@ public class h2Util {
         switch(person.getTypePerson()){
             case ClientType:{
                 Client client = (Client) person;
-                
+                //person fields
                 preStat.setString(1, client.getName());
                 preStat.setString(2, client.getSurname());
                 preStat.setString(3, client.getMiddleName());
@@ -38,7 +38,7 @@ public class h2Util {
                 preStat.setString(5, client.getBirthday());
                 preStat.setString(6, client.getPhone());
                 preStat.setString(7, client.getEmail());
-                
+                //client fields
                 preStat.setString(8, client.getPassword());
                 preStat.setString(9, client.getAddress());
                 
@@ -46,7 +46,7 @@ public class h2Util {
             }
             case EmployeeType:{
                 Employee employee = (Employee) person;
-                
+                //employee fields
                 preStat.setString(1, employee.getName());
                 preStat.setString(2, employee.getSurname());
                 preStat.setString(3, employee.getMiddleName());
@@ -55,7 +55,7 @@ public class h2Util {
                 preStat.setString(6, employee.getPhone());
                 preStat.setString(7, employee.getEmail());
                 
-                preStat.setInt(8, employee.getCompanyId());
+                preStat.setInt(8, employee.getCompany().getId());
                 preStat.setInt(9, employee.getSalary());
                 preStat.setString(10, employee.getPosition());
                 preStat.setBoolean(11, employee.getIsWorking());
@@ -98,7 +98,7 @@ public class h2Util {
         Resume resume = new Resume();
             
         resume.setId(res.getInt(1));
-        resume.setClientId(res.getInt(2));
+//        resume.setClientId(res.getInt(2));
         resume.setProfession(res.getString(3));
         resume.setCity(res.getString(4));
         resume.setSkills(res.getString(5));
@@ -135,7 +135,7 @@ public class h2Util {
         Vacancy vacancy = new Vacancy();
             
         vacancy.setId(res.getInt(1));
-        vacancy.setCompanyId(res.getInt(2));
+//        vacancy.setCompanyId(res.getInt(2));
         vacancy.setTitle(res.getString(3));
         vacancy.setSpecialization(res.getString(4));
         vacancy.setOnline(res.getBoolean(5));
@@ -164,7 +164,7 @@ public class h2Util {
         employee.setBirthday(res.getString(6));
         employee.setPhone(res.getString(7));
         employee.setEmail(res.getString(8));
-        employee.setCompanyId(res.getInt(9));
+//        employee.setCompanyId(res.getInt(9));
         employee.setSalary(res.getInt(10));
         employee.setPosition(res.getString(11));
         employee.setIsWorking(res.getBoolean(12));
@@ -181,7 +181,7 @@ public class h2Util {
         SeparateQual separateQual = new SeparateQual();
             
         separateQual.setId(res.getInt(1));
-        separateQual.setCompanyId(res.getInt(2));
+//        separateQual.setCompanyId(res.getInt(2));
         separateQual.setEmployeeId(res.getInt(3));
         separateQual.setQuality(res.getInt(4));
         separateQual.setDescription(res.getString(5));
@@ -194,7 +194,7 @@ public class h2Util {
      * @param resume - which filling PreparedStatement
      */
     public static void fillStatResume(PreparedStatement preStat, Resume resume) throws SQLException{
-        preStat.setInt(1, resume.getClientId());
+        preStat.setInt(1, resume.getClient().getId());
         preStat.setString(2, resume.getProfession());
         preStat.setString(3, resume.getCity());
         preStat.setString(4, resume.getSkills());
@@ -219,7 +219,7 @@ public class h2Util {
      * @param vacancy - which filling PreparedStatement
      */
     public static void fillStatVacancy(PreparedStatement preStat, Vacancy vacancy) throws SQLException{
-        preStat.setInt(1, vacancy.getCompanyId());
+//        preStat.setInt(1, vacancy.getCompanyId());
         preStat.setString(2, vacancy.getTitle());
         preStat.setString(3, vacancy.getSpecialization());
         preStat.setBoolean(4, vacancy.getOnline());
@@ -235,7 +235,7 @@ public class h2Util {
      * @param separateQual  - which filling PreparedStatement
      */
     public static void fillStatSeparateQual(PreparedStatement preStat, SeparateQual separateQual) throws SQLException{
-        preStat.setInt(1, separateQual.getCompanyId());
+        preStat.setInt(1, separateQual.getCompany().getId());
         preStat.setInt(2, separateQual.getEmployeeId());
         preStat.setInt(3, separateQual.getQuality());
         preStat.setString(4, separateQual.getDescription());

@@ -214,6 +214,8 @@ public class Constants {
     
     public static final String CLI_CALCULATE_ASSESSMENT = "-ca";
     
+    
+    public static final String SEPARATOR_CSV_RECURSE = "#";
 }
 
 

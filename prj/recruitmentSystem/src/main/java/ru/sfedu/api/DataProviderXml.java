@@ -397,7 +397,7 @@ public class DataProviderXml implements IDataProvider{
         try{
             XmlWrapper<Company> wrap = getWrap(Constants.TITLE_TABLE_COMPANY);
             Optional<Company> optionalCompany = wrap.getList().stream()
-                    .filter(c -> c.getId() == id)
+                    .filter(c -> c.getId()== id)
                     .findFirst();
             return optionalCompany.get();
         } catch(NoSuchElementException ex){
@@ -416,7 +416,7 @@ public class DataProviderXml implements IDataProvider{
         try{
             XmlWrapper<Vacancy> wrap = getWrap(Constants.TITLE_TABLE_VACANCY);
             Optional<Vacancy> optionalVacancy = wrap.getList().stream()
-                    .filter(v -> v.getId() == id)
+                    .filter(v -> v.getId()== id)
                     .findFirst();
             return optionalVacancy.get();
         } catch(NoSuchElementException ex){
@@ -640,7 +640,7 @@ public class DataProviderXml implements IDataProvider{
             
             List<Company> list = wrap.getList().stream()
                     .map((c) -> {
-                        if(c.getId() == company.getId()){
+                        if(c.getId()== company.getId()){
                             return company;
                         }
                         else{
@@ -677,7 +677,7 @@ public class DataProviderXml implements IDataProvider{
             
             List<Vacancy> list = wrap.getList().stream()
                     .map((v) -> {
-                        if(v.getId() == vacancy.getId()){
+                        if(v.getId()== vacancy.getId()){
                             return vacancy;
                         }
                         else{
@@ -820,7 +820,7 @@ public class DataProviderXml implements IDataProvider{
             XmlWrapper<Company> wrap = DataProviderXml.<Company>getWrap(tableName);
             
             List<Company> list = wrap.getList().stream()
-                    .filter((c) -> c.getId() != id)
+                    .filter((c) -> c.getId()!= id)
                     .toList();
             boolean flag = wrap.getList().size() != list.size();
             wrap.setList(list);
@@ -855,7 +855,7 @@ public class DataProviderXml implements IDataProvider{
             XmlWrapper<Vacancy> wrap = DataProviderXml.<Vacancy>getWrap(tableName);
             
             List<Vacancy> list = wrap.getList().stream()
-                    .filter((v) -> v.getId() != id)
+                    .filter((v) -> v.getId()!= id)
                     .toList();
             boolean flag = wrap.getList().size() != list.size();
             wrap.setList(list);

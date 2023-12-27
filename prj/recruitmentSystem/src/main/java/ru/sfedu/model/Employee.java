@@ -4,7 +4,7 @@
  */
 package ru.sfedu.model;
 
-import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.*;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
@@ -15,8 +15,8 @@ import org.simpleframework.xml.Root;
 @Root
 public class Employee extends Person {
     @Element
-    @CsvBindByPosition(position = 8)
-    int companyId;
+    @CsvCustomBindByPosition(position = 8, converter = CompanyCsvConverter.class)
+    Company company;
     
     @Element
     @CsvBindByPosition(position = 9)
@@ -40,12 +40,12 @@ public class Employee extends Person {
         this.isWorking = isWorking;
     }
 
-    public int getCompanyId() {
-        return companyId;
+    public Company getCompany() {
+        return company;
     }
 
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     public int getSalary() {
@@ -68,7 +68,7 @@ public class Employee extends Person {
     public String toString(){
         return "Employee{" +
                 "id = " + getId() +
-                ", companyId = " + getCompanyId()+
+                ", companyId = " + company.getId()+
                 ", fi =" + getSurname() + " " + getName() +
                 ", salary = " + getSalary() +
                 ", position = " + getPosition()+

@@ -1,6 +1,8 @@
 package ru.sfedu.model;
 
-import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.*;
+import com.opencsv.bean.*;
+
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
@@ -11,22 +13,22 @@ public class Vacancy {
     int id;
     
     @Element
-    @CsvBindByPosition(position = 1)
-    int companyId;
+    @CsvCustomBindByPosition(position = 1, converter = CompanyCsvConverter.class)
+    Company company;
     
     @Element
     @CsvBindByPosition(position = 2)
     String title;
     
-    @Element(required = false)
+    @Element
     @CsvBindByPosition(position = 3)
     String specialization;
     
-    @Element(required = false)
+    @Element
     @CsvBindByPosition(position = 4)
     boolean online;
     
-    @Element(required = false)
+    @Element
     @CsvBindByPosition(position = 5)
     String skills;
     
@@ -34,17 +36,18 @@ public class Vacancy {
     @CsvBindByPosition(position = 6)
     int salary;
     
-    @Element(required = false)
+    @Element
     @CsvBindByPosition(position = 7)
     String city;
     
-    @Element(required = false)
+    @Element
     @CsvBindByPosition(position = 8)
     String address;
     
-    @Element(required = false)
+    @Element
     @CsvBindByPosition(position = 9)
     String experience;
+    
     
     public Vacancy(){}
 
@@ -55,13 +58,13 @@ public class Vacancy {
     public void setId(int id) {
         this.id = id;
     }
-
-    public int getCompanyId() {
-        return companyId;
+    
+    public Company getCompany() {
+        return company;
     }
 
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     public String getTitle() {
@@ -131,8 +134,7 @@ public class Vacancy {
     @Override
     public String toString(){
         return "Vacancy{" +
-                "id = " + getId() +
-                ", companyId = " + getCompanyId()+
+                "id = " + getId()+
                 ", title = " + getTitle()+
                 ", salary = " + getSalary()+
                 '}';
