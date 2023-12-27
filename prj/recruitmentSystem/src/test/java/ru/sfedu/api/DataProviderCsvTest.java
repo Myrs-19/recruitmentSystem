@@ -750,10 +750,10 @@ public class DataProviderCsvTest {
     
     @Test
     @Order(38)
-    public void testcalculateAssessmentPositive(){
+    public void testcalculateAssessmentFALSEPositive(){
         tearDownClass();
         dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
-        System.out.println("testcalculateAssessmentPositive");
+        System.out.println("testcalculateAssessmentFALSEPositive");
         
         Company company = new Company();
         int idCompany = 1;
@@ -777,28 +777,88 @@ public class DataProviderCsvTest {
     
     @Test
     @Order(39)
-    public void testcalculateAssessmentPositive(){
+    public void testcalculateAssessmentFALSENegative(){
         tearDownClass();
         dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
-        System.out.println("testcalculateAssessmentPositive");
-        
-        Company company = new Company();
-        int idCompany = 1;
-        company.setTitle("company test save company");
-        company.setDescription("csv test save");
-        
-        dp.saveCompany(company);
-        
-        for(int i = 0; i < 3; i++){
-            SeparateQual separateQual = new SeparateQual();
-        
-            separateQual.setCompany(company);
-            separateQual.setQuality(3+i);
-            separateQual.setDescription("desc");
-            dp.saveSeparateQual(separateQual);
-        }
+        System.out.println("testcalculateAssessmentFALSENegative");
         
         Result result = dp.calculateAssessment(1, false);
+        assertEquals(Constants.CODE_ERROR, result.getCode());
+    }
+    
+    @Test
+    @Order(40)
+    public void testcalculateAssessmentTRUEPositive(){
+        tearDownClass();
+        dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        System.out.println("testcalculateAssessmentTRUEPositive");
+        
+        for(int i = 1; i <= 3; i++){
+            Company company = new Company();
+            
+            company.setTitle("company test save company");
+            company.setDescription("csv test save");
+
+            dp.saveCompany(company);
+
+            for(int j = 0; j < 3; j++){
+                SeparateQual separateQual = new SeparateQual();
+
+                separateQual.setCompany(company);
+                separateQual.setQuality(1+i+j);
+                separateQual.setDescription("desc");
+                dp.saveSeparateQual(separateQual);
+            }
+        }
+        
+        int idCompany = 3;
+        Result result = dp.calculateAssessment(idCompany, true);
+        assertEquals(Constants.CODE_SUCCESS, result.getCode());
+    }
+    
+    @Test
+    @Order(41)
+    public void testcalculateAssessmentTRUENegative(){
+        System.out.println("testcalculateAssessmentTRUENegative");
+        tearDownClass();
+        dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        Result result = dp.calculateAssessment(1, true);
+        assertEquals(Constants.CODE_ERROR, result.getCode());
+    }
+    
+    @Test
+    @Order(42)
+    public void testCalculateAssessmentWithOthers(){
+        tearDownClass();
+        dp = new DataProviderCsv(Constants.TEST_MAIN_FOLDER_PATH);
+        
+        for(int i = 1; i <= 3; i++){
+            Company company = new Company();
+            
+            company.setTitle("company test save company");
+            company.setDescription("csv test save");
+
+            dp.saveCompany(company);
+
+            for(int j = 0; j < 3; j++){
+                SeparateQual separateQual = new SeparateQual();
+
+                separateQual.setCompany(company);
+                separateQual.setQuality(1+i+j);
+                separateQual.setDescription("desc");
+                dp.saveSeparateQual(separateQual);
+            }
+        }
+        
+        Company company = new Company();
+        company.setId(1);
+        company.setTitle("title");
+        company.setDescription("desc");
+        
+        ResultAnalisys resultAnalisys = new ResultAnalisys(0.0, company);
+        
+        Result result = dp.calculateAssessmentWithOthers(resultAnalisys);
         assertEquals(Constants.CODE_SUCCESS, result.getCode());
     }
 }

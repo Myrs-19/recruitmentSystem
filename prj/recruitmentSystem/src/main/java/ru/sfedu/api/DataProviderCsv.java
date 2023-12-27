@@ -1184,13 +1184,13 @@ public class DataProviderCsv implements IDataProvider{
     }
 
     @Override
-    public Result calculateAssessment(int idCompany, boolean others) throws NoSuchElementException{
+    public Result calculateAssessment(int idCompany, boolean others){
         log.debug("calculateAssessment [1]: calculate assessment, idCompany = {}", idCompany);
         
-        Company company = getCompany(idCompany);
         Result result = new Result();
         
         try{
+            Company company = getCompany(idCompany);
             
             log.debug("calculateAssessment [2]: get all quals");
             List<SeparateQual> separateQuals = getAllSeparateQuals();
@@ -1229,7 +1229,7 @@ public class DataProviderCsv implements IDataProvider{
             
             List<Company> companies = getAllCompanies();
             List<SeparateQual> separateQuals = getAllSeparateQuals();
-            int place = 0;
+            int place = Constants.DEFAULT_PLACE_COMPANY;
             for(Company cmp : companies){
             
                 log.debug("calculateAssessmentWithOthers[2]: расчет среднего, company = {}", cmp);
