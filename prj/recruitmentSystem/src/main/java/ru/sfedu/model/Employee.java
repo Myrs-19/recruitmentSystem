@@ -4,7 +4,7 @@
  */
 package ru.sfedu.model;
 
-import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.*;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
@@ -15,24 +15,20 @@ import org.simpleframework.xml.Root;
 @Root
 public class Employee extends Person {
     @Element
-    @CsvBindByPosition(position = 6)
-    int companyId;
-    
-    @Element
-    @CsvBindByPosition(position = 7)
-    String startWorkDate;
-    
-    @Element
-    @CsvBindByPosition(position = 8)
-    int salary;
+    @CsvCustomBindByPosition(position = 8, converter = CompanyCsvConverter.class)
+    private Company company;
     
     @Element
     @CsvBindByPosition(position = 9)
-    String position;
+    private int salary;
     
     @Element
     @CsvBindByPosition(position = 10)
-    boolean isWorking;
+    private String position;
+    
+    @Element
+    @CsvBindByPosition(position = 11)
+    private boolean isWorking;
     
     public Employee(){}
 
@@ -44,20 +40,12 @@ public class Employee extends Person {
         this.isWorking = isWorking;
     }
 
-    public int getCompanyId() {
-        return companyId;
+    public Company getCompany() {
+        return company;
     }
 
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
-    }
-    
-    public String getStartWorkDate() {
-        return startWorkDate;
-    }
-
-    public void setStartWorkDate(String startWorkDate) {
-        this.startWorkDate = startWorkDate;
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     public int getSalary() {
@@ -80,9 +68,8 @@ public class Employee extends Person {
     public String toString(){
         return "Employee{" +
                 "id = " + getId() +
-                ", companyId = " + getCompanyId()+
+                ", companyId = " + company.getId()+
                 ", fi =" + getSurname() + " " + getName() +
-                ", startWorkDate = " + getStartWorkDate() +
                 ", salary = " + getSalary() +
                 ", position = " + getPosition()+
                 ", isWorking = " + getIsWorking()+

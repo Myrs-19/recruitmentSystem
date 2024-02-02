@@ -5,9 +5,9 @@
 package ru.sfedu.api;
 
 import java.sql.*;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
@@ -262,7 +262,10 @@ public class DataProviderH2 implements IDataProvider{
             String sql = String.format(Constants.H2_QUERY_GET_RECORD_BY_ID, Constants.TITLE_TABLE_RESUME, id);
             ResultSet res = stat.executeQuery(sql);
             if(res.next()){
-                return h2Util.createResume(res);
+                Resume resume = h2Util.createResume(res);
+                resume.setClient(getClient(res.getInt(2)));
+                
+                return resume;
             }
         } catch(SQLException ex){
             log.error("getResume [2]: error = {}", ex.getMessage());
@@ -302,7 +305,10 @@ public class DataProviderH2 implements IDataProvider{
             String sql = String.format(Constants.H2_QUERY_GET_RECORD_BY_ID, Constants.TITLE_TABLE_VACANCY, id);
             ResultSet res = stat.executeQuery(sql);
             if(res.next()){
-                return h2Util.createVacancy(res);
+                Vacancy vacancy = h2Util.createVacancy(res);
+                vacancy.setCompany(getCompany(res.getInt(2)));
+                
+                return vacancy;
             }
         } catch(SQLException ex){
             log.error("getVacancy [2]: error = {}", ex.getMessage());
@@ -314,7 +320,7 @@ public class DataProviderH2 implements IDataProvider{
     /** See also {@link IDataProvider#getEmployee(int)}. */
     @Override
     public Employee getEmployee(int id) {
-        log.debug("getEmployee [1]: gettind vacancy by id, id = {}", id);
+        log.debug("getEmployee [1]: gettind employee by id, id = {}", id);
         try(
                 Connection conn = getConnection();
                 Statement stat = conn.createStatement();
@@ -322,10 +328,13 @@ public class DataProviderH2 implements IDataProvider{
             String sql = String.format(Constants.H2_QUERY_GET_RECORD_BY_ID, Constants.TITLE_TABLE_EMPLOYEE, id);
             ResultSet res = stat.executeQuery(sql);
             if(res.next()){
-                return h2Util.createEmployee(res);
+                Employee employee = h2Util.createEmployee(res);
+                employee.setCompany(getCompany(res.getInt(9)));
+                
+                return employee;
             }
         } catch(SQLException ex){
-            log.error("getVacancy [2]: error = {}", ex.getMessage());
+            log.error("getEmployee [2]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("such record does not exist, id = " + id);
@@ -342,7 +351,10 @@ public class DataProviderH2 implements IDataProvider{
             String sql = String.format(Constants.H2_QUERY_GET_RECORD_BY_ID, Constants.TITLE_TABLE_SEPARATE_QUAL, id);
             ResultSet res = stat.executeQuery(sql);
             if(res.next()){
-                return h2Util.createSeparateQual(res);
+                SeparateQual separateQual = h2Util.createSeparateQual(res);
+                separateQual.setCompany(getCompany(res.getInt(2)));
+                
+                return separateQual;
             }
         } catch(SQLException ex){
             log.error("getSeparateQual [2]: error = {}", ex.getMessage());
@@ -376,7 +388,7 @@ public class DataProviderH2 implements IDataProvider{
             log.error("getAllClients [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException();
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllResumes()}. */
@@ -394,7 +406,9 @@ public class DataProviderH2 implements IDataProvider{
             
             List<Resume> resumes = new ArrayList<Resume>();
             while(res.next()){
-                resumes.add(h2Util.createResume(res));
+                Resume resume = h2Util.createResume(res);
+                resume.setClient(getClient(res.getInt(2)));
+                resumes.add(resume);
             }
             
             return resumes;
@@ -403,7 +417,7 @@ public class DataProviderH2 implements IDataProvider{
             log.error("getAllResumes [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException();
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllCompanies()}. */
@@ -430,7 +444,7 @@ public class DataProviderH2 implements IDataProvider{
             log.error("getAllCompanies [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException();
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllVacancies()}. */
@@ -448,7 +462,9 @@ public class DataProviderH2 implements IDataProvider{
             
             List<Vacancy> vacancies = new ArrayList<Vacancy>();
             while(res.next()){
-                vacancies.add(h2Util.createVacancy(res));
+                Vacancy vacancy = h2Util.createVacancy(res);
+                vacancy.setCompany(getCompany(res.getInt(2)));
+                vacancies.add(vacancy);
             }
             
             return vacancies;
@@ -457,7 +473,7 @@ public class DataProviderH2 implements IDataProvider{
             log.error("getAllVacancies [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException();
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllEmployees()}. */
@@ -475,7 +491,9 @@ public class DataProviderH2 implements IDataProvider{
             
             List<Employee> employees = new ArrayList<Employee>();
             while(res.next()){
-                employees.add(h2Util.createEmployee(res));
+                Employee employee = h2Util.createEmployee(res);
+                employee.setCompany(getCompany(res.getInt(9)));
+                employees.add(employee);
             }
             
             return employees;
@@ -484,7 +502,7 @@ public class DataProviderH2 implements IDataProvider{
             log.error("getAllEmployees [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException();
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllSeparateQuals()}. */
@@ -502,7 +520,9 @@ public class DataProviderH2 implements IDataProvider{
             
             List<SeparateQual> separateQuals = new ArrayList<SeparateQual>();
             while(res.next()){
-                separateQuals.add(h2Util.createSeparateQual(res));
+                SeparateQual separateQual = h2Util.createSeparateQual(res);
+                separateQual.setCompany(getCompany(res.getInt(2)));
+                separateQuals.add(separateQual);
             }
             
             return separateQuals;
@@ -511,7 +531,7 @@ public class DataProviderH2 implements IDataProvider{
             log.error("getAllSeparateQuals [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException();
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#updatePerson(Person)}. */
@@ -891,6 +911,197 @@ public class DataProviderH2 implements IDataProvider{
         }
         
         return result;
+    }
+
+    /** See also {@link IDataProvider#giveAssessment(int)}. */
+    @Override
+    public Result giveAssessment(int idEmployee, int idCompany, int quality, String description){
+        log.debug("giveAssessment [1]: Даем оценку компании, id employee = {}, id company = {}, quality = {}", idEmployee, idCompany, quality);
+        Result result = new Result();
+
+        if(checkQuality(quality) && checkDealTogether(idEmployee, idCompany)){
+            
+            SeparateQual separateQual = new SeparateQual();
+                
+            log.debug("giveAssessment [1]: установка объекту оценки поле company");
+            separateQual.setCompany(getCompany(idCompany));
+            
+            separateQual.setDescription(description);
+            separateQual.setQuality(quality);
+                
+            result = saveSeparateQual(separateQual);
+            log.debug("giveAssessment [2]: результат сохранения, result = {}", result.getMessage());
+        }
+        else{
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
+        }
+        
+        return result;
+    }
+
+    /** See also {@link IDataProvider#checkDealTogether(int, int)}. */
+    @Override
+    public boolean checkDealTogether(int idEmployee, int idCompany) {
+        log.debug("checkDealTogether [1]: checking deal");
+        try{
+            getCompany(idCompany);
+        } catch(NullPointerException ex){
+            log.debug("checkDealTogether [2]: такой компании нет, id company = {}", idCompany);
+            return false;
+        }
+        
+        try{
+            Employee employee = getEmployee(idEmployee);
+            return employee.getCompany().getId() == idCompany;
+        } catch(NullPointerException ex){
+            log.debug("checkDealTogether [2]: такого сотрудника нет, id employee = {}", idEmployee);
+        }
+        
+        return false;
+    }
+
+    /** See also {@link IDataProvider#calculateAssessment(int, boolean)}. */
+    @Override
+    public Result calculateAssessment(int idCompany, boolean others) {
+        log.debug("calculateAssessment [1]: calculate assessment, idCompany = {}", idCompany);
+        
+        Result result = new Result();
+        
+        try{
+            Company company = getCompany(idCompany);
+            
+            log.debug("calculateAssessment [2]: get all quals");
+            List<SeparateQual> separateQuals = getAllSeparateQuals();
+            separateQuals = separateQuals.stream()
+                    .filter((separateQual) -> separateQual.getCompany().getId() == idCompany)
+                    .toList();
+            
+            ResultAnalisys resultAnalisys = getResultAnalisys(company, separateQuals);
+            
+            log.debug("calculateAssessment [3]: check extend");
+            if(others){
+                calculateAssessmentWithOthers(resultAnalisys);
+            }
+            
+            log.debug("calculateAssessment [4]: generate result file");
+            generateResultFile(resultAnalisys);
+            
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+            
+        } catch(NullPointerException ex){
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+            log.error("calculateAssessment [5]: error = {}", ex.getMessage());
+        }
+        
+        return result;
+    }
+
+    /** See also {@link IDataProvider#calculateAssessmentWithOthers(ResultAnalisys)}. */
+    @Override
+    public Result calculateAssessmentWithOthers(ResultAnalisys resultAnalisys) {
+        log.debug("calculateAssessmentWithOthers[1]: resultAnalisys = {}", resultAnalisys.getResult());
+        Result result = new Result();
+        
+        try{
+            
+            List<Company> companies = getAllCompanies();
+            List<SeparateQual> separateQuals = getAllSeparateQuals();
+            int place = Constants.DEFAULT_PLACE_COMPANY;
+            for(Company cmp : companies){
+            
+                log.debug("calculateAssessmentWithOthers[2]: расчет среднего, company = {}", cmp);
+                ResultAnalisys tempResultAnalisys = getResultAnalisys(
+                        cmp, 
+                        separateQuals.stream()
+                        .filter((separateQual) -> separateQual.getCompany().getId() == cmp.getId())
+                        .toList());
+            
+                if(resultAnalisys.getResult() > tempResultAnalisys.getResult()){
+                    place++;
+                }
+            }
+            
+            resultAnalisys.setPlace(place);
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        } catch(Exception ex){
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+            log.error("calculateAssessmentWithOthers[3]: error = {}", ex.getMessage());
+        }
+        
+        return result;
+    }
+
+    /** See also {@link IDataProvider#hireEmployee(int, int, boolean)}. */
+    @Override
+    public Result hireEmployee(int idResume, int idVacancy, boolean test){
+        log.debug("hireEmployee [1]: hiring employee, id resume = {}, id vacancy = {}", idResume, idVacancy);
+        Result result = new Result();
+        try{
+            Resume resume = getResume(idResume);
+            Vacancy vacancy = getVacancy(idVacancy);
+            Client client = getClient(resume.getClient().getId());
+            
+            Employee employee = new Employee();
+            
+            employee.setTypePerson(TypePerson.EmployeeType);
+            
+            employee.setName(client.getName());
+            employee.setSurname(client.getSurname());
+            employee.setMiddleName(client.getMiddleName());
+            employee.setAge(client.getAge());
+            employee.setBirthday(client.getBirthday());
+            employee.setPhone(client.getPhone());
+            employee.setEmail(client.getEmail());
+            employee.setCompany(vacancy.getCompany());
+            employee.setSalary(vacancy.getSalary());
+            employee.setPosition(vacancy.getTitle());
+            employee.setIsWorking(true);
+            
+            savePerson(employee);
+            
+            log.debug("hireEmployee [2]: send hire message");
+            sendHireMessage(employee.getEmail(), vacancy);
+            
+            if(test){
+                log.debug("hireEmployee [3]: send test message");
+                sendTestMessage(employee.getEmail(), vacancy);
+            }
+            
+            log.debug("hireEmployee [4]: Человек успешно нанят");
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        } catch(NullPointerException ex){
+            log.error("hireEmployee [5]: {}", Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Method filles ResultAnalisys
+     * @param company - company
+     * @param separateQuals  - list of company sepatareQuals
+     * @return ResultAnalisys
+     **/
+    private ResultAnalisys getResultAnalisys(Company company, List<SeparateQual> separateQuals){
+        log.debug("getResultAnalisys[1]: company = {}", company);
+        
+        int count = separateQuals.size();
+        double sum = separateQuals.stream()
+                .mapToInt((separateQual) -> (separateQual.getQuality()))
+                .sum();
+            
+        double avg = sum / count;
+        ResultAnalisys resultAnalisys = new ResultAnalisys(avg, company);
+            
+        return resultAnalisys;
     }
     
     

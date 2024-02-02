@@ -1,13 +1,40 @@
 package ru.sfedu.api;
 
+import com.opencsv.CSVWriter;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import java.time.LocalDateTime;
+
 import java.util.List;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import ru.sfedu.Constants;
+
 import ru.sfedu.model.*;
+
+import static ru.sfedu.util.ConfigurationUtilProperties.getConfigurationEntry;
+
+import ru.sfedu.util.FileUtil;
 
 /**
  *
  * @author mike
  */
 public interface IDataProvider {
+    
+    static final Logger log = LogManager.getLogger(IDataProvider.class.getName());
+    
     /**
      * Method for registering a person in the system.
      * If a person is valid returns a Result with a 200 code and an object which was saved.
@@ -248,4 +275,175 @@ public interface IDataProvider {
      * @return an object that contains the result of the save.
      **/
     Result deleteSeparateQual(int id);
+    
+    /**
+     * Method gives assessment for company by idCompany
+     * @param idEmployee - id employee
+     * @param idCompany - id company
+     * @param quality  - quality of assessment
+     * @param description - description of assessment
+     * @return result of giving assessment
+     **/
+    Result giveAssessment(int idEmployee, int idCompany, int quality, String description);
+    
+    /**
+     * Method checks quality of assessment
+     * @param quality  - quality of assessment
+     * @return result of checking - true if quality in right diapozon
+     **/
+    default boolean checkQuality(int quality){
+        return quality >= Constants.MIN_QUALITY && quality <= Constants.MAX_QUALITY;
+    }
+    
+    /**
+     * Method checks dealing among company and employee
+     * @param idEmployee - id employee
+     * @param idCompany  - id company
+     * @return result of checking - true if company and employee have deals
+     **/
+    boolean checkDealTogether(int idEmployee, int idCompany);
+    
+    /**
+     * Method calculate avg of all of separate quals of company by idCompany
+     * @param idCompany - id company
+     * @param others - flag, if true also generates place among others companies
+     * @return result of operation
+     **/
+    Result calculateAssessment(int idCompany, boolean others);
+    
+    /**
+     * Method calculate place among other companies
+     * @param resultAnalisys - filled instance ResultAnalisys
+     * @return result of operation
+     **/
+    Result calculateAssessmentWithOthers(ResultAnalisys resultAnalisys);
+    
+    /**
+     * Method generate result file 
+     * @param resultAnalisys - filled instance ResultAnalisys
+     **/
+    default void generateResultFile(ResultAnalisys resultAnalisys){
+        log.debug("generateResultFile [1]: writting result, company = {}, result = {}", resultAnalisys.getCompany(), resultAnalisys.getResult());
+        
+        String filePath = getConfigurationEntry(Constants.PATH_RESULT).concat(String.format(Constants.NAME_FILE_RESULT, resultAnalisys.getCompany().getTitle(), resultAnalisys.getCompany().getId(), String.valueOf(LocalDateTime.now()))).concat(Constants.CSV_FILE_TYPE);
+     
+        try{
+            FileUtil.createFolderIfNotExists(getConfigurationEntry(Constants.PATH_RESULT));
+            FileUtil.createFileIfNotExists(filePath);
+            File file = new File(filePath);
+            
+            FileWriter outputfile = new FileWriter(file);
+            
+            CSVWriter writer = new CSVWriter(outputfile);
+            
+            writer.writeNext(Constants.HEADER_RESULT);
+            String[] data;
+            if(resultAnalisys.getPlace() != 0){
+                data = new String[] {
+                    String.valueOf( resultAnalisys.getCompany().getId()), 
+                    resultAnalisys.getCompany().getTitle(), 
+                    String.valueOf(resultAnalisys.getResult()), 
+                    String.valueOf(resultAnalisys.getPlace())
+                };
+                
+            }
+            else{
+                data = new String[] {
+                    String.valueOf( resultAnalisys.getCompany().getId()), 
+                    resultAnalisys.getCompany().getTitle(), 
+                    String.valueOf(resultAnalisys.getResult())
+                };
+                
+            }
+            
+            writer.writeNext(data);
+            
+            writer.close();
+        } catch(IOException ex){
+            log.error("generateResultFile [2]: error = {}", ex.getMessage());
+        }
+    }
+    
+    /**
+     * Method hires employee by resume and vacancy
+     * @param idResume - id resume
+     * @param idVacancy  - id vacancy
+     * @param test - flag, sends TEST message if true
+     * @return result of operation
+     **/
+    Result hireEmployee(int idResume, int idVacancy, boolean test);
+    
+    /**
+     * Method sends hire messsage to client email 
+     * @param email - client email
+     * @param vacancy  - vacancy by which hiring client
+     * @return result of operation
+     **/
+    default Result sendHireMessage(String email, Vacancy vacancy){
+        log.debug("sendHireMessage [1]: send message, email = {}", email);
+        Result result = new Result();
+        try{
+            final Properties properties = new Properties();
+            properties.load(IDataProvider.class.getClassLoader().getResourceAsStream(Constants.PROP_MAIL));
+       
+            Session mailSession = Session.getDefaultInstance(properties);
+            MimeMessage message = new MimeMessage(mailSession);
+            message.setFrom(new InternetAddress(Constants.USERNAME_MAIL));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+            message.setSubject(Constants.SUBJECT_MAIL);
+            message.setText(String.format(Constants.TEXT_MESSAGE_HAIR_MAIL, vacancy.getTitle(), vacancy.getSalary()));
+            
+            Transport tr = mailSession.getTransport();
+            tr.connect(Constants.USERNAME_MAIL, Constants.PASSWORD_MAIL);
+            tr.sendMessage(message, message.getAllRecipients());
+            tr.close();
+            
+            log.debug("sendHireMessage [1]: message sended");
+            
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        } catch(Exception ex){
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+            log.error("sendHireMessage [2]: error = {}", ex.getMessage());
+        }
+        return result;
+    }
+
+    /**
+     * Method sends test messsage to client email 
+     * @param email - client email
+     * @param vacancy  - vacancy by which hiring client
+     * @return result of operation
+     **/
+    default Result sendTestMessage(String email, Vacancy vacancy){
+        log.debug("sendTestMessage [1]: send message, email = {}", email);
+        Result result = new Result();
+        try{
+            final Properties properties = new Properties();
+            properties.load(IDataProvider.class.getClassLoader().getResourceAsStream(Constants.PROP_MAIL));
+       
+            Session mailSession = Session.getDefaultInstance(properties);
+            MimeMessage message = new MimeMessage(mailSession);
+            message.setFrom(new InternetAddress(Constants.USERNAME_MAIL));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+            message.setSubject(Constants.SUBJECT_MAIL);
+            message.setText(String.format(Constants.TEXT_MESSAGE_TEST_MAIL, vacancy.getTitle(), vacancy.getSalary(), vacancy.getAddress()));
+            
+            Transport tr = mailSession.getTransport();
+            tr.connect(Constants.USERNAME_MAIL, Constants.PASSWORD_MAIL);
+            tr.sendMessage(message, message.getAllRecipients());
+            tr.close();
+            
+            log.debug("sendTestMessage [1]: message sended");
+            
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        } catch(Exception ex){
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+            log.error("sendTestMessage [2]: error = {}", ex.getMessage());
+        }
+        return result;
+    }
 }

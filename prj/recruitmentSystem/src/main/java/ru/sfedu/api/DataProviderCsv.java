@@ -3,6 +3,7 @@ package ru.sfedu.api;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
@@ -35,11 +36,28 @@ import ru.sfedu.util.TableName;
 public class DataProviderCsv implements IDataProvider{
     private static final Logger log = LogManager.getLogger(DataProviderCsv.class.getName());
     
+    private final String pathFolder;
+    
     public DataProviderCsv(){
         log.debug("DataProviderCsv [1]: initialization");
         
+        pathFolder = getConfigurationEntry(Constants.CSV_PATH_FOLDER);
+        
         try{
-            FileUtil.createFolderIfNotExists(getConfigurationEntry(Constants.CSV_PATH_FOLDER));
+            FileUtil.createFolderIfNotExists(pathFolder);
+        } catch(IOException ex){
+            log.error("DataProviderCsv [2]: error = {}", ex.getMessage());
+        }
+        
+    }
+    
+    public DataProviderCsv(String path){
+        log.debug("DataProviderCsv [1]: initialization");
+        
+        pathFolder = path.concat(getConfigurationEntry(Constants.CSV_PATH_FOLDER));
+        
+        try{
+            FileUtil.createFolderIfNotExists(pathFolder);
         } catch(IOException ex){
             log.error("DataProviderCsv [2]: error = {}", ex.getMessage());
         }
@@ -74,9 +92,11 @@ public class DataProviderCsv implements IDataProvider{
             
             log.debug("getId [2]: gettind has been successful");
             return id;
-        } catch(NullPointerException | IOException | CsvException ex){
+        } catch(CsvException ex){
             log.error("getId [3]: error = {}", ex.getMessage());
-        } 
+        } catch(IOException ex){
+            log.debug("getId [4]: creating first record");
+        }
         
         return id;
     }
@@ -88,7 +108,7 @@ public class DataProviderCsv implements IDataProvider{
     * @return возвращает относительный путь до файла
     **/
     private String getPath(String tableName){
-        return getConfigurationEntry(Constants.CSV_PATH_FOLDER) + tableName + Constants.CSV_FILE_TYPE;
+        return pathFolder + tableName + Constants.CSV_FILE_TYPE;
     }
 
     /**
@@ -262,7 +282,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#getClient(int)}. */
     @Override
-    public Client getClient(int id) {
+    public Client getClient(int id) throws NoSuchElementException{
         log.debug("getClient [1]: id = {}", id);
        
         try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_CLIENT))){
@@ -286,8 +306,10 @@ public class DataProviderCsv implements IDataProvider{
             
             return clientWrap.get();
                     
-        } catch(IOException | NoSuchElementException ex){
+        } catch(IOException ex){
             log.error("getClient [2]: error = {}", ex.getMessage());
+        } catch(NoSuchElementException ex){
+            log.debug("getClient [3]: such record does not exist: bean = SeparateQual, id = " + id);
         }
        
        throw new NullPointerException("such record does not exist: bean = Client, id = " + id);
@@ -295,7 +317,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#getResume(int)}. */
     @Override
-    public Resume getResume(int id) {
+    public Resume getResume(int id) throws NoSuchElementException{
         log.debug("getResume [1]: id = {}", id);
        
         try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_RESUME))){
@@ -319,8 +341,10 @@ public class DataProviderCsv implements IDataProvider{
             
             return resumeWrap.get();
                     
-        } catch(IOException | NoSuchElementException ex){
+        } catch(IOException ex){
             log.error("getResume [2]: error = {}", ex.getMessage());
+        } catch(NoSuchElementException ex){
+            log.debug("getResume [3]: such record does not exist: bean = SeparateQual, id = " + id);
         }
        
        throw new NullPointerException("such record does not exist: bean = Resume, id = " + id);
@@ -328,7 +352,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#getCompany(int)}. */
     @Override
-    public Company getCompany(int id) {
+    public Company getCompany(int id) throws NoSuchElementException{
         log.debug("getCompany [1]: id = {}", id);
        
         try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_COMPANY))){
@@ -346,14 +370,16 @@ public class DataProviderCsv implements IDataProvider{
             Optional<Company> resumeWrap = csvToBean.parse()
                     .stream()
                     .filter(company -> {
-                        return company.getId() == id;
+                        return company.getId()== id;
                     })
                     .findFirst();
             
             return resumeWrap.get();
                     
-        } catch(IOException | NoSuchElementException ex){
+        } catch(IOException ex){
             log.error("getCompany [2]: error = {}", ex.getMessage());
+        } catch(NoSuchElementException ex){
+            log.debug("getCompany [3]: such record does not exist: bean = SeparateQual, id = " + id);
         }
        
        throw new NullPointerException("such record does not exist: bean = Company, id = " + id);
@@ -361,7 +387,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#getVacancy(int)}. */
     @Override
-    public Vacancy getVacancy(int id) {
+    public Vacancy getVacancy(int id) throws NoSuchElementException{
         log.debug("getVacancy [1]: id = {}", id);
        
         try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_VACANCY))){
@@ -379,14 +405,17 @@ public class DataProviderCsv implements IDataProvider{
             Optional<Vacancy> resumeWrap = csvToBean.parse()
                     .stream()
                     .filter(vacancy -> {
-                        return vacancy.getId() == id;
+                        System.out.println(vacancy.getId());
+                        return vacancy.getId()== id;
                     })
                     .findFirst();
             
             return resumeWrap.get();
                     
-        } catch(IOException | NoSuchElementException ex){
+        } catch(IOException ex){
             log.error("getVacancy [2]: error = {}", ex.getMessage());
+        } catch(NoSuchElementException ex){
+            log.debug("getVacancy [3]: such record does not exist: bean = Vacancy, id = " + id);
         }
        
        throw new NullPointerException("such record does not exist: bean = Vacancy, id = " + id);
@@ -394,7 +423,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#getEmployee(int)}. */
     @Override
-    public Employee getEmployee(int id) {
+    public Employee getEmployee(int id) throws NoSuchElementException{
         log.debug("getEmployee [1]: id = {}", id);
        
         try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_EMPLOYEE))){
@@ -418,8 +447,10 @@ public class DataProviderCsv implements IDataProvider{
             
             return resumeWrap.get();
                     
-        } catch(IOException | NoSuchElementException ex){
+        } catch(IOException  ex){
             log.error("getEmployee [2]: error = {}", ex.getMessage());
+        } catch(NoSuchElementException ex){
+            log.debug("getEmployee [3]: such record does not exist: bean = SeparateQual, id = " + id);
         }
        
        throw new NullPointerException("such record does not exist: bean = Employee, id = " + id);
@@ -427,7 +458,7 @@ public class DataProviderCsv implements IDataProvider{
 
     /** See also {@link IDataProvider#getSeparateQual(int)}. */
     @Override
-    public SeparateQual getSeparateQual(int id) {
+    public SeparateQual getSeparateQual(int id) throws NoSuchElementException{
         log.debug("getSeparateQual [1]: id = {}", id);
        
         try(FileReader fileReader = new FileReader(getPath(Constants.TITLE_TABLE_SEPARATE_QUAL))){
@@ -451,8 +482,10 @@ public class DataProviderCsv implements IDataProvider{
             
             return resumeWrap.get();
                     
-        } catch(IOException | NoSuchElementException ex){
+        } catch(IOException ex){
             log.error("getSeparateQual [2]: error = {}", ex.getMessage());
+        } catch(NoSuchElementException ex){
+            log.debug("getSeparateQual [3]: such record does not exist: bean = SeparateQual, id = " + id);
         }
        
        throw new NullPointerException("such record does not exist: bean = SeparateQual, id = " + id);
@@ -482,7 +515,7 @@ public class DataProviderCsv implements IDataProvider{
             log.error("getAllClients [2]: error = {}", ex.getMessage());
         }
 
-        throw new NullPointerException("records such bean do not exists: bean = Client");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllResumes()}. */
@@ -509,7 +542,7 @@ public class DataProviderCsv implements IDataProvider{
             log.error("getAllResumes [2]: error = {}", ex.getMessage());
         }
 
-        throw new NullPointerException("records such bean do not exists: bean = Resume");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllCompanies()}. */
@@ -536,7 +569,7 @@ public class DataProviderCsv implements IDataProvider{
             log.error("getAllCompanies [2]: error = {}", ex.getMessage());
         }
 
-        throw new NullPointerException("records such bean do not exists: bean = Company");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllVacancies()}. */
@@ -563,7 +596,7 @@ public class DataProviderCsv implements IDataProvider{
             log.error("getAllVacancies [2]: error = {}", ex.getMessage());
         }
 
-        throw new NullPointerException("records such bean do not exists: bean = Vacancy");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllEmployees()}. */
@@ -590,7 +623,7 @@ public class DataProviderCsv implements IDataProvider{
             log.error("getAllEmployees [2]: error = {}", ex.getMessage());
         }
 
-        throw new NullPointerException("records such bean do not exists: bean = Employee");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllSeparateQuals()}. */
@@ -617,7 +650,7 @@ public class DataProviderCsv implements IDataProvider{
             log.error("getAllSeparateQuals [2]: error = {}", ex.getMessage());
         }
 
-        throw new NullPointerException("records such bean do not exists: bean = SeparateQual");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#updatePerson(Person)}. */
@@ -673,9 +706,7 @@ public class DataProviderCsv implements IDataProvider{
         if(result.getCode() == Constants.CODE_SUCCESS){
             MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, person);
         }
-        else if(result.getCode() == Constants.CODE_ERROR){
-            log.error("updatePerson [3]: error = {}", result.getMessage());
-        }
+        
         return result;
     }
 
@@ -722,9 +753,6 @@ public class DataProviderCsv implements IDataProvider{
         if(result.getCode() == Constants.CODE_SUCCESS){
             MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, resume);
         }
-        else if(result.getCode() == Constants.CODE_ERROR){
-            log.error("updateResume [3]: error = {}", result.getMessage());
-        }
         return result;
     }
 
@@ -749,7 +777,7 @@ public class DataProviderCsv implements IDataProvider{
             companies.stream()
                     .forEach((c) -> {
                         try{
-                            if(c.getId() == company.getId()){
+                            if(c.getId()== company.getId()){
                                     beanToCsv.write(company);
                             }
                             else{
@@ -770,9 +798,6 @@ public class DataProviderCsv implements IDataProvider{
        
         if(result.getCode() == Constants.CODE_SUCCESS){
             MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, company);
-        }
-        else if(result.getCode() == Constants.CODE_ERROR){
-            log.error("updateCompany [3]: error = {}", result.getMessage());
         }
         return result;
     }
@@ -798,7 +823,7 @@ public class DataProviderCsv implements IDataProvider{
             vacancies.stream()
                     .forEach((v) -> {
                         try{
-                            if(v.getId() == vacancy.getId()){
+                            if(v.getId()== vacancy.getId()){
                                     beanToCsv.write(vacancy);
                             }
                             else{
@@ -868,9 +893,6 @@ public class DataProviderCsv implements IDataProvider{
        
         if(result.getCode() == Constants.CODE_SUCCESS){
             MongoProvider.save(CommandType.UPDATED, RepositoryType.CSV, separateQual);
-        }
-        else if(result.getCode() == Constants.CODE_ERROR){
-            log.error("updateSeparateQual [3]: error = {}", result.getMessage());
         }
         return result;
     }
@@ -997,7 +1019,7 @@ public class DataProviderCsv implements IDataProvider{
             companies.stream()
                     .forEach((c) -> {
                         try{
-                            if(c.getId() != id){
+                            if(c.getId()!= id){
                                     beanToCsv.write(c);
                             }
                             else{
@@ -1043,7 +1065,7 @@ public class DataProviderCsv implements IDataProvider{
             vacancies.stream()
                     .forEach((v) -> {
                         try{
-                            if(v.getId() != id){
+                            if(v.getId()!= id){
                                     beanToCsv.write(v);
                             }
                             else{
@@ -1113,4 +1135,197 @@ public class DataProviderCsv implements IDataProvider{
         }
         return result;
     }
+    
+    /** See also {@link IDataProvider#giveAssessment(int)}. */
+    @Override
+    public Result giveAssessment(int idEmployee, int idCompany, int quality, String description){
+        log.debug("giveAssessment [1]: Даем оценку компании, id employee = {}, id company = {}, quality = {}", idEmployee, idCompany, quality);
+        Result result = new Result();
+
+        if(checkQuality(quality) && checkDealTogether(idEmployee, idCompany)){
+            
+            SeparateQual separateQual = new SeparateQual();
+                
+            log.debug("giveAssessment [1]: установка объекту оценки поле company");
+            separateQual.setCompany(getCompany(idCompany));
+            
+            separateQual.setDescription(description);
+            separateQual.setQuality(quality);
+                
+            result = saveSeparateQual(separateQual);
+            log.debug("giveAssessment [2]: результат сохранения, result = {}", result.getMessage());
+        }
+        else{
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
+        }
+        
+        return result;
+    }
+    
+    /** See also {@link IDataProvider#checkDealTogether(int, int)}. */
+    @Override
+    public boolean checkDealTogether(int idEmployee, int idCompany){
+        log.debug("checkDealTogether [1]: checking deal");
+        try{
+            getCompany(idCompany);
+        } catch(NullPointerException ex){
+            log.debug("checkDealTogether [2]: такой компании нет, id company = {}", idCompany);
+            return false;
+        }
+        
+        try{
+            Employee employee = getEmployee(idEmployee);
+            return employee.getCompany().getId() == idCompany;
+        } catch(NullPointerException ex){
+            log.debug("checkDealTogether [2]: такого сотрудника нет, id employee = {}", idEmployee);
+        }
+        
+        return false;
+    }
+
+    /** See also {@link IDataProvider#calculateAssessment(int, boolean)}. */
+    @Override
+    public Result calculateAssessment(int idCompany, boolean others){
+        log.debug("calculateAssessment [1]: calculate assessment, idCompany = {}", idCompany);
+        
+        Result result = new Result();
+        
+        try{
+            Company company = getCompany(idCompany);
+            
+            log.debug("calculateAssessment [2]: get all quals");
+            List<SeparateQual> separateQuals = getAllSeparateQuals();
+            separateQuals = separateQuals.stream()
+                    .filter((separateQual) -> separateQual.getCompany().getId() == idCompany)
+                    .toList();
+            
+            ResultAnalisys resultAnalisys = getResultAnalisys(company, separateQuals);
+            
+            log.debug("calculateAssessment [3]: check extend");
+            if(others){
+                calculateAssessmentWithOthers(resultAnalisys);
+            }
+            
+            log.debug("calculateAssessment [4]: generate result file");
+            generateResultFile(resultAnalisys);
+            
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+            
+        } catch(NullPointerException ex){
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+            log.error("calculateAssessment [5]: error = {}", ex.getMessage());
+        }
+        
+        return result;
+    }
+
+    /** See also {@link IDataProvider#calculateAssessmentWithOthers(ResultAnalisys)}. */
+    @Override
+    public Result calculateAssessmentWithOthers(ResultAnalisys resultAnalisys) {
+        log.debug("calculateAssessmentWithOthers[1]: resultAnalisys = {}", resultAnalisys.getResult());
+        Result result = new Result();
+        
+        try{
+            
+            List<Company> companies = getAllCompanies();
+            List<SeparateQual> separateQuals = getAllSeparateQuals();
+            int place = Constants.DEFAULT_PLACE_COMPANY;
+            for(Company cmp : companies){
+            
+                log.debug("calculateAssessmentWithOthers[2]: расчет среднего, company = {}", cmp);
+                ResultAnalisys tempResultAnalisys = getResultAnalisys(
+                        cmp, 
+                        separateQuals.stream()
+                        .filter((separateQual) -> separateQual.getCompany().getId() == cmp.getId())
+                        .toList());
+            
+                if(resultAnalisys.getResult() > tempResultAnalisys.getResult()){
+                    place++;
+                }
+            }
+            
+            resultAnalisys.setPlace(place);
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        } catch(Exception ex){
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+            log.error("calculateAssessmentWithOthers[3]: error = {}", ex.getMessage());
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Method filles ResultAnalisys
+     * @param company - company
+     * @param separateQuals  - list of company sepatareQuals
+     * @return ResultAnalisys
+     **/
+    private ResultAnalisys getResultAnalisys(Company company, List<SeparateQual> separateQuals){
+        log.debug("getResultAnalisys[1]: company = {}", company);
+        
+        int count = separateQuals.size();
+        double sum = separateQuals.stream()
+                .mapToInt((separateQual) -> (separateQual.getQuality()))
+                .sum();
+            
+        double avg = sum / count;
+        ResultAnalisys resultAnalisys = new ResultAnalisys(avg, company);
+            
+        return resultAnalisys;
+    }
+
+    /** See also {@link IDataProvider#hireEmployee(int, int, boolean)}. */
+    @Override
+    public Result hireEmployee(int idResume, int idVacancy, boolean test) {
+        log.debug("hireEmployee [1]: hiring employee, id resume = {}, id vacancy = {}", idResume, idVacancy);
+        Result result = new Result();
+        try{
+            Resume resume = getResume(idResume);
+            Vacancy vacancy = getVacancy(idVacancy);
+            Client client = getClient(resume.getClient().getId());
+            
+            Employee employee = new Employee();
+            
+            employee.setTypePerson(TypePerson.EmployeeType);
+            
+            employee.setName(client.getName());
+            employee.setSurname(client.getSurname());
+            employee.setMiddleName(client.getMiddleName());
+            employee.setAge(client.getAge());
+            employee.setBirthday(client.getBirthday());
+            employee.setPhone(client.getPhone());
+            employee.setEmail(client.getEmail());
+            employee.setCompany(vacancy.getCompany());
+            employee.setSalary(vacancy.getSalary());
+            employee.setPosition(vacancy.getTitle());
+            employee.setIsWorking(true);
+            
+            savePerson(employee);
+            
+            log.debug("hireEmployee [2]: send hire message");
+            sendHireMessage(employee.getEmail(), vacancy);
+            
+            if(test){
+                log.debug("hireEmployee [3]: send test message");
+                sendTestMessage(employee.getEmail(), vacancy);
+            }
+            
+            log.debug("hireEmployee [4]: Человек успешно нанят");
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        } catch(NullPointerException ex){
+            log.error("hireEmployee [5]: {}", Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
+        }
+        
+        return result;
+    }
+    
+    
 }

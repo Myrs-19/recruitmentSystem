@@ -5,7 +5,8 @@
 package ru.sfedu.model;
 
 import com.opencsv.bean.CsvBindByPosition;
-import org.simpleframework.xml.Element;
+import com.opencsv.bean.CsvCustomBindByPosition;
+import org.simpleframework.xml.*;
 import org.simpleframework.xml.Root;
 
 /**
@@ -16,43 +17,43 @@ import org.simpleframework.xml.Root;
 public class Resume {
     @Element
     @CsvBindByPosition(position = 0)
-    int id;
+    private int id;
     
     @Element
-    @CsvBindByPosition(position = 1)
-    int clientId;
+    @CsvCustomBindByPosition(position = 1, converter = ClientCsvConverter.class)
+    private Client client;
     
     @Element
     @CsvBindByPosition(position = 2)
-    String profession;
+    private String profession;
     
     @Element
     @CsvBindByPosition(position = 3)
-    String city;
+    private String city;
     
     @Element(required = false)
     @CsvBindByPosition(position = 4)
-    String skills;
+    private String skills;
     
     @Element(required = false)
     @CsvBindByPosition(position = 5)
-    String education;
+    private String education;
     
     @Element(required = false)
     @CsvBindByPosition(position = 6)
-    String experience;
+    private String experience;
     
     @Element(required = false)
     @CsvBindByPosition(position = 8)
-    boolean sex;
+    private boolean sex;
     
     @Element(required = false)
     @CsvBindByPosition(position = 10)
-    boolean workPermit;
+    private boolean workPermit;
     
     @Element(required = false)
     @CsvBindByPosition(position = 11)
-    String citizenship;
+    private String citizenship;
     
     public Resume(){}
 
@@ -64,12 +65,12 @@ public class Resume {
         this.id = id;
     }
 
-    public int getClientId() {
-        return clientId;
+    public Client getClient() {
+        return client;
     }
 
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public String getProfession() {
@@ -140,7 +141,7 @@ public class Resume {
     public String toString(){
         return "Resume{" +
                 "id = " + getId() +
-                ", clientId = " + getClientId() +
+                ", clientId = " + client.getId() +
                 ", city = " + getCity() +
                 ", profession = " + getProfession() +
                 '}';

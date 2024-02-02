@@ -1,6 +1,6 @@
 package ru.sfedu.model;
 
-import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.*;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
@@ -8,23 +8,19 @@ import org.simpleframework.xml.Root;
 public class SeparateQual {
     @Element
     @CsvBindByPosition(position = 0)
-    int id;
+    private int id;
     
     @Element
-    @CsvBindByPosition(position = 1)
-    int companyId;
-    
+    @CsvCustomBindByPosition(position = 1, converter = CompanyCsvConverter.class)
+    private Company company;
+
     @Element
     @CsvBindByPosition(position = 2)
-    int employeeId;
-    
-    @Element
-    @CsvBindByPosition(position = 3)
-    int quality;
+    private int quality;
     
     @Element(required = false)
-    @CsvBindByPosition(position = 4)
-    String description;
+    @CsvBindByPosition(position = 3)
+    private String description;
 
     public int getId() {
         return id;
@@ -34,22 +30,14 @@ public class SeparateQual {
         this.id = id;
     }
 
-    public int getCompanyId() {
-        return companyId;
+    public Company getCompany() {
+        return company;
     }
 
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
+    public void setCompany(Company company) {
+        this.company = company;
     }
-
-    public int getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
-    }
-
+    
     public int getQuality() {
         return quality;
     }
@@ -72,8 +60,7 @@ public class SeparateQual {
     public String toString(){
         return "SeparateQual{" +
                 "id = " + getId() +
-                ", companyId = " + getCompanyId()+
-                ", employeeId = " + getEmployeeId()+
+                ", companyId = " + getCompany().getId()+
                 ", quality = " + getQuality()+
                 '}';
     }

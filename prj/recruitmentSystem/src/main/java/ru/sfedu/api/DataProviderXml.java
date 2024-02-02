@@ -6,12 +6,12 @@ package ru.sfedu.api;
 
 import java.io.File;
 import java.io.IOException;
+
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,11 +32,27 @@ import ru.sfedu.util.TableName;
 public class DataProviderXml implements IDataProvider{
     private static final Logger log = LogManager.getLogger(DataProviderXml.class.getName());
     
+    private static String pathFolder;
+    
     public DataProviderXml(){
         log.debug("DataProviderXml [1]: initialization");
         
+        pathFolder = getConfigurationEntry(Constants.XML_PATH_FOLDER);
+        
         try{
-            FileUtil.createFolderIfNotExists(getConfigurationEntry(Constants.XML_PATH_FOLDER));
+            FileUtil.createFolderIfNotExists(pathFolder);
+        } catch(IOException ex){
+            log.error("DataProviderXml [2]: error = {}", ex.getMessage());
+        }
+    }
+    
+    public DataProviderXml(String path){
+        log.debug("DataProviderXml [1]: initialization, path = {}", path);
+        
+        pathFolder = path.concat(getConfigurationEntry(Constants.XML_PATH_FOLDER));
+        
+        try{
+            FileUtil.createFolderIfNotExists(pathFolder);
         } catch(IOException ex){
             log.error("DataProviderXml [2]: error = {}", ex.getMessage());
         }
@@ -60,7 +76,7 @@ public class DataProviderXml implements IDataProvider{
     * @return возвращает относительный путь до файла
     **/
     private static String getPathAndCreateFileIfNotExist(String tableName){
-        String path = getConfigurationEntry(Constants.XML_PATH_FOLDER) + tableName + Constants.XML_FILE_TYPE;
+        String path = pathFolder + tableName + Constants.XML_FILE_TYPE;
         try{
             FileUtil.createFileIfNotExists(path);
         } catch(IOException ex){
@@ -133,7 +149,7 @@ public class DataProviderXml implements IDataProvider{
                 wrap.setList(list);
                 
             } catch(Exception ex){
-                log.error("savePerson [2]: error = File is Empty");
+                log.debug("savePerson [2]: first record");
                 person.setId(id);
                 
                 wrap = new XmlWrapper<Person>();    
@@ -179,7 +195,7 @@ public class DataProviderXml implements IDataProvider{
                 wrap.setList(list);
                 
             } catch(Exception ex){
-                log.error("saveResume [2]: error = File is Empty");
+                log.debug("saveResume [2]: first record");
                 resume.setId(id);
                 
                 wrap = new XmlWrapper<Resume>();    
@@ -225,7 +241,7 @@ public class DataProviderXml implements IDataProvider{
                 wrap.setList(list);
                 
             } catch(Exception ex){
-                log.error("saveCompany [2]: error = File is Empty");
+                log.debug("saveCompany [2]: first record");
                 company.setId(id);
                 
                 wrap = new XmlWrapper<Company>();    
@@ -271,7 +287,7 @@ public class DataProviderXml implements IDataProvider{
                 wrap.setList(list);
                 
             } catch(Exception ex){
-                log.error("saveVacancy [2]: error = File is Empty");
+                log.debug("saveVacancy [2]: first record");
                 vacancy.setId(id);
                 
                 wrap = new XmlWrapper<Vacancy>();    
@@ -317,7 +333,7 @@ public class DataProviderXml implements IDataProvider{
                 wrap.setList(list);
                 
             } catch(Exception ex){
-                log.error("SeparateQual [2]: error = File is Empty");
+                log.debug("SeparateQual [2]: first record");
                 separateQual.setId(id);
                 
                 wrap = new XmlWrapper<SeparateQual>();    
@@ -346,8 +362,10 @@ public class DataProviderXml implements IDataProvider{
                     .filter(u -> u.getId() == id)
                     .findFirst();
             return optionalClient.get();
+        } catch(NoSuchElementException ex){
+            log.debug("getClient [2]: such record does not exist: bean = Client, id = " + id);
         } catch(Exception ex){
-            log.error("getClient [2]: error = {}", ex.getMessage());
+            log.error("getClient [3]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("the client has not been found, id = " + id);
@@ -363,8 +381,10 @@ public class DataProviderXml implements IDataProvider{
                     .filter(r -> r.getId() == id)
                     .findFirst();
             return optionalResume.get();
+        } catch(NoSuchElementException ex){
+            log.debug("getResume [2]: such record does not exist: bean = Resume, id = " + id);
         } catch(Exception ex){
-            log.error("getResume [2]: error = {}", ex.getMessage());
+            log.error("getResume [3]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("the resume has not been found, id = " + id);
@@ -377,11 +397,13 @@ public class DataProviderXml implements IDataProvider{
         try{
             XmlWrapper<Company> wrap = getWrap(Constants.TITLE_TABLE_COMPANY);
             Optional<Company> optionalCompany = wrap.getList().stream()
-                    .filter(c -> c.getId() == id)
+                    .filter(c -> c.getId()== id)
                     .findFirst();
             return optionalCompany.get();
+        } catch(NoSuchElementException ex){
+            log.debug("getCompany [2]: such record does not exist: bean = Company, id = " + id);
         } catch(Exception ex){
-            log.error("getCompany [2]: error = {}", ex.getMessage());
+            log.error("getCompany [3]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("the company has not been found, id = " + id);
@@ -394,11 +416,13 @@ public class DataProviderXml implements IDataProvider{
         try{
             XmlWrapper<Vacancy> wrap = getWrap(Constants.TITLE_TABLE_VACANCY);
             Optional<Vacancy> optionalVacancy = wrap.getList().stream()
-                    .filter(v -> v.getId() == id)
+                    .filter(v -> v.getId()== id)
                     .findFirst();
             return optionalVacancy.get();
+        } catch(NoSuchElementException ex){
+            log.debug("getVacancy [2]: such record does not exist: bean = Vacancy, id = " + id);
         } catch(Exception ex){
-            log.error("getVacancy [2]: error = {}", ex.getMessage());
+            log.error("getVacancy [3]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("the vacancy has not been found, id = " + id);
@@ -414,8 +438,10 @@ public class DataProviderXml implements IDataProvider{
                     .filter(emp -> emp.getId() == id)
                     .findFirst();
             return optionalEmployee.get();
+        } catch(NoSuchElementException ex){
+            log.debug("getEmployee [2]: such record does not exist: bean = Employee, id = " + id);
         } catch(Exception ex){
-            log.error("getEmployee [2]: error = {}", ex.getMessage());
+            log.error("getEmployee [3]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("the employee has not been found, id = " + id);
@@ -431,8 +457,10 @@ public class DataProviderXml implements IDataProvider{
                     .filter(v -> v.getId() == id)
                     .findFirst();
             return optionalSeparateQual.get();
+        } catch(NoSuchElementException ex){
+            log.debug("getSeparateQual [2]: such record does not exist: bean = SeparateQual, id = " + id);
         } catch(Exception ex){
-            log.error("getSeparateQual [2]: error = {}", ex.getMessage());
+            log.error("getSeparateQual [3]: error = {}", ex.getMessage());
         }
         
         throw new NullPointerException("the separateQual has not been found, id = " + id);
@@ -449,7 +477,7 @@ public class DataProviderXml implements IDataProvider{
             log.error("getAllClients [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException("no clients were not found");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllResumes()}. */
@@ -463,7 +491,7 @@ public class DataProviderXml implements IDataProvider{
             log.error("getAllResumes [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException("no resumes were not found");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllCompanies()}. */
@@ -477,7 +505,7 @@ public class DataProviderXml implements IDataProvider{
             log.error("getAllCompanies [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException("no companies were not found");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllVacancies()}. */
@@ -491,7 +519,7 @@ public class DataProviderXml implements IDataProvider{
             log.error("getAllVacancies [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException("no мacancies were not found");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllEmployees()}. */
@@ -505,7 +533,7 @@ public class DataProviderXml implements IDataProvider{
             log.error("getAllEmployees [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException("no employees were not found");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#getAllSeparateQuals()}. */
@@ -519,7 +547,7 @@ public class DataProviderXml implements IDataProvider{
             log.error("getAllSeparateQuals [2]: error = {}", ex.getMessage());
         }
         
-        throw new NullPointerException("no separateQuals were not found");
+        throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
     /** See also {@link IDataProvider#updatePerson()}. */
@@ -612,7 +640,7 @@ public class DataProviderXml implements IDataProvider{
             
             List<Company> list = wrap.getList().stream()
                     .map((c) -> {
-                        if(c.getId() == company.getId()){
+                        if(c.getId()== company.getId()){
                             return company;
                         }
                         else{
@@ -649,7 +677,7 @@ public class DataProviderXml implements IDataProvider{
             
             List<Vacancy> list = wrap.getList().stream()
                     .map((v) -> {
-                        if(v.getId() == vacancy.getId()){
+                        if(v.getId()== vacancy.getId()){
                             return vacancy;
                         }
                         else{
@@ -792,7 +820,7 @@ public class DataProviderXml implements IDataProvider{
             XmlWrapper<Company> wrap = DataProviderXml.<Company>getWrap(tableName);
             
             List<Company> list = wrap.getList().stream()
-                    .filter((c) -> c.getId() != id)
+                    .filter((c) -> c.getId()!= id)
                     .toList();
             boolean flag = wrap.getList().size() != list.size();
             wrap.setList(list);
@@ -827,7 +855,7 @@ public class DataProviderXml implements IDataProvider{
             XmlWrapper<Vacancy> wrap = DataProviderXml.<Vacancy>getWrap(tableName);
             
             List<Vacancy> list = wrap.getList().stream()
-                    .filter((v) -> v.getId() != id)
+                    .filter((v) -> v.getId()!= id)
                     .toList();
             boolean flag = wrap.getList().size() != list.size();
             wrap.setList(list);
@@ -880,6 +908,197 @@ public class DataProviderXml implements IDataProvider{
         }
         
         return result;
+    }
+
+    /** See also {@link IDataProvider#giveAssessment(int)}. */
+    @Override
+    public Result giveAssessment(int idEmployee, int idCompany, int quality, String description){
+        log.debug("giveAssessment [1]: Даем оценку компании, id employee = {}, id company = {}, quality = {}", idEmployee, idCompany, quality);
+        Result result = new Result();
+
+        if(checkQuality(quality) && checkDealTogether(idEmployee, idCompany)){
+            
+            SeparateQual separateQual = new SeparateQual();
+                
+            log.debug("giveAssessment [1]: установка объекту оценки поле company");
+            separateQual.setCompany(getCompany(idCompany));
+            
+            separateQual.setDescription(description);
+            separateQual.setQuality(quality);
+                
+            result = saveSeparateQual(separateQual);
+            log.debug("giveAssessment [2]: результат сохранения, result = {}", result.getMessage());
+        }
+        else{
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
+        }
+        
+        return result;
+    }
+
+    /** See also {@link IDataProvider#checkDealTogether(int, int)}. */
+    @Override
+    public boolean checkDealTogether(int idEmployee, int idCompany) {
+        log.debug("checkDealTogether [1]: checking deal");
+        try{
+            getCompany(idCompany);
+        } catch(NullPointerException ex){
+            log.debug("checkDealTogether [2]: такой компании нет, id company = {}", idCompany);
+            return false;
+        }
+        
+        try{
+            Employee employee = getEmployee(idEmployee);
+            return employee.getCompany().getId() == idCompany;
+        } catch(NullPointerException ex){
+            log.debug("checkDealTogether [2]: такого сотрудника нет, id employee = {}", idEmployee);
+        }
+        
+        return false;
+    }
+
+    /** See also {@link IDataProvider#calculateAssessment(int, boolean)}. */
+    @Override
+    public Result calculateAssessment(int idCompany, boolean others) {
+        log.debug("calculateAssessment [1]: calculate assessment, idCompany = {}", idCompany);
+        
+        Result result = new Result();
+        
+        try{
+            Company company = getCompany(idCompany);
+            
+            log.debug("calculateAssessment [2]: get all quals");
+            List<SeparateQual> separateQuals = getAllSeparateQuals();
+            separateQuals = separateQuals.stream()
+                    .filter((separateQual) -> separateQual.getCompany().getId() == idCompany)
+                    .toList();
+            
+            ResultAnalisys resultAnalisys = getResultAnalisys(company, separateQuals);
+            
+            log.debug("calculateAssessment [3]: check extend");
+            if(others){
+                calculateAssessmentWithOthers(resultAnalisys);
+            }
+            
+            log.debug("calculateAssessment [4]: generate result file");
+            generateResultFile(resultAnalisys);
+            
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+            
+        } catch(NullPointerException ex){
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+            log.error("calculateAssessment [5]: error = {}", ex.getMessage());
+        }
+        
+        return result;
+    }
+
+    /** See also {@link IDataProvider#calculateAssessmentWithOthers(ResultAnalisys)}. */
+    @Override
+    public Result calculateAssessmentWithOthers(ResultAnalisys resultAnalisys) {
+        log.debug("calculateAssessmentWithOthers[1]: resultAnalisys = {}", resultAnalisys.getResult());
+        Result result = new Result();
+        
+        try{
+            
+            List<Company> companies = getAllCompanies();
+            List<SeparateQual> separateQuals = getAllSeparateQuals();
+            int place = Constants.DEFAULT_PLACE_COMPANY;
+            for(Company cmp : companies){
+            
+                log.debug("calculateAssessmentWithOthers[2]: расчет среднего, company = {}", cmp);
+                ResultAnalisys tempResultAnalisys = getResultAnalisys(
+                        cmp, 
+                        separateQuals.stream()
+                        .filter((separateQual) -> separateQual.getCompany().getId() == cmp.getId())
+                        .toList());
+            
+                if(resultAnalisys.getResult() > tempResultAnalisys.getResult()){
+                    place++;
+                }
+            }
+            
+            resultAnalisys.setPlace(place);
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        } catch(Exception ex){
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(ex.getMessage());
+            log.error("calculateAssessmentWithOthers[3]: error = {}", ex.getMessage());
+        }
+        
+        return result;
+    }
+
+    /** See also {@link IDataProvider#hireEmployee(int, int, boolean)}. */
+    @Override
+    public Result hireEmployee(int idResume, int idVacancy, boolean test){
+        log.debug("hireEmployee [1]: hiring employee, id resume = {}, id vacancy = {}", idResume, idVacancy);
+        Result result = new Result();
+        try{
+            Resume resume = getResume(idResume);
+            Vacancy vacancy = getVacancy(idVacancy);
+            Client client = getClient(resume.getClient().getId());
+            
+            Employee employee = new Employee();
+            
+            employee.setTypePerson(TypePerson.EmployeeType);
+            
+            employee.setName(client.getName());
+            employee.setSurname(client.getSurname());
+            employee.setMiddleName(client.getMiddleName());
+            employee.setAge(client.getAge());
+            employee.setBirthday(client.getBirthday());
+            employee.setPhone(client.getPhone());
+            employee.setEmail(client.getEmail());
+            employee.setCompany(vacancy.getCompany());
+            employee.setSalary(vacancy.getSalary());
+            employee.setPosition(vacancy.getTitle());
+            employee.setIsWorking(true);
+            
+            savePerson(employee);
+            
+            log.debug("hireEmployee [2]: send hire message");
+            sendHireMessage(employee.getEmail(), vacancy);
+            
+            if(test){
+                log.debug("hireEmployee [3]: send test message");
+                sendTestMessage(employee.getEmail(), vacancy);
+            }
+            
+            log.debug("hireEmployee [4]: Человек успешно нанят");
+            result.setCode(Constants.CODE_SUCCESS);
+            result.setMessage(Constants.MESSAGE_CODE_SUCCESS);
+        } catch(NullPointerException ex){
+            log.error("hireEmployee [5]: {}", Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
+            result.setCode(Constants.CODE_ERROR);
+            result.setMessage(Constants.MESSAGE_EXCEPTION_DOESNT_VALID_DATA);
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Method filles ResultAnalisys
+     * @param company - company
+     * @param separateQuals  - list of company sepatareQuals
+     * @return ResultAnalisys
+     **/
+    private ResultAnalisys getResultAnalisys(Company company, List<SeparateQual> separateQuals){
+        log.debug("getResultAnalisys[1]: company = {}", company);
+        
+        int count = separateQuals.size();
+        double sum = separateQuals.stream()
+                .mapToInt((separateQual) -> (separateQual.getQuality()))
+                .sum();
+            
+        double avg = sum / count;
+        ResultAnalisys resultAnalisys = new ResultAnalisys(avg, company);
+            
+        return resultAnalisys;
     }
     
 }

@@ -3,6 +3,14 @@ package ru.sfedu;
 import static ru.sfedu.util.ConfigurationUtilProperties.getConfigurationEntry;
 
 public class Constants {  
+    public static final String PROP_MAIL = "mail.properties";
+    public static final String USERNAME_MAIL = "miha.seleznv.98@gmail.com";
+    public static final String PASSWORD_MAIL = "fcew qikt wuxm qvbr";
+    public static final String SUBJECT_MAIL = "ВАС НАНЯЛИ!!!";
+    public static final String TEXT_MESSAGE_HAIR_MAIL = "вы были наняты на позицию %s, с зарплатой %d";
+    public static final String TEXT_MESSAGE_TEST_MAIL = "вы были наняты на позицию %s, с зарплатой %d, но вас просят пройти тест, свяжитесь с компанией по адресу: %s";
+    
+    
     public static final String XML_PATH_FOLDER = "ru.sfedu.xml.folder";
     public static final String XML_FILE_TYPE = ".xml";
     
@@ -45,6 +53,10 @@ public class Constants {
     
     public static final String MESSAGE_CODE_WARN_DELETE = "record has not deleted";
     
+    public static final String MESSAGE_EXCEPTION_DONT_RECORDS = "records such bean do not exists";
+    
+    public static final String MESSAGE_EXCEPTION_DOESNT_VALID_DATA = "data does not valid";
+    
     public static final String COMPLETED_SUCCESSFUL = "SUCCESSFUL";
     public static final String COMPLETED_FAIL = "FAIL";
     public static final String DEFAULT_ACTOR = "system";
@@ -79,7 +91,6 @@ public class Constants {
             .concat("phone VARCHAR(11), ")
             .concat("email varchar(128), ")
             .concat("companyId INTEGER NOT NULL REFERENCES ").concat(TITLE_TABLE_COMPANY).concat("(id) ON DELETE CASCADE ON UPDATE CASCADE, ")
-            .concat("startWorkDate VARCHAR(32) NOT NULL, ")
             .concat("salary INTEGER NOT NULL, ")
             .concat("position varchar(256) NOT NULL, ")
             .concat("isWorking BOOLEAN NOT NULL")
@@ -124,7 +135,6 @@ public class Constants {
             .concat("(")
             .concat("id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, ")
             .concat("companyId INTEGER NOT NULL REFERENCES ").concat(TITLE_TABLE_COMPANY).concat("(id) ON DELETE CASCADE ON UPDATE CASCADE, ")
-            .concat("employeeId INTEGER NOT NULL REFERENCES ").concat(TITLE_TABLE_COMPANY).concat("(id) ON DELETE NO ACTION ON UPDATE NO ACTION, ")
             .concat("quality INTEGER NOT NULL, ")
             .concat("description VARCHAR(256)")
             .concat(");");
@@ -132,8 +142,8 @@ public class Constants {
     public static final String H2_QUERY_INSERT_CLIENT = String.format("INSERT INTO %s (name, surname, middleName, age, birthday, phone, email, password, address) ", TITLE_TABLE_CLIENT)
             .concat("VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
-    public static final String H2_QUERY_INSERT_EMPLOYEE = String.format("INSERT INTO %s (name, surname, middleName, age, birthday, phone, email, companyId, startWorkDate, salary, position, isWorking) ", TITLE_TABLE_EMPLOYEE)
-            .concat("VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    public static final String H2_QUERY_INSERT_EMPLOYEE = String.format("INSERT INTO %s (name, surname, middleName, age, birthday, phone, email, companyId, salary, position, isWorking) ", TITLE_TABLE_EMPLOYEE)
+            .concat("VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
     public static final String H2_QUERY_INSERT_COMPANY = String.format("INSERT INTO %s (title, description) ", TITLE_TABLE_COMPANY)
             .concat("VALUES(?, ?)");
@@ -144,8 +154,8 @@ public class Constants {
     public static final String H2_QUERY_INSERT_VACANCY = String.format("INSERT INTO %s (companyId, title, specialization, online, skills, salary, city, address, experience) ", TITLE_TABLE_VACANCY)
             .concat("VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
-    public static final String H2_QUERY_INSERT_SEPARATE_QUAL = String.format("INSERT INTO %s (companyId, employeeId, quality, description) ", TITLE_TABLE_SEPARATE_QUAL)
-            .concat("VALUES(?, ?, ?, ?)");
+    public static final String H2_QUERY_INSERT_SEPARATE_QUAL = String.format("INSERT INTO %s (companyId, quality, description) ", TITLE_TABLE_SEPARATE_QUAL)
+            .concat("VALUES(?, ?, ?)");
     
     public static final String H2_QUERY_GET_RECORD_BY_ID = "SELECT * FROM %s WHERE id = %d";
     
@@ -153,7 +163,7 @@ public class Constants {
     
     public static final String H2_QUERY_UPDATE_CLIENT = String.format("UPDATE %s SET name = ?, surname = ?, middleName = ?, age = ?, birthday = ?, phone = ?, email = ?, password = ?, address = ? ", TITLE_TABLE_CLIENT).concat(" WHERE id = %d");
     
-    public static final String H2_QUERY_UPDATE_EMPLOYEE = String.format("UPDATE %s SET name = ?, surname = ?, middleName = ?, age = ?, birthday = ?, phone = ?, email = ?, companyId = ?, startWorkDate = ?, salary = ?, position = ?, isWorking = ? ", TITLE_TABLE_EMPLOYEE).concat(" WHERE id = %d");
+    public static final String H2_QUERY_UPDATE_EMPLOYEE = String.format("UPDATE %s SET name = ?, surname = ?, middleName = ?, age = ?, birthday = ?, phone = ?, email = ?, companyId = ?, salary = ?, position = ?, isWorking = ? ", TITLE_TABLE_EMPLOYEE).concat(" WHERE id = %d");
     
     public static final String H2_QUERY_UPDATE_RESUME = String.format("UPDATE %s SET clientId = ?, profession = ?, city = ?, skills = ?, education = ?, experience = ?, sex = ?, workPermit = ?, citizenship = ? ", TITLE_TABLE_RESUME).concat(" WHERE id = %d");
     
@@ -161,11 +171,57 @@ public class Constants {
     
     public static final String H2_QUERY_UPDATE_VACANCY = String.format("UPDATE %s SET companyId = ?, title = ?, specialization = ?, online = ?, skills = ?, salary = ?, city = ?, address = ?, experience = ? ", TITLE_TABLE_VACANCY).concat(" WHERE id = %d");
     
-    public static final String H2_QUERY_UPDATE_SEPARATE_QUAL = String.format("UPDATE %s SET companyId = ?, employeeId = ?, quality = ?, description = ? ", TITLE_TABLE_SEPARATE_QUAL).concat(" WHERE id = %d");
+    public static final String H2_QUERY_UPDATE_SEPARATE_QUAL = String.format("UPDATE %s SET companyId = ?, quality = ?, description = ? ", TITLE_TABLE_SEPARATE_QUAL).concat(" WHERE id = %d");
     
     public static final String H2_QUERY_DELETE_RECORD_BY_ID = "DELETE FROM %s WHERE id = %d";
             
     public static final String TEST_MAIN_FOLDER_PATH = "src/test/testFolder/testActualDataFolder/";
+
+    public static final int MAX_QUALITY = 10;
+    
+    public static final int MIN_QUALITY = 0;
+    
+    public static final String PATH_RESULT = "ru.sfedu.calculate.result.folder";
+    //%s - title company, %d - id company, %s - time
+    public static final String NAME_FILE_RESULT = "%s_%d_%s";
+    
+    public static final String[] HEADER_RESULT = {"id", "title", "result"};
+    
+    //CLI
+    public static final String CLI_CONFIG = "config";
+    public static final String CLI_LOG4J = "log4j";
+    
+    public static final String CLI_XML = "XML";
+    public static final String CLI_H2 = "H2";
+    public static final String CLI_CSV = "CSV";
+    
+    public static final String CLI_REGISTRATION_CLIENT = "-client";
+    public static final String CLI_CHANGE_CLIENT = "-clientChange";
+    public static final String CLI_DELETE_CLIENT = "-clientD";
+    
+    public static final String CLI_REGISTRATION_RESUME = "-resume";
+    public static final String CLI_CHANGE_RESUME = "-resumeChange";
+    public static final String CLI_DELETE_RESUME = "-resumeD";
+    
+    public static final String CLI_REGISTRATION_COMPANY = "-company";
+    public static final String CLI_CHANGE_COMPANY = "-companyChange";
+    public static final String CLI_DELETE_COMPANY = "-companyD";
+    
+    public static final String CLI_REGISTRATION_VACANCY = "-vacancy";
+    public static final String CLI_CHANGE_VACANCY = "-vacancyChange";
+    public static final String CLI_DELETE_VACANCY = "-vacancyD";
+    
+    public static final String CLI_HIRE = "-hire";
+    
+    public static final String CLI_GIVE_ASSESSMENT = "-ga";
+    public static final String CLI_DELETE_SEPARATE_QUAL = "-spD";
+    
+    public static final String CLI_CALCULATE_ASSESSMENT = "-ca";
+    
+    public static final String SEPARATOR_CSV_RECURSE = "#";
+
+    public static final int DEFAULT_PLACE_COMPANY = 1;
+
 }
 
 
