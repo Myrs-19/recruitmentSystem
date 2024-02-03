@@ -1,16 +1,16 @@
-Options
+#Options
 
 recruitment system based on csv, xml and h2 data sources.
 
 sudo systemctl start mongod - запуск монги
 
-//общий вид команд
+##общий вид команд
 java -jar -Dconfig=<путь до конфигурационного файла> -Dlog4j=<путь до файла конфигурации логов>
  recruitmentSystem.jar <тип провайдера> <команда> <data>
  
 -----------------------------------------------------------------
 
-//регистрация клиента
+###регистрация клиента
 java -jar -Dconfig=<путь до конфигурационного файла> -Dlog4j=<путь до файла конфигурации логов>
  recruitmentSystem.jar <тип провайдера> -client [name] [surname] [age] [password] [address] [middleName] [birthday] [phone] [email]
  
