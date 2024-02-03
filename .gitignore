@@ -4,6 +4,6 @@
 /prj/recruitmentSystem/csv/
 /prj/recruitmentSystem/xml/
 /prj/recruitmentSystem/h2/
-/prj/recruitmentSystem/src/test/testFolder/
+/prj/recruitmentSystem/src/test/
 docsPush.sh
 prjPush.sh
