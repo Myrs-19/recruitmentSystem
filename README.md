@@ -122,7 +122,7 @@ java -jar -Dconfig=<путь до конфигурационного файла>
 #### пример
    java -jar recruitmentSystem.jar XML -companyChange 1 ASSENTURE 'Company works with child'
   
--
+--
  
 ### изменение данных вакансии
  java -jar -Dconfig=<путь до конфигурационного файла> -Dlog4j=<путь до файла конфигурации логов>
