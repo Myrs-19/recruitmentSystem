@@ -913,7 +913,7 @@ public class DataProviderH2 implements IDataProvider{
         return result;
     }
 
-    /** See also {@link IDataProvider#giveAssessment(int)}. */
+    /** See also {@link IDataProvider#giveAssessment(int, int, int, String)}. */
     @Override
     public Result giveAssessment(int idEmployee, int idCompany, int quality, String description){
         log.debug("giveAssessment [1]: Даем оценку компании, id employee = {}, id company = {}, quality = {}", idEmployee, idCompany, quality);
