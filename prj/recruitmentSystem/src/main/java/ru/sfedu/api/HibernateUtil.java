@@ -48,7 +48,7 @@ public class HibernateUtil {
                 sessionFactory = metadataSources.buildMetadata().buildSessionFactory();
             
             } catch(HibernateException ex){
-                log.error("getSessionFactory [7]: error = {}", ex);
+                log.error("getSessionFactory [7]: error = {}", ex.getMessage());
             }
         }
         
