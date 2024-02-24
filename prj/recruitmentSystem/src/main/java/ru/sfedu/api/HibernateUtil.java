@@ -39,16 +39,16 @@ public class HibernateUtil {
                 MetadataSources metadataSources = new MetadataSources(serviceRegistry);
                 //metadataSources.addAnnotatedClass(TestEntity.class);// Аннотированная сущность
 
-                log.debug("getSessionFactory [5]: metadataSources.addResource");
+//                log.debug("getSessionFactory [5]: metadataSources.addResource");
 
-                metadataSources.addResource("named-queries.hbm.xml");// Именованные запросы
+//                metadataSources.addResource("named-queries.hbm.xml");// Именованные запросы
 
-                log.debug("getSessionFactory [6]: final getting session factory");
+                log.debug("getSessionFactory [5]: final getting session factory");
 
                 sessionFactory = metadataSources.buildMetadata().buildSessionFactory();
             
             } catch(HibernateException ex){
-                log.error("getSessionFactory [7]: error = {}", ex.getMessage());
+                log.error("getSessionFactory [6]: error = {}", ex.getMessage());
             }
         }
         
