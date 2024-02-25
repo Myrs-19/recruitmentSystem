@@ -30,18 +30,34 @@ public class HibernateDataProviderTest {
     }
     
     /**
-     * тест проверяет возвращает ли метод список таблиц в базе данных
+     * тест проверяет возвращает ли метод список названий таблиц в базе данных
      * 
      * Тип: позитивный
      */
     @Test
-    public void testGetListTables() {
-        log.debug("testGetListTables [1]: test get list of data bases");
+    public void testGetListTitleTables() {
+        log.debug("testGetListTitleTables [1]: test get list of data bases");
         
         HibernateDataProvider hdp = new HibernateDataProvider();
         
-        log.debug("testGetListTables [2]: get result");
+        log.debug("testGetListTitleTables [2]: get result");
         
-        hdp.getListTables().forEach(System.out::println);
+        hdp.getListTitleTables().forEach(System.out::println);
+    }
+    
+    /**
+     * тест проверяет возвращает ли метод список имен пользователей в базе данных
+     * 
+     * Тип: позитивный
+     */
+    @Test
+    public void testGetUsenameUser() {
+        log.debug("testGetUsenameUser [1]: test get list of data bases");
+        
+        HibernateDataProvider hdp = new HibernateDataProvider();
+        
+        log.debug("testGetUsenameUser [2]: get result");
+        
+        hdp.getUsenameUser().forEach(System.out::println);
     }
 }

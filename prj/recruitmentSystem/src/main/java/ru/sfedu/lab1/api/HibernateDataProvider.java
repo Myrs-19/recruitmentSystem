@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.NativeQuery;
+import ru.sfedu.Constants;
 import ru.sfedu.api.HibernateUtil;
 
 
@@ -29,22 +30,41 @@ public class HibernateDataProvider {
     }
     
     /**
-     * Метод возвращает список таблиц в базе данных
-     * @return лист списка баз данных
+     * Метод выполняет нативный sql запрос
+     * @param query - запрос на выполнение
+     * @return возвращает запрос
      */
-    public List<String> getListTables(){
-        log.debug("getListTables [1]: get list data bases");
+    public static NativeQuery executeNativeQuery(String query){
+        log.debug("executeNativeQuery [1]: get session");
         
         Session session = getSession();
         
-        log.debug("getListTables [2]: begin transaction");
+        log.debug("executeNativeQuery [2]: begin transaction");
         
         session.beginTransaction();
         
-        log.debug("getListTables [3]: query");
+        log.debug("executeNativeQuery [3]: query");
         
-        NativeQuery query = session.createNativeQuery("SELECT table_name FROM information_schema.tables WHERE table_schema='public';");
+        return session.createNativeQuery(query);
         
-        return query.list();
     }
+    
+    /**
+     * Метод возвращает список таблиц в базе данных
+     * @return лист списка баз данных
+     */
+    public List<String> getListTitleTables(){
+        log.debug("getListTitleTables [1]: get title tables in data base");
+        return executeNativeQuery(Constants.HIBERNATE_QUERY_LAB1_GET_TITLE_TABLES).list();
+    }
+    
+    /**
+     * Метод возвращает имена пользователей в базе данных
+     * @return 
+     */
+    public List<String> getUsenameUser(){
+        log.debug("getUsenameUser [1]: get title users in data base");
+        return executeNativeQuery(Constants.HIBERNATE_QUERY_LAB1_GET_TITLE_USERS).list();
+    }
+    
 }

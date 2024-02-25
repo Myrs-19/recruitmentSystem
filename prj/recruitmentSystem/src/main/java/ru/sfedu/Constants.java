@@ -222,6 +222,8 @@ public class Constants {
 
     public static final int DEFAULT_PLACE_COMPANY = 1;
 
+    public static final String HIBERNATE_QUERY_LAB1_GET_TITLE_TABLES = "SELECT table_name FROM information_schema.tables WHERE table_schema='public';";
+    public static final String HIBERNATE_QUERY_LAB1_GET_TITLE_USERS = "SELECT usename FROM pg_catalog.pg_user;";
 }
 
 
