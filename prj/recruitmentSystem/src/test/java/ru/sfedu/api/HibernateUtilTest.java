@@ -22,6 +22,13 @@ public class HibernateUtilTest {
     public HibernateUtilTest() {
     }
 
+    /**
+     * инициализация фабрики сессий и 
+     * создание и открытие сессии, 
+     * после закрытие сессии
+     * 
+     * Тип: Позитивный
+     */
     @Test
     public void testGetSessionFactory() {
         log.debug("testGetSessionFactory [1]: get instance session factory");
