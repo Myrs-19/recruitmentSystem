@@ -1,6 +1,5 @@
 package ru.sfedu.lab1.api;
 
-import java.util.List;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
@@ -88,6 +87,27 @@ public class HibernateDataProviderTest {
             hdp.getListTitleNamespaces().forEach(System.out::println);
         } catch(Exception ex){
             log.error("testGetListTitleNamespaces [3]: error = {}", ex.getMessage());
+            fail("incorrect sql or hibernate configuration");
+        }
+    }
+    
+    /**
+     * тест проверяет возвращает ли метод список имен типов в базе данных
+     * 
+     * Тип: позитивный
+     */
+    @Test
+    public void testGetListTitleTypes() {
+        log.debug("testGetListTitleTypes [1]: test get list of types name in data base");
+        
+        HibernateDataProvider hdp = new HibernateDataProvider();
+        
+        log.debug("testGetListTitleTypes [2]: get result");
+        
+        try{
+            hdp.getListTitleTypes().forEach(System.out::println);
+        } catch(Exception ex){
+            log.error("testGetListTitleTypes [3]: error = {}", ex.getMessage());
             fail("incorrect sql or hibernate configuration");
         }
     }

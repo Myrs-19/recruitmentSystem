@@ -98,6 +98,13 @@ public class HibernateDataProvider {
         return executeNativeQuery(Constants.HIBERNATE_QUERY_LAB1_GET_TITLE_NAMESPACES).list();
     }
     
-    
-    
+    /**
+     * Метод возвращает названия типов данных в базе
+     * @return список имен типов базы данных
+     * @throws Exception See also {@link HibernateDataProvider#executeNativeQuery(String)}.
+     */
+    public List<String> getListTitleTypes() throws Exception{
+        log.debug("getListTitleTypes [1]: get title types in database");
+        return executeNativeQuery(Constants.HIBERNATE_QUERY_LAB1_GET_TITLE_TYPES).list();
+    }
 }
