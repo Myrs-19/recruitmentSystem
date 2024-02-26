@@ -76,7 +76,6 @@ public class HibernateUtil {
      */
     private static void loadConfiguration(){
         log.debug("loadConfiguration [1]: load configuration");
-        System.out.println("--------------------------------" + pathConfig + "--------------------------" + (pathConfig != null));
         
         if (pathConfig != null) {
             log.debug("loadConfiguration [2]: custom configuration file");
