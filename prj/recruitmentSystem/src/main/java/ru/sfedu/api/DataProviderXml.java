@@ -550,7 +550,7 @@ public class DataProviderXml implements IDataProvider{
         throw new NullPointerException(Constants.MESSAGE_EXCEPTION_DONT_RECORDS);
     }
 
-    /** See also {@link IDataProvider#updatePerson()}. */
+    /** See also {@link IDataProvider#updatePerson(Person)}. */
     @Override
     public Result updatePerson(Person person) {
         log.debug("updatePerson [1]: updating person, type of person = {}, person = {}", person.getTypePerson(), person);
@@ -910,7 +910,7 @@ public class DataProviderXml implements IDataProvider{
         return result;
     }
 
-    /** See also {@link IDataProvider#giveAssessment(int)}. */
+    /** See also {@link IDataProvider#giveAssessment(int, int, int, String)}. */
     @Override
     public Result giveAssessment(int idEmployee, int idCompany, int quality, String description){
         log.debug("giveAssessment [1]: Даем оценку компании, id employee = {}, id company = {}, quality = {}", idEmployee, idCompany, quality);
