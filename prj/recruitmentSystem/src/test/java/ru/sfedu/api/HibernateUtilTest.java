@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
- */
 package ru.sfedu.api;
 
 import org.hibernate.Session;
@@ -12,13 +8,12 @@ import org.apache.logging.log4j.Logger;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import ru.sfedu.lab1.api.HibernateDataProviderTest;
 
-/**
- *
- * @author mike
- */
+
 public class HibernateUtilTest {
     private static final Logger log = LogManager.getLogger(HibernateUtilTest.class.getName());
+    
     public HibernateUtilTest() {
     }
 
@@ -39,9 +34,49 @@ public class HibernateUtilTest {
         
         Session session = sessionFactory.openSession();
         
-        log.debug("testGetSessionFactory [3]: close session");
+        log.debug("testGetSessionFactory [3]: close session factory");
         
         sessionFactory.close();
     }
+    
+    /**
+     * Метод тестирует открытие и использование 
+     * пользовательского файла конфигурации hibernate
+     * 
+     * Тип: Позитивный
+     */
+    @Test
+    public void testUsingCustomConfigurationFile() {
+        log.debug("testUsingCustomConfigurationFile [1]: load custom configuration hibernate file");
+        
+        String path = "/home/mike/study/hibernate.cfg.xml";
+        
+        log.debug("testUsingCustomConfigurationFile [2]: set path to configuration file");
+        
+        HibernateUtil.setPathConfig(path);
+        
+        log.debug("testUsingCustomConfigurationFile [3]: run test methods for HibernateDataProvider");
+        
+        HibernateDataProviderTest hibernateDataProviderTest = new HibernateDataProviderTest();
+        
+        log.debug("testUsingCustomConfigurationFile [4]: run testGetListTitleNamespaces");
+        
+        hibernateDataProviderTest.testGetListTitleNamespaces();
+        
+        log.debug("testUsingCustomConfigurationFile [5]: run testGetListTitleTables");
+        
+        hibernateDataProviderTest.testGetListTitleTables();
+        
+        log.debug("testUsingCustomConfigurationFile [6]: run testGetListTitleTypes");
+        
+        hibernateDataProviderTest.testGetListTitleTypes();
+        
+        log.debug("testUsingCustomConfigurationFile [7]: run testGetListUsenameUser");
+        
+        hibernateDataProviderTest.testGetListUsenameUser();
+        
+    }
+    
+    
     
 }

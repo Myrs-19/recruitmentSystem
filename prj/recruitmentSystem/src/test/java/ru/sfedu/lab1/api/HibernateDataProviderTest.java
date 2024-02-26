@@ -55,17 +55,17 @@ public class HibernateDataProviderTest {
      * Тип: позитивный
      */
     @Test
-    public void testGetUsenameUser() {
-        log.debug("testGetUsenameUser [1]: test get list of users usename");
+    public void testGetListUsenameUser() {
+        log.debug("testGetListUsenameUser [1]: test get list of users usename");
         
         HibernateDataProvider hdp = new HibernateDataProvider();
         
-        log.debug("testGetUsenameUser [2]: get result");
+        log.debug("testGetListUsenameUser [2]: get result");
         
         try{
             hdp.getListUsenameUser().forEach(System.out::println);
         } catch(Exception ex){
-            log.error("testGetUsenameUser [3]: error = {}", ex.getMessage());
+            log.error("testGetListUsenameUser [3]: error = {}", ex.getMessage());
             fail("incorrect sql or hibernate configuration");
         }
     }
