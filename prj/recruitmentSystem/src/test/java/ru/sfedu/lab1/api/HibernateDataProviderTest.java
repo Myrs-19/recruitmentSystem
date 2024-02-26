@@ -36,13 +36,18 @@ public class HibernateDataProviderTest {
      */
     @Test
     public void testGetListTitleTables() {
-        log.debug("testGetListTitleTables [1]: test get list of data bases");
+        log.debug("testGetListTitleTables [1]: test get list of tables");
         
         HibernateDataProvider hdp = new HibernateDataProvider();
         
         log.debug("testGetListTitleTables [2]: get result");
         
-        hdp.getListTitleTables().forEach(System.out::println);
+        try{
+            hdp.getListTitleTables().forEach(System.out::println);
+        } catch(Exception ex){
+            log.error("testGetListTitleTables [3]: error = {}", ex.getMessage());
+            fail("incorrect sql or hibernate configuration");
+        }
     }
     
     /**
@@ -52,12 +57,40 @@ public class HibernateDataProviderTest {
      */
     @Test
     public void testGetUsenameUser() {
-        log.debug("testGetUsenameUser [1]: test get list of data bases");
+        log.debug("testGetUsenameUser [1]: test get list of users usename");
         
         HibernateDataProvider hdp = new HibernateDataProvider();
         
         log.debug("testGetUsenameUser [2]: get result");
         
-        hdp.getUsenameUser().forEach(System.out::println);
+        try{
+            hdp.getListUsenameUser().forEach(System.out::println);
+        } catch(Exception ex){
+            log.error("testGetUsenameUser [3]: error = {}", ex.getMessage());
+            fail("incorrect sql or hibernate configuration");
+        }
     }
+    
+    /**
+     * тест проверяет возвращает ли метод список имен пространства имен в базе данных
+     * 
+     * Тип: позитивный
+     */
+    @Test
+    public void testGetListTitleNamespaces() {
+        log.debug("testGetListTitleNamespaces [1]: test get list of data base namespaces ");
+        
+        HibernateDataProvider hdp = new HibernateDataProvider();
+        
+        log.debug("testGetListTitleNamespaces [2]: get result");
+        
+        try{
+            hdp.getListTitleNamespaces().forEach(System.out::println);
+        } catch(Exception ex){
+            log.error("testGetListTitleNamespaces [3]: error = {}", ex.getMessage());
+            fail("incorrect sql or hibernate configuration");
+        }
+    }
+    
+    
 }
