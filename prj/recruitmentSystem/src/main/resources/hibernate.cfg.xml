@@ -23,5 +23,8 @@
        
         <!-- Вывод в консоль SQL-запросов -->
         <property name="show_sql">true</property>
-    </session-factory>
+        
+        
+        <mapping class="ru.sfedu.lab2.model.TestEntity"/>
+      </session-factory>
 </hibernate-configuration>
