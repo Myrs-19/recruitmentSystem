@@ -1,4 +1,4 @@
-package ru.sfedu.lab1.api;
+package ru.sfedu.lab2.api;
 
 import java.util.List;
 import org.apache.logging.log4j.LogManager;

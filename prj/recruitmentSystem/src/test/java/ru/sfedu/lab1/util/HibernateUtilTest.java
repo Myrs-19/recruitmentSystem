@@ -1,5 +1,6 @@
-package ru.sfedu.api;
+package ru.sfedu.lab1.util;
 
+import ru.sfedu.lab1.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 

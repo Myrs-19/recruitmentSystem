@@ -1,4 +1,4 @@
-package ru.sfedu.api;
+package ru.sfedu.lab2.util;
 
 import java.io.File;
 import org.hibernate.SessionFactory;
