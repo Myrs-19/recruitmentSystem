@@ -1,13 +1,16 @@
 package ru.sfedu.lab2.model;
 
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.*;
-
-@Entity
+        
+@Entity(name = "TestEntity")
+@Table(name="test_entity", schema = "public", catalog="postgres")
 public class TestEntity implements Serializable{
     @Id
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
    
     @Column(name="name")
     private String name;
@@ -15,16 +18,27 @@ public class TestEntity implements Serializable{
     @Column(name="description")
     private String description;
    
-    @Column(name="dateCreated")
+    @Column(name="dateCreated_field")
     private Date dateCreated;
 
-    @Column(name="check")
+    @Column(name="check_field")
     private Boolean check;
+    
+    @Embedded
+    private Operation operation;
     
     public TestEntity() {
     
     }
-
+    
+    public TestEntity(String name, String description, Date dateCreated, Boolean check, Operation operation) {
+        this.name = name;
+        this.description = description;
+        this.dateCreated = dateCreated;
+        this.check = check;
+        this.operation = operation;
+    }
+    
     public long getId() {
         return id;
     }
@@ -64,6 +78,15 @@ public class TestEntity implements Serializable{
     public void setCheck(Boolean check) {
         this.check = check;
     }
+
+    public Operation getOperation() {
+        return operation;
+    }
+
+    public void setOperation(Operation operation) {
+        this.operation = operation;
+    }
+    
     
     
 }

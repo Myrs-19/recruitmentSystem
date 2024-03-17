@@ -10,6 +10,7 @@ import org.hibernate.service.ServiceRegistry;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.hibernate.HibernateException;
+import ru.sfedu.lab2.model.TestEntity;
 
 public class HibernateUtil {
 
@@ -53,6 +54,7 @@ public class HibernateUtil {
 
                 log.debug("getSessionFactory [5]: final getting session factory");
 
+                metadataSources.addAnnotatedClass(TestEntity.class);
                 sessionFactory = metadataSources.buildMetadata().buildSessionFactory();
             
             } catch(HibernateException ex){
