@@ -11,7 +11,7 @@ import org.hibernate.query.NativeQuery;
 import org.hibernate.HibernateException;
 
 import ru.sfedu.Constants;
-import ru.sfedu.api.HibernateUtil;
+import ru.sfedu.lab1.util.HibernateUtil;
 
 /**
  * Открывается одна сессия для всех запросов  
