@@ -6,8 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.hibernate.Session;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
-
 public class HibernateDataProviderTest {
 
     private static final Logger log = LogManager.getLogger(HibernateDataProviderTest.class.getName());

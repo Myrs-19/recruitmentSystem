@@ -1,17 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ru.sfedu.lab3.str1.model;
 
-import ru.sfedu.model.*;
-import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
+@Embeddable
 @Root
 public class Company {
+    
+    @Column(name = "id_comp")
     @Element
     @CsvBindByPosition(position = 0)
     private int id;

@@ -1,6 +1,9 @@
 package ru.sfedu.lab3.str1.model;
 
 import com.opencsv.bean.CsvBindByPosition;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Transient;
 import org.simpleframework.xml.Element;
@@ -9,6 +12,8 @@ import org.simpleframework.xml.Root;
 @MappedSuperclass
 @Root
 public class Person {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Element
     @CsvBindByPosition(position = 0)
     private int id;

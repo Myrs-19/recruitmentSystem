@@ -1,22 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ru.sfedu.lab3.str1.model;
 
-import ru.sfedu.model.*;
 import com.opencsv.bean.*;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
-/**
- *
- * @author mike
- */
+
+@Entity(name = "Employee")
+@Table(name="lab3_strat1_employee", schema = "public", catalog="postgres")
 @Root
 public class Employee extends Person {
+    @Embedded
     @Element
-    @CsvCustomBindByPosition(position = 8, converter = CompanyCsvConverter.class)
     private Company company;
     
     @Element

@@ -1,6 +1,5 @@
 package ru.sfedu.lab3.str1.util;
 
-
 import java.io.File;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -12,6 +11,9 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.hibernate.HibernateException;
 import ru.sfedu.Constants;
+import ru.sfedu.lab3.str1.model.Client;
+import ru.sfedu.lab3.str1.model.Employee;
+import ru.sfedu.lab3.str1.model.Person;
 
 public class HibernateUtil {
 
@@ -55,7 +57,9 @@ public class HibernateUtil {
 
                 log.debug("getSessionFactory [5]: final getting session factory");
 
-//                metadataSources.addAnnotatedClass(TestEntity.class);
+                metadataSources.addAnnotatedClass(Person.class);
+                metadataSources.addAnnotatedClass(Employee.class);
+                metadataSources.addAnnotatedClass(Client.class);
                 sessionFactory = metadataSources.buildMetadata().buildSessionFactory();
             
             } catch(HibernateException ex){
