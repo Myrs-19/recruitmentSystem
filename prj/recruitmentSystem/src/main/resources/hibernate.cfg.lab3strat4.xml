@@ -12,7 +12,7 @@
         <property name="connection.pool_size">100</property>
       
       <!-- utomatically validates or exports schema DDL to the database when the SessionFactory is created. -->
-      <property name="hibernate.hbm2ddl.auto">create</property>
+      <property name="hibernate.hbm2ddl.auto">create-drop</property>
       
         <!-- SQL диалект, определяется платформой СУБД-->
         <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
