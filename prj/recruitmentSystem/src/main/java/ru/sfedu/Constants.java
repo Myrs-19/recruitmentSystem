@@ -226,6 +226,12 @@ public class Constants {
     public static final String HIBERNATE_QUERY_LAB1_GET_TITLE_USERS = "SELECT usename FROM pg_catalog.pg_user;";
     public static final String HIBERNATE_QUERY_LAB1_GET_TITLE_NAMESPACES = "SELECT nspname FROM pg_catalog.pg_namespace;";
     public static final String HIBERNATE_QUERY_LAB1_GET_TITLE_TYPES = "SELECT typname FROM pg_catalog.pg_type;";
+
+    public static final String HIBERNATE_PATH_CONFIG_LAB3_STRAT1 = "src/main/resources/hibernate.cfg.lab3strat1.xml";
+    public static final String HIBERNATE_PATH_CONFIG_LAB3_STRAT2 = "src/main/resources/hibernate.cfg.lab3strat2.xml";
+    public static final String HIBERNATE_PATH_CONFIG_LAB3_STRAT3 = "src/main/resources/hibernate.cfg.lab3strat3.xml";
+    public static final String HIBERNATE_PATH_CONFIG_LAB3_STRAT4 = "src/main/resources/hibernate.cfg.lab3strat4.xml";
+
 }
 
 
