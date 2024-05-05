@@ -189,7 +189,7 @@ public class HibernateDataProviderTest {
         Employee employee = new Employee();
         
         //person fields
-        employee.setId(1);
+        employee.setId(2);
         employee.setName("Mike");
         employee.setSurname("MIMIMIMI");
         employee.setMiddleName("Mikhal");
@@ -234,11 +234,11 @@ public class HibernateDataProviderTest {
         try{
             log.debug("testGetEmployee [1]: test get employee");
             
-            Employee employee = (Employee) dp.getRecord(Employee.class, "1");
+            Employee employee = (Employee) dp.getRecord(Employee.class, "2");
             
             log.debug("testGetEmployee [2]: employee has been got, client = {}", employee);
         
-            assertEquals(employee.getId(), 1);
+            assertEquals(employee.getId(), 2);
         } catch(Exception ex){
             log.error("testGetEmployee [3]: error = {}", ex.getMessage());
             
@@ -252,15 +252,12 @@ public class HibernateDataProviderTest {
         try{
             log.debug("testDeleteEmployee [1]: test delete employee");
             
-            Employee employee = (Employee) dp.getRecord(Employee.class, "1");
+            Employee employee = (Employee) dp.getRecord(Employee.class, "2");
             
             dp.deleteRecord(employee);
             
             log.debug("testDeleteEmployee [2]: employee has been deleted, employee = {}", employee);
-        
-//            System.out.println(dp.getRecord(Client.class, "1"));
-            
-//            assertEquals(client.getId(), 1);
+
         } catch(Exception ex){
             log.error("testDeleteEmployee [3]: error = {}", ex.getMessage());
             
