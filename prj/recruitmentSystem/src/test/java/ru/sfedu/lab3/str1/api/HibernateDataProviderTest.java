@@ -40,14 +40,12 @@ public class HibernateDataProviderTest {
         client.setPassword("pipi");
         client.setAddress("Zorge 28/2");
         
-        log.debug("testSaveClient [2]: filled object, client = {}", client);
-        
         try{
-            log.debug("testSaveClient [3]: save client");
+            log.debug("testSaveClient [2]: save client, client = {}", client);
             
             dp.saveRecord(client);
             
-            log.debug("testSaveClient [4]: client has been saved");
+            log.debug("testSaveClient [3]: client has been saved");
         } catch(Exception ex){
             log.error("testSaveClient [4]: error = {}", ex.getMessage());
             
