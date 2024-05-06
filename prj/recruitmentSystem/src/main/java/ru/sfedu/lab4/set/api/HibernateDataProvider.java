@@ -15,32 +15,39 @@ public class HibernateDataProvider {
 
     Logger log = LogManager.getLogger(HibernateDataProvider.class.getName());
 
+    public HibernateDataProvider(){
+        if (session == null){
+            log.debug("HibernateDataProvider [1]: create session");
+            session = sessionFactory.openSession();
+        }
+    }
+
     public void saveRecord(Object object) throws Exception {
-        session = sessionFactory.openSession();
+        //session = sessionFactory.openSession();
         transaction = session.beginTransaction();
         session.save(object);
         transaction.commit();
-        session.close();
+        //session.close();
     }
 
     public void deleteRecord(Object object) throws Exception {
-        session = sessionFactory.openSession();
+        //session = sessionFactory.openSession();
         transaction = session.beginTransaction();
         session.delete(object);
         transaction.commit();
-        session.close();
+        //session.close();
     }
 
     public void updateRecord(Object object) throws Exception {
-        session = sessionFactory.openSession();
+        //session = sessionFactory.openSession();
         transaction = session.beginTransaction();
         session.update(object);
         transaction.commit();
-        session.close();
+        //session.close();
     }
     public Object getRecord(Class cl, String id) throws Exception {
-        session = sessionFactory.openSession();
-        transaction = session.beginTransaction();
+        //session = sessionFactory.openSession();
+        //transaction = session.beginTransaction();
         return session.get(cl, id);
     }
 }

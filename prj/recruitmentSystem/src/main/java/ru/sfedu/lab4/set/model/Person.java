@@ -1,22 +1,15 @@
 package ru.sfedu.lab4.set.model;
 
 import com.opencsv.bean.CsvBindByPosition;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
-@Entity
-@Table(name = "lab4_set_person", schema = "public", catalog="postgres")
-@Inheritance(strategy = InheritanceType.JOINED)
+@MappedSuperclass
 @Root
 public class Person {
     @Id
-    @GeneratedValue(generator = "uuid")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Element
     @CsvBindByPosition(position = 0)
     private int id;

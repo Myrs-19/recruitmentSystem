@@ -9,7 +9,6 @@ import org.simpleframework.xml.*;
 import org.simpleframework.xml.Root;
 
 @Embeddable
-@Table(name = "lab4_set_resume", schema = "public", catalog="postgres")
 @Root
 public class Resume {
     @Element

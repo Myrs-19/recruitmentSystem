@@ -1,9 +1,13 @@
 package ru.sfedu.lab4.set.model;
 
 import com.opencsv.bean.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
+@Entity(name = "Employee")
+@Table(name = "lab4_set_employee", schema = "public", catalog="postgres")
 @Root
 public class Employee extends Person {
     @Element
