@@ -1,18 +1,15 @@
 package ru.sfedu.lab4.list.model;
 
 import com.opencsv.bean.*;
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
-@Entity(name = "Employee")
-@Table(name = "lab4_list_employee", schema = "public", catalog="postgres")
+@Embeddable
 @Root
 public class Employee extends Person {
-    @Element
-    @CsvCustomBindByPosition(position = 8, converter = CompanyCsvConverter.class)
-    private Company company;
     
     @Element
     @CsvBindByPosition(position = 9)
@@ -36,14 +33,6 @@ public class Employee extends Person {
         this.isWorking = isWorking;
     }
 
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
     public int getSalary() {
         return salary;
     }
@@ -64,7 +53,6 @@ public class Employee extends Person {
     public String toString(){
         return "Employee{" +
                 "id = " + getId() +
-                ", companyId = " + company.getId()+
                 ", fi =" + getSurname() + " " + getName() +
                 ", salary = " + getSalary() +
                 ", position = " + getPosition()+

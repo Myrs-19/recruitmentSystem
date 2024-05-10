@@ -9,7 +9,7 @@ import org.simpleframework.xml.Root;
 @Root
 public class Person {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Element
     @CsvBindByPosition(position = 0)
     private int id;

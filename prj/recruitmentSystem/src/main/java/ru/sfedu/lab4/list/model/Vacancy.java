@@ -2,19 +2,17 @@ package ru.sfedu.lab4.list.model;
 
 import com.opencsv.bean.*;
 
+import jakarta.persistence.Embeddable;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
+@Embeddable
 @Root
 public class Vacancy {
     @Element
     @CsvBindByPosition(position = 0)
     private int id;
-    
-    @Element
-    @CsvCustomBindByPosition(position = 1, converter = CompanyCsvConverter.class)
-    private Company company;
-    
+
     @Element
     @CsvBindByPosition(position = 2)
     private String title;
@@ -56,14 +54,6 @@ public class Vacancy {
 
     public void setId(int id) {
         this.id = id;
-    }
-    
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
     }
 
     public String getTitle() {
