@@ -2,11 +2,11 @@ package ru.sfedu.lab4.set.model;
 
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvCustomBindByPosition;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.simpleframework.xml.*;
 import org.simpleframework.xml.Root;
+
+import java.util.Set;
 
 @Embeddable
 @Root
@@ -22,7 +22,7 @@ public class Resume {
     @Element
     @CsvBindByPosition(position = 3)
     private String city;
-    
+
     @Element(required = false)
     @CsvBindByPosition(position = 4)
     private String skills;

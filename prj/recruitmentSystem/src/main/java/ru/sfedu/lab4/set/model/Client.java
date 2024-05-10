@@ -25,7 +25,8 @@ public class Client extends Person{
 
     @ElementCollection
     @CollectionTable(name="lab4_set_resume", joinColumns = @JoinColumn(name = "id_client"))
-    private Set<Resume> resumes = new HashSet<Resume>();
+    //private Set<Resume> resumes = new HashSet<Resume>();
+    private Set<Resume> resumes;
 
     public Set<Resume> getResumes() {
         return resumes;
@@ -42,6 +43,7 @@ public class Client extends Person{
     public void setAddress(String address) {
         this.address = address;
     }
+
     public String getPassword() {
         return password;
     }

@@ -61,6 +61,7 @@ public class HibernateUtil {
                 metadataSources.addAnnotatedClass(Person.class);
 //                metadataSources.addAnnotatedClass(Employee.class);
                 metadataSources.addAnnotatedClass(Client.class);
+                metadataSources.addAnnotatedClass(Resume.class);
                 sessionFactory = metadataSources.buildMetadata().buildSessionFactory();
             
             } catch(HibernateException ex){
