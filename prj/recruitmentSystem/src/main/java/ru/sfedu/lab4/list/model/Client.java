@@ -1,18 +1,14 @@
-package ru.sfedu.lab4.set.model;
+package ru.sfedu.lab4.list.model;
 
 import com.opencsv.bean.CsvBindByPosition;
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Table;
-import java.util.HashSet;
-import java.util.Set;
+import jakarta.persistence.*;
+
+import java.util.List;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Entity(name = "Client")
-@Table(name = "lab4_set_client", schema = "public", catalog="postgres")
+@Table(name = "lab4_list_client", schema = "public", catalog="postgres")
 @Root
 public class Client extends Person{
     @Element
@@ -24,14 +20,15 @@ public class Client extends Person{
     private String address;
 
     @ElementCollection
-    @CollectionTable(name="lab4_set_resume", joinColumns = @JoinColumn(name = "id_client"))
-    private Set<Resume> resumes;
+    @CollectionTable(name="lab4_list_resume", joinColumns = @JoinColumn(name = "id_client"))
+    @OrderColumn
+    private List<Resume> resumes;
 
-    public Set<Resume> getResumes() {
+    public List<Resume> getResumes() {
         return resumes;
     }
 
-    public void setResumes(Set<Resume> resumes) {
+    public void setResumes(List<Resume> resumes) {
         this.resumes = resumes;
     }
     
