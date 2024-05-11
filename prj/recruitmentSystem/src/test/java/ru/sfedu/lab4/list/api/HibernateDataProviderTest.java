@@ -29,7 +29,6 @@ public class HibernateDataProviderTest {
         Client client = new Client();
         
         //person fields
-        client.setId(10);
         client.setName("Mike");
         client.setSurname("Seleznev");
         client.setMiddleName("Mikhal");
@@ -83,6 +82,7 @@ public class HibernateDataProviderTest {
         
         try{
             log.debug("testSaveClientList [7]: saving client, client = {}", client);
+            dp.saveRecord(client);
             dp.saveRecord(client);
             log.debug("testSaveClientList [8]: client saved succesful");
         } catch(Exception ex){
@@ -220,8 +220,7 @@ public class HibernateDataProviderTest {
         Employee employee1 = new Employee();
         employee1.setTypePerson(TypePerson.EmployeeType);
 
-        employee1.setId(1);
-        System.out.println("IIIIIIIIIIIIIIIIIIIDDDDDDDDDDDDDDDDDDDD = " + employee1.getId());
+        //employee1.setId(1);
         employee1.setName("nameEmployee");
         employee1.setSurname("surnameEmployee");
         employee1.setMiddleName("middleNameEmployee");
@@ -237,8 +236,7 @@ public class HibernateDataProviderTest {
         Employee employee2 = new Employee();
         employee2.setTypePerson(TypePerson.EmployeeType);
 
-        employee2.setId(2);
-        System.out.println("IIIIIIIIIIIIIIIIIIIDDDDDDDDDDDDDDDDDDDD = " + employee2.getId());
+        //employee2.setId(2);
         employee2.setName("nameEm2ployee");
         employee2.setSurname("surname2Employee");
         employee2.setMiddleName("middl2eNameEmployee");

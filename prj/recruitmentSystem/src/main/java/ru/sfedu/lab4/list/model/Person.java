@@ -6,6 +6,10 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @MappedSuperclass
+//@Entity(name = "Person")
+//@Table(name = "lab4_list_person", schema = "public", catalog="postgres")
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//@Inheritance(strategy = InheritanceType.JOINED)
 @Root
 public class Person {
     @Id
@@ -13,7 +17,7 @@ public class Person {
     @Element
     @CsvBindByPosition(position = 0)
     private int id;
-    
+
     @Element
     @CsvBindByPosition(position = 1)
     private String name;
@@ -50,14 +54,6 @@ public class Person {
 
     public void setTypePerson(TypePerson typePerson) {
         this.typePerson = typePerson;
-    }
-        
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getSurname() {
@@ -115,13 +111,20 @@ public class Person {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Person() {}
     
     @Override
     public String toString(){
         return "Person{" +
-                "id = " + getId() +
                 ", fi = " + getSurname() + " " + getName() +
                 ", age = " + getAge() +
                 '}';

@@ -8,6 +8,8 @@ import org.simpleframework.xml.Root;
 
 import java.util.List;
 
+import static jakarta.persistence.CascadeType.ALL;
+
 
 @Entity(name = "Company")
 @Table(name = "lab4_list_company", schema = "public", catalog="postgres")
@@ -26,9 +28,7 @@ public class Company {
     @CsvBindByPosition(position = 2)
     private String description;
 
-    @ElementCollection
-    //@CollectionTable(name="lab4_list_employee", joinColumns = @JoinColumn(name = "id_company"))
-    @CollectionTable(name="lab4_list_employee")
+    @OneToMany(mappedBy="company")
     @OrderColumn
     private List<Employee> employees;
 

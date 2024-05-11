@@ -11,6 +11,12 @@ import org.simpleframework.xml.Root;
 @Table(name = "lab4_list_client", schema = "public", catalog="postgres")
 @Root
 public class Client extends Person{
+//    @Id
+//    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Element
+//    @CsvBindByPosition(position = 0)
+//    private int id;
+
     @Element
     @CsvBindByPosition(position = 8)
     private String password;
@@ -47,7 +53,15 @@ public class Client extends Person{
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
+
     public Client() {}
     
     @Override
