@@ -7,12 +7,11 @@ import org.simpleframework.xml.Root;
 
 @Entity(name="Employee")
 @Table(name = "lab4_list_employee", schema = "public", catalog="postgres")
-@Embeddable
 @Root
 public class Employee extends Person {
 
     @ManyToOne
-    @JoinColumn()
+    //@JoinColumn(name="company_id")
     private Company company;
 
     @Element

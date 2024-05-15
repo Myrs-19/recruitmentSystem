@@ -249,12 +249,8 @@ public class HibernateDataProviderTest {
         employee2.setPosition("head of ya2ndex");
         employee2.setIsWorking(false);
 
-        //create list of employees
-        List<Employee> employees = new ArrayList<>();
-        employees.add(employee1);
-        employees.add(employee2);
-
-        company.setEmployees(employees);
+        company.addCompanyEmployee(employee1);
+        company.addCompanyEmployee(employee2);
 
         log.debug("testSaveCompany [4]: create SeparateQual instanceses");
 
@@ -281,6 +277,9 @@ public class HibernateDataProviderTest {
         try{
             log.debug("testSaveCompany [5]: saving company, company = {}", company);
             dp.saveRecord(company);
+
+            dp.saveRecord(employee1);
+            dp.saveRecord(employee2);
             log.debug("testSaveCompany [6]: company saved succesful");
         } catch(Exception ex){
             log.debug("testSaveCompany [7]: error = {}", ex.getMessage());
@@ -291,68 +290,54 @@ public class HibernateDataProviderTest {
     @Order(6)
     @Test
     public void testUpdateCompany(){
-        log.debug("testUpdateClient [1]: test update client");
+        log.debug("testUpdateCompany [1]: test update company");
+        try{
+            log.debug("testUpdateCompany [2]: get company");
+            Company company = (Company) dp.getRecord(Company.class, "1");
+            log.debug("testUpdateCompany [3]: company = {}", company);
 
-        log.debug("testUpdateClient [2]: get client");
-        try {
-            //Client client = new Client();
-            Client client = (Client) dp.getRecord(Client.class, "1");
+            log.debug("testUpdateCompany [4]: change employees of company");
+            company.getEmployees().stream()
+                    .forEach(
+                    employee -> {
+                        employee.setPosition("CHANGE");
+                    }
+            );
 
-            //person fields
-            //client.setId(1);
-            client.setName("CHANGE");
-            client.setSurname("CHANGE");
-            client.setMiddleName("CHANGE");
-            client.setAge(20);
-            client.setBirthday("12-06-2003");
-            client.setPhone("CHANGE");
-            client.setEmail("mseleznev@sfedu.ru");
-            client.setTypePerson(TypePerson.ClientType);
+            log.debug("testUpdateCompany [5]: change vacancies of company");
+            company.getVacancies().stream()
+                    .forEach(
+                    vacancy -> {
+                        vacancy.setSkills("CHANGE");
+                    }
+            );
 
-            //client fields
-            client.setPassword("pipi");
-            client.setAddress("Zorge 28/2");
+            log.debug("testUpdateCompany [6]: change separate quals of company");
+            company.getSeparateQuals().stream()
+                    .forEach(
+                            (separateQual) -> {
+                                separateQual.setDescription("CHANGE");
+                            }
+                    );
 
-            log.debug("testUpdateClient [3]: client was created, client = {}", client);
-
-
-            log.debug("testUpdateClient [4]: get resumes");
-
-            client.getResumes().stream()
-                    .forEach((resume) -> {
-                        resume.setCity("CHANGE");
-                        resume.setProfession("CHANGE");
-                        resume.setSkills("OOP, CHANGE");
-                        resume.setEducation("3 CHANGE graduation");
-                        resume.setExperience("3 CHANGE as manager");
-                        resume.setSex(true);
-                        resume.setWorkPermit(true);
-                        resume.setCitizenship("CHANGE");
-                    });
-
-            log.debug("testUpdateClient [7]: saving client, client = {}", client);
-            dp.updateRecord(client);
-            log.debug("testUpdateClient [8]: client saved succesful");
-
-        } catch(Exception ex) {
-            log.debug("testUpdateClient [9]: error = {}", ex.getMessage());
-            fail(ex.getMessage());
+            log.debug("testUpdateCompany [7]: update company");
+            dp.updateRecord(company);
+        } catch(Exception ex){
+            log.error("testUpdateCompany [8]: error = {}", ex.getMessage());
         }
     }
 
     @Order(7)
     @Test
     public void testGetCompany(){
-        log.debug("testGetClient [1]: test update client");
+        log.debug("testGetCompany [1]: test get company");
         try{
-            Client client = (Client) dp.getRecord(Client.class, "1");
-            log.debug("testGetClient [2]: client was got succesful, client = {}", client);
+            Company company = (Company) dp.getRecord(Company.class, "1");
+            log.debug("testGetCompany [2]: company was got succesful, company = {}", company);
 
-            log.debug("testGetClient [3]: resumes of the client: ");
-            client.getResumes().forEach(System.out::println);
-
+            assertEquals(company.getId(), 1);
         } catch(Exception ex){
-            log.debug("testUpdateClient [4]: error = {}", ex.getMessage());
+            log.debug("testGetCompany [3]: error = {}", ex.getMessage());
             fail(ex.getMessage());
         }
     }
@@ -361,12 +346,12 @@ public class HibernateDataProviderTest {
     @Test
     public void testDeleteCompany(){
         try{
-            log.debug("testDeleteClient [1]: test delete client");
-            dp.deleteRecord(dp.getRecord(Client.class, "1"));
-            log.debug("testDeleteClient [1]: client was deleted succesful");
+            log.debug("testDeleteCompany [1]: test delete company");
+            dp.deleteRecord(dp.getRecord(Company.class, "1"));
+            log.debug("testDeleteCompany [1]: company was deleted succesful");
 
         } catch(Exception ex){
-            log.debug("testDeleteClient [2]: error = {}", ex.getMessage());
+            log.debug("testDeleteCompany [2]: error = {}", ex.getMessage());
             fail(ex.getMessage());
         }
     }

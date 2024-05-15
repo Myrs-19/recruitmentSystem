@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static jakarta.persistence.CascadeType.ALL;
@@ -16,6 +17,7 @@ import static jakarta.persistence.CascadeType.ALL;
 @Root
 public class Company {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Element
     @CsvBindByPosition(position = 0)
     private int id;
@@ -28,9 +30,8 @@ public class Company {
     @CsvBindByPosition(position = 2)
     private String description;
 
-    @OneToMany(mappedBy="company")
-    @OrderColumn
-    private List<Employee> employees;
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Employee> employees = new ArrayList<>();
 
     @ElementCollection
     //@CollectionTable(name="lab4_list_vacancy", joinColumns = @JoinColumn(name = "id_company"))
@@ -100,5 +101,10 @@ public class Company {
 
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
+    }
+
+    public void addCompanyEmployee(Employee emp) {
+        emp.setCompany(this);
+        employees.add(emp);
     }
 }
