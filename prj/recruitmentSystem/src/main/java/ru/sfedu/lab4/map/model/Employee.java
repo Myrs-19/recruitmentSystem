@@ -2,6 +2,7 @@ package ru.sfedu.lab4.map.model;
 
 import com.opencsv.bean.*;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
@@ -10,6 +11,8 @@ import org.simpleframework.xml.Root;
 @Table(name = "lab4_map_employee", schema = "public", catalog="postgres")
 @Root
 public class Employee extends Person {
+    @ManyToOne
+    //@JoinColumn(name="company_id")
     @Element
     @CsvCustomBindByPosition(position = 8, converter = CompanyCsvConverter.class)
     private Company company;
