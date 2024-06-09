@@ -6,7 +6,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Entity(name="Employee")
-@Table(name = "lab4_list_employee", schema = "public", catalog="postgres")
+@Table(name = "lab4_map_employee", schema = "public", catalog="postgres")
 @Root
 public class Employee extends Person {
 

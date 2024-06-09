@@ -59,9 +59,12 @@ public class HibernateUtil {
                 log.debug("getSessionFactory [5]: final getting session factory");
 
                 metadataSources.addAnnotatedClass(Person.class);
-//                metadataSources.addAnnotatedClass(Employee.class);
+                metadataSources.addAnnotatedClass(Employee.class);
                 metadataSources.addAnnotatedClass(Client.class);
+                metadataSources.addAnnotatedClass(Company.class);
+                metadataSources.addAnnotatedClass(SeparateQual.class);
                 metadataSources.addAnnotatedClass(Resume.class);
+                metadataSources.addAnnotatedClass(Vacancy.class);
                 sessionFactory = metadataSources.buildMetadata().buildSessionFactory();
             
             } catch(HibernateException ex){

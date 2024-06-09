@@ -23,7 +23,6 @@ public class Client extends Person{
     @ElementCollection
     @CollectionTable(name="lab4_map_resume")
     @MapKeyColumn(name="id_client")
-    @Column(name="resume")
     private Map<String, Resume> resumes;
 
     public Map<String, Resume> getResumes() {

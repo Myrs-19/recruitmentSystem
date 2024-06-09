@@ -1,17 +1,17 @@
 package ru.sfedu.lab4.map.model;
 
-import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.simpleframework.xml.Element;
-import org.simpleframework.xml.Root;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity(name = "Company")
-@Root
+@Table(name = "lab4_map_company", schema = "public", catalog="postgres")
 public class Company {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Element
     @CsvBindByPosition(position = 0)
     private int id;
@@ -23,7 +23,20 @@ public class Company {
     @Element
     @CsvBindByPosition(position = 2)
     private String description;
-    
+
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Map<String, Employee> employees = new HashMap<>();
+
+    @ElementCollection
+    @CollectionTable(name="lab4_map_vacancy")
+    @MapKeyColumn(name="id_company")
+    private Map<String, Vacancy> vacancies;
+
+    @ElementCollection
+    @CollectionTable(name="lab4_map_separateQual")
+    @MapKeyColumn(name="id_company")
+    private Map<String, SeparateQual> separateQuals;
+
     public Company(){}
 
     public int getId() {
@@ -48,6 +61,30 @@ public class Company {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Map<String, Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Map<String, Employee> employees) {
+        this.employees = employees;
+    }
+
+    public Map<String, Vacancy> getVacancies() {
+        return vacancies;
+    }
+
+    public void setVacancies(Map<String, Vacancy> vacancies) {
+        this.vacancies = vacancies;
+    }
+
+    public Map<String, SeparateQual> getSeparateQuals() {
+        return separateQuals;
+    }
+
+    public void setSeparateQuals(Map<String, SeparateQual> separateQuals) {
+        this.separateQuals = separateQuals;
     }
     
     @Override

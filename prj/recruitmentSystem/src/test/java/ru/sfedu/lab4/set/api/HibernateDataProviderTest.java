@@ -2,18 +2,16 @@ package ru.sfedu.lab4.set.api;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
+
 import ru.sfedu.lab4.set.model.*;
-import ru.sfedu.lab4.set.util.HibernateUtil;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class HibernateDataProviderTest {
@@ -171,6 +169,204 @@ public class HibernateDataProviderTest {
             
         } catch(Exception ex){
             log.debug("testDeleteClient [2]: error = {}", ex.getMessage());
+            fail(ex.getMessage());
+        }
+    }
+
+    @Order(5)
+    @Test
+    public void testSaveCompany(){
+        log.debug("testSaveCompany [1]: test save a company, create Company instance");
+         Company company = new  Company();
+
+        company.setTitle("Anarisuto");
+        company.setDescription("DATA ENGINEERS");
+
+        log.debug("testSaveCompany [2]: create Vacancy instanceses");
+        //create vacancies
+         Vacancy vacancy1 = new  Vacancy();
+        vacancy1.setId(1);
+        vacancy1.setTitle("java");
+        vacancy1.setSpecialization("java");
+        vacancy1.setOnline(false);
+        vacancy1.setSkills("OOP");
+        vacancy1.setSalary(35000);
+        vacancy1.setCity("Rostov");
+        vacancy1.setAddress("Center of Rostov");
+        vacancy1.setExperience("1 years");
+
+         Vacancy vacancy2 = new  Vacancy();
+
+        vacancy2.setId(2);
+        vacancy2.setTitle("jav2a");
+        vacancy2.setSpecialization("jav2a");
+        vacancy2.setOnline(false);
+        vacancy2.setSkills("OO2P");
+        vacancy2.setSalary(350200);
+        vacancy2.setCity("Rost2ov");
+        vacancy2.setAddress("Center 2of Rostov");
+        vacancy2.setExperience("1 ye2ars");
+
+        //create hashmap of vacancies
+        Set<Vacancy> vacancies = new HashSet<>();
+        vacancies.add(vacancy1);
+        vacancies.add(vacancy2);
+
+        company.setVacancies(vacancies);
+
+        log.debug("testSaveCompany [3]: create Employee instanceses");
+        //create Employee instanceses
+         Employee employee1 = new  Employee();
+        employee1.setTypePerson(  TypePerson.EmployeeType);
+
+        //employee1.setId(1);
+        employee1.setName("nameEmployee");
+        employee1.setSurname("surnameEmployee");
+        employee1.setMiddleName("middleNameEmployee");
+        employee1.setAge(33);
+        employee1.setBirthday("12-06-2003");
+        employee1.setPhone("89964095446");
+        employee1.setEmail("mseleznev@sfedu.ru");
+
+        employee1.setSalary(350000);
+        employee1.setPosition("head of yandex");
+        employee1.setIsWorking(false);
+
+         Employee employee2 = new  Employee();
+        employee2.setTypePerson(  TypePerson.EmployeeType);
+
+        //employee2.setId(2);
+        employee2.setName("nameEm2ployee");
+        employee2.setSurname("surname2Employee");
+        employee2.setMiddleName("middl2eNameEmployee");
+        employee2.setAge(33);
+        employee2.setBirthday("12-062-2003");
+        employee2.setPhone("899640952446");
+        employee2.setEmail("mseleznev@2sfedu.ru");
+
+        employee2.setSalary(350000);
+        employee2.setPosition("head of ya2ndex");
+        employee2.setIsWorking(false);
+
+        //create hashmap of employees
+        Set<Employee> employees = new HashSet<>();
+        employees.add(employee1);
+        employees.add(employee2);
+
+        company.setEmployees(employees);
+
+        log.debug("testSaveCompany [4]: create SeparateQual instanceses");
+
+        //create SeparateQual instanceses
+         SeparateQual separateQual1 = new  SeparateQual();
+
+        separateQual1.setId(1);
+        separateQual1.setQuality(7);
+        separateQual1.setDescription("desc");
+
+         SeparateQual separateQual2 = new  SeparateQual();
+
+        separateQual2.setId(2);
+        separateQual2.setQuality(7);
+        separateQual2.setDescription("de2sc");
+
+        //create list of employees
+        Set<SeparateQual> separateQuals = new HashSet<>();
+        separateQuals.add(separateQual1);
+        separateQuals.add(separateQual2);
+
+        company.setSeparateQuals(separateQuals);
+
+        employee1.setCompany(company);
+        employee2.setCompany(company);
+
+        try{
+            log.debug("testSaveCompany [5]: saving company, company = {}", company);
+            dp.saveRecord(company);
+
+            dp.saveRecord(employee1);
+            dp.saveRecord(employee2);
+            log.debug("testSaveCompany [6]: company saved succesful");
+        } catch(Exception ex){
+            log.debug("testSaveCompany [7]: error = {}", ex.getMessage());
+            fail(ex.getMessage());
+        }
+    }
+
+    @Order(6)
+    @Test
+    public void testUpdateCompany(){
+        log.debug("testUpdateCompany [1]: test update company");
+        try{
+            log.debug("testUpdateCompany [2]: get company");
+             Company company = ( Company) dp.getRecord( Company.class, "1");
+            log.debug("testUpdateCompany [3]: company = {}", company);
+
+            log.debug("testUpdateCompany [4]: change employees of company");
+            company.getEmployees().stream()
+                    .forEach(
+                            employee -> {
+                                employee.setPosition("CHANGE");
+                            }
+                    );
+
+            log.debug("testUpdateCompany [5]: change vacancies of company");
+            company.getVacancies().stream()
+                    .forEach(
+                            vacancy -> {
+                                vacancy.setSkills("CHANGE");
+                            }
+                    );
+
+            log.debug("testUpdateCompany [6]: change separate quals of company");
+            company.getSeparateQuals().stream()
+                    .forEach(
+                            (separateQual) -> {
+                                separateQual.setDescription("CHANGE");
+                            }
+                    );
+
+            log.debug("testUpdateCompany [7]: update company");
+            dp.updateRecord(company);
+        } catch(Exception ex){
+            log.error("testUpdateCompany [8]: error = {}", ex.getMessage());
+        }
+    }
+
+    @Order(7)
+    @Test
+    public void testGetCompany(){
+        log.debug("testGetCompany [1]: test get company");
+        try{
+             Company company = ( Company) dp.getRecord( Company.class, "1");
+            log.debug("testGetCompany [2]: company was got succesful, company = {}", company);
+
+            log.debug("testGetCompany [3]: vacancies: ");
+            company.getVacancies().stream().forEach(System.out::println);
+
+            log.debug("testGetCompany [4]: vacancies: ");
+            company.getEmployees().stream().forEach(System.out::println);
+
+            log.debug("testGetCompany [5]: vacancies: ");
+            company.getSeparateQuals().stream().forEach(System.out::println);
+
+            assertEquals(company.getId(), 1);
+        } catch(Exception ex){
+            log.debug("testGetCompany [6]: error = {}", ex.getMessage());
+            fail(ex.getMessage());
+        }
+    }
+
+    @Order(8)
+    @Test
+    public void testDeleteCompany(){
+        try{
+            log.debug("testDeleteCompany [1]: test delete company");
+            dp.deleteRecord(dp.getRecord( Company.class, "1"));
+            log.debug("testDeleteCompany [1]: company was deleted succesful");
+
+        } catch(Exception ex){
+            log.debug("testDeleteCompany [2]: error = {}", ex.getMessage());
             fail(ex.getMessage());
         }
     }

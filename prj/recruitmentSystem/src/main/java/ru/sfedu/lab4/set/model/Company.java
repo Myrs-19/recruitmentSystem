@@ -1,14 +1,17 @@
 package ru.sfedu.lab4.set.model;
 
-import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
+import jakarta.persistence.*;
 import org.simpleframework.xml.Element;
-import org.simpleframework.xml.Root;
 
-@Root
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity(name = "Company")
+@Table(name = "lab4_set_company", schema = "public", catalog="postgres")
 public class Company {
-    @Element
-    @CsvBindByPosition(position = 0)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     
     @Element
@@ -18,8 +21,45 @@ public class Company {
     @Element
     @CsvBindByPosition(position = 2)
     private String description;
-    
+
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Employee> employees = new HashSet<>();
+
+    @ElementCollection
+    @CollectionTable(name="lab4_set_vacancy")
+    @MapKeyColumn(name="id_company")
+    private Set<Vacancy> vacancies;
+
+    @ElementCollection
+    @CollectionTable(name="lab4_set_separateQual")
+    @MapKeyColumn(name="id_company")
+    private Set<SeparateQual> separateQuals;
+
     public Company(){}
+
+    public Set<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
+    }
+
+    public Set<Vacancy> getVacancies() {
+        return vacancies;
+    }
+
+    public void setVacancies(Set<Vacancy> vacancies) {
+        this.vacancies = vacancies;
+    }
+
+    public Set<SeparateQual> getSeparateQuals() {
+        return separateQuals;
+    }
+
+    public void setSeparateQuals(Set<SeparateQual> separateQuals) {
+        this.separateQuals = separateQuals;
+    }
 
     public int getId() {
         return id;
