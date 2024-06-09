@@ -232,6 +232,10 @@ public class Constants {
     public static final String HIBERNATE_PATH_CONFIG_LAB3_STRAT3 = "src/main/resources/hibernate.cfg.lab3strat3.xml";
     public static final String HIBERNATE_PATH_CONFIG_LAB3_STRAT4 = "src/main/resources/hibernate.cfg.lab3strat4.xml";
     public static final String HIBERNATE_PATH_CONFIG_LAB4 = "src/main/resources/hibernate.cfg.lab4.xml";
+    public static final String HIBERNATE_PATH_CONFIG_LAB5 = "src/main/resources/hibernate.cfg.lab5.xml";
+
+    public static final String HIBERNATE_NATIVE_SQL_SELECT_COMPANY = "SELECT * FROM lab5_company";
+    public static final String HIBERNATE_HSQL_SELECT_COMPANY = "from Company";
 
 }
 
