@@ -1,17 +1,15 @@
-package ru.sfedu.lab3.str2.model;
+package ru.sfedu.lab4.map.model;
 
 import com.opencsv.bean.CsvBindByPosition;
 import jakarta.persistence.*;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@Table(name="lab3_strat2_person", schema = "public", catalog="postgres")
+@MappedSuperclass
 @Root
 public class Person {
     @Id
-    @GeneratedValue(generator = "uuid")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Element
     @CsvBindByPosition(position = 0)
     private int id;
@@ -44,9 +42,6 @@ public class Person {
     @CsvBindByPosition(position = 7)
     private String email;
 
-    //@Transient - аннотация указывает, 
-    //что поле не используется в таблице
-    @Transient
     private TypePerson typePerson;
 
     public TypePerson getTypePerson() {

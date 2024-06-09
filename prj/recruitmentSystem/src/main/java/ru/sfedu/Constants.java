@@ -231,6 +231,7 @@ public class Constants {
     public static final String HIBERNATE_PATH_CONFIG_LAB3_STRAT2 = "src/main/resources/hibernate.cfg.lab3strat2.xml";
     public static final String HIBERNATE_PATH_CONFIG_LAB3_STRAT3 = "src/main/resources/hibernate.cfg.lab3strat3.xml";
     public static final String HIBERNATE_PATH_CONFIG_LAB3_STRAT4 = "src/main/resources/hibernate.cfg.lab3strat4.xml";
+    public static final String HIBERNATE_PATH_CONFIG_LAB4 = "src/main/resources/hibernate.cfg.lab4.xml";
 
 }
 

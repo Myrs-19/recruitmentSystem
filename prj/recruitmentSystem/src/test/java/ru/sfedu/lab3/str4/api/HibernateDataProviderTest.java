@@ -13,7 +13,7 @@ import ru.sfedu.lab3.str4.model.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class HibernateDataProviderTest {
     
-    private static final Logger log = LogManager.getLogger(HibernateDataProvider.class.getName());
+    private static final Logger log = LogManager.getLogger(HibernateDataProviderTest.class.getName());
     
     private static HibernateDataProvider dp = new HibernateDataProvider();
     

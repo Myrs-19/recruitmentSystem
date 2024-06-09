@@ -1,21 +1,23 @@
-package ru.sfedu.lab3.str2.model;
+package ru.sfedu.lab4.list.model;
 
 import com.opencsv.bean.CsvBindByPosition;
 import jakarta.persistence.*;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@Table(name="lab3_strat2_person", schema = "public", catalog="postgres")
+@MappedSuperclass
+//@Entity(name = "Person")
+//@Table(name = "lab4_list_person", schema = "public", catalog="postgres")
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//@Inheritance(strategy = InheritanceType.JOINED)
 @Root
 public class Person {
     @Id
-    @GeneratedValue(generator = "uuid")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Element
     @CsvBindByPosition(position = 0)
     private int id;
-    
+
     @Element
     @CsvBindByPosition(position = 1)
     private String name;
@@ -44,9 +46,6 @@ public class Person {
     @CsvBindByPosition(position = 7)
     private String email;
 
-    //@Transient - аннотация указывает, 
-    //что поле не используется в таблице
-    @Transient
     private TypePerson typePerson;
 
     public TypePerson getTypePerson() {
@@ -55,14 +54,6 @@ public class Person {
 
     public void setTypePerson(TypePerson typePerson) {
         this.typePerson = typePerson;
-    }
-        
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getSurname() {
@@ -120,13 +111,20 @@ public class Person {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Person() {}
     
     @Override
     public String toString(){
         return "Person{" +
-                "id = " + getId() +
                 ", fi = " + getSurname() + " " + getName() +
                 ", age = " + getAge() +
                 '}';

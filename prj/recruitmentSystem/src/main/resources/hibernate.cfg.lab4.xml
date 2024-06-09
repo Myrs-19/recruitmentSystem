@@ -10,13 +10,13 @@
         <property name="connection.username">mike</property>
         <property name="connection.password">132</property>
         <property name="connection.pool_size">100</property>
-
-        <!-- utomatically validates or exports schema DDL to the database when the SessionFactory is created. -->
-        <property name="hibernate.hbm2ddl.auto">create</property>
-
+      
         <!-- SQL диалект, определяется платформой СУБД-->
         <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
        
+        <!-- utomatically validates or exports schema DDL to the database when the SessionFactory is created. -->
+        <property name="hibernate.hbm2ddl.auto">create-drop</property>
+
         <!-- Включить автоматическое управление контекстом сессии -->
         <property name="current_session_context_class">thread</property>
        
