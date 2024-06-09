@@ -1,17 +1,13 @@
 package ru.sfedu.lab3.str2.model;
 
 import com.opencsv.bean.CsvBindByPosition;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Table(name="lab3_strat2_person", schema = "public", catalog="postgres")
 @Root
 public class Person {
     @Id
